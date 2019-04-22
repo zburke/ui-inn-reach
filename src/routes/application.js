@@ -12,7 +12,7 @@ export default class Application extends React.Component {
   render() {
     return (
       <Paneset>
-        <Pane defaultWidth="fill" fluidContentWidth paneTitle="<%= displayName %>">
+        <Pane defaultWidth="fill" fluidContentWidth paneTitle="__displayName__">
           <NewAppGreeting />
           <br />
           <ul>

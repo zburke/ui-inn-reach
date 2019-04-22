@@ -1,7 +1,7 @@
 /* global Nightmare, describe, it, before, after */
 
 module.exports.test = (uiTestCtx) => {
-  describe('Module test: <%= uiAppName %>:', () => {
+  describe('Module test: __uiAppName__:', () => {
     const { config, helpers: { login, logout } } = uiTestCtx;
     const nightmare = new Nightmare(config.nightmare);
 
@@ -16,9 +16,9 @@ module.exports.test = (uiTestCtx) => {
       });
       it('should open app and see stripes-new-app-greeting', (done) => {
         nightmare
-          .wait('#clickable-<%= appName %>-module')
-          .click('#clickable-<%= appName %>-module')
-          .wait('#<%= appName %>-module-display')
+          .wait('#clickable-__appName__-module')
+          .click('#clickable-__appName__-module')
+          .wait('#__appName__-module-display')
           .wait('[data-test-application-greeting]')
           .then(() => { done(); })
           .catch(done);
@@ -36,10 +36,10 @@ module.exports.test = (uiTestCtx) => {
         nightmare
           .wait(config.select.settings)
           .click(config.select.settings)
-          .wait('a[href="/settings<%= appRoute %>"]')
-          .click('a[href="/settings<%= appRoute %>"]')
-          .wait('a[href="/settings<%= appRoute %>/general"]')
-          .click('a[href="/settings<%= appRoute %>/general"]')
+          .wait('a[href="/settings__appRoute__"]')
+          .click('a[href="/settings__appRoute__"]')
+          .wait('a[href="/settings__appRoute__/general"]')
+          .click('a[href="/settings__appRoute__/general"]')
           .wait('[data-test-application-settings-general-message]')
           .then(() => { done(); })
           .catch(done);

@@ -1,4 +1,4 @@
-# Change history for <%= uiAppName %>
+# Change history for __uiAppName__
 
 ## 1.0.0 (IN PROGRESS)
 

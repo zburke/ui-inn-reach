@@ -10,11 +10,11 @@ describe('ExamplePage', () => {
   setupApplication();
 
   beforeEach(function () {
-    this.visit('<%= appRoute %>/examples');
+    this.visit('__appRoute__/examples');
   });
 
   it('has a link home', () => {
-    expect(examplePage.homeLink).to.include('<% appRoute %>');
+    expect(examplePage.homeLink).to.include('__appRoute__');
   });
 
   it('has a link to stripes-components', () => {
