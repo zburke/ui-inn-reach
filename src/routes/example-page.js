@@ -95,7 +95,7 @@ export default class ExamplePage extends React.Component {
           healthyInstances: <b>{healthyInstances}</b>,
           notHealthyInstances: <b>{notHealthyInstances}</b>
         }}
-        id="__uiAppName__.example-page.health-summary"
+        id="ui-__packageName__.example-page.health-summary"
       />
     );
   }
@@ -125,7 +125,7 @@ export default class ExamplePage extends React.Component {
             size="small"
             margin="medium"
           >
-            <FormattedMessage id="__uiAppName__.example-page.sample-request" />
+            <FormattedMessage id="ui-__packageName__.example-page.sample-request" />
           </Headline>
           {healthResourceAvaliable
             ? this.renderHealthSummary()

@@ -15,12 +15,12 @@ export default class __componentName__Settings extends React.Component {
   pages = [
     {
       route: 'general',
-      label: <FormattedMessage id="__uiAppName__.settings.general" />,
+      label: <FormattedMessage id="ui-__packageName__.settings.general" />,
       component: GeneralSettings,
     },
     {
       route: 'somefeature',
-      label: <FormattedMessage id="__uiAppName__.settings.some-feature" />,
+      label: <FormattedMessage id="ui-__packageName__.settings.some-feature" />,
       component: SomeFeatureSettings,
     },
   ];
