@@ -39,6 +39,8 @@ stripes test --run demo --show
 ## What to do next?
 
 Now that your new app is running, search the code for "`stripes-new-app`" to find comments and subbed placeholders that may need your attention.
+Also rename the directory in the 'translations' from `ui-app-template` to the name of your app so that `en.json` has the path `translations/<%= uiAppName %>/en.json`.
+Please remove or customize the sample strings in `en.json` (lines 3-11) before merging this file to master; the translators do not need to be providing translations for these sample strings.
 
 Read the [Stripes Module Developer's Guide](https://github.com/folio-org/stripes/blob/master/doc/dev-guide.md).
 
