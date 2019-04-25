@@ -47,7 +47,7 @@
   "stripes": {
     "type": "app",
     "displayName": "ui-__packageName__.meta.title",
-    "route": "__appRoute__",
+    "route": "/__appRoute__",
     "hasSettings": true,
     "okapiInterfaces": {},
     "permissionSets": [
