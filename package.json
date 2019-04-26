@@ -1,5 +1,5 @@
 {
-  "name": "__packageName__",
+  "name": "@folio/ui-app-template",
   "version": "1.0.0",
   "description": "__appDescription__",
   "main": "src/index.js",
