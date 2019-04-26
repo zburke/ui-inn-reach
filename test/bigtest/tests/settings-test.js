@@ -11,7 +11,7 @@ describe('Settings', () => {
 
   describe('general', () => {
     beforeEach(function () {
-      this.visit('/settings__appRoute__/general');
+      this.visit('/settings/__appRoute__/general');
     });
 
     it('has a general settings message', () => {
@@ -21,7 +21,7 @@ describe('Settings', () => {
 
   describe('feature', () => {
     beforeEach(function () {
-      this.visit('/settings__appRoute__/somefeature');
+      this.visit('/settings/__appRoute__/somefeature');
     });
 
     it('has a feature settings message', () => {
