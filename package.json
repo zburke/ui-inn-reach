@@ -1,5 +1,5 @@
 {
-  "name": "<%= packageName %>",
+  "name": "@folio/ui-app-template",
   "version": "1.0.0",
   "description": "<%= appDescription %>",
   "main": "src/index.js",
