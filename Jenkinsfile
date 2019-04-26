@@ -1,0 +1,3 @@
+buildNPM {
+	runSonarqube = true
+}
