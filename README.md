@@ -8,9 +8,11 @@ This software is distributed under the terms of the Apache License, Version 2.0.
 
 Congratulations on creating a new Stripes UI app module!  Follow the instructions below to run <%= uiAppName %> and start your development.
 
+TODO: Modify this README to replace these sections about getting started.
+
 ## Prerequisites
 
-In order to view and log into the platform being served up, a suitable Okapi backend will need to be running. The [Folio testing-backend](https://app.vagrantup.com/folio/boxes/testing-backend) Vagrant box should work if your app does not yet have its own backend module.
+In order to view and log into the platform being served up, a suitable Okapi backend will need to be running. The [testing-backend](https://app.vagrantup.com/folio/boxes/testing-backend) Vagrant box should work if your app does not yet have its own backend module.
 
 ## Run your new app
 
@@ -24,7 +26,7 @@ Note: When serving up a newly created app that does not have its own backend per
 stripes serve --hasAllPerms
 ```
 
-To specify your own tenant ID or to use an Okapi instance other than http://localhost:9130, pass the `--okapi` and `--tenant` options.
+To specify your own tenant ID or to use an Okapi instance other than `http://localhost:9130` pass the `--okapi` and `--tenant` options.
 ```
 stripes serve --okapi http://my-okapi.example.com:9130 --tenant my-tenant-id
 ```
