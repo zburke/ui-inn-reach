@@ -1,4 +1,4 @@
-# <%= uiAppName %>
+# __uiAppName__
 
 Copyright (C) 2019 The Open Library Foundation
 
@@ -6,7 +6,7 @@ This software is distributed under the terms of the Apache License, Version 2.0.
 
 ## Introduction
 
-Congratulations on creating a new Stripes UI app module!  Follow the instructions below to run <%= uiAppName %> and start your development.
+Congratulations on creating a new Stripes UI app module!  Follow the instructions below to run __uiAppName__ and start your development.
 
 TODO: Modify this README to replace these sections about getting started.
 
@@ -16,7 +16,7 @@ In order to view and log into the platform being served up, a suitable Okapi bac
 
 ## Run your new app
 
-Run the following from the <%= uiAppName %> directory to serve your new app using a development server:
+Run the following from the __uiAppName__ directory to serve your new app using a development server:
 ```
 stripes serve
 ```
@@ -41,7 +41,7 @@ stripes test --run demo --show
 ## What to do next?
 
 Now that your new app is running, search the code for "`stripes-new-app`" to find comments and subbed placeholders that may need your attention.
-Also rename the directory in the 'translations' from `ui-app-template` to the name of your app so that `en.json` has the path `translations/<%= uiAppName %>/en.json`.
+
 Please remove or customize the sample strings in `en.json` (lines 3-11) before merging this file to master; the translators do not need to be providing translations for these sample strings.
 
 Read the [Stripes Module Developer's Guide](https://github.com/folio-org/stripes/blob/master/doc/dev-guide.md).

@@ -11,7 +11,7 @@ import Settings from './settings';
   This is the main entry point into your new app.
 */
 
-class <%= componentName %> extends React.Component {
+class __componentName__ extends React.Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     showSettings: PropTypes.bool,
@@ -51,4 +51,4 @@ class <%= componentName %> extends React.Component {
   }
 }
 
-export default <%= componentName %>;
+export default __componentName__;

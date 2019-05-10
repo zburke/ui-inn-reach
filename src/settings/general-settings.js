@@ -5,14 +5,14 @@ import { FormattedMessage } from 'react-intl';
 
 export default class GeneralSettings extends React.Component {
   static propTypes = {
-    label: PropTypes.string.isRequired,
+    label: PropTypes.object.isRequired,
   };
 
   render() {
     return (
       <Pane defaultWidth="fill" fluidContentWidth paneTitle={this.props.label}>
         <div data-test-application-settings-general-message>
-          <FormattedMessage id="<%= uiAppName %>.settings.general.message" />
+          <FormattedMessage id="ui-__packageName__.settings.general.message" />
         </div>
       </Pane>
     );

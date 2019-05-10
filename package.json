@@ -1,7 +1,7 @@
 {
-  "name": "@folio/ui-app-template",
+  "name": "@folio/__packageName__",
   "version": "1.0.0",
-  "description": "<%= appDescription %>",
+  "description": "__appDescription__",
   "main": "src/index.js",
   "repository": "",
   "license": "Apache-2.0",
@@ -11,7 +11,6 @@
   "scripts": {
     "start": "stripes serve",
     "build": "stripes build --output ./output",
-    "test-int": "stripes test nightmare --run demo --show",
     "test": "stripes test karma",
     "lint": "eslint ."
   },
@@ -21,8 +20,8 @@
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^3.2.1",
-    "@folio/stripes": "^2.0.0",
-    "@folio/stripes-cli": "^<%= cliVersion %> || ^1.10.0",
+    "@folio/stripes": "^2.1.0",
+    "@folio/stripes-cli": "^__cliVersion__ || ^1.10.0",
     "@folio/stripes-core": "^3.0.0",
     "babel-eslint": "^9.0.0",
     "babel-polyfill": "^6.26.0",
@@ -46,19 +45,19 @@
   },
   "stripes": {
     "type": "app",
-    "displayName": "<%= uiAppName %>.meta.title",
-    "route": "<%= appRoute %>",
+    "displayName": "ui-__packageName__.meta.title",
+    "route": "/__appRoute__",
     "hasSettings": true,
     "okapiInterfaces": {},
     "permissionSets": [
       {
-        "permissionName": "module.<%= appName %>.enabled",
-        "displayName": "UI: <%= displayName %> module is enabled",
+        "permissionName": "module.__appName__.enabled",
+        "displayName": "UI: __displayName__ module is enabled",
         "visible": true
       },
       {
-        "permissionName": "settings.<%= appName %>.enabled",
-        "displayName": "Settings (<%= appName %>): display list of settings pages",
+        "permissionName": "settings.__appName__.enabled",
+        "displayName": "Settings (__appName__): display list of settings pages",
         "subPermissions": [
           "settings.enabled"
         ],
