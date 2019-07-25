@@ -1,10 +1,9 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Settings } from '@folio/stripes/smart-components';
 import GeneralSettings from './general-settings';
 import SomeFeatureSettings from './some-feature-settings';
-
+/* eslint-disable camelcase */
 /*
   STRIPES-NEW-APP
   Your app's settings pages are defined here.
