@@ -40,10 +40,13 @@ stripes test --run demo --show
 
 ## What to do next?
 
-Now that your new app is running, search the code for "`stripes-new-app`" to find comments and subbed placeholders that may need your attention.
+Now that your new app is running, search the code for "`new-app`" to find comments and subbed placeholders that may need your attention.
 
-Please remove or customize the sample strings in `en.json` (lines 3-11) before merging this file to master; the translators do not need to be providing translations for these sample strings.
+Please remove or customize the sample strings in `en.json` (lines 3-10) before merging this file to master; the translators do not need to be providing translations for these sample strings.
 
 Read the [Stripes Module Developer's Guide](https://github.com/folio-org/stripes/blob/master/doc/dev-guide.md).
 
-Update this README with information about your app.
+When your new UI app is ready and being built by CI, then adjust its Jenkinsfile to remove the `npmDeploy = 'no'` parameter (which is then superfluous).
+
+TODO: Modify this README to replace these sections about getting started, link to your issue tracker, etc.
+
