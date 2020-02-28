@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+require('regenerator-runtime/runtime');
 
 // require all modules ending in "-test" from the current directory and
 // all subdirectories
