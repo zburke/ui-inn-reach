@@ -15,6 +15,9 @@ class __componentName__ extends React.Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     showSettings: PropTypes.bool,
+    stripes: PropTypes.shape({
+      connect: PropTypes.func
+    })
   };
 
   constructor(props) {
