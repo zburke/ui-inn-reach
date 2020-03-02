@@ -1,6 +1,6 @@
 {
   "name": "@folio/__packageName__",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "__appDescription__",
   "main": "src/index.js",
   "repository": "",
