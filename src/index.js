@@ -1,3 +1,6 @@
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Switch from 'react-router-dom/Switch';

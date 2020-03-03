@@ -1,4 +1,5 @@
-require('regenerator-runtime/runtime');
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 // require all modules ending in "-test" from the current directory and
 // all subdirectories
