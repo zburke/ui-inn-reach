@@ -49,10 +49,9 @@
     "react-router-dom": "^5.2.0"
   },
   "stripes": {
-    "type": "app",
+    "actsAs": ["app", "settings"],
     "displayName": "ui-__packageName__.meta.title",
     "route": "/__appRoute__",
-    "hasSettings": true,
     "okapiInterfaces": {},
     "permissionSets": [
       {
