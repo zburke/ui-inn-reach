@@ -6,7 +6,7 @@
   "repository": "",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=12.21.0"
+    "node": ">=12.20.1"
   },
   "scripts": {
     "start": "stripes serve",
