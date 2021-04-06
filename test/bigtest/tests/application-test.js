@@ -10,7 +10,7 @@ describe('Application', () => {
   setupApplication();
 
   beforeEach(function () {
-    this.visit('__appRoute__');
+    this.visit('innreach');
   });
 
   it('shows a greeting message', () => {
@@ -18,7 +18,7 @@ describe('Application', () => {
   });
 
   it('has a link to examples', () => {
-    expect(app.exampleLink).to.include('__appRoute__/examples');
+    expect(app.exampleLink).to.include('innreach/examples');
   });
 
   it('has a link to the developer guides', () => {

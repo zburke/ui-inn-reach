@@ -10,11 +10,11 @@ describe('ExamplePage', () => {
   setupApplication();
 
   beforeEach(function () {
-    this.visit('__appRoute__/examples');
+    this.visit('innreach/examples');
   });
 
   it('has a link home', () => {
-    expect(examplePage.homeLink).to.include('__appRoute__');
+    expect(examplePage.homeLink).to.include('innreach');
   });
 
   it('has a link to stripes-components', () => {

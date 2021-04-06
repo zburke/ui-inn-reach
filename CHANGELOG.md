@@ -1,4 +1,4 @@
-# Change history for __uiAppName__
+# Change history for ui-inn-reach
 
 ## 1.1.0 (IN PROGRESS)
 

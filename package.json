@@ -1,7 +1,7 @@
 {
-  "name": "@folio/__packageName__",
+  "name": "@folio/inn-reach",
   "version": "1.1.0",
-  "description": "__appDescription__",
+  "description": "Description for inn-reach",
   "main": "src/index.js",
   "repository": "",
   "license": "Apache-2.0",
@@ -20,7 +20,7 @@
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^5.2.0",
     "@folio/stripes": "^6.0.0",
-    "@folio/stripes-cli": "^__cliVersion__ || ^2.0.0",
+    "@folio/stripes-cli": "^1.20.0 || ^2.0.0",
     "@folio/stripes-core": "^7.0.0",
     "babel-eslint": "^9.0.0",
     "chai": "^4.2.0",
@@ -50,18 +50,18 @@
   },
   "stripes": {
     "actsAs": ["app", "settings"],
-    "displayName": "ui-__packageName__.meta.title",
-    "route": "/__appRoute__",
+    "displayName": "ui-inn-reach.meta.title",
+    "route": "/innreach",
     "okapiInterfaces": {},
     "permissionSets": [
       {
-        "permissionName": "module.__appName__.enabled",
-        "displayName": "UI: __displayName__ module is enabled",
+        "permissionName": "module.inn-reach.enabled",
+        "displayName": "UI: ui-inn-reach module is enabled",
         "visible": true
       },
       {
-        "permissionName": "settings.__appName__.enabled",
-        "displayName": "Settings (__appName__): display list of settings pages",
+        "permissionName": "settings.inn-reach.enabled",
+        "displayName": "Settings (inn-reach): display list of settings pages",
         "subPermissions": [
           "settings.enabled"
         ],

@@ -11,7 +11,7 @@ describe('Settings', () => {
 
   describe('general', () => {
     beforeEach(function () {
-      this.visit('/settings/__appRoute__/general');
+      this.visit('/settings/innreach/general');
     });
 
     it('has a general settings message', () => {
@@ -21,7 +21,7 @@ describe('Settings', () => {
 
   describe('feature', () => {
     beforeEach(function () {
-      this.visit('/settings/__appRoute__/somefeature');
+      this.visit('/settings/innreach/somefeature');
     });
 
     it('has a feature settings message', () => {

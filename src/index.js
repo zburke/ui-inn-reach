@@ -14,7 +14,7 @@ import Settings from './settings';
   This is the main entry point into your new app.
 */
 
-class __componentName__ extends React.Component {
+class InnReach extends React.Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     showSettings: PropTypes.bool,
@@ -57,4 +57,4 @@ class __componentName__ extends React.Component {
   }
 }
 
-export default __componentName__;
+export default InnReach;
