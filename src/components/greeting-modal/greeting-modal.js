@@ -5,8 +5,8 @@ import NewAppGreeting from '../new-app-greeting';
 
 export default class GreetingModal extends React.Component {
   static propTypes = {
-    open: PropTypes.bool,
     onClose: PropTypes.func,
+    open: PropTypes.bool,
   };
 
   render() {
