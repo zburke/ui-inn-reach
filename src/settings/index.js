@@ -1,32 +1,49 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
+
 import { Settings } from '@folio/stripes/smart-components';
-import GeneralSettings from './general-settings';
-import SomeFeatureSettings from './some-feature-settings';
+import {
+  stripesShape,
+} from '@folio/stripes/core';
+import { Callout } from '@folio/stripes-components';
 
-/*
-  STRIPES-NEW-APP
-  Your app's settings pages are defined here.
-  The pages "general" and "some feature" are examples. Name them however you like.
-*/
+import CentralServersConfigurationRoute from './routes/CentralServersConfigurationRoute';
+import { CalloutContext } from '../contexts/CalloutContext';
+import {
+  SETTINGS_PANE_WIDTH,
+} from '../constants';
 
-export default class InnReachSettings extends React.Component {
-  pages = [
-    {
-      route: 'general',
-      label: <FormattedMessage id="ui-inn-reach.settings.general" />,
-      component: GeneralSettings,
-    },
-    {
-      route: 'somefeature',
-      label: <FormattedMessage id="ui-inn-reach.settings.some-feature" />,
-      component: SomeFeatureSettings,
-    },
-  ];
+const sections = [
+  {
+    label: <FormattedMessage id="ui-inn-reach.settings.general" />,
+    pages: [
+      {
+        route: 'central-server-configurations',
+        label: <FormattedMessage id="ui-inn-reach.settings.central-server.configuration" />,
+        component: CentralServersConfigurationRoute,
+      },
+    ],
+  },
+];
+export default function InnReachSettings(props) {
 
-  render() {
-    return (
-      <Settings {...this.props} pages={this.pages} paneTitle="ui-inn-reach" />
-    );
-  }
+  const calloutRef = useRef(null);
+
+  return (
+    <>
+      <CalloutContext.Provider value={calloutRef.current}>
+        <Settings
+          {...props}
+          navPaneWidth={SETTINGS_PANE_WIDTH}
+          paneTitle={<FormattedMessage id="ui-inn-reach.meta.title" />}
+          sections={sections}
+        />
+      </CalloutContext.Provider>
+      <Callout ref={calloutRef} />
+    </>
+  );
 }
+
+InnReachSettings.propTypes = {
+  stripes: stripesShape.isRequired,
+};

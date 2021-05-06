@@ -1,11 +1,12 @@
 {
   "meta.title": "ui-inn-reach",
-  "new-app.greeting": "Congratulations!",
-  "new-app.message": "Your Stripes app is running.",
+
+  "settings.title": "INN-Reach",
+
   "settings.general": "General",
-  "settings.general.message": "These are your general app settings.",
-  "settings.some-feature": "Some Feature",
+  "settings.central-server.configuration": "Central Server Configuration",
+  "settings.innreach.locations": "INN-Reach Locations",
   "settings.some-feature.message": "These are your settings for some app feature.",
-  "example-page.sample-request": "Sample API request",
-  "example-page.health-summary": "{healthyInstances} instances healthy, {notHealthyInstances} instances not healthy"
+
+  "settings.central-server-configuration.callout.connectionProblem.get": "Unable to get data due to a module error. Please try again. If a problem persists please contact your system administrator"
 }

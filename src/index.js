@@ -3,58 +3,30 @@ import 'regenerator-runtime/runtime';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Switch from 'react-router-dom/Switch';
-import Route from 'react-router-dom/Route';
-import Application from './routes/application';
-import ExamplePage from './routes/example-page';
-import Settings from './settings';
+import { match as matchShape } from 'react-router-prop-types';
 
-/*
-  STRIPES-NEW-APP
-  This is the main entry point into your new app.
-*/
+import {
+  Route,
+  Switch,
+  stripesShape,
+} from '@folio/stripes/core';
 
-class InnReach extends React.Component {
-  static propTypes = {
-    match: PropTypes.object.isRequired,
-    showSettings: PropTypes.bool,
-    stripes: PropTypes.shape({
-      connect: PropTypes.func
-    })
-  };
+import InnReachSettings from './settings';
 
-  constructor(props) {
-    super(props);
+export default function InnReach(props) {
+  const {
+    match: {
+      path,
+    },
+    showSettings,
+  } = props;
 
-    this.connectedExamplePage = props.stripes.connect(ExamplePage);
-  }
-
-  render() {
-    const {
-      showSettings,
-      match: {
-        path
-      }
-    } = this.props;
-
-    if (showSettings) {
-      return <Settings {...this.props} />;
-    }
-    return (
-      <Switch>
-        <Route
-          path={path}
-          exact
-          component={Application}
-        />
-        <Route
-          path={`${path}/examples`}
-          exact
-          component={this.connectedExamplePage}
-        />
-      </Switch>
-    );
+  if (showSettings) {
+    return <InnReachSettings {...props} />;
   }
 }
-
-export default InnReach;
+InnReach.propTypes = {
+  match: matchShape.isRequired,
+  stripes: stripesShape.isRequired,
+  showSettings: PropTypes.bool,
+};
