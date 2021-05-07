@@ -21,7 +21,7 @@ export const CENTRAL_SERVER_CONFIGURATION_FIELDS = {
   LOAN_TYPE_ID: 'loanTypeId',
   LOCAL_AGENCIES: 'localAgencies',
   CENTRAL_SERVER_KEY: 'centralServerKey',
-  CENTRAL_SERVER_SECRET: 'ucentralServerSecret',
+  CENTRAL_SERVER_SECRET: 'centralServerSecret',
   LOCAL_SERVER_KEY: 'localServerKey',
   LOCAL_SERVER_SECRET: 'localServerSecret',
 };

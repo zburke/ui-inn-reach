@@ -7,8 +7,8 @@ import {
 } from '@folio/stripes/core';
 import { Callout } from '@folio/stripes-components';
 
-import CentralServersConfigurationRoute from './routes/CentralServersConfigurationRoute';
-import { CalloutContext } from '../contexts/CalloutContext';
+import { CentralServersConfigurationRoute } from './routes';
+import { CalloutContext } from '../contexts';
 import {
   SETTINGS_PANE_WIDTH,
 } from '../constants';
@@ -25,8 +25,8 @@ const sections = [
     ],
   },
 ];
-export default function InnReachSettings(props) {
 
+export default function InnReachSettings(props) {
   const calloutRef = useRef(null);
 
   return (

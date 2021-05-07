@@ -4,7 +4,7 @@ import { hot } from 'react-hot-loader';
 
 import {
   Route,
-  Switch
+  Switch,
 } from '@folio/stripes/core';
 
 import CentralServersConfigurationCreateRoute from './CentralServersConfigurationCreateRoute';
@@ -18,23 +18,24 @@ const CentralServersConfigurationRoute = ({ match }) => {
     <CentralServersConfigurationRootLayer>
       <Switch>
         <Route
+          exact
           path={`${match.path}/create`}
           component={CentralServersConfigurationCreateRoute}
-          exact
+
         />
         <Route
+          exact
           path={`${match.path}/:id/edit`}
           component={CentralServersConfigurationEditRoute}
-          exact
         />
         <Route
           path={`${match.path}`}
           component={CentralServersConfigurationListRoute}
         >
           <Route
+            exact
             path={`${match.path}/:id/view`}
             component={CentralServersConfigurationViewRoute}
-            exact
           />
         </Route>
       </Switch>

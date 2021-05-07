@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 import { match as matchShape } from 'react-router-prop-types';
 
 import {
-  Route,
-  Switch,
   stripesShape,
 } from '@folio/stripes/core';
 
@@ -15,9 +13,6 @@ import InnReachSettings from './settings';
 
 export default function InnReach(props) {
   const {
-    match: {
-      path,
-    },
     showSettings,
   } = props;
 

@@ -3,32 +3,23 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
-  MultiColumnList,
   Pane,
   Paneset,
+  NavList,
+  NavListItem,
 } from '@folio/stripes/components';
 
 import LastMenu from './components';
 import {
   FILL_PANE_WIDTH,
-  PAGE_AMOUNT,
   CENTRAL_SERVER_CONFIGURATION_FIELDS,
 } from '../../../../constants';
-
-const columnMapping = {
-  [CENTRAL_SERVER_CONFIGURATION_FIELDS.NAME]: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.list.field.name" />,
-};
-
-const visibleColumns = [
-  [CENTRAL_SERVER_CONFIGURATION_FIELDS.NAME]
-];
+import {
+  getCentralServerConfigurationViewUrl,
+} from '../../../../utils';
 
 const CentralServersConfigurationList = ({
-  isLoading,
-  totalCount,
   centralServers,
-  onRowClick,
-  onNeedMoreData,
   children,
 }) => {
   return (
@@ -36,42 +27,31 @@ const CentralServersConfigurationList = ({
       <Pane
         data-test-central-server-configuration-list
         defaultWidth={FILL_PANE_WIDTH}
-        paneTitle={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.list.title" />}
+        paneTitle={<FormattedMessage id="ui-inn-reach.settings.central-servers.list.title" />}
         lastMenu={<LastMenu />}
       >
-        <MultiColumnList
-          id="centralServerConfigurationList"
-          autosize
-          virtualize
-          loading={isLoading}
-          pageAmount={PAGE_AMOUNT}
-          pagingType="click"
-          totalCount={totalCount}
-          isEmptyMessage={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.list.noItems" />}
-          contentData={centralServers}
-          columnMapping={columnMapping}
-          visibleColumns={visibleColumns}
-          onRowClick={onRowClick}
-          onNeedMoreData={onNeedMoreData}
-        />
+        <NavList>
+          {centralServers.map(centralServer => (
+            <NavListItem
+              key={centralServer[CENTRAL_SERVER_CONFIGURATION_FIELDS.ID]}
+              to={getCentralServerConfigurationViewUrl(centralServer[CENTRAL_SERVER_CONFIGURATION_FIELDS.ID])}
+            >
+              {centralServer[CENTRAL_SERVER_CONFIGURATION_FIELDS.NAME]}
+            </NavListItem>
+          ))}
+        </NavList>
       </Pane>
-      { children}
+      {children}
     </Paneset>
   );
 };
 
 CentralServersConfigurationList.propTypes = {
-  isLoading: PropTypes.bool,
-  totalCount: PropTypes.number,
   centralServers: PropTypes.arrayOf(PropTypes.object),
-  onRowClick: PropTypes.func.isRequired,
-  onNeedMoreData: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
 
 CentralServersConfigurationList.defaultProps = {
-  isLoading: false,
-  totalCount: 0,
   centralServers: [],
 };
 

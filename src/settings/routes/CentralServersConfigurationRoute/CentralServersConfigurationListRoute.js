@@ -1,5 +1,4 @@
 import React, {
-  useCallback,
   useEffect,
   useState,
 } from 'react';
@@ -18,13 +17,10 @@ import {
   CentralServersConfigurationList,
 } from '../../components';
 import {
-  PAGE_AMOUNT,
   CALLOUT_ERROR_TYPE,
   DEFAULT_PANE_WIDTH,
-  CENTRAL_SERVER_CONFIGURATION_FIELDS,
 } from '../../../constants';
 import {
-  getCentralServerConfigurationViewUrl,
   getCentralServerConfigurationListUrl,
 } from '../../../utils';
 import {
@@ -39,27 +35,16 @@ const CentralServersConfigurationListRoute = ({
   children,
 }) => {
   const [centralServers, setCentralServers] = useState([]);
-  const [centralServersCount, setCentralServersCount] = useState(0);
-  const [centralServersOffset, setCentralServersOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   const showCallout = useCallout();
 
-  const loadCentralServers = (offset) => {
+  const loadCentralServers = () => {
     setIsLoading(true);
 
-    return mutator.centralServerRecords.GET({
-      params: {
-        limit: PAGE_AMOUNT,
-        offset,
-      }
-    })
+    return mutator.centralServerRecords.GET({})
       .then(centralServersResponse => {
-        if (!offset) {
-          setCentralServersCount(centralServersResponse.totalRecords);
-        }
-
-        setCentralServers((prev) => [...prev, ...centralServersResponse.centralServers]);
+        setCentralServers(centralServersResponse.centralServers);
       })
       .catch(() => {
         showCallout({
@@ -70,23 +55,9 @@ const CentralServersConfigurationListRoute = ({
       .finally(() => setIsLoading(false));
   };
 
-  const onNeedMoreData = useCallback(
-    () => {
-      const newOffset = centralServersOffset + PAGE_AMOUNT;
-
-      loadCentralServers(newOffset)
-        .then(() => {
-          setCentralServersOffset(newOffset);
-        });
-    },
-    [centralServersOffset],
-  );
-
   const refreshList = () => {
     setCentralServers([]);
-    setCentralServersCount(0);
-    setCentralServersOffset(0);
-    loadCentralServers(0);
+    loadCentralServers();
   };
 
   useEffect(
@@ -97,13 +68,6 @@ const CentralServersConfigurationListRoute = ({
   );
 
   useLocationReset(history, location, getCentralServerConfigurationListUrl(), refreshList);
-
-  const onRowClick = useCallback((e, meta) => {
-    history.push({
-      pathname: getCentralServerConfigurationViewUrl(meta[CENTRAL_SERVER_CONFIGURATION_FIELDS.ID]),
-      search: location.search,
-    });
-  }, [history, location.search]);
 
   const isInitialLoading = isLoading && !centralServers.length;
 
@@ -116,12 +80,8 @@ const CentralServersConfigurationListRoute = ({
   return (
     <CentralServersConfigurationList
       centralServers={centralServers}
-      onRowClick={onRowClick}
-      totalCount={centralServersCount}
-      onNeedMoreData={onNeedMoreData}
-      loading={isLoading}
     >
-      { children}
+      {children}
     </CentralServersConfigurationList>
   );
 };
@@ -138,12 +98,12 @@ CentralServersConfigurationListRoute.manifest = Object.freeze({
 CentralServersConfigurationListRoute.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
+  children: PropTypes.node,
   mutator: PropTypes.shape({
     centralServerRecords: PropTypes.shape({
       GET: PropTypes.func.isRequired,
     }),
   }),
-  children: PropTypes.node,
 };
 
 export default stripesConnect(CentralServersConfigurationListRoute);

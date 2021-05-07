@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -27,11 +26,11 @@ const LastMenu = ({
       <FormattedMessage id="stripes-smart-components.addNew">
         {ariaLabel => (
           <Button
+            marginBottom0
             data-test-add-new-set-button
             aria-label={ariaLabel}
-            onClick={navigateToCreate}
             buttonStyle="primary"
-            marginBottom0
+            onClick={navigateToCreate}
           >
             <FormattedMessage id="stripes-smart-components.new" />
           </Button>

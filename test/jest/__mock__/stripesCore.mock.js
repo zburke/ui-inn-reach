@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment, react/jsx-one-expression-per-line, react/destructuring-assignment */
 import React from 'react';
 
 import { buildStripes } from '../helpers';

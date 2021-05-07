@@ -1,2 +1,1 @@
-export * from './InnreachLocations';
-export * from './CentralServersConfigurationRoute';
+export { default as CentralServersConfigurationRoute } from './CentralServersConfigurationRoute';
