@@ -12,7 +12,8 @@
     "start": "stripes serve",
     "build": "stripes build --output ./output",
     "test": "jest --coverage",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.10.4",
@@ -45,7 +46,8 @@
     "sinon": "^7.3.2",
     "stylelint": "^9.5.0",
     "stylelint-config-standard": "^18.2.0",
-    "stylelint-junit-formatter": "^0.2.1"
+    "stylelint-junit-formatter": "^0.2.1",
+    "husky": "^6.0.0"
   },
   "dependencies": {
     "prop-types": "^15.6.0"
@@ -58,7 +60,9 @@
     "react-router-dom": "^5.2.0"
   },
   "stripes": {
-    "actsAs": ["app", "settings"],
+    "actsAs": [
+      "settings"
+    ],
     "displayName": "ui-inn-reach.meta.title",
     "route": "/innreach",
     "okapiInterfaces": {},

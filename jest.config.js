@@ -9,20 +9,15 @@ module.exports = {
     '!**/node_modules/**',
     '!**/test/**',
   ],
-  coverageDirectory: './artifacts/coverage/',
+  coverageDirectory: './artifacts/coverage-jest/',
   coverageReporters: ['lcov'],
   reporters: ['jest-junit', 'default'],
-  transform: {
-    '^.+\\.(js|jsx)$': path.join(__dirname, './test/jest/jest-transformer.js'),
-  },
+  transform: { '^.+\\.(js|jsx)$': path.join(__dirname, './test/jest/jest-transformer.js') },
   transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
   moduleNameMapper: {
     '^.+\\.(css)$': 'identity-obj-proxy',
     '^.+\\.(svg)$': 'identity-obj-proxy',
-    'ky': 'ky/umd',
   },
   testMatch: ['**/(lib|src)/**/?(*.)test.{js,jsx}'],
-  testPathIgnorePatterns: ['/node_modules/', '/test/ui-testing/', '/test/bigtest/'],
-  setupFiles: [path.join(__dirname, './test/jest/setupTests.js')],
-  setupFilesAfterEnv: [path.join(__dirname, './test/jest/jest.setup.js')],
+  testPathIgnorePatterns: ['/node_modules/'],
 };
