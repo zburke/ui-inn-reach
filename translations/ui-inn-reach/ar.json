@@ -1,12 +1,12 @@
 {
     "meta.title": "INN-Reach",
     "settings.title": "INN-Reach",
-    "settings.central-servers.list.title": "Central servers",
-    "settings.central-servers.list.noItems": "No central servers",
-    "settings.general": "General",
-    "settings.central-server.configuration": "Central Server Configuration",
-    "settings.innreach.locations": "INN-Reach Locations",
-    "settings.some-feature.message": "These are your settings for some app feature.",
-    "settings.central-server-configuration.callout.connectionProblem.get": "Unable to get data due to a module error. Please try again. If a problem persists please contact your system administrator",
-    "settings.central-server-configuration.list.field.name": "Name"
+    "settings.central-servers.list.title": "الخوادم المركزية",
+    "settings.central-servers.list.noItems": "لا توجد خوادم مركزية",
+    "settings.general": "عام",
+    "settings.central-server.configuration": "تهيئة الخادم المركزي",
+    "settings.innreach.locations": "مواقع INN-Reach",
+    "settings.some-feature.message": "هذه هي إعداداتك لبعض خصائص التطبيق.",
+    "settings.central-server-configuration.callout.connectionProblem.get": "تعذر الحصول على البيانات بسبب خطأ في الوحدة. يرجى إعادة المحاولة مرة أخرى. إذا استمرت المشكلة، يرجى الاتصال بمدير النظام",
+    "settings.central-server-configuration.list.field.name": "الاسم"
 }
