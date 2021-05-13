@@ -92,6 +92,7 @@ CentralServersConfigurationListRoute.manifest = Object.freeze({
     path: 'inn-reach/central-servers',
     fetch: false,
     accumulate: true,
+    throwErrors: false,
   },
 });
 

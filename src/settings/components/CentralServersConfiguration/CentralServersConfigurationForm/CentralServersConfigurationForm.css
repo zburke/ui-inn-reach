@@ -1,0 +1,18 @@
+.instanceForm {
+  height: 100%;
+}
+
+.generateKeypair {
+  margin-top: 1.7rem;
+}
+
+.formControl {
+  composes: formControl isDisabled from '@folio/stripes-components/lib/sharedStyles/form.css';
+}
+
+.inputGroup input {
+  width: 100%;
+  padding: 0 5px;
+  margin-left: 0;
+  border: none;
+}
