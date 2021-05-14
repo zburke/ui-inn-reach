@@ -1,46 +1,32 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
 import { FieldArray } from 'react-final-form-arrays';
 import FieldRow from './FieldRow';
 
-const RepeatableField = ({
-  template,
-  newItemTemplate,
-  name,
-  label,
-  addDefaultItem,
-  addLabel,
-  addButtonId,
-  canAdd,
-  canEdit,
-  canDelete,
-  showAddNewField,
-  fieldsetClass,
-  layoutClass,
-  legendClass,
-  buttonsContainerClass,
-  fieldsContainerClass,
-}) => {
-  const lastRow = useRef();
+class RepeatableField extends React.Component {
+  constructor(props) {
+    super(props);
+    this.lastRow = null;
+    this._added = false;
+  }
 
-  let added = false;
+  componentDidUpdate() {
+    if (this._added && this.lastRow) {
+      const firstInput = this.lastRow.querySelector('input, select');
 
-  if (added && lastRow.current) {
-    const firstInput = lastRow.current.querySelector('input, select');
-
-    if (firstInput) {
-      firstInput.focus();
-      added = false;
+      if (firstInput) {
+        firstInput.focus();
+        this._added = false;
+      }
     }
   }
 
-  const buildComponentFromTemplate = ({
-    templateIndex,
-    input,
-    meta,
-    ...rest
-  }) => {
+  buildComponentFromTemplate = ({ templateIndex, input, meta, ...rest }) => {
+    const {
+      template,
+    } = this.props;
+
     const Component = template[templateIndex].component;
 
     return (
@@ -52,49 +38,79 @@ const RepeatableField = ({
     );
   };
 
-  const addDefaultField = (fields) => {
+  addDefaultField = (fields) => {
+    const {
+      newItemTemplate,
+    } = this.props;
+
     if (newItemTemplate) {
       fields.push(cloneDeep(newItemTemplate));
     } else {
       fields.push();
     }
-  };
+  }
 
-  const handleAddField = (fields) => {
+  handleAddField = (fields) => {
+    const {
+      newItemTemplate,
+    } = this.props;
+
     if (newItemTemplate) {
       fields.push(cloneDeep(newItemTemplate));
     } else {
       fields.push();
     }
-    added = true;
-  };
+    this._added = true;
+  }
 
-  return (
-    <FieldArray
-      name={name}
-      component={FieldRow}
-      template={template}
-      label={label}
-      newItemTemplate={newItemTemplate}
-      addDefaultItem={addDefaultItem}
-      addLabel={addLabel}
-      addButtonId={addButtonId}
-      canAdd={canAdd}
-      canEdit={canEdit}
-      canDelete={canDelete}
-      lastRowRef={ref => { lastRow.current = ref; }}
-      showAddNewField={showAddNewField}
-      fieldsetClass={fieldsetClass}
-      layoutClass={layoutClass}
-      legendClass={legendClass}
-      buttonsContainerClass={buttonsContainerClass}
-      fieldsContainerClass={fieldsContainerClass}
-      formatter={buildComponentFromTemplate}
-      addDefault={addDefaultField}
-      onAddField={handleAddField}
-    />
-  );
-};
+  render() {
+    const {
+      name,
+      template,
+      label,
+      newItemTemplate,
+      addDefaultItem,
+      addLabel,
+      addButtonId,
+      canAdd,
+      canEdit,
+      canDelete,
+      showAddNewField,
+      fieldsetClass,
+      layoutClass,
+      legendClass,
+      buttonsContainerClass,
+      fieldsContainerClass,
+    } = this.props;
+
+    return (
+      <FieldArray
+        name={name}
+        component={FieldRow}
+        template={template}
+        containerRef={ref => { this.container = ref; }}
+        label={label}
+        newItemTemplate={newItemTemplate}
+        addDefaultItem={addDefaultItem}
+        addLabel={addLabel}
+        addButtonId={addButtonId}
+        canAdd={canAdd}
+        canEdit={canEdit}
+        canDelete={canDelete}
+        lastRowRef={ref => { this.lastRow = ref; }}
+        showAddNewField={showAddNewField}
+        fieldsetClass={fieldsetClass}
+        layoutClass={layoutClass}
+        legendClass={legendClass}
+        buttonsContainerClass={buttonsContainerClass}
+        fieldsContainerClass={fieldsContainerClass}
+        formatter={this.buildComponentFromTemplate}
+        addDefault={this.addDefaultField}
+        onAddField={this.handleAddField}
+      />
+    );
+  }
+}
 
 RepeatableField.propTypes = {
   name: PropTypes.string.isRequired,

@@ -26,6 +26,13 @@ const CentralServersConfigurationRootLayer = ({
 
   const showCallout = useCallout();
 
+  const displayConnectionProblem = () => {
+    showCallout({
+      type: CALLOUT_ERROR_TYPE,
+      message: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.connectionProblem.get" />,
+    });
+  };
+
   useEffect(
     () => {
       mutator.folioLibraries.GET()
@@ -33,20 +40,14 @@ const CentralServersConfigurationRootLayer = ({
           setFolioLibraries(response.loclibs);
         })
         .catch(() => {
-          showCallout({
-            type: CALLOUT_ERROR_TYPE,
-            message: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.connectionProblem.get" />,
-          });
+          displayConnectionProblem();
         });
       mutator.loanTypes.GET()
         .then(response => {
           setLoanTypes(response.loantypes);
         })
         .catch(() => {
-          showCallout({
-            type: CALLOUT_ERROR_TYPE,
-            message: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.connectionProblem.get" />,
-          });
+          displayConnectionProblem();
         });
     }, []
   );

@@ -40,7 +40,6 @@ const FieldRow = ({
 }) => {
   const srstatus = useRef();
   const addButtonId = addBtnId || uniqueId(`${label}AddButton`);
-  let action;
 
   if (fields.length === 0 && addDefaultItem) {
     setTimeout(() => {
@@ -49,49 +48,38 @@ const FieldRow = ({
     addDefault(fields);
   }
 
-  if (action) {
-    if (action.type === 'add') {
-      srstatus.current.sendMessage(
-        `added new ${label} field. ${fields.length} ${label} total`
-      );
-      action = null;
-    }
+  const handleRemoveAction = (action) => {
+    const {
+      item,
+    } = action;
+    let contextualSpeech;
 
-    if (action.type === 'remove') {
-      const {
-        item,
-      } = action;
-      let contextualSpeech;
+    if (typeof item === 'string') {
+      contextualSpeech = action.item;
+    } else if (typeof item === 'object') {
+      const valueArray = [];
 
-      if (typeof item === 'string') {
-        contextualSpeech = action.item;
-      } else if (typeof item === 'object') {
-        const valueArray = [];
-
-        for (const key in item) {
-          if (typeof item[key] === 'string' && item[key].length < 25) {
-            valueArray.push(item[key]);
-          }
-        }
-
-        if (valueArray.length > 0) {
-          contextualSpeech = valueArray.join(' ');
-        } else {
-          contextualSpeech = action.index;
+      for (const key in item) {
+        if (typeof item[key] === 'string' && item[key].length < 25) {
+          valueArray.push(item[key]);
         }
       }
 
-      srstatus.current.sendMessage(
-        `${label} ${contextualSpeech} has been removed. ${fields.length} ${label} total`
-      );
-
-      action = null;
-
-      if (showAddNewField) {
-        document.getElementById(addButtonId).focus();
+      if (valueArray.length > 0) {
+        contextualSpeech = valueArray.join(' ');
+      } else {
+        contextualSpeech = action.index;
       }
     }
-  }
+
+    srstatus.current.sendMessage(
+      `${label} ${contextualSpeech} has been removed. ${fields.length} ${label} total`
+    );
+
+    if (showAddNewField) {
+      document.getElementById(addButtonId).focus();
+    }
+  };
 
   const legend = (
     <legend
@@ -101,7 +89,10 @@ const FieldRow = ({
     </legend>
   );
 
-  const handleButtonClick = () => {
+  const handleAdd = () => {
+    const message = `added new ${label} field. ${fields.length} ${label} total`;
+
+    srstatus.current.sendMessage(message);
     onAddField(fields);
   };
 
@@ -115,7 +106,7 @@ const FieldRow = ({
             style={{ marginBottom: '12px' }}
             id={addButtonId}
             disabled={!canAdd}
-            onClick={handleButtonClick}
+            onClick={handleAdd}
           >
             {addLabel || (
               <Icon icon="plus-sign">
@@ -132,11 +123,12 @@ const FieldRow = ({
   }
 
   const handleRemove = (index, item) => {
-    action = {
-      type: 'remove',
+    const action = {
       item,
       index,
     };
+
+    handleRemoveAction(action);
     fields.remove(index);
   };
 
@@ -233,7 +225,7 @@ const FieldRow = ({
                         icon="plus-sign"
                         aria-label={ariaLabel}
                         disabled={!canAdd}
-                        onClick={handleButtonClick}
+                        onClick={handleAdd}
                       />
                     )}
                   </FormattedMessage>
@@ -257,7 +249,7 @@ const FieldRow = ({
             <Button
               id={addButtonId}
               disabled={!canAdd}
-              onClick={handleButtonClick}
+              onClick={handleAdd}
             >
               {addLabel || (
                 <FormattedMessage
