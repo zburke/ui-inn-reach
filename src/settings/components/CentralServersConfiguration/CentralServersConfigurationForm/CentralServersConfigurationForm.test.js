@@ -25,8 +25,8 @@ const data = {
   ],
   loanTypes: [
     {
-      label: 'Reading room',
-      value: '2e48e713-17f3-4c13-a9f8-23845bb210a4',
+      name: 'Reading room',
+      id: '2e48e713-17f3-4c13-a9f8-23845bb210a4',
     },
   ],
 };
@@ -69,8 +69,41 @@ describe('CentralServerConfigurationForm component', () => {
     expect(screen.getByText('New central server configuration')).toBeDefined();
   });
 
+  it('should display "Collapse all" button', () => {
+    expect(screen.getByText('Collapse all')).toBeDefined();
+  });
+
+  it('should have sections collapsed after clicking "Collapse all" button', () => {
+    userEvent.click(document.querySelector('[data-tast-expand-button]'));
+    expect(document.querySelector('#accordion-toggle-button-section1').getAttribute('aria-expanded')).toBe('false');
+    expect(document.querySelector('#accordion-toggle-button-section2').getAttribute('aria-expanded')).toBe('false');
+  });
+
   it('should display form', () => {
     expect(screen.getByTestId('central-server-configuration-form')).toBeInTheDocument();
+  });
+
+  describe('local server code field', () => {
+    it('should be empty', () => {
+      expect(screen.getByRole('textbox', { name: 'Local server code' })).not.toHaveValue();
+    });
+
+    it('should show "Required" error message', () => {
+      const field = screen.getByRole('textbox', { name: 'Local server code' });
+
+      field.focus();
+      expect(field).toHaveFocus();
+      field.blur();
+      expect(screen.getByText('Required')).toBeDefined();
+    });
+
+    it('should show "Please enter a 5 character string in lower case"', () => {
+      const field = screen.getByRole('textbox', { name: 'Local server code' });
+
+      userEvent.type(field, 'abc');
+      field.blur();
+      expect(screen.getByText('Please enter a 5 character string in lower case')).toBeDefined();
+    });
   });
 
   describe('local server fields', () => {
@@ -117,8 +150,6 @@ describe('CentralServerConfigurationForm component', () => {
       userEvent.type(screen.getByRole('textbox', { name: 'Central server address' }), 'https://opentown-lib.edu/andromeda');
       userEvent.type(screen.getByRole('textbox', { name: 'Central server key' }), '1ecea4ca-9eef-4dc2-bc6c-73afc54d051d');
       userEvent.type(screen.getByRole('textbox', { name: 'Central server secret' }), '6ed636c9-eeff-4473-86bd-618430075c25');
-      userEvent.type(screen.getByRole('textbox', { name: 'Local server key' }), 'a6b20a47-9dc6-4d0d-8d4d-af485869ffb7');
-      userEvent.type(screen.getByRole('textbox', { name: 'Local server secret' }), '0a583b28-4006-48d1-a3d1-ec81ea33184b');
       expect(screen.getByTestId('save-button')).toBeDisabled();
     });
   });

@@ -177,13 +177,16 @@ const FieldRow = ({
   };
 
   return (
-    <div ref={containerRef}>
+    <div
+      data-testid="field-row-container"
+      ref={containerRef}
+    >
       <SRStatus ref={srstatus} />
       <fieldset className={fieldsetClass || css.RFFieldset}>
         {legend}
         {fields.map((f, fieldIndex) => (
           <div
-            data-test-repeater-field-row
+            data-testid="repeatable-field-row"
             key={`${label}-${fieldIndex}`}
             style={{ width: '100%' }}
             ref={ref => { refIfLastRow(ref, fieldIndex); }}
