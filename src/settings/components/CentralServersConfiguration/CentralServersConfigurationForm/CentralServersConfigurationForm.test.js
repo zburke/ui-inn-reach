@@ -31,7 +31,7 @@ const data = {
   ],
 };
 
-const initialValues = {
+const initValues = {
   localAgencies: [
     {
       localAgency: '',
@@ -61,15 +61,15 @@ describe('CentralServerConfigurationForm component', () => {
   beforeEach(() => (
     renderWithIntl(
       <RenderForm
+        initialValues={initValues}
         onCancel={handleCancel}
-        initialValues={initialValues}
       />,
       translationsProperties,
     )
   ));
 
   it('should display "edit" title', () => {
-    const initialValues = {
+    const initialVal = {
       id: '777',
       localAgencies: [
         {
@@ -78,13 +78,14 @@ describe('CentralServerConfigurationForm component', () => {
         },
       ],
     };
+
     renderWithIntl(
       <RenderForm
+        initialValues={initialVal}
         onCancel={handleCancel}
-        initialValues={initialValues}
       />,
       translationsProperties,
-    )
+    );
     expect(screen.getByText('Edit')).toBeDefined();
   });
 
