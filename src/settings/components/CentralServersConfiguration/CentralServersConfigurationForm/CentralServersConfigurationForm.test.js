@@ -40,27 +40,29 @@ const initialValues = {
   ],
 };
 
-const RenderForm = () => {
+const RenderForm = ({ onCancel }) => {
   return (
     <MemoryRouter>
       <CentralServersConfigurationForm
         data={data}
         initialValues={initialValues}
         isCentralServerDataInvalid={false}
-        saveLocalServerKeypair={jest.fn}
+        saveLocalServerKeypair={jest.fn()}
         pristine={false}
         submitting={false}
-        onSubmit={jest.fn}
-        onCancel={jest.fn}
+        onSubmit={jest.fn()}
+        onCancel={onCancel}
       />
     </MemoryRouter>
   );
 };
 
 describe('CentralServerConfigurationForm component', () => {
+  const handleCancel = jest.fn();
+
   beforeEach(() => (
     renderWithIntl(
-      <RenderForm />,
+      <RenderForm onCancel={handleCancel} />,
       translationsProperties,
     )
   ));
@@ -81,6 +83,11 @@ describe('CentralServerConfigurationForm component', () => {
 
   it('should display form', () => {
     expect(screen.getByTestId('central-server-configuration-form')).toBeInTheDocument();
+  });
+
+  it('should invoke onCancel callback', () => {
+    userEvent.click(screen.getByRole('button', { name: 'Close' }));
+    expect(handleCancel).toBeCalled();
   });
 
   describe('local server code field', () => {
@@ -144,8 +151,8 @@ describe('CentralServerConfigurationForm component', () => {
 
     it('should have the "Save & close" button disabled if not all required fields are filled', () => {
       userEvent.type(screen.getByRole('textbox', { name: 'Name' }), 'Andromeda');
-      userEvent.type(screen.getByRole('textbox', { name: 'Local server code' }), '6andr');
-      userEvent.type(screen.getByRole('textbox', { name: 'Local agency' }), '6gala');
+      userEvent.type(screen.getByRole('textbox', { name: 'Local server code' }), 'tandr');
+      userEvent.type(screen.getByRole('textbox', { name: 'Local agency' }), 'tgala');
       userEvent.type(screen.getByRole('combobox', { name: 'Borrowed item loan type' }), 'r{enter}');
       userEvent.type(screen.getByRole('textbox', { name: 'Central server address' }), 'https://opentown-lib.edu/andromeda');
       userEvent.type(screen.getByRole('textbox', { name: 'Central server key' }), '1ecea4ca-9eef-4dc2-bc6c-73afc54d051d');

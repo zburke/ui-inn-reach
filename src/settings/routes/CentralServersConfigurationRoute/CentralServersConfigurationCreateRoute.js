@@ -16,13 +16,14 @@ import {
   Paneset,
   Layer,
   ConfirmationModal,
-} from '@folio/stripes/components';
+} from '@folio/stripes-components';
 
 import {
   CentralServersConfigurationForm,
 } from '../../components';
 import {
-  CALLOUT_ERROR_TYPE, LOCAL_AGENCIES_FIELDS,
+  CALLOUT_ERROR_TYPE,
+  LOCAL_AGENCIES_FIELDS,
 } from '../../../constants';
 import {
   getCentralServerConfigurationListUrl,

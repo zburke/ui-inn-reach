@@ -7,7 +7,6 @@ import { FormattedMessage } from 'react-intl';
 import {
   Button,
   Layout,
-  Icon,
   Row,
   Col,
   omitProps,
@@ -19,8 +18,6 @@ import css from './RepeatableField.css';
 
 const FieldRow = ({
   fields,
-  addDefaultItem,
-  addDefault,
   addButtonId: addBtnId,
   label,
   showAddNewField,
@@ -41,13 +38,6 @@ const FieldRow = ({
   const srstatus = useRef();
   const addButtonId = addBtnId || uniqueId(`${label}AddButton`);
 
-  if (fields.length === 0 && addDefaultItem) {
-    setTimeout(() => {
-      addDefault(fields);
-    }, 5);
-    addDefault(fields);
-  }
-
   const handleRemoveAction = (action) => {
     const {
       item,
@@ -56,29 +46,11 @@ const FieldRow = ({
 
     if (typeof item === 'string') {
       contextualSpeech = action.item;
-    } else if (typeof item === 'object') {
-      const valueArray = [];
-
-      for (const key in item) {
-        if (typeof item[key] === 'string' && item[key].length < 25) {
-          valueArray.push(item[key]);
-        }
-      }
-
-      if (valueArray.length > 0) {
-        contextualSpeech = valueArray.join(' ');
-      } else {
-        contextualSpeech = action.index;
-      }
     }
 
     srstatus.current.sendMessage(
       `${label} ${contextualSpeech} has been removed. ${fields.length} ${label} total`
     );
-
-    if (showAddNewField) {
-      document.getElementById(addButtonId).focus();
-    }
   };
 
   const legend = (
@@ -95,32 +67,6 @@ const FieldRow = ({
     srstatus.current.sendMessage(message);
     onAddField(fields);
   };
-
-  if (fields.length === 0 && !addDefaultItem) {
-    return (
-      <div ref={containerRef}>
-        <SRStatus ref={srstatus} />
-        <fieldset className={css.RFFieldset}>
-          {legend}
-          <Button
-            style={{ marginBottom: '12px' }}
-            id={addButtonId}
-            disabled={!canAdd}
-            onClick={handleAdd}
-          >
-            {addLabel || (
-              <Icon icon="plus-sign">
-                <FormattedMessage
-                  id="ui-inn-reach.addLabel"
-                  values={{ label }}
-                />
-              </Icon>
-            )}
-          </Button>
-        </fieldset>
-      </div>
-    );
-  }
 
   const handleRemove = (index, item) => {
     const action = {
@@ -139,15 +85,6 @@ const FieldRow = ({
   };
 
   const renderControl = (fieldsData, field, fieldIndex, templ, templateIndex) => {
-    if (templ.render) {
-      return templ.render({
-        fields: fieldsData,
-        field,
-        fieldIndex,
-        templateIndex,
-      });
-    }
-
     const {
       name,
       label: templateLabel,
@@ -270,8 +207,6 @@ const FieldRow = ({
 
 FieldRow.propTypes = {
   addButtonId: PropTypes.string,
-  addDefault: PropTypes.func,
-  addDefaultItem: PropTypes.bool,
   addLabel: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   buttonsContainerClass: PropTypes.string,
   canAdd: PropTypes.bool,

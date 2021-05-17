@@ -7,7 +7,7 @@ import {
   Paneset,
   NavList,
   NavListItem,
-} from '@folio/stripes/components';
+} from '@folio/stripes-components';
 
 import LastMenu from './components';
 import {
