@@ -40,7 +40,7 @@ const initialValues = {
   ],
 };
 
-const RenderForm = ({ onCancel }) => {
+const RenderForm = ({ onCancel, initialValues }) => {
   return (
     <MemoryRouter>
       <CentralServersConfigurationForm
@@ -48,8 +48,6 @@ const RenderForm = ({ onCancel }) => {
         initialValues={initialValues}
         isCentralServerDataInvalid={false}
         saveLocalServerKeypair={jest.fn()}
-        pristine={false}
-        submitting={false}
         onSubmit={jest.fn()}
         onCancel={onCancel}
       />
@@ -62,10 +60,33 @@ describe('CentralServerConfigurationForm component', () => {
 
   beforeEach(() => (
     renderWithIntl(
-      <RenderForm onCancel={handleCancel} />,
+      <RenderForm
+        onCancel={handleCancel}
+        initialValues={initialValues}
+      />,
       translationsProperties,
     )
   ));
+
+  it('should display "edit" title', () => {
+    const initialValues = {
+      id: '777',
+      localAgencies: [
+        {
+          localAgency: '',
+          FOLIOLibraries: '',
+        },
+      ],
+    };
+    renderWithIntl(
+      <RenderForm
+        onCancel={handleCancel}
+        initialValues={initialValues}
+      />,
+      translationsProperties,
+    )
+    expect(screen.getByText('Edit')).toBeDefined();
+  });
 
   it('should display title', () => {
     expect(screen.getByText('New central server configuration')).toBeDefined();
@@ -79,6 +100,9 @@ describe('CentralServerConfigurationForm component', () => {
     userEvent.click(document.querySelector('[data-tast-expand-button]'));
     expect(document.querySelector('#accordion-toggle-button-section1').getAttribute('aria-expanded')).toBe('false');
     expect(document.querySelector('#accordion-toggle-button-section2').getAttribute('aria-expanded')).toBe('false');
+    userEvent.click(document.querySelector('[data-tast-expand-button]'));
+    expect(document.querySelector('#accordion-toggle-button-section1').getAttribute('aria-expanded')).toBe('true');
+    expect(document.querySelector('#accordion-toggle-button-section2').getAttribute('aria-expanded')).toBe('true');
   });
 
   it('should display form', () => {
@@ -88,6 +112,20 @@ describe('CentralServerConfigurationForm component', () => {
   it('should invoke onCancel callback', () => {
     userEvent.click(screen.getByRole('button', { name: 'Close' }));
     expect(handleCancel).toBeCalled();
+  });
+
+  describe('accordion', () => {
+    it('should be collapsed after click', () => {
+      const accordion1 = document.querySelector('#accordion-toggle-button-section1');
+      const accordion2 = document.querySelector('#accordion-toggle-button-section2');
+
+      expect(accordion1.getAttribute('aria-expanded')).toBe('true');
+      expect(accordion2.getAttribute('aria-expanded')).toBe('true');
+      userEvent.click(accordion1);
+      userEvent.click(accordion2);
+      expect(accordion1.getAttribute('aria-expanded')).toBe('false');
+      expect(accordion2.getAttribute('aria-expanded')).toBe('false');
+    });
   });
 
   describe('local server code field', () => {

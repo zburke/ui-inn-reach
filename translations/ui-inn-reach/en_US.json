@@ -33,5 +33,6 @@
   "save&close": "Save & close",
   "validation.required": "Required",
   "validation.fiveCharacterStringLowerCase": "Please enter a 5 character string in lower case",
-  "addLabel": "Add {label}"
+  "addLabel": "Add {label}",
+  "editCentralServerConfig": "Edit"
 }

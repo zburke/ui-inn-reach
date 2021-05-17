@@ -38,18 +38,6 @@ class RepeatableField extends React.Component {
     );
   };
 
-  addDefaultField = (fields) => {
-    const {
-      newItemTemplate,
-    } = this.props;
-
-    if (newItemTemplate) {
-      fields.push(cloneDeep(newItemTemplate));
-    } else {
-      fields.push();
-    }
-  }
-
   handleAddField = (fields) => {
     const {
       newItemTemplate,
@@ -57,10 +45,8 @@ class RepeatableField extends React.Component {
 
     if (newItemTemplate) {
       fields.push(cloneDeep(newItemTemplate));
-    } else {
-      fields.push();
+      this._added = true;
     }
-    this._added = true;
   }
 
   render() {
@@ -105,7 +91,6 @@ class RepeatableField extends React.Component {
         buttonsContainerClass={buttonsContainerClass}
         fieldsContainerClass={fieldsContainerClass}
         formatter={this.buildComponentFromTemplate}
-        addDefault={this.addDefaultField}
         onAddField={this.handleAddField}
       />
     );
