@@ -5,8 +5,8 @@
     "settings.central-servers.list.noItems": "Pas de serveurs centraux",
     "settings.general": "Général",
     "settings.central-server.configuration": "Configuration du serveur central",
-    "settings.innreach.locations": "INN-Reach Locations",
-    "settings.some-feature.message": "These are your settings for some app feature.",
-    "settings.central-server-configuration.callout.connectionProblem.get": "Unable to get data due to a module error. Please try again. If a problem persists please contact your system administrator",
+    "settings.innreach.locations": "Emplacements INN-Reach",
+    "settings.some-feature.message": "Voici vos paramètres pour certaines fonctionnalités de l'application.",
+    "settings.central-server-configuration.callout.connectionProblem.get": "Impossible d'obtenir des données en raison d'une erreur de module. Veuillez réessayer. Si un problème persiste, veuillez contacter votre administrateur système",
     "settings.central-server-configuration.list.field.name": "Nom"
 }

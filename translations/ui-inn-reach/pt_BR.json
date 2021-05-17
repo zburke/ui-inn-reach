@@ -1,12 +1,12 @@
 {
     "meta.title": "INN-Reach",
     "settings.title": "INN-Reach",
-    "settings.central-servers.list.title": "Central servers",
-    "settings.central-servers.list.noItems": "No central servers",
-    "settings.general": "General",
-    "settings.central-server.configuration": "Central Server Configuration",
-    "settings.innreach.locations": "INN-Reach Locations",
-    "settings.some-feature.message": "These are your settings for some app feature.",
-    "settings.central-server-configuration.callout.connectionProblem.get": "Unable to get data due to a module error. Please try again. If a problem persists please contact your system administrator",
-    "settings.central-server-configuration.list.field.name": "Name"
+    "settings.central-servers.list.title": "Servidores centrais",
+    "settings.central-servers.list.noItems": "Sem servidores centrais",
+    "settings.general": "Geral",
+    "settings.central-server.configuration": "Configuração do servidor central",
+    "settings.innreach.locations": "Localizações INN-Reach",
+    "settings.some-feature.message": "Estas são suas configurações para alguns recursos do aplicativo.",
+    "settings.central-server-configuration.callout.connectionProblem.get": "Incapaz de obter dados devido a um erro do módulo. Por favor, tente novamente. Se o problema persistir, entre em contato com o administrador do sistema",
+    "settings.central-server-configuration.list.field.name": "Nome"
 }
