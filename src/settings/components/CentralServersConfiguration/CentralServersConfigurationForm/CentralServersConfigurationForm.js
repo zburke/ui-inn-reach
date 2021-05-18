@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Field } from 'react-final-form';
+import {
+  Field,
+} from 'react-final-form';
 import {
   isEqual,
 } from 'lodash';
@@ -52,22 +54,20 @@ const CentralConfigurationForm = ({
   isCentralServerDataInvalid,
   dirtyFieldsSinceLastSubmit,
   data,
+  form,
 }) => {
   const [sections, setSections] = useState({
     section1: true,
     section2: true,
   });
 
-  let onChangeLocalServerKey;
-  let onChangeLocalServerSecret;
-
   const generateKeyAndSecret = () => {
     const localServerKey = uuidv4();
     const localServerSecret = uuidv4();
     const exportData = { localServerKey, localServerSecret };
 
-    onChangeLocalServerKey({ target: { value: localServerKey } });
-    onChangeLocalServerSecret({ target: { value: localServerSecret } });
+    form.change(CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY, localServerKey);
+    form.change(CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET, localServerSecret);
     saveLocalServerKeypair(exportData);
   };
 
@@ -267,50 +267,42 @@ const CentralConfigurationForm = ({
               <Row>
                 <Col xs={4}>
                   <Field name={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}>
-                    {({ input }) => {
-                      onChangeLocalServerKey = input.onChange;
-
-                      return (
-                        <>
-                          <Label htmlFor={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}>
-                            <FormattedMessage id={`ui-inn-reach.${CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}`} />
-                          </Label>
-                          <div className={classNames(styles.formControl, styles.isDisabled, styles.inputGroup)}>
-                            <input
-                              {...input}
-                              disabled
-                              id={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}
-                              data-testid={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}
-                              type="text"
-                            />
-                          </div>
-                        </>
-                      );
-                    }}
+                    {({ input }) => (
+                      <>
+                        <Label htmlFor={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}>
+                          <FormattedMessage id={`ui-inn-reach.${CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}`} />
+                        </Label>
+                        <div className={classNames(styles.formControl, styles.isDisabled, styles.inputGroup)}>
+                          <input
+                            {...input}
+                            disabled
+                            id={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}
+                            data-testid={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}
+                            type="text"
+                          />
+                        </div>
+                      </>
+                    )}
                   </Field>
                 </Col>
                 <Col xs={4}>
                   <Field name={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}>
-                    {({ input }) => {
-                      onChangeLocalServerSecret = input.onChange;
-
-                      return (
-                        <>
-                          <Label htmlFor={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}>
-                            <FormattedMessage id={`ui-inn-reach.${CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}`} />
-                          </Label>
-                          <div className={classNames(styles.formControl, styles.isDisabled, styles.inputGroup)}>
-                            <input
-                              {...input}
-                              disabled
-                              id={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}
-                              data-testid={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}
-                              type="text"
-                            />
-                          </div>
-                        </>
-                      );
-                    }}
+                    {({ input }) => (
+                      <>
+                        <Label htmlFor={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}>
+                          <FormattedMessage id={`ui-inn-reach.${CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}`} />
+                        </Label>
+                        <div className={classNames(styles.formControl, styles.isDisabled, styles.inputGroup)}>
+                          <input
+                            {...input}
+                            disabled
+                            id={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}
+                            data-testid={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}
+                            type="text"
+                          />
+                        </div>
+                      </>
+                    )}
                   </Field>
                 </Col>
                 <Col xs={4}>
@@ -341,6 +333,7 @@ CentralConfigurationForm.propTypes = {
   isCentralServerDataInvalid: PropTypes.bool.isRequired,
   saveLocalServerKeypair: PropTypes.func.isRequired,
   copy: PropTypes.bool,
+  form: PropTypes.object,
   initialValues: PropTypes.object,
   instanceSource: PropTypes.string,
   pristine: PropTypes.bool,

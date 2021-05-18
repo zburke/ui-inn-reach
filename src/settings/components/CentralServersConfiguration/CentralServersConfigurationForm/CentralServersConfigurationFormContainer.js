@@ -166,7 +166,7 @@ CentralServersConfigurationFormContainer.manifest = Object.freeze({
 });
 
 CentralServersConfigurationFormContainer.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  data: PropTypes.object.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   location: ReactRouterPropTypes.location.isRequired,
   children: PropTypes.node,

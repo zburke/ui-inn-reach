@@ -104,7 +104,6 @@ const FieldRow = ({
         name={name ? `${fields.name}[${fieldIndex}].${name}` : `${fields.name}[${fieldIndex}]`}
         component={formatter}
         templateIndex={templateIndex}
-        id={uniqueId(field)}
         {...labelProps}
         data-key={fieldIndex}
         fields={fieldsData}
