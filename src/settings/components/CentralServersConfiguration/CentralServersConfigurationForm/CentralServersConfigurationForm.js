@@ -48,7 +48,7 @@ const CentralConfigurationForm = ({
   initialValues,
   onCancel,
   handleSubmit,
-  hasValidationErrors,
+  invalid,
   isCentralServerDataInvalid,
   dirtyFieldsSinceLastSubmit,
   data,
@@ -112,7 +112,7 @@ const CentralConfigurationForm = ({
         id="clickable-save-instance"
         buttonStyle="primary mega"
         type="submit"
-        disabled={hasValidationErrors || isCentralServerInvalid}
+        disabled={invalid || isCentralServerInvalid}
         onClick={handleSubmit}
       >
         <FormattedMessage id="ui-inn-reach.save&close" />
@@ -210,6 +210,7 @@ const CentralConfigurationForm = ({
                 <Col sm={3}>
                   <Field
                     required
+                    data-testid="borrowedItemLoanType"
                     label={<FormattedMessage id="ui-inn-reach.borrowedItemLoanType" />}
                     name={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOAN_TYPE_ID}
                     type="text"
@@ -336,7 +337,7 @@ CentralConfigurationForm.propTypes = {
   data: PropTypes.object.isRequired,
   dirtyFieldsSinceLastSubmit: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  hasValidationErrors: PropTypes.bool.isRequired,
+  invalid: PropTypes.bool.isRequired,
   isCentralServerDataInvalid: PropTypes.bool.isRequired,
   saveLocalServerKeypair: PropTypes.func.isRequired,
   copy: PropTypes.bool,
@@ -360,7 +361,7 @@ CentralConfigurationForm.defaultProps = {
 export default stripesFinalForm({
   validate,
   subscription: {
-    hasValidationErrors: true,
+    invalid: true,
     error: true,
     dirtyFieldsSinceLastSubmit: true,
     submitSucceeded: true,

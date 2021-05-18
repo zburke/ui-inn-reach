@@ -26,7 +26,11 @@ const data = {
   loanTypes: [
     {
       name: 'Reading room',
-      id: '2e48e713-17f3-4c13-a9f8-23845bb210a4',
+      id: 'ac19815e-1d8e-473f-bd5a-3193cb301b8b',
+    },
+    {
+      name: 'mics',
+      id: 'e17acc08-b8ca-469a-a984-d9249faad178',
     },
   ],
 };
@@ -40,7 +44,11 @@ const initValues = {
   ],
 };
 
-const RenderForm = ({ onCancel, initialValues }) => {
+const RenderForm = ({
+  onCancel,
+  initialValues,
+  onSubmit,
+}) => {
   return (
     <MemoryRouter>
       <CentralServersConfigurationForm
@@ -48,8 +56,8 @@ const RenderForm = ({ onCancel, initialValues }) => {
         initialValues={initialValues}
         isCentralServerDataInvalid={false}
         saveLocalServerKeypair={jest.fn()}
-        onSubmit={jest.fn()}
         onCancel={onCancel}
+        onSubmit={onSubmit}
       />
     </MemoryRouter>
   );
@@ -57,11 +65,13 @@ const RenderForm = ({ onCancel, initialValues }) => {
 
 describe('CentralServerConfigurationForm component', () => {
   const handleCancel = jest.fn();
+  const handleSubmit = jest.fn();
 
   beforeEach(() => (
     renderWithIntl(
       <RenderForm
         initialValues={initValues}
+        onSubmit={handleSubmit}
         onCancel={handleCancel}
       />,
       translationsProperties,
@@ -82,6 +92,7 @@ describe('CentralServerConfigurationForm component', () => {
     renderWithIntl(
       <RenderForm
         initialValues={initialVal}
+        onSubmit={handleSubmit}
         onCancel={handleCancel}
       />,
       translationsProperties,
@@ -185,17 +196,6 @@ describe('CentralServerConfigurationForm component', () => {
     });
 
     it('should have disabled "Save & close" button by default', () => {
-      expect(screen.getByTestId('save-button')).toBeDisabled();
-    });
-
-    it('should have the "Save & close" button disabled if not all required fields are filled', () => {
-      userEvent.type(screen.getByRole('textbox', { name: 'Name' }), 'Andromeda');
-      userEvent.type(screen.getByRole('textbox', { name: 'Local server code' }), 'tandr');
-      userEvent.type(screen.getByRole('textbox', { name: 'Local agency' }), 'tgala');
-      userEvent.type(screen.getByRole('combobox', { name: 'Borrowed item loan type' }), 'r{enter}');
-      userEvent.type(screen.getByRole('textbox', { name: 'Central server address' }), 'https://opentown-lib.edu/andromeda');
-      userEvent.type(screen.getByRole('textbox', { name: 'Central server key' }), '1ecea4ca-9eef-4dc2-bc6c-73afc54d051d');
-      userEvent.type(screen.getByRole('textbox', { name: 'Central server secret' }), '6ed636c9-eeff-4473-86bd-618430075c25');
       expect(screen.getByTestId('save-button')).toBeDisabled();
     });
   });
