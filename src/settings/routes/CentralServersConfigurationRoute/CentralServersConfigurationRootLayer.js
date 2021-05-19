@@ -22,8 +22,16 @@ const CentralServersConfigurationRootLayer = ({
   mutator,
 }) => {
   const [folioLibraries, setFolioLibraries] = useState([]);
+  const [loanTypes, setLoanTypes] = useState([]);
 
   const showCallout = useCallout();
+
+  const displayConnectionProblem = () => {
+    showCallout({
+      type: CALLOUT_ERROR_TYPE,
+      message: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.connectionProblem.get" />,
+    });
+  };
 
   useEffect(
     () => {
@@ -32,17 +40,24 @@ const CentralServersConfigurationRootLayer = ({
           setFolioLibraries(response.loclibs);
         })
         .catch(() => {
-          showCallout({
-            type: CALLOUT_ERROR_TYPE,
-            message: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.connectionProblem.get" />,
-          });
+          displayConnectionProblem();
         });
-    }, [showCallout]
+      mutator.loanTypes.GET()
+        .then(response => {
+          setLoanTypes(response.loantypes);
+        })
+        .catch(() => {
+          displayConnectionProblem();
+        });
+    }, []
   );
 
   return (
     <CentralServersConfigurationContext.Provider
-      value={{ folioLibraries }}
+      value={{
+        folioLibraries,
+        loanTypes,
+      }}
     >
       {children}
     </CentralServersConfigurationContext.Provider>
@@ -56,12 +71,21 @@ CentralServersConfigurationRootLayer.manifest = Object.freeze({
     accumulate: 'true',
     fetch: false,
   },
+  loanTypes: {
+    type: 'okapi',
+    path: 'loan-types?query=cql.allRecords%3D1%20sortby%20name&limit=1000',
+    accumulate: true,
+    fetch: false,
+  },
 });
 
 CentralServersConfigurationRootLayer.propTypes = {
   children: PropTypes.node.isRequired,
   mutator: PropTypes.shape({
     folioLibraries: PropTypes.shape({
+      GET: PropTypes.func.isRequired,
+    }),
+    loanTypes: PropTypes.shape({
       GET: PropTypes.func.isRequired,
     }),
   }),
