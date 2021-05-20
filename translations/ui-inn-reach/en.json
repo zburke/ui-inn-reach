@@ -2,11 +2,16 @@
   "meta.title": "INN-Reach",
   "settings.title": "INN-Reach",
   "settings.central-servers.list.title": "Central servers",
+  "settings.central-servers.view.title": "View {name}",
   "settings.central-servers.list.noItems": "No central servers",
   "settings.general": "General",
   "settings.central-server.configuration": "Central Server Configuration",
   "settings.innreach.locations": "INN-Reach Locations",
   "settings.some-feature.message": "These are your settings for some app feature.",
   "settings.central-server-configuration.callout.connectionProblem.get": "Unable to get data due to a module error. Please try again. If a problem persists please contact your system administrator",
-  "settings.central-server-configuration.list.field.name": "Name"
+  "settings.central-server-configuration.list.field.name": "Name",
+  "settings.central-server-configuration.callout.deleted": "Central server configuration was successfully deleted",
+  "settings.central-server-configuration.callout.failedToDelete.delete": "Failed to delete a central server configuration",
+  "settings.central-server-configuration.callout.connectionProblem.delete": "Unable to delete due to a module error. Please try again. If a problem persists please contact your system administrator"
+
 }
