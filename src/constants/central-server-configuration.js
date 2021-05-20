@@ -9,7 +9,7 @@ export const CENTRAL_SERVER_CONFIGURATIONS_PATH = `/${SETTINGS_PATH}/${CENTRAL_S
 export const LOCAL_AGENCIES_FIELDS = {
   ID: 'id',
   CODE: 'code',
-  FOLIO_LIBRARY_ID: 'folioLibraryId',
+  FOLIO_LIBRARY_IDs: 'folioLibraryIds',
 };
 
 export const CENTRAL_SERVER_CONFIGURATION_FIELDS = {

@@ -11,7 +11,7 @@ import {
 } from '@folio/stripes/core';
 import {
   LoadingPane,
-} from '@folio/stripes/components';
+} from '@folio/stripes-components';
 
 import {
   CentralServersConfigurationList,
@@ -92,6 +92,7 @@ CentralServersConfigurationListRoute.manifest = Object.freeze({
     path: 'inn-reach/central-servers',
     fetch: false,
     accumulate: true,
+    throwErrors: false,
   },
 });
 
