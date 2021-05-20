@@ -66,7 +66,6 @@ const CentralServersConfigurationView = ({
 
   return (
     <Pane
-      data-sets-view
       defaultWidth={DEFAULT_PANE_WIDTH}
       paneTitle={paneTitle()}
       firstMenu={getFirstMenu()}
@@ -76,7 +75,7 @@ const CentralServersConfigurationView = ({
         <Row>
           <Col xs={9}>
             <Headline
-              data-test-sets-view-headline
+              data-testID="view-headline"
               size="x-large"
               tag="h2"
               margin="small"
