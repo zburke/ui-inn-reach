@@ -7,21 +7,39 @@
   "settings.general": "General",
   "settings.central-server.configuration": "Central Server Configuration",
   "settings.innreach.locations": "INN-Reach Locations",
-  "settings.some-feature.message": "These are your settings for some app feature.",
+  
   "settings.central-server-configuration.callout.connectionProblem.get": "Unable to get data due to a module error. Please try again. If a problem persists please contact your system administrator",
   "settings.central-server-configuration.callout.deleted": "Central server configuration was successfully deleted",
   "settings.central-server-configuration.callout.failedToDelete.delete": "Failed to delete a central server configuration",
   "settings.central-server-configuration.callout.connectionProblem.delete": "Unable to delete due to a module error. Please try again. If a problem persists please contact your system administrator",
   "settings.central-server-configuration.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
+  
   "settings.central-server-configuration.list.field.name": "Name",
+  
   "settings.central-server-configuration.create.success": "Central Server configuration created successfully",
-  "settings.central-server-configuration.create.invalidData": "Invalid Central Server Data",
-  "settings.central-server-configuration.view.notFound.title": "",
-  "settings.central-server-configuration.view.notFound.text": "",
-  "settings.confirmDeleteModal.central-server-configuration.heading": "",
-  "settings.confirmDeleteModal.central-server-configuration.message": "",
-  "settings.confirmDeleteModal.central-server-configuration.confirm": "",
-  "settings.confirmDeleteModal.central-server-configuration.cancel": "",
+  "settings.central-server-configuration.create.invalidData": "Invalid central server data",
+  
+  "settings.central-server-configuration.view.notFound.title": "View",
+  "settings.central-server-configuration.view.notFound.text": "You have an invalid URL address. Please, review the syntax or parameters of the URL path and try another one.",
+  "settings.central-server-configuration.view.accordion.generalInformation.title": "General information",
+  "settings.central-server-configuration.view.accordion.server-connection.title": "Server connection",
+  "settings.central-server-configuration.view.field.name": "Name",
+  "settings.central-server-configuration.view.field.description": "Description",
+  "settings.central-server-configuration.view.field.local-server-code": "Local server code",
+  "settings.central-server-configuration.view.field.loan-type": "Borrowed item loan type",
+  "settings.central-server-configuration.view.field.address": "Central server address",
+
+  "settings.central-server-configuration.action.edit": "Edit",
+  "settings.central-server-configuration.action.delete": "Delete",
+
+  "settings.confirmDeleteModal.central-server-configuration.heading": "Confirm deletion of central server configuration",
+  "settings.confirmDeleteModal.central-server-configuration.message": "Central server configuration {name} will be removed.",
+  "settings.confirmDeleteModal.central-server-configuration.confirm": "Delete",
+  "settings.confirmDeleteModal.central-server-configuration.cancel": "Cancel",
+  
+  "settings.central-server-configuration.local-agency.field.code": "Local agency",
+  "settings.central-server-configuration.local-agency.field.libraries": "FOLIO libraries",
+  
   "fillIn": "Please fill this in to continue",
   "selectToContinue": "Please select to continue",
   "generalInformation": "General information",

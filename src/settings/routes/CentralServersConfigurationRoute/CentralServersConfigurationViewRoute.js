@@ -59,7 +59,7 @@ const CentralServersConfigurationViewRoute = ({
       setIsLoaded(false);
       setIsFailed(false);
       mutator.viewCentralServersConfiguration.GET()
-        .then(response => setCentralServer(response))
+        .then(response => setCentralServer({ ...response }))
         .then(() => setIsLoaded(true))
         .catch(() => {
           setIsLoaded(true);
