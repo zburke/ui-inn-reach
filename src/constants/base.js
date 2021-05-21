@@ -9,4 +9,12 @@ export const FILL_PANE_WIDTH = 'fill';
 
 export const CALLOUT_ERROR_TYPE = 'error';
 
+export const ICONS = {
+  EDIT: 'edit',
+  DELETE: 'trash',
+};
+
+export const ENTITY_NOT_FOUND_STATUS_CODE = 404;
+export const UNPROCESSABLE_ENTITY_STATUS_CODE = 422;
+
 export const PAGE_AMOUNT = 100;
