@@ -24,11 +24,10 @@ import { CentralServersConfigurationContext } from '../../../../../../contexts';
 
 const getFormattedFolioLibraries = (folioLibraryIds, folioLibraries) => {
   const folioLibraryCodesArr = folioLibraryIds.map(id => folioLibraries.find((lib) => lib.id === id).code);
-  const folioLibraryCodesString = folioLibraryCodesArr.length
+
+  return folioLibraryCodesArr.length
     ? folioLibraryCodesArr.join(', ')
     : <NoValue />;
-
-  return folioLibraryCodesString;
 };
 
 const GeneralInformation = ({
