@@ -11,6 +11,7 @@ import { translationsProperties } from '../../../../../test/jest/helpers';
 import {
   CENTRAL_SERVER_CONFIGURATION_FIELDS,
 } from '../../../../constants';
+import { CentralServersConfigurationContext } from '../../../../contexts';
 
 const data = {
   folioLibraries: [
@@ -51,14 +52,15 @@ const RenderForm = ({
 }) => {
   return (
     <MemoryRouter>
-      <CentralServersConfigurationForm
-        data={data}
-        initialValues={initialValues}
-        isCentralServerDataInvalid={false}
-        saveLocalServerKeypair={jest.fn()}
-        onCancel={onCancel}
-        onSubmit={onSubmit}
-      />
+      <CentralServersConfigurationContext.Provider value={data}>
+        <CentralServersConfigurationForm
+          initialValues={initialValues}
+          isCentralServerDataInvalid={false}
+          saveLocalServerKeypair={jest.fn()}
+          onCancel={onCancel}
+          onSubmit={onSubmit}
+        />
+      </CentralServersConfigurationContext.Provider>
     </MemoryRouter>
   );
 };

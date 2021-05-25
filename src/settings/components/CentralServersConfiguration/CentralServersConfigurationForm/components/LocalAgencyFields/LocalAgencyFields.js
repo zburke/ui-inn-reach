@@ -22,7 +22,7 @@ const LocalAgencyFields = ({
 }) => {
   const newItemTemplate = {
     localAgency: '',
-    FOLIOLibraries: '',
+    FOLIOLibraries: [],
   };
   const librariesTypeOptions = librariesTypes.map(it => ({
     label: it.name,
@@ -45,7 +45,7 @@ const LocalAgencyFields = ({
                       required
                       htmlFor="localAgency"
                     >
-                      {intl.formatMessage({ id: 'ui-inn-reach.localAgency' })}
+                      {intl.formatMessage({ id: 'ui-inn-reach.settings.central-server-configuration.local-agency.field.code' })}
                     </Label>
                   </Col>
                   <Col
@@ -56,7 +56,7 @@ const LocalAgencyFields = ({
                       required
                       htmlFor="FOLIOLibraries-input"
                     >
-                      {intl.formatMessage({ id: 'ui-inn-reach.FOLIOLibraries' })}
+                      {intl.formatMessage({ id: 'ui-inn-reach.settings.central-server-configuration.local-agency.field.libraries' })}
                     </Label>
                   </Col>
                 </Row>
