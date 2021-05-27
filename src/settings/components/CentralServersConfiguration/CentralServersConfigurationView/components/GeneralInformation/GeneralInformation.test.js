@@ -40,20 +40,18 @@ const centralServer = {
   CENTRAL_SERVER_CONFIGURATION_FIELDS,
 };
 
-const RenderGeneralInformation = () => {
-  return (
-    <CentralServersConfigurationContext.Provider
-      value={{
-        loanTypes,
-        folioLibraries,
-      }}
-    >
-      <GeneralInformation
-        centralServer={centralServer}
-      />
-    </CentralServersConfigurationContext.Provider>
-  );
-};
+const RenderGeneralInformation = () => (
+  <CentralServersConfigurationContext.Provider
+    value={{
+      loanTypes,
+      folioLibraries,
+    }}
+  >
+    <GeneralInformation
+      centralServer={centralServer}
+    />
+  </CentralServersConfigurationContext.Provider>
+);
 
 describe('GeneralInformation component', () => {
   beforeEach(() => (
