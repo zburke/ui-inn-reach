@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import {
   PaneHeaderIconButton,
   PaneMenu,
-} from '@folio/stripes/components';
+} from '@folio/stripes-components';
 
 const FirsrMenuCloseButton = ({
   onClickHandler,

@@ -55,7 +55,7 @@ const CentralServersConfigurationRootLayer = ({
   return (
     <CentralServersConfigurationContext.Provider
       value={{
-        folioLibraries: folioLibraries.loclibs,
+        folioLibraries,
         loanTypes,
       }}
     >

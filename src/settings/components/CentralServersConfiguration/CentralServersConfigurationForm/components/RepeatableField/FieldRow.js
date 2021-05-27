@@ -1,4 +1,7 @@
-import React, { useRef } from 'react';
+import React, {
+  useEffect,
+  useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import uniqueId from 'lodash/uniqueId';
 import { Field } from 'react-final-form';
@@ -34,6 +37,8 @@ const FieldRow = ({
   legendClass,
   fieldsContainerClass,
   buttonsContainerClass,
+  addDefaultItem,
+  addDefault,
 }) => {
   const srstatus = useRef();
   const addButtonId = addBtnId || uniqueId(`${label}AddButton`);
@@ -103,6 +108,7 @@ const FieldRow = ({
         fullWidth
         name={name ? `${fields.name}[${fieldIndex}].${name}` : `${fields.name}[${fieldIndex}]`}
         component={formatter}
+        id={field.id || uniqueId(field)}
         templateIndex={templateIndex}
         {...labelProps}
         data-key={fieldIndex}
@@ -111,6 +117,12 @@ const FieldRow = ({
       />
     );
   };
+
+  useEffect(() => {
+    if (!fields.length && addDefaultItem) {
+      addDefault(fields);
+    }
+  }, []);
 
   return (
     <div
@@ -206,6 +218,8 @@ const FieldRow = ({
 
 FieldRow.propTypes = {
   addButtonId: PropTypes.string,
+  addDefault: PropTypes.func,
+  addDefaultItem: PropTypes.bool,
   addLabel: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   buttonsContainerClass: PropTypes.string,
   canAdd: PropTypes.bool,

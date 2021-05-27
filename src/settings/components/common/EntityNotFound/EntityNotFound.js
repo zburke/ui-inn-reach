@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import {
   Pane,
   MessageBanner,
-} from '@folio/stripes/components';
+} from '@folio/stripes-components';
 
 const EntityNotFound = ({
   pageTitleTranslationKey,

@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {
@@ -26,6 +30,7 @@ import {
 } from '@folio/stripes-components';
 import stripesFinalForm from '@folio/stripes/final-form';
 
+import { CentralServersConfigurationContext } from '../../../../contexts';
 import LocalAgencyFields from './components/LocalAgencyFields';
 
 import {
@@ -48,26 +53,33 @@ const validate = (values) => ({
 const CentralConfigurationForm = ({
   saveLocalServerKeypair,
   initialValues,
+  isLocalServerToPrevValue,
+  changeIsLocalServerToPrevValue,
   onCancel,
   handleSubmit,
   invalid,
   isCentralServerDataInvalid,
   dirtyFieldsSinceLastSubmit,
-  data,
   form,
+  pristine,
 }) => {
+  const data = useContext(CentralServersConfigurationContext);
   const [sections, setSections] = useState({
     section1: true,
     section2: true,
   });
+
+  const changeLocalServerKeypair = (localServerKey, localServerSecret) => {
+    form.change(CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY, localServerKey);
+    form.change(CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET, localServerSecret);
+  };
 
   const generateKeyAndSecret = () => {
     const localServerKey = uuidv4();
     const localServerSecret = uuidv4();
     const exportData = { localServerKey, localServerSecret };
 
-    form.change(CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY, localServerKey);
-    form.change(CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET, localServerSecret);
+    changeLocalServerKeypair(localServerKey, localServerSecret);
     saveLocalServerKeypair(exportData);
   };
 
@@ -75,10 +87,20 @@ const CentralConfigurationForm = ({
     setSections(prevState => ({ ...prevState, [id]: !prevState[id] }));
   };
 
+  useEffect(() => {
+    if (isLocalServerToPrevValue) {
+      changeLocalServerKeypair(
+        initialValues[CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY],
+        initialValues[CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET]
+      );
+      changeIsLocalServerToPrevValue(false);
+    }
+  }, [isLocalServerToPrevValue]);
+
   const getPaneTitle = () => {
-    const titleTranslationKey = initialValues.id
-      ? 'ui-inn-reach.editCentralServerConfig'
-      : 'ui-inn-reach.newCentralServerConfig';
+    const titleTranslationKey = initialValues?.id
+      ? 'ui-inn-reach.settings.central-server-configuration.edit.title.edit'
+      : 'ui-inn-reach.settings.central-server-configuration.create.title.newCentralServerConfig';
 
     return (
       <span data-test-header-title>
@@ -102,7 +124,7 @@ const CentralConfigurationForm = ({
         id="cancel-instance-edition"
         onClick={onCancel}
       >
-        <FormattedMessage id="ui-inn-reach.cancel" />
+        <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.button.cancel" />
       </Button>
     );
 
@@ -112,10 +134,10 @@ const CentralConfigurationForm = ({
         id="clickable-save-instance"
         buttonStyle="primary mega"
         type="submit"
-        disabled={invalid || isCentralServerInvalid}
+        disabled={invalid || isCentralServerInvalid || pristine}
         onClick={handleSubmit}
       >
-        <FormattedMessage id="ui-inn-reach.save&close" />
+        <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.button.save&close" />
       </Button>
     );
 
@@ -165,7 +187,7 @@ const CentralConfigurationForm = ({
             <Accordion
               label={
                 <h3>
-                  <FormattedMessage id="ui-inn-reach.generalInformation" />
+                  <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.accordion.generalInformation.title" />
                 </h3>
               }
               id="section1"
@@ -179,7 +201,7 @@ const CentralConfigurationForm = ({
                     name={CENTRAL_SERVER_CONFIGURATION_FIELDS.NAME}
                     type="text"
                     component={TextField}
-                    label={<FormattedMessage id={`ui-inn-reach.${CENTRAL_SERVER_CONFIGURATION_FIELDS.NAME}`} />}
+                    label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.name" />}
                     validate={validateRequired}
                   />
                 </Col>
@@ -188,7 +210,7 @@ const CentralConfigurationForm = ({
                 <Col sm={6}>
                   <Field
                     name={CENTRAL_SERVER_CONFIGURATION_FIELDS.DESCRIPTION}
-                    label={<FormattedMessage id={`ui-inn-reach.${CENTRAL_SERVER_CONFIGURATION_FIELDS.DESCRIPTION}`} />}
+                    label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.description" />}
                     component={TextArea}
                   />
                 </Col>
@@ -200,7 +222,7 @@ const CentralConfigurationForm = ({
                     name={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_CODE}
                     type="text"
                     component={TextField}
-                    label={<FormattedMessage id={`ui-inn-reach.${CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_CODE}`} />}
+                    label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.localServerCode" />}
                     validate={validateLocalServerCode}
                   />
                 </Col>
@@ -211,7 +233,7 @@ const CentralConfigurationForm = ({
                   <Field
                     required
                     data-testid="borrowedItemLoanType"
-                    label={<FormattedMessage id="ui-inn-reach.borrowedItemLoanType" />}
+                    label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.borrowedItemLoanType" />}
                     name={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOAN_TYPE_ID}
                     type="text"
                     placeholder=" "
@@ -225,7 +247,7 @@ const CentralConfigurationForm = ({
             <Accordion
               label={
                 <h3>
-                  <FormattedMessage id="ui-inn-reach.serverConnection" />
+                  <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.accordion.serverConnection.title" />
                 </h3>
               }
               open={sections.section2}
@@ -239,7 +261,7 @@ const CentralConfigurationForm = ({
                     name={CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_ADDRESS}
                     type="text"
                     component={TextField}
-                    label={<FormattedMessage id={`ui-inn-reach.${CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_ADDRESS}`} />}
+                    label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.centralServerAddress" />}
                     validate={validateRequired}
                   />
                 </Col>
@@ -249,7 +271,7 @@ const CentralConfigurationForm = ({
                     name={CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_KEY}
                     type="text"
                     component={TextField}
-                    label={<FormattedMessage id={`ui-inn-reach.${CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_KEY}`} />}
+                    label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.centralServerKey" />}
                     validate={validateRequired}
                   />
                 </Col>
@@ -259,7 +281,7 @@ const CentralConfigurationForm = ({
                     name={CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_SECRET}
                     type="text"
                     component={TextField}
-                    label={<FormattedMessage id={`ui-inn-reach.${CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_SECRET}`} />}
+                    label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.centralServerSecret" />}
                     validate={validateRequired}
                   />
                 </Col>
@@ -270,7 +292,7 @@ const CentralConfigurationForm = ({
                     {({ input }) => (
                       <>
                         <Label htmlFor={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}>
-                          <FormattedMessage id={`ui-inn-reach.${CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}`} />
+                          <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.localServerKey" />
                         </Label>
                         <div className={classNames(styles.formControl, styles.isDisabled, styles.inputGroup)}>
                           <input
@@ -290,7 +312,7 @@ const CentralConfigurationForm = ({
                     {({ input }) => (
                       <>
                         <Label htmlFor={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}>
-                          <FormattedMessage id={`ui-inn-reach.${CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}`} />
+                          <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.localServerSecret" />
                         </Label>
                         <div className={classNames(styles.formControl, styles.isDisabled, styles.inputGroup)}>
                           <input
@@ -313,7 +335,7 @@ const CentralConfigurationForm = ({
                     id="cancel-instance-edition"
                     onClick={generateKeyAndSecret}
                   >
-                    <FormattedMessage id="ui-inn-reach.generateKeypair" />
+                    <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.button.generateKeypair" />
                   </Button>
                 </Col>
               </Row>
@@ -326,29 +348,18 @@ const CentralConfigurationForm = ({
 };
 
 CentralConfigurationForm.propTypes = {
-  data: PropTypes.object.isRequired,
   dirtyFieldsSinceLastSubmit: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool.isRequired,
-  isCentralServerDataInvalid: PropTypes.bool.isRequired,
   saveLocalServerKeypair: PropTypes.func.isRequired,
-  copy: PropTypes.bool,
+  changeIsLocalServerToPrevValue: PropTypes.func,
   form: PropTypes.object,
   initialValues: PropTypes.object,
-  instanceSource: PropTypes.string,
+  isCentralServerDataInvalid: PropTypes.bool,
+  isLocalServerToPrevValue: PropTypes.bool,
   pristine: PropTypes.bool,
-  resources: PropTypes.shape({
-    blockedFields: PropTypes.shape({
-      records: PropTypes.arrayOf(PropTypes.object),
-    }),
-  }),
-  submitting: PropTypes.bool,
   onCancel: PropTypes.func,
   onClose: PropTypes.func,
-};
-CentralConfigurationForm.defaultProps = {
-  initialValues: {},
-  instanceSource: 'FOLIO',
 };
 
 export default stripesFinalForm({
