@@ -4,7 +4,6 @@ import {
   validateLocalAgency,
 } from './formValidation';
 
-
 describe('formValidation utils', () => {
   describe('validateRequired', () => {
     it('should return the correct value', () => {
