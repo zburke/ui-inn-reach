@@ -23,6 +23,8 @@ import {
 import { CentralServersConfigurationContext } from '../../../../../../contexts';
 
 const getFormattedFolioLibraries = (folioLibraryIds, folioLibraries) => {
+  // eslint-disable-next-line no-param-reassign
+  folioLibraryIds = Array.isArray(folioLibraryIds) ? folioLibraryIds : [];
   const folioLibraryCodesArr = folioLibraryIds.map(id => folioLibraries.find((lib) => lib.id === id).code);
 
   return folioLibraryCodesArr.length

@@ -75,7 +75,7 @@ const CentralServersConfigurationView = ({
         <Row>
           <Col xs={9}>
             <Headline
-              data-testID="view-headline"
+              data-testid="view-headline"
               size="x-large"
               tag="h2"
               margin="small"
@@ -88,7 +88,7 @@ const CentralServersConfigurationView = ({
             <Row end="xs">
               <Col
                 xs
-                data-testId="expand-all-button"
+                data-testid="expand-all-button"
               >
                 <ExpandAllButton />
               </Col>
@@ -97,7 +97,7 @@ const CentralServersConfigurationView = ({
         </Row>
         <AccordionSet initialStatus={INITIAL_CENTRAL_SERVER_CONFIGURATION_ACCORDION_STATE}>
           <GeneralInformation centralServer={centralServer} />
-          <ServerConnection entralServer={centralServer} />
+          <ServerConnection centralServer={centralServer} />
         </AccordionSet>
       </AccordionStatus>
     </Pane>
