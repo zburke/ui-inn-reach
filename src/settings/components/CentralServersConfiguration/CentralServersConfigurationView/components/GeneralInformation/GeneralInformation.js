@@ -12,7 +12,7 @@ import {
   NoValue,
   MultiColumnList,
 } from '@folio/stripes-components';
-import { ViewMetaData } from '@folio/stripes/smart-components';
+import { ViewMetaData } from '@folio/stripes-smart-components';
 
 import {
   GENERAL_ACCORDION_NAME,
