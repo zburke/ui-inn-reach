@@ -14,6 +14,8 @@ import {
 
 import CentralServersConfigurationContext from '../../../../../../contexts/CentralServersConfigurationContext';
 
+jest.mock('@folio/stripes-smart-components', () => ({ ViewMetaData: jest.fn(() => <div>ViewMetaData</div>) }));
+
 const folioLibraries = [
   {
     name: 'Online',
@@ -82,17 +84,6 @@ describe('GeneralInformation component', () => {
       expect(generalInformationBtn.getAttribute('aria-expanded')).toBe('false');
       userEvent.click(generalInformationBtn);
       expect(generalInformationBtn.getAttribute('aria-expanded')).toBe('true');
-    });
-  });
-
-  describe('metadata accordion', () => {
-    it('should be collapsed after click', () => {
-      const lastUpdatedBtn = document.querySelector('.metaHeaderButton');
-
-      userEvent.click(lastUpdatedBtn);
-      expect(lastUpdatedBtn.getAttribute('aria-expanded')).toBe('true');
-      userEvent.click(lastUpdatedBtn);
-      expect(lastUpdatedBtn.getAttribute('aria-expanded')).toBe('false');
     });
   });
 
