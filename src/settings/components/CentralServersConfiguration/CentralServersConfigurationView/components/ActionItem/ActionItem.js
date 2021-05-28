@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import {
   Button,
   Icon,
-} from '@folio/stripes/components';
+} from '@folio/stripes-components';
 
 import css from './ActionItem.css';
 

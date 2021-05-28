@@ -8,7 +8,7 @@ import {
   Row,
   KeyValue,
   NoValue,
-} from '@folio/stripes/components';
+} from '@folio/stripes-components';
 
 import {
   SERVER_CONNECTION_ACCORDION_NAME,

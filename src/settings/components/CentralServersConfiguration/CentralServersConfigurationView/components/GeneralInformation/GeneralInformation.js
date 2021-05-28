@@ -11,7 +11,7 @@ import {
   KeyValue,
   NoValue,
   MultiColumnList,
-} from '@folio/stripes/components';
+} from '@folio/stripes-components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 
 import {
