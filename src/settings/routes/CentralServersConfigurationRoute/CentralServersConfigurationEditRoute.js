@@ -46,7 +46,6 @@ const CentralServersConfigurationEditRoute = ({
     folioLibraries,
   } = useContext(CentralServersConfigurationContext);
 
-  const [localServerKeypair, setLocalServerKeypair] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const [modalContent, setModalContent] = useState({});
   const [formData, setFormData] = useState({});
@@ -69,6 +68,12 @@ const CentralServersConfigurationEditRoute = ({
   };
 
   const saveData = (actualFormData) => {
+    const {
+      name,
+      localServerKey,
+      localServerSecret,
+    } = actualFormData;
+
     const finalData = {
       ...actualFormData,
       localAgencies: getConvertedLocalAgenciesToCreateEdit(actualFormData.localAgencies),
@@ -77,7 +82,10 @@ const CentralServersConfigurationEditRoute = ({
     mutator.centralServerRecord.PUT(finalData)
       .then(() => {
         if (isLocalServerKeypairChanged(actualFormData)) {
-          downloadJsonFile(localServerKeypair, `${actualFormData.name}-local-server-keypair`);
+          const fileName = `${name}-local-server-keypair`;
+          const exportData = { localServerKey, localServerSecret };
+
+          downloadJsonFile(exportData, fileName);
         }
 
         navigateToView();
@@ -98,10 +106,6 @@ const CentralServersConfigurationEditRoute = ({
   const handleModalConfirm = () => {
     setOpenModal(false);
     saveData(formData);
-  };
-
-  const saveLocalServerKeypair = (exportData) => {
-    setLocalServerKeypair(exportData);
   };
 
   const showPreviousLocalServerValue = (value) => {
@@ -160,7 +164,6 @@ const CentralServersConfigurationEditRoute = ({
       openModal={openModal}
       modalContent={modalContent}
       onShowPreviousLocalServerValue={showPreviousLocalServerValue}
-      onSaveLocalServerKeypair={saveLocalServerKeypair}
       onFormCancel={navigateToView}
       onSubmit={handleUpdateRecord}
       onModalCancel={handleModalCancel}

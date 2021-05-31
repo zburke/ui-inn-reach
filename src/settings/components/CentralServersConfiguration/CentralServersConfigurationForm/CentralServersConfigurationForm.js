@@ -51,7 +51,6 @@ const validate = (values) => ({
 });
 
 const CentralConfigurationForm = ({
-  onSaveLocalServerKeypair,
   initialValues,
   showPrevLocalServerValue,
   onShowPreviousLocalServerValue,
@@ -77,10 +76,8 @@ const CentralConfigurationForm = ({
   const generateKeyAndSecret = () => {
     const localServerKey = uuidv4();
     const localServerSecret = uuidv4();
-    const exportData = { localServerKey, localServerSecret };
 
     changeLocalServerKeypair(localServerKey, localServerSecret);
-    onSaveLocalServerKeypair(exportData);
   };
 
   const onToggleSection = ({ id }) => {
@@ -355,7 +352,6 @@ CentralConfigurationForm.propTypes = {
   invalid: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
-  onSaveLocalServerKeypair: PropTypes.func.isRequired,
   isCentralServerDataInvalid: PropTypes.bool,
   showPrevLocalServerValue: PropTypes.bool,
   onShowPreviousLocalServerValue: PropTypes.func,

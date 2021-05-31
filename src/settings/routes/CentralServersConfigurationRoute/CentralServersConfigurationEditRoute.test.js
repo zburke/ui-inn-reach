@@ -268,10 +268,12 @@ describe('CentralServersConfigurationEditRoute component', () => {
           },
         });
 
-        await waitFor(() => {
-          CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSaveLocalServerKeypair(newLocalServerData);
-          CentralServersConfigurationCreateEditContainer.mock.calls[1][0].onSubmit(valuesWithChangedLocalServerKeyPair);
-          CentralServersConfigurationCreateEditContainer.mock.calls[3][0].onModalConfirm();
+        act(() => {
+          CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(valuesWithChangedLocalServerKeyPair);
+        });
+
+        act(() => {
+          CentralServersConfigurationCreateEditContainer.mock.calls[2][0].onModalConfirm();
         });
       });
 

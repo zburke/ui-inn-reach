@@ -24,7 +24,6 @@ const CentralServersConfigurationCreateEditContainer = ({
   initialValues,
   showPrevLocalServerValue,
   isCentralServerDataInvalid,
-  onSaveLocalServerKeypair,
   onFormCancel,
   onSubmit,
   openModal,
@@ -49,7 +48,6 @@ const CentralServersConfigurationCreateEditContainer = ({
           initialValues={fieldsInitialValues}
           isCentralServerDataInvalid={isCentralServerDataInvalid}
           showPrevLocalServerValue={showPrevLocalServerValue}
-          onSaveLocalServerKeypair={onSaveLocalServerKeypair}
           onShowPreviousLocalServerValue={onShowPreviousLocalServerValue}
           onCancel={onFormCancel}
           onSubmit={onSubmit}
@@ -74,7 +72,6 @@ CentralServersConfigurationCreateEditContainer.propTypes = {
   onFormCancel: PropTypes.func.isRequired,
   onModalCancel: PropTypes.func.isRequired,
   onModalConfirm: PropTypes.func.isRequired,
-  onSaveLocalServerKeypair: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object,
   isCentralServerDataInvalid: PropTypes.bool,

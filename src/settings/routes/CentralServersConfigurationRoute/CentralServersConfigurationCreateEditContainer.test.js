@@ -40,7 +40,6 @@ const renderContainer = ({
   initialValues = undefined,
   isCentralServerDataInvalid = false,
   showPrevLocalServerValue = false,
-  onSaveLocalServerKeypair = jest.fn(),
   onShowPreviousLocalServerValue = jest.fn(),
   onFormCancel = jest.fn(),
   onSubmit = jest.fn(),
@@ -57,7 +56,6 @@ const renderContainer = ({
         showPrevLocalServerValue={showPrevLocalServerValue}
         openModal={openModal}
         modalContent={modalContent}
-        onSaveLocalServerKeypair={onSaveLocalServerKeypair}
         onShowPreviousLocalServerValue={onShowPreviousLocalServerValue}
         onFormCancel={onFormCancel}
         onSubmit={onSubmit}
@@ -85,7 +83,6 @@ describe('CentralServersConfigurationCreateEditContainer', () => {
       initialValues: records,
       isCentralServerDataInvalid: false,
       showPrevLocalServerValue: false,
-      onSaveLocalServerKeypair: jest.fn(),
       onShowPreviousLocalServerValue: jest.fn(),
       onFormCancel: jest.fn(),
       onSubmit: jest.fn(),
@@ -96,7 +93,6 @@ describe('CentralServersConfigurationCreateEditContainer', () => {
     expect(CentralServersConfigurationForm.mock.calls[0][0].initialValues).toEqual(props.initialValues);
     expect(CentralServersConfigurationForm.mock.calls[0][0].isCentralServerDataInvalid).toEqual(props.isCentralServerDataInvalid);
     expect(CentralServersConfigurationForm.mock.calls[0][0].showPrevLocalServerValue).toEqual(props.showPrevLocalServerValue);
-    expect(CentralServersConfigurationForm.mock.calls[0][0].onSaveLocalServerKeypair).toEqual(props.onSaveLocalServerKeypair);
     expect(CentralServersConfigurationForm.mock.calls[0][0].onShowPreviousLocalServerValue).toEqual(props.onShowPreviousLocalServerValue);
     expect(CentralServersConfigurationForm.mock.calls[0][0].onCancel).toEqual(props.onFormCancel);
     expect(CentralServersConfigurationForm.mock.calls[0][0].onSubmit).toEqual(props.onSubmit);
