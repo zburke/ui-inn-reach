@@ -48,18 +48,7 @@ const getEmptyFieldError = (localAgenciesValues) => {
   return errorList;
 };
 
-export const validateLocalAgency = (values) => {
-  const localAgenciesInitialValues = [
-    {
-      localAgency: '',
-      FOLIOLibraries: [],
-    },
-  ];
-
-  const localAgenciesValues = values?.localAgencies?.[0]
-    ? values.localAgencies
-    : localAgenciesInitialValues;
-
+export const validateLocalAgency = (localAgenciesValues) => {
   const errors = {};
   const errorList = [
     ...getEmptyFieldError(localAgenciesValues),

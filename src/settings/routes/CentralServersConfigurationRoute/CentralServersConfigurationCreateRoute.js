@@ -5,6 +5,9 @@ import React, {
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
+  isEmpty,
+} from 'lodash';
+import {
   FormattedMessage,
 } from 'react-intl';
 
@@ -55,8 +58,9 @@ const CentralServersConfigurationCreateRoute = ({
       .then(() => {
         const fileName = `${record.name}-local-server-keypair`;
 
-        setIsCentralServerDataInvalid(false);
-        downloadJsonFile(localServerKeypair, fileName);
+        if (!isEmpty(localServerKeypair)) {
+          downloadJsonFile(localServerKeypair, fileName);
+        }
         navigateToList();
         showCallout({ message: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create.success" /> });
       })
@@ -65,7 +69,7 @@ const CentralServersConfigurationCreateRoute = ({
 
         if (error.status === 400) {
           setIsCentralServerDataInvalid(true);
-          message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create.invalidData" />;
+          message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.invalidData" />;
         } else {
           message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.connectionProblem.post" />;
         }
@@ -94,7 +98,7 @@ const CentralServersConfigurationCreateRoute = ({
     <CentralServersConfigurationCreateEditContainer
       isCentralServerDataInvalid={isCentralServerDataInvalid}
       openModal={openModal}
-      saveLocalServerKeypair={saveLocalServerKeypair}
+      onSaveLocalServerKeypair={saveLocalServerKeypair}
       onFormCancel={navigateToList}
       onSubmit={handleCreateRecord}
       onModalCancel={navigateToList}

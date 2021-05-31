@@ -269,7 +269,7 @@ describe('CentralServersConfigurationEditRoute component', () => {
         });
 
         await waitFor(() => {
-          CentralServersConfigurationCreateEditContainer.mock.calls[0][0].saveLocalServerKeypair(newLocalServerData);
+          CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSaveLocalServerKeypair(newLocalServerData);
           CentralServersConfigurationCreateEditContainer.mock.calls[1][0].onSubmit(valuesWithChangedLocalServerKeyPair);
           CentralServersConfigurationCreateEditContainer.mock.calls[3][0].onModalConfirm();
         });
@@ -314,21 +314,21 @@ describe('CentralServersConfigurationEditRoute component', () => {
     });
   });
 
-  describe('changeIsLocalServerToPrevValue', () => {
-    it('should be passed as changeIsLocalServerToPrevValue prop', () => {
+  describe('onShowPreviousLocalServerValue', () => {
+    it('should be passed as onShowPreviousLocalServerValue prop', () => {
       renderEditRoute();
 
-      expect(CentralServersConfigurationCreateEditContainer.mock.calls[0][0].changeIsLocalServerToPrevValue).toBeDefined();
+      expect(CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onShowPreviousLocalServerValue).toBeDefined();
     });
 
     it('should pass correct props to CentralServersConfigurationCreateEditContainer after call', () => {
       renderEditRoute();
 
       act(() => {
-        CentralServersConfigurationCreateEditContainer.mock.calls[0][0].changeIsLocalServerToPrevValue(true);
+        CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onShowPreviousLocalServerValue(true);
       });
 
-      expect(CentralServersConfigurationCreateEditContainer.mock.calls[2][0]).toHaveProperty('isLocalServerToPrevValue', true);
+      expect(CentralServersConfigurationCreateEditContainer.mock.calls[2][0]).toHaveProperty('showPrevLocalServerValue', true);
     });
   });
 });

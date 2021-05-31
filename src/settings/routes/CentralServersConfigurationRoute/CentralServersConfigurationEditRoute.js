@@ -50,7 +50,7 @@ const CentralServersConfigurationEditRoute = ({
   const [openModal, setOpenModal] = useState(false);
   const [modalContent, setModalContent] = useState({});
   const [formData, setFormData] = useState({});
-  const [isLocalServerToPrevValue, setIsLocalServerToPrevValue] = useState(false);
+  const [showPrevLocalServerValue, setShowPrevLocalServerValue] = useState(false);
   const [initialValues, setInitialValues] = useState({});
 
   const navigateToView = () => history.push(getCentralServerConfigurationViewUrl(id));
@@ -62,7 +62,7 @@ const CentralServersConfigurationEditRoute = ({
 
   const handleModalCancel = () => {
     if (isLocalServerKeypairChanged(formData)) {
-      setIsLocalServerToPrevValue(true);
+      setShowPrevLocalServerValue(true);
     }
 
     setOpenModal(false);
@@ -104,8 +104,8 @@ const CentralServersConfigurationEditRoute = ({
     setLocalServerKeypair(exportData);
   };
 
-  const changeIsLocalServerToPrevValue = (value) => {
-    setIsLocalServerToPrevValue(value);
+  const showPreviousLocalServerValue = (value) => {
+    setShowPrevLocalServerValue(value);
   };
 
   const handleUpdateRecord = (record) => {
@@ -156,11 +156,11 @@ const CentralServersConfigurationEditRoute = ({
   return (
     <CentralServersConfigurationCreateEditContainer
       initialValues={initialValues}
-      isLocalServerToPrevValue={isLocalServerToPrevValue}
+      showPrevLocalServerValue={showPrevLocalServerValue}
       openModal={openModal}
       modalContent={modalContent}
-      changeIsLocalServerToPrevValue={changeIsLocalServerToPrevValue}
-      saveLocalServerKeypair={saveLocalServerKeypair}
+      onShowPreviousLocalServerValue={showPreviousLocalServerValue}
+      onSaveLocalServerKeypair={saveLocalServerKeypair}
       onFormCancel={navigateToView}
       onSubmit={handleUpdateRecord}
       onModalCancel={handleModalCancel}
