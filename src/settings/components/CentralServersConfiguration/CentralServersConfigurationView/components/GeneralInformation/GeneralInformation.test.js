@@ -56,20 +56,19 @@ const RenderGeneralInformation = () => (
 );
 
 describe('GeneralInformation component', () => {
-  beforeEach(() => (
-    renderWithIntl(
-      RenderGeneralInformation(),
-      translationsProperties,
-    )
-  ));
+  let renderedGeneralInformation;
 
-  it('should be rendered', () => {
-    const component = () => renderWithIntl(
+  beforeEach(() => {
+    renderedGeneralInformation = renderWithIntl(
       RenderGeneralInformation(),
       translationsProperties,
     );
 
-    expect(component()).toBeDefined();
+    return renderedGeneralInformation;
+  });
+
+  it('should be rendered', () => {
+    expect(renderedGeneralInformation).toBeDefined();
   });
 
   it('should display `General information` section title', () => {

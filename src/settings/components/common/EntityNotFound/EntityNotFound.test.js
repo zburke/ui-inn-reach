@@ -29,24 +29,21 @@ const RenderEntityNotFound = ({
 describe('EntityNotFound component', () => {
   const handleClickBack = jest.fn();
 
-  beforeEach(() => (
-    renderWithIntl(
+  let renderedEntityNotFound;
+
+  beforeEach(() => {
+    renderedEntityNotFound = renderWithIntl(
       <RenderEntityNotFound
         onBack={handleClickBack}
       />,
       translationsProperties,
-    )
-  ));
-
-  it('should be rendered', () => {
-    const component = (handleBack) => renderWithIntl(
-      <RenderEntityNotFound
-        onBack={handleBack}
-      />,
-      translationsProperties,
     );
 
-    expect(component(handleClickBack)).toBeDefined();
+    return renderedEntityNotFound;
+  });
+
+  it('should be rendered', () => {
+    expect(renderedEntityNotFound).toBeDefined();
   });
 
   it('should display Close button', () => {

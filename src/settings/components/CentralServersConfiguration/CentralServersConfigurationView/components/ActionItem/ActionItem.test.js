@@ -15,8 +15,8 @@ const idDelete = 'deleteCentralServerConfigurationAction';
 const buttonTextTranslationKeyDelete = 'ui-inn-reach.settings.central-server-configuration.action.delete';
 
 const RenderActionItem = ({
-  id = idEdit,
-  buttonTextTranslationKey = buttonTextTranslationKeyEdit,
+  id,
+  buttonTextTranslationKey,
   onClickHandler,
   onToggle,
 }) => {
@@ -36,71 +36,62 @@ describe('ActionItem component', () => {
   const handleClickDelete = jest.fn();
   const handleToggle = jest.fn();
 
-  beforeEach(() => (
-    renderWithIntl(
-      <RenderActionItem
-        onClickHandler={handleClickEdit}
-        onToggle={handleToggle}
-      />,
-      translationsProperties,
-    )
-  ));
+  const renderedActionItem = (
+    id = idEdit,
+    buttonTextTranslationKey = buttonTextTranslationKeyEdit,
+    onClick = handleClickEdit,
+    onToggle = handleToggle,
+  ) => renderWithIntl(
+    <RenderActionItem
+      id={id}
+      buttonTextTranslationKey={buttonTextTranslationKey}
+      onClickHandler={onClick}
+      onToggle={onToggle}
+    />,
+    translationsProperties,
+  );
 
   it('should be rendered', () => {
-    const component = (handleClick) => renderWithIntl(
-      <RenderActionItem
-        onClickHandler={handleClick}
-        onToggle={handleToggle}
-      />,
-      translationsProperties,
-    );
+    const component = renderedActionItem();
 
-    expect(component(handleClickEdit)).toBeDefined();
+    expect(component).toBeDefined();
   });
 
   it('should display button', () => {
+    renderedActionItem();
+
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
   it('should display Edit button', () => {
+    renderedActionItem();
+
     expect(screen.getByRole('button', { name: /Edit/ })).toBeInTheDocument();
   });
 
   it('should display Delete button', () => {
-    renderWithIntl(
-      <RenderActionItem
-        id={idDelete}
-        buttonTextTranslationKey={buttonTextTranslationKeyDelete}
-        onClickHandler={handleClickDelete}
-        onToggle={handleToggle}
-      />,
-      translationsProperties,
-    );
+    renderedActionItem(idDelete, buttonTextTranslationKeyDelete, handleClickDelete);
 
     expect(screen.getByRole('button', { name: /Delete/ })).toBeInTheDocument();
   });
 
   it('should invoke onEdit callback', () => {
+    renderedActionItem();
+
     userEvent.click(screen.getByRole('button', { name: /Edit/ }));
     expect(handleClickEdit).toBeCalled();
   });
 
   it('should invoke onDelete callback', () => {
-    renderWithIntl(
-      <RenderActionItem
-        id={idDelete}
-        buttonTextTranslationKey={buttonTextTranslationKeyDelete}
-        onClickHandler={handleClickDelete}
-        onToggle={handleToggle}
-      />,
-      translationsProperties,
-    );
+    renderedActionItem(idDelete, buttonTextTranslationKeyDelete, handleClickDelete);
 
     userEvent.click(screen.getByRole('button', { name: /Delete/ }));
     expect(handleClickDelete).toBeCalled();
   });
 
   it('should invoke onToggle callback', () => {
+    renderedActionItem();
+
     userEvent.click(screen.getByRole('button', { name: /Edit/ }));
     expect(handleToggle).toBeCalled();
   });

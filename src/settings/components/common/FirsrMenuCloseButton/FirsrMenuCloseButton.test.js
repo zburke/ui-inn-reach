@@ -21,24 +21,21 @@ const RenderFirsrMenuCloseButton = ({
 describe('FirsrMenuCloseButton component', () => {
   const handleClick = jest.fn();
 
-  beforeEach(() => (
-    renderWithIntl(
-      <RenderFirsrMenuCloseButton
-        onClickHandler={handleClick}
-      />,
-      translationsProperties,
-    )
-  ));
+  let renderedCloseButton;
 
-  it('should be rendered', () => {
-    const component = () => renderWithIntl(
+  beforeEach(() => {
+    renderedCloseButton = renderWithIntl(
       <RenderFirsrMenuCloseButton
         onClickHandler={handleClick}
       />,
       translationsProperties,
     );
 
-    expect(component()).toBeDefined();
+    return renderedCloseButton;
+  });
+
+  it('should be rendered', () => {
+    expect(renderedCloseButton).toBeDefined();
   });
 
   it('should display button', () => {

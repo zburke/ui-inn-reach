@@ -43,64 +43,56 @@ describe('CentralServerConfigurationView component', () => {
   const handleDelete = jest.fn();
   const handleEdit = jest.fn();
 
-  beforeEach(() => (
-    renderWithIntl(
-      <RenderView
-        paneTitle={handlePaneTitle}
-        onBack={handleBack}
-        onDelete={handleDelete}
-        onEdit={handleEdit}
-      />,
-      translationsProperties,
-    )
-  ));
+  const renderedView = (showActionMenu = true) => renderWithIntl(
+    <RenderView
+      showActionMenu={showActionMenu}
+      paneTitle={handlePaneTitle}
+      onBack={handleBack}
+      onDelete={handleDelete}
+      onEdit={handleEdit}
+    />,
+    translationsProperties,
+  );
 
   it('should be rendered', () => {
-    const component = () => renderWithIntl(
-      <RenderView
-        paneTitle={handlePaneTitle}
-        onBack={handleBack}
-        onDelete={handleDelete}
-        onEdit={handleEdit}
-      />,
-      translationsProperties,
-    );
+    const component = renderedView();
 
-    expect(component()).toBeDefined();
+    expect(component).toBeDefined();
   });
 
   it('should display Cancel icon button', () => {
+    renderedView();
+
     expect(document.querySelector('#pane-header-dismiss-button').getAttribute('aria-label')).toEqual('Cancel');
   });
 
   it('should display `Actions` menu', () => {
-    renderWithIntl(
-      <RenderView
-        showActionMenu
-        paneTitle={handlePaneTitle}
-        onBack={handleBack}
-        onDelete={handleDelete}
-        onEdit={handleEdit}
-      />,
-      translationsProperties,
-    );
+    renderedView();
 
     expect(screen.getByText('Actions')).toBeDefined();
   });
 
   it('should not display `Actions` menu', () => {
+    renderedView(false);
+
     expect(screen.queryByText('Actions')).toBeNull();
   });
 
   it('should display `Collapse all` button', () => {
+    renderedView();
+
     expect(screen.getByText('Collapse all')).toBeDefined();
   });
 
   it('should render `GeneralInformation` component', () => {
+    renderedView();
+
     expect(screen.getByText('GeneralInformation component')).toBeDefined();
   });
 
   it('should render `ServerConnection` component', () => {
+    renderedView();
+
     expect(screen.getByText('ServerConnection component')).toBeDefined();
   });
 });

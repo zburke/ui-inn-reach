@@ -25,20 +25,19 @@ const RenderServerConnection = (centralServerData) => {
 };
 
 describe('ServerConnection component', () => {
-  beforeEach(() => (
-    renderWithIntl(
-      RenderServerConnection(centralServer),
-      translationsProperties,
-    )
-  ));
+  let renderedServerConnection;
 
-  it('should be rendered', () => {
-    const component = () => renderWithIntl(
+  beforeEach(() => {
+    renderedServerConnection = renderWithIntl(
       RenderServerConnection(centralServer),
       translationsProperties,
     );
 
-    expect(component()).toBeDefined();
+    return renderedServerConnection;
+  });
+
+  it('should be rendered', () => {
+    expect(renderedServerConnection).toBeDefined();
   });
 
   it('should display `Server connection` section title', () => {
@@ -60,18 +59,8 @@ describe('ServerConnection component', () => {
 
     const testCentralServer = {
       CENTRAL_SERVER_CONFIGURATION_FIELDS: {
-        ID: 'id',
-        NAME: 'name',
-        METADATA: 'metadata',
-        DESCRIPTION: 'description',
-        LOCAL_SERVER_CODE: 'localServerCode',
+        ...CENTRAL_SERVER_CONFIGURATION_FIELDS,
         CENTRAL_SERVER_ADDRESS: '',
-        LOAN_TYPE_ID: 'loanTypeId',
-        LOCAL_AGENCIES: 'localAgencies',
-        CENTRAL_SERVER_KEY: 'centralServerKey',
-        CENTRAL_SERVER_SECRET: 'centralServerSecret',
-        LOCAL_SERVER_KEY: 'localServerKey',
-        LOCAL_SERVER_SECRET: 'localServerSecret',
       },
     };
 
