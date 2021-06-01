@@ -7,7 +7,7 @@
 }
 
 .formControl {
-  composes: formControl isDisabled from '@folio/stripes-components/lib/sharedStyles/form.css';
+  composes: formControl isDisabled from '@folio/stripes-components/lib/sharedStyles/form.css'; /* stylelint-disable-line value-keyword-case */
 }
 
 .inputGroup input {

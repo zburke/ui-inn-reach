@@ -11,9 +11,14 @@
   "scripts": {
     "start": "stripes serve",
     "build": "stripes build --output ./output",
-    "test": "jest --coverage",
-    "lint": "eslint .",
-    "prepare": "husky install"
+    "test": "yarn run test:jest",
+    "test:jest": "jest --ci --coverage",
+    "lintfix": "eslint . --fix",
+    "prepare": "husky install",
+    "lint": "eslint ./ && stylelint \"src/**/*.css\"",
+    "eslint": "eslint ./",
+    "stylelint": "stylelint \"src/**/*.css\"",
+    "formatjs-compile": "formatjs compile-folder --ast --format simple ./translations/ui-inn-reach ./translations/ui-inn-reach/compiled"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.10.4",
@@ -24,6 +29,7 @@
     "@folio/stripes": "^6.0.0",
     "@folio/stripes-cli": "^1.20.0 || ^2.0.0",
     "@folio/stripes-core": "^7.0.0",
+    "@formatjs/cli": "^4.2.10",
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^11.0.2",
     "@testing-library/user-event": "^12.1.10",
@@ -33,8 +39,9 @@
     "core-js": "^3.6.1",
     "eslint": "^6.2.1",
     "eslint-plugin-jest": "^24.1.3",
-    "inflected": "^2.0.4",
+    "husky": "^6.0.0",
     "identity-obj-proxy": "^3.0.0",
+    "inflected": "^2.0.4",
     "jest": "^26.4.2",
     "jest-junit": "^12.0.0",
     "react": "^16.13.0",
@@ -45,10 +52,10 @@
     "redux": "^4.0.5",
     "regenerator-runtime": "^0.13.3",
     "sinon": "^7.3.2",
-    "stylelint": "^9.5.0",
-    "stylelint-config-standard": "^18.2.0",
-    "stylelint-junit-formatter": "^0.2.1",
-    "husky": "^6.0.0"
+    "stylelint": "^13.13.1",
+    "stylelint-config-css-modules": "^2.2.0",
+    "stylelint-config-standard": "^22.0.0",
+    "stylelint-junit-formatter": "^0.2.2"
   },
   "dependencies": {
     "@folio/stripes-data-transfer-components": "^4.0.0",
@@ -71,7 +78,14 @@
     ],
     "displayName": "ui-inn-reach.meta.title",
     "route": "/innreach",
-    "okapiInterfaces": {},
+    "okapiInterfaces": {
+      "inn-reach": "1.0",
+      "loan-types": "2.0",
+      "statistical-code-types": "1.0",
+      "statistical-codes": "1.0",
+      "location-units": "2.0",
+      "users": "15.0"
+    },
     "permissionSets": [
       {
         "permissionName": "module.inn-reach.enabled",
