@@ -45,8 +45,8 @@
 
   & div[class^="multiSelectControl--"],
   & div[class^="formControl"] {
-      margin-bottom: 0;
-      border: 1px solid #cacaca;
-      background-color: #f7f7f7;
-    }
+    margin-bottom: 0;
+    border: 1px solid #cacaca;
+    background-color: #f7f7f7;
+  }
 }
