@@ -38,10 +38,6 @@
     "core-js": "^3.6.1",
     "eslint": "^6.2.1",
     "eslint-plugin-jest": "^24.1.3",
-<<<<<<< HEAD
-=======
-    "husky": "^6.0.0",
->>>>>>> master
     "identity-obj-proxy": "^3.0.0",
     "inflected": "^2.0.4",
     "jest": "^26.4.2",
