@@ -7,7 +7,10 @@ import {
 } from '@folio/stripes/core';
 import { Callout } from '@folio/stripes-components';
 
-import { CentralServersConfigurationRoute } from './routes';
+import {
+  CentralServersConfigurationRoute,
+  InnreachLocations,
+} from './routes';
 import { CalloutContext } from '../contexts';
 import {
   SETTINGS_PANE_WIDTH,
@@ -21,6 +24,11 @@ const sections = [
         route: 'central-server-configurations',
         label: <FormattedMessage id="ui-inn-reach.settings.central-server.configuration" />,
         component: CentralServersConfigurationRoute,
+      },
+      {
+        route: 'locations',
+        label: <FormattedMessage id="ui-inn-reach.settings.central-server.locations" />,
+        component: InnreachLocations,
       },
     ],
   },
