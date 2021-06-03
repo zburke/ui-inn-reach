@@ -39,7 +39,9 @@ const loanTypes = [
 ];
 
 const centralServer = {
-  CENTRAL_SERVER_CONFIGURATION_FIELDS,
+  ...CENTRAL_SERVER_CONFIGURATION_FIELDS,
+  localAgencies: [{ id: 'test-id', code: 'testc', folioLibraryIds: ['c2549bb4-19c7-4fcc-8b52-39e612fb7dbe'] }],
+  loanTypeId: 'ac19815e-1d8e-473f-bd5a-3193cb301b8b',
 };
 
 const RenderGeneralInformation = () => (
