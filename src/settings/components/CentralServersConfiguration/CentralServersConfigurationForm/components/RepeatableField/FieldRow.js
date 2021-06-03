@@ -1,5 +1,4 @@
 import React, {
-  useEffect,
   useRef,
 } from 'react';
 import PropTypes from 'prop-types';
@@ -37,8 +36,6 @@ const FieldRow = ({
   legendClass,
   fieldsContainerClass,
   buttonsContainerClass,
-  addDefaultItem,
-  addDefault,
 }) => {
   const srstatus = useRef();
   const addButtonId = addBtnId || uniqueId(`${label}AddButton`);
@@ -117,12 +114,6 @@ const FieldRow = ({
       />
     );
   };
-
-  useEffect(() => {
-    if (!fields.length && addDefaultItem) {
-      addDefault(fields);
-    }
-  }, []);
 
   return (
     <div
@@ -218,8 +209,6 @@ const FieldRow = ({
 
 FieldRow.propTypes = {
   addButtonId: PropTypes.string,
-  addDefault: PropTypes.func,
-  addDefaultItem: PropTypes.bool,
   addLabel: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   buttonsContainerClass: PropTypes.string,
   canAdd: PropTypes.bool,
