@@ -24,7 +24,6 @@ import { CentralServersConfigurationContext } from '../../../../../../contexts';
 
 const getFormattedFolioLibraries = (folioLibraryIds, folioLibraries) => {
   // eslint-disable-next-line no-param-reassign
-  folioLibraryIds = Array.isArray(folioLibraryIds) ? folioLibraryIds : [];
   const folioLibraryCodesArr = folioLibraryIds.map(id => folioLibraries.find((lib) => lib.id === id).code);
 
   return folioLibraryCodesArr.length
@@ -58,7 +57,7 @@ const GeneralInformation = ({
 
   const resultsFormatter = {
     [LOCAL_AGENCIES_FIELDS.CODE]: (data) => (data[LOCAL_AGENCIES_FIELDS.CODE] || <NoValue />),
-    [LOCAL_AGENCIES_FIELDS.FOLIO_LIBRARY_IDs]: (data) => getFormattedFolioLibraries(data, folioLibraries),
+    [LOCAL_AGENCIES_FIELDS.FOLIO_LIBRARY_IDs]: (data) => getFormattedFolioLibraries(data.folioLibraryIds, folioLibraries),
   };
 
   return (
@@ -105,7 +104,7 @@ const GeneralInformation = ({
         <Col sm={12}>
           <MultiColumnList
             columnMapping={columnMapping}
-            contentData={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_AGENCIES}
+            contentData={centralServer[CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_AGENCIES]}
             formatter={resultsFormatter}
             id="centralCerverLocalAgencies"
             visibleColumns={visibleColumns}

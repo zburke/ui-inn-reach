@@ -65,7 +65,7 @@ const CentralServersConfigurationCreateRoute = ({
 
         if (error.status === 400) {
           setIsCentralServerDataInvalid(true);
-          message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create.invalidData" />;
+          message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.invalidData" />;
         } else {
           message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.connectionProblem.post" />;
         }

@@ -12,6 +12,7 @@ import {
 
 import {
   SERVER_CONNECTION_ACCORDION_NAME,
+  CENTRAL_SERVER_CONFIGURATION_FIELDS,
 } from '../../../../../../constants';
 
 const ServerConnection = ({
@@ -27,7 +28,7 @@ const ServerConnection = ({
           <KeyValue
             data-testid="central-server-configuration-view-fields-name"
             label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.view.field.address" />}
-            value={centralServer.CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_ADDRESS || <NoValue />}
+            value={centralServer[CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_ADDRESS] || <NoValue />}
           />
         </Col>
       </Row>
