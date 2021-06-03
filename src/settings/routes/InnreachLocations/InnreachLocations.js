@@ -18,7 +18,7 @@ const InnreachLocations = ({ stripes }) => {
     actions: <FormattedMessage id="ui-inn-reach.settings.innreach-locations.actions" />,
   };
   const getDisableAttr = () => ({
-    disabled: !stripes.hasPerm('ui-inn-reach.settings'),
+    disabled: false,
   });
   const actionProps = {
     create: getDisableAttr,
