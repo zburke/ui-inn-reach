@@ -47,14 +47,13 @@ import {
 import styles from './CentralServersConfigurationForm.css';
 
 const validate = (values) => ({
-  ...validateLocalAgency(values),
+  ...validateLocalAgency(values.localAgencies),
 });
 
 const CentralConfigurationForm = ({
-  saveLocalServerKeypair,
   initialValues,
-  isLocalServerToPrevValue,
-  changeIsLocalServerToPrevValue,
+  showPrevLocalServerValue,
+  onShowPreviousLocalServerValue,
   onCancel,
   handleSubmit,
   invalid,
@@ -77,10 +76,8 @@ const CentralConfigurationForm = ({
   const generateKeyAndSecret = () => {
     const localServerKey = uuidv4();
     const localServerSecret = uuidv4();
-    const exportData = { localServerKey, localServerSecret };
 
     changeLocalServerKeypair(localServerKey, localServerSecret);
-    saveLocalServerKeypair(exportData);
   };
 
   const onToggleSection = ({ id }) => {
@@ -88,14 +85,14 @@ const CentralConfigurationForm = ({
   };
 
   useEffect(() => {
-    if (isLocalServerToPrevValue) {
+    if (showPrevLocalServerValue) {
       changeLocalServerKeypair(
         initialValues[CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY],
         initialValues[CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET]
       );
-      changeIsLocalServerToPrevValue(false);
+      onShowPreviousLocalServerValue(false);
     }
-  }, [isLocalServerToPrevValue]);
+  }, [showPrevLocalServerValue]);
 
   const getPaneTitle = () => {
     const titleTranslationKey = initialValues?.id
@@ -349,17 +346,15 @@ const CentralConfigurationForm = ({
 
 CentralConfigurationForm.propTypes = {
   dirtyFieldsSinceLastSubmit: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired,
   invalid: PropTypes.bool.isRequired,
-  saveLocalServerKeypair: PropTypes.func.isRequired,
-  changeIsLocalServerToPrevValue: PropTypes.func,
-  form: PropTypes.object,
-  initialValues: PropTypes.object,
+  pristine: PropTypes.bool.isRequired,
+  onCancel: PropTypes.func.isRequired,
   isCentralServerDataInvalid: PropTypes.bool,
-  isLocalServerToPrevValue: PropTypes.bool,
-  pristine: PropTypes.bool,
-  onCancel: PropTypes.func,
-  onClose: PropTypes.func,
+  showPrevLocalServerValue: PropTypes.bool,
+  onShowPreviousLocalServerValue: PropTypes.func,
 };
 
 export default stripesFinalForm({

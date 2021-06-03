@@ -15,7 +15,7 @@ export const validateLocalServerCode = (value) => {
   if (!value) {
     return <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.validation.required" />;
   } else {
-    const isCodeValid = /^[a-z]{5}$/.test(value);
+    const isCodeValid = /^[a-z0-9]{5}$/.test(value);
 
     if (!isCodeValid) {
       return <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.validation.fiveCharacterStringLowerCase" />;
@@ -48,18 +48,7 @@ const getEmptyFieldError = (localAgenciesValues) => {
   return errorList;
 };
 
-export const validateLocalAgency = (values) => {
-  const localAgenciesInitialValues = [
-    {
-      localAgency: '',
-      FOLIOLibraries: [],
-    },
-  ];
-
-  const localAgenciesValues = values?.localAgencies?.[0]
-    ? values.localAgencies
-    : localAgenciesInitialValues;
-
+export const validateLocalAgency = (localAgenciesValues) => {
   const errors = {};
   const errorList = [
     ...getEmptyFieldError(localAgenciesValues),
@@ -67,7 +56,7 @@ export const validateLocalAgency = (values) => {
 
   localAgenciesValues.forEach((item, index) => {
     if (item.localAgency) {
-      const isValid = /^[a-z]{5}$/.test(item.localAgency);
+      const isValid = /^[a-z0-9]{5}$/.test(item.localAgency);
 
       if (!isValid) {
         errorList[index] = { localAgency: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.validation.fiveCharacterStringLowerCase" /> };
