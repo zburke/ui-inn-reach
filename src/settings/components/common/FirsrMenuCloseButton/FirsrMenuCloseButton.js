@@ -11,10 +11,10 @@ const FirsrMenuCloseButton = ({
   onClickHandler,
 }) => (
   <PaneMenu>
-    <FormattedMessage id="ui-inn-reach.settings.cancel">
-      {ariaLabel => (
+    <FormattedMessage id="ui-inn-reach.settings.confirmDeleteModal.central-server-configuration.cancel">
+      {([ariaLabel]) => (
         <PaneHeaderIconButton
-          data-testId="pane-header-dismiss-button"
+          data-testid="pane-header-dismiss-button"
           id="pane-header-dismiss-button"
           icon="times"
           ariaLabel={ariaLabel}

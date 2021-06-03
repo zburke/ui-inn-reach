@@ -11,8 +11,8 @@ import {
   KeyValue,
   NoValue,
   MultiColumnList,
-} from '@folio/stripes/components';
-import { ViewMetaData } from '@folio/stripes/smart-components';
+} from '@folio/stripes-components';
+import { ViewMetaData } from '@folio/stripes-smart-components';
 
 import {
   GENERAL_ACCORDION_NAME,
@@ -23,6 +23,8 @@ import {
 import { CentralServersConfigurationContext } from '../../../../../../contexts';
 
 const getFormattedFolioLibraries = (folioLibraryIds, folioLibraries) => {
+  // eslint-disable-next-line no-param-reassign
+  folioLibraryIds = Array.isArray(folioLibraryIds) ? folioLibraryIds : [];
   const folioLibraryCodesArr = folioLibraryIds.map(id => folioLibraries.find((lib) => lib.id === id).code);
 
   return folioLibraryCodesArr.length

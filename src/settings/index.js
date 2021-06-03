@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { Settings } from '@folio/stripes/smart-components';
+import { Settings } from '@folio/stripes-smart-components';
 import {
   stripesShape,
 } from '@folio/stripes/core';

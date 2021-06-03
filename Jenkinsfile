@@ -1,8 +1,9 @@
 buildNPM {
-  publishModDescriptor = false
-  npmDeploy = 'no'
-  runLint = true
+  publishModDescriptor = 'yes'
+  runLint = 'yes'
   runSonarqube = true
   runTest = 'yes'
-  runTestOptions = '--ci'
+  runScripts = [
+   ['formatjs-compile': ''],
+  ]
 }
