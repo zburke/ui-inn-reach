@@ -363,6 +363,8 @@ CentralConfigurationForm.propTypes = {
   onCancel: PropTypes.func.isRequired,
   isCentralServerDataInvalid: PropTypes.bool,
   showPrevLocalServerValue: PropTypes.bool,
+  values: PropTypes.object,
+  onMakeValidCentralServerData: PropTypes.func,
   onShowPreviousLocalServerValue: PropTypes.func,
 };
 

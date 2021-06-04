@@ -5,6 +5,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import {
   ConfirmationModal,
   Layer,
+  Paneset,
 } from '@folio/stripes-components';
 
 import CentralServersConfigurationForm
@@ -39,31 +40,33 @@ const CentralServersConfigurationCreateEditContainer = ({
   };
 
   return (
-    <Layer
-      isOpen
-      inRootSet
-      contentLabel={intl.formatMessage({ id: 'stripes-smart-components.sas.createEntry' })}
-    >
-      <CentralServersConfigurationForm
-        initialValues={fieldsInitialValues}
-        isCentralServerDataInvalid={isCentralServerDataInvalid}
-        showPrevLocalServerValue={showPrevLocalServerValue}
-        onShowPreviousLocalServerValue={onShowPreviousLocalServerValue}
-        onMakeValidCentralServerData={onMakeValidCentralServerData}
-        onCancel={onFormCancel}
-        onSubmit={onSubmit}
-      />
-      <ConfirmationModal
-        id="cancel-editing-confirmation"
-        open={openModal}
-        heading={modalContent?.heading || <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-heading.areYouSure" />}
-        message={modalContent?.message || <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-message.unsavedChanges" />}
-        confirmLabel={modalContent?.confirmLabel || <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-confirmLabel.keepEditing" />}
-        cancelLabel={modalContent?.cancelLabel || <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-cancelLabel.closeWithoutSaving" />}
-        onCancel={onModalCancel}
-        onConfirm={onModalConfirm}
-      />
-    </Layer>
+    <Paneset>
+      <Layer
+        isOpen
+        inRootSet
+        contentLabel={intl.formatMessage({ id: 'stripes-smart-components.sas.createEntry' })}
+      >
+        <CentralServersConfigurationForm
+          initialValues={fieldsInitialValues}
+          isCentralServerDataInvalid={isCentralServerDataInvalid}
+          showPrevLocalServerValue={showPrevLocalServerValue}
+          onShowPreviousLocalServerValue={onShowPreviousLocalServerValue}
+          onMakeValidCentralServerData={onMakeValidCentralServerData}
+          onCancel={onFormCancel}
+          onSubmit={onSubmit}
+        />
+        <ConfirmationModal
+          id="cancel-editing-confirmation"
+          open={openModal}
+          heading={modalContent?.heading || <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-heading.areYouSure" />}
+          message={modalContent?.message || <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-message.unsavedChanges" />}
+          confirmLabel={modalContent?.confirmLabel || <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-confirmLabel.keepEditing" />}
+          cancelLabel={modalContent?.cancelLabel || <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-cancelLabel.closeWithoutSaving" />}
+          onCancel={onModalCancel}
+          onConfirm={onModalConfirm}
+        />
+      </Layer>
+    </Paneset>
   );
 };
 
@@ -77,6 +80,7 @@ CentralServersConfigurationCreateEditContainer.propTypes = {
   isCentralServerDataInvalid: PropTypes.bool,
   modalContent: PropTypes.object,
   showPrevLocalServerValue: PropTypes.bool,
+  onMakeValidCentralServerData: PropTypes.func,
   onShowPreviousLocalServerValue: PropTypes.func,
 };
 
