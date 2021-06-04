@@ -54,6 +54,7 @@ const CentralConfigurationForm = ({
   initialValues,
   showPrevLocalServerValue,
   onShowPreviousLocalServerValue,
+  onMakeValidCentralServerData,
   onCancel,
   handleSubmit,
   invalid,
@@ -61,6 +62,7 @@ const CentralConfigurationForm = ({
   dirtyFieldsSinceLastSubmit,
   form,
   pristine,
+  values,
 }) => {
   const data = useContext(CentralServersConfigurationContext);
   const [sections, setSections] = useState({
@@ -84,6 +86,12 @@ const CentralConfigurationForm = ({
     setSections(prevState => ({ ...prevState, [id]: !prevState[id] }));
   };
 
+  const getIsCentralServerDataChanged = () => (
+    dirtyFieldsSinceLastSubmit[CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_ADDRESS] ||
+    dirtyFieldsSinceLastSubmit[CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_KEY] ||
+    dirtyFieldsSinceLastSubmit[CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_SECRET]
+  );
+
   useEffect(() => {
     if (showPrevLocalServerValue) {
       changeLocalServerKeypair(
@@ -93,6 +101,12 @@ const CentralConfigurationForm = ({
       onShowPreviousLocalServerValue(false);
     }
   }, [showPrevLocalServerValue]);
+
+  useEffect(() => {
+    if (isCentralServerDataInvalid && getIsCentralServerDataChanged()) {
+      onMakeValidCentralServerData();
+    }
+  }, [values]);
 
   const getPaneTitle = () => {
     const titleTranslationKey = initialValues?.id
@@ -107,12 +121,7 @@ const CentralConfigurationForm = ({
   };
 
   const getFooter = () => {
-    const isCentralServerInvalid = (
-      isCentralServerDataInvalid &&
-      !dirtyFieldsSinceLastSubmit[CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_ADDRESS] &&
-      !dirtyFieldsSinceLastSubmit[CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_KEY] &&
-      !dirtyFieldsSinceLastSubmit[CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_SECRET]
-    );
+    const isCentralServerInvalid = isCentralServerDataInvalid && !getIsCentralServerDataChanged();
 
     const cancelButton = (
       <Button
@@ -364,6 +373,7 @@ export default stripesFinalForm({
     error: true,
     dirtyFieldsSinceLastSubmit: true,
     submitSucceeded: true,
+    values: true,
   },
   initialValuesEqual: (a, b) => isEqual(a, b),
   navigationCheck: true,
