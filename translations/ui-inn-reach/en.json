@@ -74,5 +74,13 @@
   "settings.confirmDeleteModal.central-server-configuration.cancel": "Cancel",
 
   "settings.central-server-configuration.local-agency.field.code": "Local agency",
-  "settings.central-server-configuration.local-agency.field.libraries": "FOLIO libraries"
+  "settings.central-server-configuration.local-agency.field.libraries": "FOLIO libraries",
+
+  "settings.central-server.locations": "INN-reach locations",
+  "settings.central-server.location": "INN-reach location",
+  "settings.innreach-locations.location-code": "Location code",
+  "settings.innreach-locations.description": "Description",
+  "settings.innreach-locations.last-updated": "Last updated",
+  "settings.innreach-locations.actions": "Actions",
+  "settings.innreach-locations.locations": "Loc"
 }

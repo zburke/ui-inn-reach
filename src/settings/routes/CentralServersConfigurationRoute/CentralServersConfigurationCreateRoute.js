@@ -30,7 +30,6 @@ const CentralServersConfigurationCreateRoute = ({
   mutator,
 }) => {
   const showCallout = useCallout();
-  const [localServerKeypair, setLocalServerKeypair] = useState({});
   const [isCentralServerDataInvalid, setIsCentralServerDataInvalid] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
@@ -41,11 +40,13 @@ const CentralServersConfigurationCreateRoute = ({
     setOpenModal(false);
   };
 
-  const saveLocalServerKeypair = (exportData) => {
-    setLocalServerKeypair(exportData);
-  };
-
   const handleCreateRecord = (record) => {
+    const {
+      name,
+      localServerKey,
+      localServerSecret,
+    } = record;
+
     const updatedRecord = {
       ...record,
       localAgencies: getConvertedLocalAgenciesToCreateEdit(record.localAgencies),
@@ -53,10 +54,12 @@ const CentralServersConfigurationCreateRoute = ({
 
     mutator.centralServerRecords.POST(updatedRecord)
       .then(() => {
-        const fileName = `${record.name}-local-server-keypair`;
+        const fileName = `${name}-local-server-keypair`;
+        const exportData = { localServerKey, localServerSecret };
 
-        setIsCentralServerDataInvalid(false);
-        downloadJsonFile(localServerKeypair, fileName);
+        if (localServerKey && localServerSecret) {
+          downloadJsonFile(exportData, fileName);
+        }
         navigateToList();
         showCallout({ message: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create.success" /> });
       })
@@ -94,7 +97,6 @@ const CentralServersConfigurationCreateRoute = ({
     <CentralServersConfigurationCreateEditContainer
       isCentralServerDataInvalid={isCentralServerDataInvalid}
       openModal={openModal}
-      saveLocalServerKeypair={saveLocalServerKeypair}
       onFormCancel={navigateToList}
       onSubmit={handleCreateRecord}
       onModalCancel={navigateToList}

@@ -94,25 +94,34 @@ describe('CentralServersConfigurationCreateRoute component', () => {
       expect(CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit).toBeDefined();
     });
 
-    it('should make a successful POST request', async () => {
+    describe('successful POST request', () => {
       const postMock = jest.fn(() => Promise.resolve());
 
-      renderCreateRoute({
-        mutator: {
-          centralServerRecords: {
-            POST: postMock,
+      beforeEach(async () => {
+        renderCreateRoute({
+          mutator: {
+            centralServerRecords: {
+              POST: postMock,
+            },
           },
-        },
+        });
+
+        await CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(record);
       });
 
-      await CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(record);
+      it('should be called', () => {
+        expect(postMock).toHaveBeenCalled();
+      });
 
-      expect(postMock).toHaveBeenCalled();
-      expect(downloadJsonFile).toHaveBeenCalled();
-      expect(getCentralServerConfigurationListUrl).toHaveBeenCalled();
+      it('should download JSON file', async () => {
+        expect(downloadJsonFile).toHaveBeenCalled();
+        downloadJsonFile.mockRestore();
+      });
 
-      downloadJsonFile.mockRestore();
-      getCentralServerConfigurationListUrl.mockRestore();
+      it('should call navigation to the list page', () => {
+        expect(getCentralServerConfigurationListUrl).toHaveBeenCalled();
+        getCentralServerConfigurationListUrl.mockRestore();
+      });
     });
 
     describe('POST with error number 400', () => {

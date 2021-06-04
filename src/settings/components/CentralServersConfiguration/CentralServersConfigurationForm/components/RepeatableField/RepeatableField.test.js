@@ -13,28 +13,20 @@ import {
 import RepeatableField from './RepeatableField';
 import { translationsProperties } from '../../../../../../../test/jest/helpers';
 import { validateLocalAgency } from '../../utils/formValidation';
-
-const initialValues = {
-  localAgencies: [
-    {
-      localAgency: '',
-      FOLIOLibraries: '',
-    },
-  ],
-};
+import { DEFAULT_VALUES } from '../../../../../routes/CentralServersConfigurationRoute/CentralServersConfigurationCreateEditContainer';
 
 const newItemTemplate = {
   localAgency: '',
-  FOLIOLibraries: '',
+  FOLIOLibraries: [],
 };
 
 const props = {
   data: [],
-  initialValues,
+  initialValues: DEFAULT_VALUES,
   isCentralServerDataInvalid: false,
-  saveLocalServerKeypair: jest.fn,
-  onCancel: jest.fn,
-  onSubmit: jest.fn,
+  onSaveLocalServerKeypair: jest.fn(),
+  onCancel: jest.fn(),
+  onSubmit: jest.fn(),
 
   addDefaultItem: true,
   name: 'localAgencies',
@@ -64,7 +56,7 @@ const props = {
 };
 
 const validate = (values) => ({
-  ...validateLocalAgency(values),
+  ...validateLocalAgency(values.localAgencies),
 });
 
 const opts = {

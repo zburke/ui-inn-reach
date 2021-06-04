@@ -6,12 +6,18 @@ import {
 } from '../../../constants';
 
 export const getConvertedLocalAgenciesToCreateEdit = (localAgencies = []) => {
-  return localAgencies.reduce((accum, { localAgency, FOLIOLibraries }) => {
+  return localAgencies.reduce((accum, { id, localAgency, FOLIOLibraries }) => {
     if (localAgency && !isEmpty(FOLIOLibraries)) {
-      accum.push({
+      const localAgencyData = {
         [LOCAL_AGENCIES_FIELDS.CODE]: localAgency,
         [LOCAL_AGENCIES_FIELDS.FOLIO_LIBRARY_IDs]: FOLIOLibraries.map(library => library.value),
-      });
+      };
+
+      if (id) {
+        localAgencyData[LOCAL_AGENCIES_FIELDS.ID] = id;
+      }
+
+      accum.push(localAgencyData);
     }
 
     return accum;

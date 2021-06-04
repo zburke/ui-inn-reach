@@ -56,7 +56,7 @@ const RenderForm = ({
         <CentralServersConfigurationForm
           initialValues={initialValues}
           isCentralServerDataInvalid={false}
-          saveLocalServerKeypair={jest.fn()}
+          onSaveLocalServerKeypair={jest.fn()}
           onCancel={onCancel}
           onSubmit={onSubmit}
         />
