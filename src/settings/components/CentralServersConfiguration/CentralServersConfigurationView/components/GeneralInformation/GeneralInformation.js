@@ -40,7 +40,7 @@ const GeneralInformation = ({
   } = useContext(CentralServersConfigurationContext);
 
   const getLoanTypeName = (id) => {
-    const loanType = loanTypes.filter((type) => type.id === id);
+    const loanType = loanTypes.find((type) => type.id === id);
 
     return loanType.name;
   };

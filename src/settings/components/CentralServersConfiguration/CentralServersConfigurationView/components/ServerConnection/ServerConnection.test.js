@@ -13,18 +13,8 @@ import {
 } from '../../../../../../constants';
 
 const centralServer = {
-  id: 'testId',
-  name: 'testName',
-  metadata: 'testMetadata',
-  description: 'testDescription',
-  localServerCode: 'testLocalServerCode',
+  ...CENTRAL_SERVER_CONFIGURATION_FIELDS,
   centralServerAddress: 'testCentralServerAddress',
-  loanTypeId: 'testLoanTypeId',
-  localAgencies: 'testLocalAgencies',
-  centralServerKey: 'testCentralServerKey',
-  centralServerSecret: 'testCentralServerSecret',
-  localServerKey: 'testLocalServerKey',
-  localServerSecret: 'testLocalServerSecret',
 };
 
 const RenderServerConnection = (centralServerData) => {
@@ -69,10 +59,8 @@ describe('ServerConnection component', () => {
     cleanup();
 
     const testCentralServer = {
-      CENTRAL_SERVER_CONFIGURATION_FIELDS: {
-        ...CENTRAL_SERVER_CONFIGURATION_FIELDS,
-        CENTRAL_SERVER_ADDRESS: '',
-      },
+      ...CENTRAL_SERVER_CONFIGURATION_FIELDS,
+      centralServerAddress: '',
     };
 
     renderWithIntl(
