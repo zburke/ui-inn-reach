@@ -45,72 +45,65 @@ const initValues = {
   ],
 };
 
-const RenderForm = ({
+const renderForm = ({
   onCancel,
   initialValues,
   onSubmit,
+  isCentralServerDataInvalid,
+  showPrevLocalServerValue,
+  onMakeValidCentralServerData,
+  onShowPreviousLocalServerValue,
 }) => {
-  return (
+  return renderWithIntl(
     <MemoryRouter>
       <CentralServersConfigurationContext.Provider value={data}>
         <CentralServersConfigurationForm
           initialValues={initialValues}
-          isCentralServerDataInvalid={false}
+          isCentralServerDataInvalid={isCentralServerDataInvalid}
+          showPrevLocalServerValue={showPrevLocalServerValue}
           onSaveLocalServerKeypair={jest.fn()}
           onCancel={onCancel}
           onSubmit={onSubmit}
+          onMakeValidCentralServerData={onMakeValidCentralServerData}
+          onShowPreviousLocalServerValue={onShowPreviousLocalServerValue}
         />
       </CentralServersConfigurationContext.Provider>
-    </MemoryRouter>
+    </MemoryRouter>,
+    translationsProperties,
   );
 };
 
 describe('CentralServerConfigurationForm component', () => {
   const handleCancel = jest.fn();
   const handleSubmit = jest.fn();
-
-  beforeEach(() => (
-    renderWithIntl(
-      <RenderForm
-        initialValues={initValues}
-        onSubmit={handleSubmit}
-        onCancel={handleCancel}
-      />,
-      translationsProperties,
-    )
-  ));
+  const onMakeValidCentralServerData = jest.fn();
+  const onShowPreviousLocalServerValue = jest.fn();
+  const commonProps = {
+    initialValues: initValues,
+    onSubmit: handleSubmit,
+    onCancel: handleCancel,
+  };
 
   it('should display "edit" title', () => {
-    const initialVal = {
-      id: '777',
-      localAgencies: [
-        {
-          localAgency: '',
-          FOLIOLibraries: '',
-        },
-      ],
-    };
-
-    renderWithIntl(
-      <RenderForm
-        initialValues={initialVal}
-        onSubmit={handleSubmit}
-        onCancel={handleCancel}
-      />,
-      translationsProperties,
-    );
+    renderForm({
+      ...commonProps,
+      initialValues: { ...initValues, id: '777' },
+    });
     expect(screen.getByText('Edit')).toBeDefined();
   });
 
   it('should display title', () => {
+    renderForm(commonProps);
     expect(screen.getByText('New central server configuration')).toBeDefined();
   });
 
   it('should display "Collapse all" button', () => {
+    renderForm(commonProps);
     expect(screen.getByText('Collapse all')).toBeDefined();
   });
 
   it('should have sections collapsed after clicking "Collapse all" button', () => {
+    renderForm(commonProps);
     userEvent.click(document.querySelector('[data-tast-expand-button]'));
     expect(document.querySelector('#accordion-toggle-button-section1').getAttribute('aria-expanded')).toBe('false');
     expect(document.querySelector('#accordion-toggle-button-section2').getAttribute('aria-expanded')).toBe('false');
@@ -120,16 +113,56 @@ describe('CentralServerConfigurationForm component', () => {
   });
 
   it('should display form', () => {
+    renderForm(commonProps);
     expect(screen.getByTestId('central-server-configuration-form')).toBeInTheDocument();
   });
 
   it('should invoke onCancel callback', () => {
+    renderForm(commonProps);
     userEvent.click(screen.getByRole('button', { name: 'Close' }));
     expect(handleCancel).toBeCalled();
   });
 
+  it('should cause onMakeValidCentralServerData callback', () => {
+    const { getByRole } = renderForm({
+      ...commonProps,
+      isCentralServerDataInvalid: true,
+      onMakeValidCentralServerData,
+    });
+
+    userEvent.type(getByRole('textbox', { name: 'Central server address' }), 'https://opentown-lib.edu/andromeda');
+    expect(onMakeValidCentralServerData).toHaveBeenCalled();
+  });
+
+  it('should show the original data of the local server', () => {
+    const originalValues = {
+      ...initValues,
+      localServerKey: 'testKey',
+      localServerSecret: 'testSecret',
+    };
+
+    renderForm({
+      ...commonProps,
+      initialValues: originalValues,
+      showPrevLocalServerValue: true,
+      onShowPreviousLocalServerValue,
+    });
+
+    expect(onShowPreviousLocalServerValue).toHaveBeenCalledWith(false);
+  });
+
+  it('should render disabled save button', () => {
+    const { getByTestId } = renderForm({
+      ...commonProps,
+      isCentralServerDataInvalid: true,
+    });
+
+    expect(getByTestId('save-button')).toBeDisabled();
+  });
+
   describe('accordion', () => {
     it('should be collapsed after click', () => {
+      renderForm(commonProps);
       const accordion1 = document.querySelector('#accordion-toggle-button-section1');
       const accordion2 = document.querySelector('#accordion-toggle-button-section2');
 
@@ -144,10 +177,12 @@ describe('CentralServerConfigurationForm component', () => {
 
   describe('local server code field', () => {
     it('should be empty', () => {
+      renderForm(commonProps);
       expect(screen.getByRole('textbox', { name: 'Local server code' })).not.toHaveValue();
     });
 
     it('should show "Required" error message', () => {
+      renderForm(commonProps);
       const field = screen.getByRole('textbox', { name: 'Local server code' });
 
       field.focus();
@@ -157,6 +192,7 @@ describe('CentralServerConfigurationForm component', () => {
     });
 
     it('should show "Please enter a 5 character string in lower case"', () => {
+      renderForm(commonProps);
       const field = screen.getByRole('textbox', { name: 'Local server code' });
 
       userEvent.type(field, 'abc');
@@ -170,6 +206,7 @@ describe('CentralServerConfigurationForm component', () => {
     let localServerSecret;
 
     beforeEach(() => {
+      renderForm(commonProps);
       localServerKey = screen.getByTestId(CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY);
       localServerSecret = screen.getByTestId(CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET);
     });
@@ -193,11 +230,13 @@ describe('CentralServerConfigurationForm component', () => {
 
   describe('footer pane', () => {
     it('should display "save" and "cancel" buttons', () => {
+      renderForm(commonProps);
       expect(screen.getByText('Save & close')).toBeDefined();
       expect(screen.getByText('Cancel')).toBeDefined();
     });
 
     it('should have disabled "Save & close" button by default', () => {
+      renderForm(commonProps);
       expect(screen.getByTestId('save-button')).toBeDisabled();
     });
   });
