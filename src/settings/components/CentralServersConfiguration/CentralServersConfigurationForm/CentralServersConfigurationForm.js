@@ -16,7 +16,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import {
   Accordion,
-  Paneset,
   Pane,
   Row,
   Col,
@@ -172,183 +171,181 @@ const CentralConfigurationForm = ({
       data-testid="central-server-configuration-form"
       className={styles.instanceForm}
     >
-      <Paneset>
-        <Pane
-          dismissible
-          centerContent
-          defaultWidth={FILL_PANE_WIDTH}
-          footer={getFooter()}
-          paneTitle={getPaneTitle()}
-          onClose={onCancel}
-        >
-          <div>
-            <Row end="xs">
-              <Col xs>
-                <ExpandAllButton
-                  accordionStatus={sections}
-                  onToggle={handleExpandAll}
+      <Pane
+        dismissible
+        centerContent
+        defaultWidth={FILL_PANE_WIDTH}
+        footer={getFooter()}
+        paneTitle={getPaneTitle()}
+        onClose={onCancel}
+      >
+        <div>
+          <Row end="xs">
+            <Col xs>
+              <ExpandAllButton
+                accordionStatus={sections}
+                onToggle={handleExpandAll}
+              />
+            </Col>
+          </Row>
+          <Accordion
+            label={
+              <h3>
+                <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.accordion.generalInformation.title" />
+              </h3>
+            }
+            id="section1"
+            open={sections.section1}
+            onToggle={onToggleSection}
+          >
+            <Row>
+              <Col sm={4}>
+                <Field
+                  required
+                  name={CENTRAL_SERVER_CONFIGURATION_FIELDS.NAME}
+                  type="text"
+                  component={TextField}
+                  label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.name" />}
+                  validate={validateRequired}
                 />
               </Col>
             </Row>
-            <Accordion
-              label={
-                <h3>
-                  <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.accordion.generalInformation.title" />
-                </h3>
-              }
-              id="section1"
-              open={sections.section1}
-              onToggle={onToggleSection}
-            >
-              <Row>
-                <Col sm={4}>
-                  <Field
-                    required
-                    name={CENTRAL_SERVER_CONFIGURATION_FIELDS.NAME}
-                    type="text"
-                    component={TextField}
-                    label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.name" />}
-                    validate={validateRequired}
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col sm={6}>
-                  <Field
-                    name={CENTRAL_SERVER_CONFIGURATION_FIELDS.DESCRIPTION}
-                    label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.description" />}
-                    component={TextArea}
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col sm={3}>
-                  <Field
-                    required
-                    name={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_CODE}
-                    type="text"
-                    component={TextField}
-                    label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.localServerCode" />}
-                    validate={validateLocalServerCode}
-                  />
-                </Col>
-              </Row>
-              <LocalAgencyFields librariesTypes={data.folioLibraries} />
-              <Row>
-                <Col sm={3}>
-                  <Field
-                    required
-                    data-testid="borrowedItemLoanType"
-                    label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.borrowedItemLoanType" />}
-                    name={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOAN_TYPE_ID}
-                    type="text"
-                    placeholder=" "
-                    component={Select}
-                    dataOptions={loanTypeOptions}
-                    validate={validateRequired}
-                  />
-                </Col>
-              </Row>
-            </Accordion>
-            <Accordion
-              label={
-                <h3>
-                  <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.accordion.serverConnection.title" />
-                </h3>
-              }
-              open={sections.section2}
-              id="section2"
-              onToggle={onToggleSection}
-            >
-              <Row>
-                <Col xs={4}>
-                  <Field
-                    required
-                    name={CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_ADDRESS}
-                    type="text"
-                    component={TextField}
-                    label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.centralServerAddress" />}
-                    validate={validateRequired}
-                  />
-                </Col>
-                <Col xs={4}>
-                  <Field
-                    required
-                    name={CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_KEY}
-                    type="text"
-                    component={TextField}
-                    label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.centralServerKey" />}
-                    validate={validateRequired}
-                  />
-                </Col>
-                <Col xs={4}>
-                  <Field
-                    required
-                    name={CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_SECRET}
-                    type="text"
-                    component={TextField}
-                    label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.centralServerSecret" />}
-                    validate={validateRequired}
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={4}>
-                  <Field name={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}>
-                    {({ input }) => (
-                      <>
-                        <Label htmlFor={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}>
-                          <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.localServerKey" />
-                        </Label>
-                        <div className={classNames(styles.formControl, styles.isDisabled, styles.inputGroup)}>
-                          <input
-                            {...input}
-                            disabled
-                            id={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}
-                            data-testid={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}
-                            type="text"
-                          />
-                        </div>
-                      </>
-                    )}
-                  </Field>
-                </Col>
-                <Col xs={4}>
-                  <Field name={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}>
-                    {({ input }) => (
-                      <>
-                        <Label htmlFor={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}>
-                          <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.localServerSecret" />
-                        </Label>
-                        <div className={classNames(styles.formControl, styles.isDisabled, styles.inputGroup)}>
-                          <input
-                            {...input}
-                            disabled
-                            id={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}
-                            data-testid={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}
-                            type="text"
-                          />
-                        </div>
-                      </>
-                    )}
-                  </Field>
-                </Col>
-                <Col xs={4}>
-                  <Button
-                    data-testid="generate-keypair"
-                    buttonStyle="default"
-                    buttonClass={styles.generateKeypair}
-                    id="cancel-instance-edition"
-                    onClick={generateKeyAndSecret}
-                  >
-                    <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.button.generateKeypair" />
-                  </Button>
-                </Col>
-              </Row>
-            </Accordion>
-          </div>
-        </Pane>
-      </Paneset>
+            <Row>
+              <Col sm={6}>
+                <Field
+                  name={CENTRAL_SERVER_CONFIGURATION_FIELDS.DESCRIPTION}
+                  label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.description" />}
+                  component={TextArea}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={3}>
+                <Field
+                  required
+                  name={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_CODE}
+                  type="text"
+                  component={TextField}
+                  label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.localServerCode" />}
+                  validate={validateLocalServerCode}
+                />
+              </Col>
+            </Row>
+            <LocalAgencyFields librariesTypes={data.folioLibraries} />
+            <Row>
+              <Col sm={3}>
+                <Field
+                  required
+                  data-testid="borrowedItemLoanType"
+                  label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.borrowedItemLoanType" />}
+                  name={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOAN_TYPE_ID}
+                  type="text"
+                  placeholder=" "
+                  component={Select}
+                  dataOptions={loanTypeOptions}
+                  validate={validateRequired}
+                />
+              </Col>
+            </Row>
+          </Accordion>
+          <Accordion
+            label={
+              <h3>
+                <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.accordion.serverConnection.title" />
+              </h3>
+            }
+            open={sections.section2}
+            id="section2"
+            onToggle={onToggleSection}
+          >
+            <Row>
+              <Col xs={4}>
+                <Field
+                  required
+                  name={CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_ADDRESS}
+                  type="text"
+                  component={TextField}
+                  label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.centralServerAddress" />}
+                  validate={validateRequired}
+                />
+              </Col>
+              <Col xs={4}>
+                <Field
+                  required
+                  name={CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_KEY}
+                  type="text"
+                  component={TextField}
+                  label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.centralServerKey" />}
+                  validate={validateRequired}
+                />
+              </Col>
+              <Col xs={4}>
+                <Field
+                  required
+                  name={CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_SECRET}
+                  type="text"
+                  component={TextField}
+                  label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.centralServerSecret" />}
+                  validate={validateRequired}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={4}>
+                <Field name={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}>
+                  {({ input }) => (
+                    <>
+                      <Label htmlFor={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}>
+                        <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.localServerKey" />
+                      </Label>
+                      <div className={classNames(styles.formControl, styles.isDisabled, styles.inputGroup)}>
+                        <input
+                          {...input}
+                          disabled
+                          id={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}
+                          data-testid={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY}
+                          type="text"
+                        />
+                      </div>
+                    </>
+                  )}
+                </Field>
+              </Col>
+              <Col xs={4}>
+                <Field name={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}>
+                  {({ input }) => (
+                    <>
+                      <Label htmlFor={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}>
+                        <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.localServerSecret" />
+                      </Label>
+                      <div className={classNames(styles.formControl, styles.isDisabled, styles.inputGroup)}>
+                        <input
+                          {...input}
+                          disabled
+                          id={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}
+                          data-testid={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET}
+                          type="text"
+                        />
+                      </div>
+                    </>
+                  )}
+                </Field>
+              </Col>
+              <Col xs={4}>
+                <Button
+                  data-testid="generate-keypair"
+                  buttonStyle="default"
+                  buttonClass={styles.generateKeypair}
+                  id="cancel-instance-edition"
+                  onClick={generateKeyAndSecret}
+                >
+                  <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.button.generateKeypair" />
+                </Button>
+              </Col>
+            </Row>
+          </Accordion>
+        </div>
+      </Pane>
     </form>
   );
 };
