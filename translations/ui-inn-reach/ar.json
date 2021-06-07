@@ -61,5 +61,12 @@
     "settings.central-server-configuration.create-edit.modal-confirmLabel.keepEditing": "استمر في التحرير",
     "settings.central-server-configuration.edit.modal-heading.updateLocalServerKeyConfirmation": "تأكيد تحديث سر الخادم المحلي",
     "settings.central-server-configuration.edit.modal-message.updateLocalServerKeypair": "لقد قمت بتحديث زوج سر/ مفتاح الخادم المحلي. سيتم مقاطعة وظائف إعارة INN-Reach حتى يتم تحديث هذه المعلومات بواسطة مدير الخادم المركزي. قم بالنقر على \"تأكيد\" لحفظ التغييرات وتنزيل ملف JSON بقيم السر والمفتاح الجديدة.",
-    "settings.central-server-configuration.edit.modal-button.confirm": "تأكيد"
+    "settings.central-server-configuration.edit.modal-button.confirm": "تأكيد",
+    "settings.central-server.locations": "مواقع INN-Reach",
+    "settings.central-server.location": "موقع INN-Reach",
+    "settings.innreach-locations.location-code": "رمز الموقع",
+    "settings.innreach-locations.description": "الوصف",
+    "settings.innreach-locations.last-updated": "آخر تحديث",
+    "settings.innreach-locations.actions": "الإجراءات",
+    "settings.innreach-locations.locations": "Loc"
 }

@@ -61,5 +61,12 @@
     "settings.central-server-configuration.create-edit.modal-confirmLabel.keepEditing": "Continuer l'édition",
     "settings.central-server-configuration.edit.modal-heading.updateLocalServerKeyConfirmation": "Mettre à jour la confirmation de la clé du serveur local",
     "settings.central-server-configuration.edit.modal-message.updateLocalServerKeypair": "You have updated the Local Server Key/Secret pair. INN-Reach circulation functions will be interrupted until this information is updated by the Central Server administrator. Click “Confirm” to save your changes and download a JSON file with the new key and secret values.",
-    "settings.central-server-configuration.edit.modal-button.confirm": "Confirmer"
+    "settings.central-server-configuration.edit.modal-button.confirm": "Confirmer",
+    "settings.central-server.locations": "Emplacements INN-Reach",
+    "settings.central-server.location": "Emplacement INN-Reach",
+    "settings.innreach-locations.location-code": "Code de localisation",
+    "settings.innreach-locations.description": "Description",
+    "settings.innreach-locations.last-updated": "Dernière mise à jour",
+    "settings.innreach-locations.actions": "Actions",
+    "settings.innreach-locations.locations": "Loc"
 }

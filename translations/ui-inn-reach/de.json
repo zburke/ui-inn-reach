@@ -23,8 +23,8 @@
     "settings.central-server-configuration.view.field.local-server-code": "Local server code",
     "settings.central-server-configuration.view.field.loan-type": "Borrowed item loan type",
     "settings.central-server-configuration.view.field.address": "Central server address",
-    "settings.central-server-configuration.action.edit": "Edit",
-    "settings.central-server-configuration.action.delete": "Delete",
+    "settings.central-server-configuration.action.edit": "Bearbeiten",
+    "settings.central-server-configuration.action.delete": "Löschen",
     "settings.confirmDeleteModal.central-server-configuration.heading": "Confirm deletion of central server configuration",
     "settings.confirmDeleteModal.central-server-configuration.message": "Central server configuration {name} will be removed.",
     "settings.confirmDeleteModal.central-server-configuration.confirm": "Delete",
@@ -61,5 +61,12 @@
     "settings.central-server-configuration.create-edit.modal-confirmLabel.keepEditing": "Keep editing",
     "settings.central-server-configuration.edit.modal-heading.updateLocalServerKeyConfirmation": "Update Local Server Key Confirmation",
     "settings.central-server-configuration.edit.modal-message.updateLocalServerKeypair": "You have updated the Local Server Key/Secret pair. INN-Reach circulation functions will be interrupted until this information is updated by the Central Server administrator. Click “Confirm” to save your changes and download a JSON file with the new key and secret values.",
-    "settings.central-server-configuration.edit.modal-button.confirm": "Confirm"
+    "settings.central-server-configuration.edit.modal-button.confirm": "Confirm",
+    "settings.central-server.locations": "INN-reach locations",
+    "settings.central-server.location": "INN-reach location",
+    "settings.innreach-locations.location-code": "Location code",
+    "settings.innreach-locations.description": "Description",
+    "settings.innreach-locations.last-updated": "Last updated",
+    "settings.innreach-locations.actions": "Actions",
+    "settings.innreach-locations.locations": "Loc"
 }
