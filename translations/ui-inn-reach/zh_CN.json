@@ -61,5 +61,12 @@
     "settings.central-server-configuration.create-edit.modal-confirmLabel.keepEditing": "继续编辑",
     "settings.central-server-configuration.edit.modal-heading.updateLocalServerKeyConfirmation": "更新本地服务器密钥确认",
     "settings.central-server-configuration.edit.modal-message.updateLocalServerKeypair": "您已更新本地服务器密钥/密值对。在中央服务器管理员更新此信息之前，INN-Reach循环功能将被中断。单击“确认”以保存您的更改并下载带有新密钥和密值的JSON文件。",
-    "settings.central-server-configuration.edit.modal-button.confirm": "确认"
+    "settings.central-server-configuration.edit.modal-button.confirm": "确认",
+    "settings.central-server.locations": "INN-reach locations",
+    "settings.central-server.location": "INN-reach location",
+    "settings.innreach-locations.location-code": "Location code",
+    "settings.innreach-locations.description": "Description",
+    "settings.innreach-locations.last-updated": "Last updated",
+    "settings.innreach-locations.actions": "Actions",
+    "settings.innreach-locations.locations": "Loc"
 }
