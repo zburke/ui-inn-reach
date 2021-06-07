@@ -16,32 +16,40 @@ import CentralServersConfigurationContext from '../../../../../../contexts/Centr
 
 jest.mock('@folio/stripes-smart-components', () => ({ ViewMetaData: jest.fn(() => <div>ViewMetaData</div>) }));
 
+const onlineLibraryId = 'c2549bb4-19c7-4fcc-8b52-39e612fb7dbe';
+const welcomeLibraryId = 'c2549bb4-19c7-4fcc-8b52-39e612fpgfkj';
+
+const readingRoomLoanTypeId = 'ac19815e-1d8e-473f-bd5a-3193cb301b8b';
+const micsLoanTypeId = 'e17acc08-b8ca-469a-a984-d9249faad178';
+
 const folioLibraries = [
   {
     name: 'Online',
-    id: 'c2549bb4-19c7-4fcc-8b52-39e612fb7dbe',
+    code: 'TEST',
+    id: onlineLibraryId,
   },
   {
     name: 'Welcome',
-    id: 'c2549bb4-19c7-4fcc-8b52-39e612fpgfkj',
+    code: 'CODE',
+    id: welcomeLibraryId,
   },
 ];
 
 const loanTypes = [
   {
     name: 'Reading room',
-    id: 'ac19815e-1d8e-473f-bd5a-3193cb301b8b',
+    id: readingRoomLoanTypeId,
   },
   {
     name: 'mics',
-    id: 'e17acc08-b8ca-469a-a984-d9249faad178',
+    id: micsLoanTypeId,
   },
 ];
 
 const centralServer = {
   ...CENTRAL_SERVER_CONFIGURATION_FIELDS,
-  localAgencies: [{ id: 'test-id', code: 'testc', folioLibraryIds: ['c2549bb4-19c7-4fcc-8b52-39e612fb7dbe'] }],
-  loanTypeId: 'ac19815e-1d8e-473f-bd5a-3193cb301b8b',
+  localAgencies: [{ id: 'test-id', code: 'testc', folioLibraryIds: [onlineLibraryId] }],
+  loanTypeId: readingRoomLoanTypeId,
 };
 
 const RenderGeneralInformation = () => (
