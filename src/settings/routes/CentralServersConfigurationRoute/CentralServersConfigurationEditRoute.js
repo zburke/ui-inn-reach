@@ -85,7 +85,9 @@ const CentralServersConfigurationEditRoute = ({
           const fileName = `${name}-local-server-keypair`;
           const exportData = { localServerKey, localServerSecret };
 
-          downloadJsonFile(exportData, fileName);
+          if (localServerKey && localServerSecret) {
+            downloadJsonFile(exportData, fileName);
+          }
         }
 
         navigateToView();

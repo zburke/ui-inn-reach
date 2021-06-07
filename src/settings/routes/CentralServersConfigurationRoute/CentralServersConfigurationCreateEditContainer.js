@@ -29,6 +29,7 @@ const CentralServersConfigurationCreateEditContainer = ({
   openModal,
   modalContent,
   onShowPreviousLocalServerValue,
+  onMakeValidCentralServerData,
   onModalCancel,
   onModalConfirm,
 }) => {
@@ -42,6 +43,7 @@ const CentralServersConfigurationCreateEditContainer = ({
     <Paneset>
       <Layer
         isOpen
+        inRootSet
         contentLabel={intl.formatMessage({ id: 'stripes-smart-components.sas.createEntry' })}
       >
         <CentralServersConfigurationForm
@@ -49,6 +51,7 @@ const CentralServersConfigurationCreateEditContainer = ({
           isCentralServerDataInvalid={isCentralServerDataInvalid}
           showPrevLocalServerValue={showPrevLocalServerValue}
           onShowPreviousLocalServerValue={onShowPreviousLocalServerValue}
+          onMakeValidCentralServerData={onMakeValidCentralServerData}
           onCancel={onFormCancel}
           onSubmit={onSubmit}
         />
@@ -77,6 +80,7 @@ CentralServersConfigurationCreateEditContainer.propTypes = {
   isCentralServerDataInvalid: PropTypes.bool,
   modalContent: PropTypes.object,
   showPrevLocalServerValue: PropTypes.bool,
+  onMakeValidCentralServerData: PropTypes.func,
   onShowPreviousLocalServerValue: PropTypes.func,
 };
 

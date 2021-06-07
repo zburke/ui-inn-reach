@@ -16,6 +16,7 @@ import {
   downloadJsonFile,
   getCentralServerConfigurationListUrl,
 } from '../../../utils';
+import { useCallout } from '../../../hooks';
 
 const record = {
   id: '12345',
@@ -34,6 +35,8 @@ const record = {
 jest.mock('./CentralServersConfigurationCreateEditContainer', () => {
   return jest.fn(() => 'CentralServersConfigurationCreateEditContainer');
 });
+
+jest.mock('../../../hooks/useCallout', () => jest.fn(() => () => 'error'));
 
 jest.mock('../../../utils', () => {
   const downloadJsonFileModule = jest.requireActual('../../../utils/downloadJsonFile');
@@ -87,6 +90,12 @@ describe('CentralServersConfigurationCreateRoute component', () => {
     expect(getByText('CentralServersConfigurationCreateEditContainer')).toBeDefined();
   });
 
+  it('should pass isCentralServerDataInvalid as false', async () => {
+    renderCreateRoute();
+    CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onMakeValidCentralServerData();
+    expect(CentralServersConfigurationCreateEditContainer.mock.calls[0][0].isCentralServerDataInvalid).toEqual(false);
+  });
+
   describe('handleCreateRecord', () => {
     it('should be passed as submit prop', () => {
       renderCreateRoute();
@@ -97,7 +106,7 @@ describe('CentralServersConfigurationCreateRoute component', () => {
     describe('successful POST request', () => {
       const postMock = jest.fn(() => Promise.resolve());
 
-      beforeEach(async () => {
+      beforeEach(() => {
         renderCreateRoute({
           mutator: {
             centralServerRecords: {
@@ -105,20 +114,33 @@ describe('CentralServersConfigurationCreateRoute component', () => {
             },
           },
         });
-
-        await CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(record);
       });
 
-      it('should be called', () => {
+      it('should be called', async () => {
+        await CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(record);
         expect(postMock).toHaveBeenCalled();
       });
 
       it('should download JSON file', async () => {
+        await CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(record);
         expect(downloadJsonFile).toHaveBeenCalled();
         downloadJsonFile.mockRestore();
       });
 
-      it('should call navigation to the list page', () => {
+      it('should not download JSON file', async () => {
+        const recordWithoutLocalServer = {
+          ...record,
+          localServerKey: '',
+          localServerSecret: '',
+        };
+
+        await CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(recordWithoutLocalServer);
+        expect(downloadJsonFile).not.toHaveBeenCalled();
+        downloadJsonFile.mockRestore();
+      });
+
+      it('should call navigation to the list page', async () => {
+        await CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(record);
         expect(getCentralServerConfigurationListUrl).toHaveBeenCalled();
         getCentralServerConfigurationListUrl.mockRestore();
       });
@@ -143,6 +165,27 @@ describe('CentralServersConfigurationCreateRoute component', () => {
       it('should pass isCentralServerDataInvalid as true', async () => {
         await waitFor(() => CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(record));
         expect(CentralServersConfigurationCreateEditContainer.mock.calls[1][0]).toHaveProperty('isCentralServerDataInvalid', true);
+        expect(useCallout.mock.results[0].value()).toEqual('error');
+      });
+    });
+
+    describe('POST with error number not 400', () => {
+      it('should engender an error callout', () => {
+        const error = new Error();
+        const postMock = jest.fn(() => Promise.reject(error));
+
+        error.status = 500;
+
+        renderCreateRoute({
+          mutator: {
+            centralServerRecords: {
+              POST: postMock,
+            },
+          },
+        });
+
+        act(() => CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(record));
+        expect(useCallout.mock.results[0].value()).toEqual('error');
       });
     });
   });

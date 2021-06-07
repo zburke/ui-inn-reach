@@ -40,6 +40,10 @@ const CentralServersConfigurationCreateRoute = ({
     setOpenModal(false);
   };
 
+  const makeValidCentralServerData = () => {
+    setIsCentralServerDataInvalid(false);
+  };
+
   const handleCreateRecord = (record) => {
     const {
       name,
@@ -99,6 +103,7 @@ const CentralServersConfigurationCreateRoute = ({
       openModal={openModal}
       onFormCancel={navigateToList}
       onSubmit={handleCreateRecord}
+      onMakeValidCentralServerData={makeValidCentralServerData}
       onModalCancel={navigateToList}
       onModalConfirm={handleModalConfirm}
     />
