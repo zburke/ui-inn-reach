@@ -4,9 +4,12 @@ import React, {
   useState,
 } from 'react';
 import { isEmpty } from 'lodash';
+import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { stripesConnect } from '@folio/stripes-core';
-
+import {
+  stripesConnect,
+} from '@folio/stripes-core';
 import {
   Callout,
 } from '@folio/stripes-components';
@@ -70,5 +73,15 @@ InnReachSettings.manifest = Object.freeze({
     throwErrors: false,
   },
 });
+
+InnReachSettings.propTypes = {
+  match: ReactRouterPropTypes.match.isRequired,
+  resources: PropTypes.shape({
+    centralServerRecords: PropTypes.shape({
+      records: PropTypes.arrayOf(PropTypes.object),
+    })
+  }).isRequired,
+  children: PropTypes.node,
+};
 
 export default stripesConnect(InnReachSettings);

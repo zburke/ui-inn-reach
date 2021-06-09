@@ -16,15 +16,13 @@ import {
   sections,
 } from './settings/components/Settings/constants';
 
-export default function InnReach(props) {
-  const {
-    showSettings,
-    match: {
-      path,
-    },
-    stripes,
-  } = props;
-
+export default function InnReach({
+  showSettings,
+  match: {
+    path,
+  },
+  stripes,
+}) {
   if (showSettings) {
     return (
       <Route
