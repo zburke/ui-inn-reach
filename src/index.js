@@ -30,8 +30,8 @@ export default function InnReach({
         component={InnReachSettings}
       >
         <Switch>
-          {sections.map(section => section.pages)
-            .flat()
+          {sections
+            .flatMap(section => section.pages)
             .filter(setting => !setting.perm || stripes.hasPerm(setting.perm))
             .map(setting => (
               <Route
