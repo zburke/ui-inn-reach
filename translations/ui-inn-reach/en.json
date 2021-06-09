@@ -5,8 +5,10 @@
   "settings.central-servers.view.title": "View {name}",
   "settings.central-servers.list.noItems": "No central servers",
   "settings.general": "General",
+  "settings.record-contribution": "Record contribution",
   "settings.central-server.configuration": "Central Server Configuration",
   "settings.innreach.locations": "INN-Reach Locations",
+  "settings.contribution-criteria": "Contribution criteria",
   "settings.some-feature.message": "These are your settings for some app feature.",
 
   "settings.central-server-configuration.callout.connectionProblem.get": "Unable to get data due to a module error. Please try again. If a problem persists please contact your system administrator",

@@ -7,11 +7,13 @@ import { useStripes } from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
 
 import InnreachLocations from './InnreachLocations';
+import { translationsProperties } from '../../../../test/jest/helpers';
 
 const renderInnreachLocations = ({ stripes }) => renderWithIntl(
   <InnreachLocations
     stripes={stripes}
-  />
+  />,
+  translationsProperties,
 );
 
 describe('Given InnreachLocations', () => {
@@ -23,15 +25,15 @@ describe('Given InnreachLocations', () => {
     stripes = useStripes();
   });
 
-  it('should render ConnectedControlledVocab component', async () => {
+  it('should render ConnectedControlledVocab component', () => {
     renderInnreachLocations({ stripes });
 
     expect(ControlledVocab).toHaveBeenCalled();
   });
 
-  it('should render label', async () => {
+  it('should render label', () => {
     const { getByText } = renderInnreachLocations({ stripes });
 
-    expect(getByText('ui-inn-reach.settings.central-server.locations')).toBeDefined();
+    expect(getByText('INN-reach locations')).toBeDefined();
   });
 });
