@@ -7,15 +7,13 @@ import {
   NavListItem,
 } from '@folio/stripes-components';
 
-const SectionItem = ({ setting, path, centralServers }) => {
+const SectionItem = ({
+  setting,
+  path,
+}) => {
   let sectionItem = (
     <NavListItem
-      to={{
-        pathname: `${path}/${setting.route}`,
-        state: {
-          centralServers,
-        },
-      }}
+      to={`${path}/${setting.route}`}
       data-testid="section-item"
     >
       {setting.label}

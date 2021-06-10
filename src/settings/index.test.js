@@ -77,7 +77,6 @@ describe('InnReachSettings', () => {
 
     expect(Settings.mock.calls[0][0].path).toEqual(path);
     expect(Settings.mock.calls[0][0].sections).toEqual(sections);
-    expect(Settings.mock.calls[0][0].centralServers).toEqual(centralServers);
   });
 
   it('should filter sections when there is no central server', () => {

@@ -14,7 +14,10 @@ import {
   Callout,
 } from '@folio/stripes-components';
 
-import { CalloutContext } from '../contexts';
+import {
+  CalloutContext,
+  SettingsContext,
+} from '../contexts';
 import {
   RECORD_CONTRIBUTION,
 } from '../constants';
@@ -53,14 +56,19 @@ const InnReachSettings = ({
 
   return (
     <>
-      <CalloutContext.Provider value={calloutRef.current}>
-        <Settings
-          path={path}
-          sections={sectionsToShow}
-          centralServers={centralServers}
-        />
-        {children}
-      </CalloutContext.Provider>
+      <SettingsContext.Provider
+        value={{
+          centralServers,
+        }}
+      >
+        <CalloutContext.Provider value={calloutRef.current}>
+          <Settings
+            path={path}
+            sections={sectionsToShow}
+          />
+          {children}
+        </CalloutContext.Provider>
+      </SettingsContext.Provider>
       <Callout ref={calloutRef} />
     </>
   );

@@ -18,7 +18,6 @@ import {
 const Settings = ({
   sections,
   path,
-  centralServers,
 }) => {
   return (
     <Pane
@@ -39,7 +38,6 @@ const Settings = ({
                   setting={setting}
                   path={path}
                   key={setting.route}
-                  centralServers={centralServers}
                 />
               ))}
             </NavListSection>
@@ -64,7 +62,6 @@ const Settings = ({
 Settings.propTypes = {
   path: PropTypes.string.isRequired,
   sections: PropTypes.arrayOf(PropTypes.object).isRequired,
-  centralServers: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default Settings;

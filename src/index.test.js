@@ -6,16 +6,11 @@ import { render } from '@testing-library/react';
 import { useStripes } from '@folio/stripes/core';
 
 import InnReach from './index';
-import InnReachSettings from './settings';
 
-jest.mock('./settings', () => jest.fn(() => 'InnReachSettings'));
-
-const path = '/settings/innreach';
+jest.mock('./settings', () => () => 'InnReachSettings');
 
 const renderPrimeRoutes = (props) => {
   const history = createMemoryHistory();
-
-  history.push(path);
 
   return render(
     <Router history={history}>
@@ -23,7 +18,7 @@ const renderPrimeRoutes = (props) => {
         {...props}
         showSettings
         match={{
-          path,
+          path: '/',
           params: {},
           url: '',
         }}
@@ -37,7 +32,6 @@ describe('InnReach component', () => {
 
   beforeEach(() => {
     stripes = useStripes();
-    InnReachSettings.mockClear();
   });
 
   it('should be rendered', () => {
