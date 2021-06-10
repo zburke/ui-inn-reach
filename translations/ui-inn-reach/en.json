@@ -84,7 +84,7 @@
   "settings.innreach-locations.description": "Description",
   "settings.innreach-locations.last-updated": "Last updated",
   "settings.innreach-locations.actions": "Actions",
-  "settings.innreach-locations.locations": "Loc"
+  "settings.innreach-locations.locations": "Loc",
 
   "settings.contribution-criteria.title": "Contribution criteria",
   "settings.contribution-criteria.button.save": "Save",

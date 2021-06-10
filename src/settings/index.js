@@ -83,7 +83,9 @@ InnReachSettings.manifest = Object.freeze({
 });
 
 InnReachSettings.propTypes = {
-  match: ReactRouterPropTypes.match.isRequired,
+  match: PropTypes.shape({
+    path: PropTypes.string.isRequired,
+  }).isRequired,
   resources: PropTypes.shape({
     centralServerRecords: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object),
