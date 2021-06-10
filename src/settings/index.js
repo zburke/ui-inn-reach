@@ -1,57 +1,95 @@
-import React, { useRef } from 'react';
-import { FormattedMessage } from 'react-intl';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { isEmpty } from 'lodash';
+import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { Settings } from '@folio/stripes-smart-components';
 import {
-  stripesShape,
-} from '@folio/stripes/core';
-import { Callout } from '@folio/stripes-components';
+  stripesConnect,
+} from '@folio/stripes-core';
+import {
+  Callout,
+} from '@folio/stripes-components';
 
 import {
-  CentralServersConfigurationRoute,
-  InnreachLocations,
-} from './routes';
-import { CalloutContext } from '../contexts';
+  CalloutContext,
+  SettingsContext,
+} from '../contexts';
 import {
-  SETTINGS_PANE_WIDTH,
+  RECORD_CONTRIBUTION,
 } from '../constants';
+import {
+  sections,
+} from './components/Settings/constants';
+import {
+  Settings,
+} from './components';
 
-const sections = [
-  {
-    label: <FormattedMessage id="ui-inn-reach.settings.general" />,
-    pages: [
-      {
-        route: 'central-server-configurations',
-        label: <FormattedMessage id="ui-inn-reach.settings.central-server.configuration" />,
-        component: CentralServersConfigurationRoute,
-      },
-      {
-        route: 'locations',
-        label: <FormattedMessage id="ui-inn-reach.settings.central-server.locations" />,
-        component: InnreachLocations,
-      },
-    ],
+const InnReachSettings = ({
+  children,
+  match: {
+    path,
   },
-];
-
-export default function InnReachSettings(props) {
+  resources: {
+    centralServerRecords: {
+      records: centralServers,
+    },
+  },
+}) => {
   const calloutRef = useRef(null);
+  const [sectionsToShow, setSectionsToShow] = useState(sections);
+
+  useEffect(() => {
+    if (isEmpty(centralServers)) {
+      const filteredSections = sections.filter(section => (
+        ![RECORD_CONTRIBUTION].includes(section.id)
+      ));
+
+      setSectionsToShow(filteredSections);
+    } else {
+      setSectionsToShow(sections);
+    }
+  }, [centralServers]);
 
   return (
     <>
-      <CalloutContext.Provider value={calloutRef.current}>
-        <Settings
-          {...props}
-          navPaneWidth={SETTINGS_PANE_WIDTH}
-          paneTitle={<FormattedMessage id="ui-inn-reach.meta.title" />}
-          sections={sections}
-        />
-      </CalloutContext.Provider>
+      <SettingsContext.Provider
+        value={{
+          centralServers,
+        }}
+      >
+        <CalloutContext.Provider value={calloutRef.current}>
+          <Settings
+            path={path}
+            sections={sectionsToShow}
+          />
+          {children}
+        </CalloutContext.Provider>
+      </SettingsContext.Provider>
       <Callout ref={calloutRef} />
     </>
   );
-}
+};
+
+InnReachSettings.manifest = Object.freeze({
+  centralServerRecords: {
+    type: 'okapi',
+    path: 'inn-reach/central-servers',
+    throwErrors: false,
+  },
+});
 
 InnReachSettings.propTypes = {
-  stripes: stripesShape.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
+  resources: PropTypes.shape({
+    centralServerRecords: PropTypes.shape({
+      records: PropTypes.arrayOf(PropTypes.object),
+    })
+  }).isRequired,
+  children: PropTypes.node,
 };
+
+export default stripesConnect(InnReachSettings);

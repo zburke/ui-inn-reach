@@ -4,7 +4,10 @@ import {
   useIntl,
 } from 'react-intl';
 
-import { stripesShape } from '@folio/stripes/core';
+import {
+  stripesShape,
+  withStripes,
+} from '@folio/stripes/core';
 import { ControlledVocab } from '@folio/stripes/smart-components';
 
 const InnreachLocations = ({ stripes }) => {
@@ -49,4 +52,4 @@ InnreachLocations.propTypes = {
   stripes: stripesShape.isRequired,
 };
 
-export default InnreachLocations;
+export default withStripes(InnreachLocations);
