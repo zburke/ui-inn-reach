@@ -30,7 +30,6 @@ const CentralServersConfigurationCreateRoute = ({
   mutator,
 }) => {
   const showCallout = useCallout();
-  const [localServerKeypair, setLocalServerKeypair] = useState({});
   const [isCentralServerDataInvalid, setIsCentralServerDataInvalid] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
@@ -41,11 +40,17 @@ const CentralServersConfigurationCreateRoute = ({
     setOpenModal(false);
   };
 
-  const saveLocalServerKeypair = (exportData) => {
-    setLocalServerKeypair(exportData);
+  const makeValidCentralServerData = () => {
+    setIsCentralServerDataInvalid(false);
   };
 
   const handleCreateRecord = (record) => {
+    const {
+      name,
+      localServerKey,
+      localServerSecret,
+    } = record;
+
     const updatedRecord = {
       ...record,
       localAgencies: getConvertedLocalAgenciesToCreateEdit(record.localAgencies),
@@ -53,10 +58,12 @@ const CentralServersConfigurationCreateRoute = ({
 
     mutator.centralServerRecords.POST(updatedRecord)
       .then(() => {
-        const fileName = `${record.name}-local-server-keypair`;
+        const fileName = `${name}-local-server-keypair`;
+        const exportData = { localServerKey, localServerSecret };
 
-        setIsCentralServerDataInvalid(false);
-        downloadJsonFile(localServerKeypair, fileName);
+        if (localServerKey && localServerSecret) {
+          downloadJsonFile(exportData, fileName);
+        }
         navigateToList();
         showCallout({ message: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create.success" /> });
       })
@@ -65,7 +72,7 @@ const CentralServersConfigurationCreateRoute = ({
 
         if (error.status === 400) {
           setIsCentralServerDataInvalid(true);
-          message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create.invalidData" />;
+          message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.invalidData" />;
         } else {
           message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.connectionProblem.post" />;
         }
@@ -94,9 +101,9 @@ const CentralServersConfigurationCreateRoute = ({
     <CentralServersConfigurationCreateEditContainer
       isCentralServerDataInvalid={isCentralServerDataInvalid}
       openModal={openModal}
-      saveLocalServerKeypair={saveLocalServerKeypair}
       onFormCancel={navigateToList}
       onSubmit={handleCreateRecord}
+      onMakeValidCentralServerData={makeValidCentralServerData}
       onModalCancel={navigateToList}
       onModalConfirm={handleModalConfirm}
     />

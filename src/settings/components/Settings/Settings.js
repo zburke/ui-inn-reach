@@ -15,7 +15,10 @@ import {
   SETTINGS_PANE_WIDTH,
 } from '../../../constants';
 
-const Settings = ({ sections, path, centralServers }) => {
+const Settings = ({
+  sections,
+  path,
+}) => {
   return (
     <Pane
       defaultWidth={SETTINGS_PANE_WIDTH}
@@ -30,20 +33,21 @@ const Settings = ({ sections, path, centralServers }) => {
               label={section.label}
               data-testid="settings"
             >
-              {section.pages.map((setting) => <SectionItem
-                setting={setting}
-                path={path}
-                key={setting.route}
-                centralServers={centralServers}
-              />)}
+              {section.pages.map(setting => (
+                <SectionItem
+                  setting={setting}
+                  path={path}
+                  key={setting.route}
+                />
+              ))}
             </NavListSection>
           );
 
           return section.interface
             ? (
               <IfInterface
-                name={section.interface}
                 key={index}
+                name={section.interface}
               >
                 {sectionInner}
               </IfInterface>
@@ -58,7 +62,6 @@ const Settings = ({ sections, path, centralServers }) => {
 Settings.propTypes = {
   path: PropTypes.string.isRequired,
   sections: PropTypes.arrayOf(PropTypes.object).isRequired,
-  centralServers: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default Settings;

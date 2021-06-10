@@ -136,6 +136,7 @@ const CentralServersConfigurationViewRoute = ({
   return (
     <>
       <CentralServersConfigurationView
+        showActionMenu
         paneTitle={getTitle}
         centralServer={centralServer}
         onBack={onBackToList}

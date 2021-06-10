@@ -1,7 +1,4 @@
-import React, { memo } from 'react';
-import {
-  isEqual,
-} from 'lodash';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -14,33 +11,47 @@ import {
 import CentralServersConfigurationForm
   from '../../components/CentralServersConfiguration/CentralServersConfigurationForm';
 
+export const DEFAULT_VALUES = {
+  localAgencies: [
+    {
+      localAgency: '',
+      FOLIOLibraries: [],
+    }
+  ],
+};
+
 const CentralServersConfigurationCreateEditContainer = ({
   initialValues,
-  isLocalServerToPrevValue,
+  showPrevLocalServerValue,
   isCentralServerDataInvalid,
-  saveLocalServerKeypair,
   onFormCancel,
   onSubmit,
   openModal,
   modalContent,
-  changeIsLocalServerToPrevValue,
+  onShowPreviousLocalServerValue,
+  onMakeValidCentralServerData,
   onModalCancel,
   onModalConfirm,
 }) => {
   const intl = useIntl();
+  const fieldsInitialValues = {
+    ...DEFAULT_VALUES,
+    ...initialValues,
+  };
 
   return (
     <Paneset>
       <Layer
         isOpen
+        inRootSet
         contentLabel={intl.formatMessage({ id: 'stripes-smart-components.sas.createEntry' })}
       >
         <CentralServersConfigurationForm
-          initialValues={initialValues}
+          initialValues={fieldsInitialValues}
           isCentralServerDataInvalid={isCentralServerDataInvalid}
-          isLocalServerToPrevValue={isLocalServerToPrevValue}
-          saveLocalServerKeypair={saveLocalServerKeypair}
-          changeIsLocalServerToPrevValue={changeIsLocalServerToPrevValue}
+          showPrevLocalServerValue={showPrevLocalServerValue}
+          onShowPreviousLocalServerValue={onShowPreviousLocalServerValue}
+          onMakeValidCentralServerData={onMakeValidCentralServerData}
           onCancel={onFormCancel}
           onSubmit={onSubmit}
         />
@@ -60,29 +71,23 @@ const CentralServersConfigurationCreateEditContainer = ({
 };
 
 CentralServersConfigurationCreateEditContainer.propTypes = {
-  changeIsLocalServerToPrevValue: PropTypes.func,
+  openModal: PropTypes.bool.isRequired,
+  onFormCancel: PropTypes.func.isRequired,
+  onModalCancel: PropTypes.func.isRequired,
+  onModalConfirm: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object,
   isCentralServerDataInvalid: PropTypes.bool,
-  isLocalServerToPrevValue: PropTypes.bool,
   modalContent: PropTypes.object,
-  openModal: PropTypes.bool,
-  saveLocalServerKeypair: PropTypes.func,
-  onFormCancel: PropTypes.func,
-  onModalCancel: PropTypes.func,
-  onModalConfirm: PropTypes.func,
-  onSubmit: PropTypes.func,
+  showPrevLocalServerValue: PropTypes.bool,
+  onMakeValidCentralServerData: PropTypes.func,
+  onShowPreviousLocalServerValue: PropTypes.func,
 };
 
 CentralServersConfigurationCreateEditContainer.defaultProps = {
+  initialValues: {},
   isCentralServerDataInvalid: false,
   modalContent: {},
-  openModal: false,
 };
 
-export default memo(CentralServersConfigurationCreateEditContainer, (prevProps, nextProps) => (
-  isEqual(prevProps.initialValues, nextProps.initialValues) &&
-  prevProps.isLocalServerToPrevValue === nextProps.isLocalServerToPrevValue &&
-  prevProps.isCentralServerDataInvalid === nextProps.isCentralServerDataInvalid &&
-  prevProps.openModal === nextProps.openModal &&
-  isEqual(prevProps.modalContent, nextProps.modalContent)
-));
+export default CentralServersConfigurationCreateEditContainer;

@@ -7,7 +7,10 @@ import {
   NavListItem,
 } from '@folio/stripes-components';
 
-const SectionItem = ({ setting, path }) => {
+const SectionItem = ({
+  setting,
+  path,
+}) => {
   let sectionItem = (
     <NavListItem
       to={`${path}/${setting.route}`}

@@ -13,7 +13,8 @@ import {
 } from '../../../../../../constants';
 
 const centralServer = {
-  CENTRAL_SERVER_CONFIGURATION_FIELDS,
+  ...CENTRAL_SERVER_CONFIGURATION_FIELDS,
+  centralServerAddress: 'testCentralServerAddress',
 };
 
 const RenderServerConnection = (centralServerData) => {
@@ -49,7 +50,7 @@ describe('ServerConnection component', () => {
   });
 
   it('should display correct central server address', () => {
-    const centralServerAddress = centralServer.CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_ADDRESS;
+    const centralServerAddress = centralServer.centralServerAddress;
 
     expect(screen.getByText(centralServerAddress)).toBeInTheDocument();
   });
@@ -58,10 +59,8 @@ describe('ServerConnection component', () => {
     cleanup();
 
     const testCentralServer = {
-      CENTRAL_SERVER_CONFIGURATION_FIELDS: {
-        ...CENTRAL_SERVER_CONFIGURATION_FIELDS,
-        CENTRAL_SERVER_ADDRESS: '',
-      },
+      ...CENTRAL_SERVER_CONFIGURATION_FIELDS,
+      centralServerAddress: '',
     };
 
     renderWithIntl(
@@ -69,7 +68,7 @@ describe('ServerConnection component', () => {
       translationsProperties,
     );
 
-    const centralServerAddress = centralServer.CENTRAL_SERVER_CONFIGURATION_FIELDS.CENTRAL_SERVER_ADDRESS;
+    const centralServerAddress = centralServer.centralServerAddress;
 
     expect(screen.queryByText(centralServerAddress)).toBeNull();
   });

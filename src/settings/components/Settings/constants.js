@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
   CentralServersConfigurationRoute,
+  InnreachLocations,
   ContributionCriteriaRoute,
 } from '../../routes';
 import {
@@ -21,7 +22,7 @@ export const sections = [
       {
         route: 'locations',
         label: <FormattedMessage id="ui-inn-reach.settings.central-server.locations" />,
-        component: <div>InnreachLocations</div>,
+        component: InnreachLocations,
       },
     ],
   },

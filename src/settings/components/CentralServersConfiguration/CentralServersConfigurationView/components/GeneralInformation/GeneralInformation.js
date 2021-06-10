@@ -24,7 +24,6 @@ import { CentralServersConfigurationContext } from '../../../../../../contexts';
 
 const getFormattedFolioLibraries = (folioLibraryIds, folioLibraries) => {
   // eslint-disable-next-line no-param-reassign
-  folioLibraryIds = Array.isArray(folioLibraryIds) ? folioLibraryIds : [];
   const folioLibraryCodesArr = folioLibraryIds.map(id => folioLibraries.find((lib) => lib.id === id).code);
 
   return folioLibraryCodesArr.length
@@ -41,7 +40,7 @@ const GeneralInformation = ({
   } = useContext(CentralServersConfigurationContext);
 
   const getLoanTypeName = (id) => {
-    const loanType = loanTypes.filter((type) => type.id === id);
+    const loanType = loanTypes.find((type) => type.id === id);
 
     return loanType.name;
   };
@@ -58,7 +57,7 @@ const GeneralInformation = ({
 
   const resultsFormatter = {
     [LOCAL_AGENCIES_FIELDS.CODE]: (data) => (data[LOCAL_AGENCIES_FIELDS.CODE] || <NoValue />),
-    [LOCAL_AGENCIES_FIELDS.FOLIO_LIBRARY_IDs]: (data) => getFormattedFolioLibraries(data, folioLibraries),
+    [LOCAL_AGENCIES_FIELDS.FOLIO_LIBRARY_IDs]: (data) => getFormattedFolioLibraries(data.folioLibraryIds, folioLibraries),
   };
 
   return (

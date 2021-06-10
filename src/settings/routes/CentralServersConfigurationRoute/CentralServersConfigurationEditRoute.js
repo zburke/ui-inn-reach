@@ -46,11 +46,10 @@ const CentralServersConfigurationEditRoute = ({
     folioLibraries,
   } = useContext(CentralServersConfigurationContext);
 
-  const [localServerKeypair, setLocalServerKeypair] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const [modalContent, setModalContent] = useState({});
   const [formData, setFormData] = useState({});
-  const [isLocalServerToPrevValue, setIsLocalServerToPrevValue] = useState(false);
+  const [showPrevLocalServerValue, setShowPrevLocalServerValue] = useState(false);
   const [initialValues, setInitialValues] = useState({});
 
   const navigateToView = () => history.push(getCentralServerConfigurationViewUrl(id));
@@ -62,13 +61,19 @@ const CentralServersConfigurationEditRoute = ({
 
   const handleModalCancel = () => {
     if (isLocalServerKeypairChanged(formData)) {
-      setIsLocalServerToPrevValue(true);
+      setShowPrevLocalServerValue(true);
     }
 
     setOpenModal(false);
   };
 
   const saveData = (actualFormData) => {
+    const {
+      name,
+      localServerKey,
+      localServerSecret,
+    } = actualFormData;
+
     const finalData = {
       ...actualFormData,
       localAgencies: getConvertedLocalAgenciesToCreateEdit(actualFormData.localAgencies),
@@ -77,7 +82,12 @@ const CentralServersConfigurationEditRoute = ({
     mutator.centralServerRecord.PUT(finalData)
       .then(() => {
         if (isLocalServerKeypairChanged(actualFormData)) {
-          downloadJsonFile(localServerKeypair, `${actualFormData.name}-local-server-keypair`);
+          const fileName = `${name}-local-server-keypair`;
+          const exportData = { localServerKey, localServerSecret };
+
+          if (localServerKey && localServerSecret) {
+            downloadJsonFile(exportData, fileName);
+          }
         }
 
         navigateToView();
@@ -100,12 +110,8 @@ const CentralServersConfigurationEditRoute = ({
     saveData(formData);
   };
 
-  const saveLocalServerKeypair = (exportData) => {
-    setLocalServerKeypair(exportData);
-  };
-
-  const changeIsLocalServerToPrevValue = (value) => {
-    setIsLocalServerToPrevValue(value);
+  const showPreviousLocalServerValue = (value) => {
+    setShowPrevLocalServerValue(value);
   };
 
   const handleUpdateRecord = (record) => {
@@ -156,11 +162,10 @@ const CentralServersConfigurationEditRoute = ({
   return (
     <CentralServersConfigurationCreateEditContainer
       initialValues={initialValues}
-      isLocalServerToPrevValue={isLocalServerToPrevValue}
+      showPrevLocalServerValue={showPrevLocalServerValue}
       openModal={openModal}
       modalContent={modalContent}
-      changeIsLocalServerToPrevValue={changeIsLocalServerToPrevValue}
-      saveLocalServerKeypair={saveLocalServerKeypair}
+      onShowPreviousLocalServerValue={showPreviousLocalServerValue}
       onFormCancel={navigateToView}
       onSubmit={handleUpdateRecord}
       onModalCancel={handleModalCancel}

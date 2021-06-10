@@ -10,8 +10,8 @@ import { translationsProperties } from '../../../../../../test/jest/helpers';
 import SectionItem from './SectionItem';
 
 jest.mock('@folio/stripes/core', () => ({
-  IfInterface: jest.fn(() => <div>IfInterface</div>),
-  IfPermission: jest.fn(() => <div>IfPermission</div>),
+  IfInterface: () => 'IfInterface',
+  IfPermission: () => 'IfPermission',
 }));
 
 const renderSectionItem = ({ setting, path }) => {
