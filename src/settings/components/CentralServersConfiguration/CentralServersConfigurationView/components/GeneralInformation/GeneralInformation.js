@@ -105,7 +105,7 @@ const GeneralInformation = ({
         <Col sm={12}>
           <MultiColumnList
             columnMapping={columnMapping}
-            contentData={CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_AGENCIES}
+            contentData={centralServer[CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_AGENCIES]}
             formatter={resultsFormatter}
             id="centralCerverLocalAgencies"
             visibleColumns={visibleColumns}
