@@ -48,8 +48,8 @@ const ContributionCriteriaCreateEditRoute = ({
   isPristine,
   prevServerName,
   centralServersOptions,
-  onAssignPrevServerName,
-  onAppointIsPristine,
+  onChangePrevServerName,
+  onChangePristineState,
   mutator,
   serverSelection,
   onFooter,
@@ -66,7 +66,7 @@ const ContributionCriteriaCreateEditRoute = ({
   const statisticalCodeTypes = statisticalCodeTypesData[0]?.statisticalCodeTypes || [];
   const statisticalCodes = statisticalCodesData[0]?.statisticalCodes || [];
 
-  const appointIsResetForm = (value) => {
+  const changeFormResetState = (value) => {
     setIsResetForm(value);
   };
 
@@ -82,8 +82,8 @@ const ContributionCriteriaCreateEditRoute = ({
     if (prevServerName) {
       backPrevServer();
     }
-    onAppointIsPristine(false);
-    onAssignPrevServerName(prevServerName);
+    onChangePristineState(false);
+    onChangePrevServerName(prevServerName);
     setOpenModal(false);
   };
 
@@ -149,7 +149,7 @@ const ContributionCriteriaCreateEditRoute = ({
     const unblock = history.block(nextLocat => {
       if (!isPristine) {
         setOpenModal(true);
-        onAppointIsPristine(true);
+        onChangePristineState(true);
         setNextLocation(nextLocat);
       }
 
@@ -170,8 +170,8 @@ const ContributionCriteriaCreateEditRoute = ({
         serverSelection={serverSelection}
         onSubmit={handleSubmit}
         onFooter={onFooter}
-        onAppointIsPristine={onAppointIsPristine}
-        onAppointIsResetForm={appointIsResetForm}
+        onChangePristineState={onChangePristineState}
+        onChangeFormResetState={changeFormResetState}
       />
       <ConfirmationModal
         id="cancel-editing-confirmation"

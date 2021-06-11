@@ -39,8 +39,8 @@ const statisticalCodeTypes = [
 const renderContributionCriteriaForm = ({
   initialValues = DEFAULT_VALUES,
   isResetForm = false,
-  onAppointIsResetForm,
-  onAppointIsPristine,
+  onChangeFormResetState,
+  onChangePristineState,
   onFooter,
   history = createMemoryHistory(),
   handleSubmit,
@@ -54,8 +54,8 @@ const renderContributionCriteriaForm = ({
         initialValues={initialValues}
         isResetForm={isResetForm}
         serverSelection={serverSelection}
-        onAppointIsResetForm={onAppointIsResetForm}
-        onAppointIsPristine={onAppointIsPristine}
+        onChangeFormResetState={onChangeFormResetState}
+        onChangePristineState={onChangePristineState}
         onFooter={onFooter}
         onSubmit={handleSubmit}
       />
@@ -65,14 +65,14 @@ const renderContributionCriteriaForm = ({
 };
 
 describe('ContributionCriteriaForm', () => {
-  const onAppointIsResetForm = jest.fn();
-  const onAppointIsPristine = jest.fn();
+  const onChangeFormResetState = jest.fn();
+  const onChangePristineState = jest.fn();
   const onFooter = jest.fn();
   const handleSubmit = jest.fn();
 
   const commonProps = {
-    onAppointIsResetForm,
-    onAppointIsPristine,
+    onChangeFormResetState,
+    onChangePristineState,
     onFooter,
     handleSubmit,
   };
@@ -83,12 +83,12 @@ describe('ContributionCriteriaForm', () => {
     expect(container).toBeVisible();
   });
 
-  it('should call onAppointIsResetForm when isReset prop is true', () => {
+  it('should call onChangeFormResetState when isReset prop is true', () => {
     renderContributionCriteriaForm({
       ...commonProps,
       isResetForm: true,
     });
-    expect(onAppointIsResetForm).toHaveBeenCalledWith(false);
+    expect(onChangeFormResetState).toHaveBeenCalledWith(false);
   });
 
   describe('`FOLIO statistical code to exclude from contribution` field', () => {
@@ -106,9 +106,9 @@ describe('ContributionCriteriaForm', () => {
       });
 
       it('should change the value of isPristine when selected', () => {
-        expect(onAppointIsPristine).toHaveBeenCalledWith(true);
+        expect(onChangePristineState).toHaveBeenCalledWith(true);
         userEvent.selectOptions(screen.getByRole('combobox', { name: 'FOLIO statistical code to exclude from contribution' }), '7a82f404-07df-4e5e-8e8f-a15f3b6ddffa');
-        expect(onAppointIsPristine).toHaveBeenCalledWith(false);
+        expect(onChangePristineState).toHaveBeenCalledWith(false);
       });
     });
   });

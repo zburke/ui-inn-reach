@@ -36,8 +36,8 @@ const ContributionCriteriaForm = ({
   form,
   serverSelection,
   handleSubmit,
-  onAppointIsResetForm,
-  onAppointIsPristine,
+  onChangeFormResetState,
+  onChangePristineState,
   onFooter,
 }) => {
   const [statisticalCodeOptions, setStatisticalCodeOptions] = useState([]);
@@ -79,12 +79,12 @@ const ContributionCriteriaForm = ({
   useEffect(() => {
     if (isResetForm) {
       form.reset();
-      onAppointIsResetForm(false);
+      onChangeFormResetState(false);
     }
   }, [isResetForm]);
 
   useEffect(() => {
-    onAppointIsPristine(isEqual(initialValues, values));
+    onChangePristineState(isEqual(initialValues, values));
   }, [values]);
 
   return (
@@ -153,8 +153,8 @@ ContributionCriteriaForm.propTypes = {
   isResetForm: PropTypes.bool.isRequired,
   serverSelection: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
-  onAppointIsPristine: PropTypes.func.isRequired,
-  onAppointIsResetForm: PropTypes.func.isRequired,
+  onChangePristineState: PropTypes.func.isRequired,
+  onChangeFormResetState: PropTypes.func.isRequired,
   onFooter: PropTypes.func.isRequired,
   folioLocations: PropTypes.arrayOf(PropTypes.object),
   statisticalCodeTypes: PropTypes.arrayOf(PropTypes.object),

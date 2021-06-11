@@ -46,18 +46,18 @@ const ContributionCriteriaSelectionRoute = ({
     label: name,
   }));
 
-  const appointIsPristine = (value) => {
+  const changePristineState = (value) => {
     setIsPristine(value);
   };
 
-  const assignPrevServerName = (name) => {
+  const changePrevServerName = (name) => {
     setPrevServerName(name);
   };
 
   const handleServerChange = (selectedServerName) => {
     const selectedCentralServerId = centralServers.find(server => server.name === selectedServerName).id;
 
-    assignPrevServerName(serverName);
+    changePrevServerName(serverName);
     setServerName(selectedServerName);
     history.push(getContributionCriteriaUrl(selectedCentralServerId));
   };
@@ -131,9 +131,9 @@ const ContributionCriteriaSelectionRoute = ({
             prevServerName={prevServerName}
             centralServersOptions={centralServersOptions}
             serverSelection={serverSelection}
-            onAssignPrevServerName={assignPrevServerName}
+            onChangePrevServerName={changePrevServerName}
             onFooter={getFooter}
-            onAppointIsPristine={appointIsPristine}
+            onChangePristineState={changePristineState}
           />
         )}
       />

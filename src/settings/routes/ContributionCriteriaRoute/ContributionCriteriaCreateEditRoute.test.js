@@ -100,8 +100,8 @@ const serverSelection = <div>Server Selection</div>;
 const renderContributionCriteriaCreateEditRoute = ({
   isPristine = true,
   prevServerName = '',
-  onAssignPrevServerName,
-  onAppointIsPristine,
+  onChangePrevServerName,
+  onChangePristineState,
   resources = resourcesMock,
   mutator = {},
   onFooter,
@@ -116,8 +116,8 @@ const renderContributionCriteriaCreateEditRoute = ({
       centralServersOptions={centralServersOptions}
       mutator={mutator}
       serverSelection={serverSelection}
-      onAssignPrevServerName={onAssignPrevServerName}
-      onAppointIsPristine={onAppointIsPristine}
+      onChangePrevServerName={onChangePrevServerName}
+      onChangePristineState={onChangePristineState}
       onFooter={onFooter}
     />,
     translationsProperties,
@@ -125,14 +125,14 @@ const renderContributionCriteriaCreateEditRoute = ({
 };
 
 describe('ContributionCriteriaCreateEditRoute component', () => {
-  const onAssignPrevServerName = jest.fn();
-  const onAppointIsPristine = jest.fn();
+  const onChangePrevServerName = jest.fn();
+  const onChangePristineState = jest.fn();
   const onFooter = jest.fn();
   let history;
 
   const commonProps = {
-    onAssignPrevServerName,
-    onAppointIsPristine,
+    onChangePrevServerName,
+    onChangePristineState,
     onFooter,
   };
 
@@ -159,7 +159,7 @@ describe('ContributionCriteriaCreateEditRoute component', () => {
       });
       expect(ContributionCriteriaForm.mock.calls[0][0].isResetForm).toBeFalsy();
       act(() => {
-        ContributionCriteriaForm.mock.calls[0][0].onAppointIsResetForm(true);
+        ContributionCriteriaForm.mock.calls[0][0].onChangeFormResetState(true);
       });
       expect(ContributionCriteriaForm.mock.calls[1][0].isResetForm).toBeTruthy();
     });
@@ -180,8 +180,8 @@ describe('ContributionCriteriaCreateEditRoute component', () => {
       act(() => history.push('/settings'));
     });
 
-    it('should call onAppointIsPristine callback with true', () => {
-      expect(onAppointIsPristine).toHaveBeenCalledWith(true);
+    it('should call onChangePristineState callback with true', () => {
+      expect(onChangePristineState).toHaveBeenCalledWith(true);
     });
 
     it('should open modal', () => {
@@ -193,12 +193,12 @@ describe('ContributionCriteriaCreateEditRoute component', () => {
         act(() => ConfirmationModal.mock.calls[1][0].onConfirm());
       });
 
-      it('should change the isPristine value to false', () => {
-        expect(onAppointIsPristine).toHaveBeenCalledWith(false);
+      it('should change the isPristine state to false', () => {
+        expect(onChangePristineState).toHaveBeenCalledWith(false);
       });
 
-      it('should call onAssignPrevServerName callback with prevServerName', () => {
-        expect(onAssignPrevServerName).toHaveBeenCalledWith('testName2');
+      it('should call onChangePrevServerName callback with prevServerName', () => {
+        expect(onChangePrevServerName).toHaveBeenCalledWith('testName2');
       });
 
       it('should change openModal state to false', () => {
