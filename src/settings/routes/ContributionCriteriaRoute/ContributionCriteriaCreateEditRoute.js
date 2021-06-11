@@ -105,14 +105,14 @@ const ContributionCriteriaCreateEditRoute = ({
       .then(() => {
         const action = isCreation ? 'create' : 'update';
 
-        showCallout({ message: <FormattedMessage id={`ui-inn-reach.settings.central-server-configuration.${action}.success`} /> });
+        showCallout({ message: <FormattedMessage id={`ui-inn-reach.settings.contribution-criteria.${action}.success`} /> });
       })
       .catch(() => {
         const action = isCreation ? 'post' : 'put';
 
         showCallout({
           type: CALLOUT_ERROR_TYPE,
-          message: <FormattedMessage id={`ui-inn-reach.settings.central-server-configuration.callout.connectionProblem.${action}`} />,
+          message: <FormattedMessage id={`ui-inn-reach.settings.contribution-criteria.callout.connectionProblem.${action}`} />,
         });
       });
   };
@@ -171,10 +171,10 @@ const ContributionCriteriaCreateEditRoute = ({
       <ConfirmationModal
         id="cancel-editing-confirmation"
         open={openModal}
-        heading={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-heading.areYouSure" />}
-        message={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-message.unsavedChanges" />}
-        confirmLabel={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-confirmLabel.keepEditing" />}
-        cancelLabel={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-cancelLabel.closeWithoutSaving" />}
+        heading={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.create-edit.modal-heading.areYouSure" />}
+        message={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.create-edit.modal-message.unsavedChanges" />}
+        confirmLabel={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.create-edit.modal-confirmLabel.keepEditing" />}
+        cancelLabel={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.create-edit.modal-cancelLabel.closeWithoutSaving" />}
         onCancel={handleModalCancel}
         onConfirm={handleModalConfirm}
       />

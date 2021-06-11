@@ -93,5 +93,11 @@
   "settings.contribution-criteria.field.contributeButSuppress": "FOLIO statistical code to contribute but suppress from central discovery",
   "settings.contribution-criteria.field.doNotContribute": "FOLIO statistical code to exclude from contribution",
   "settings.contribution-criteria.field.contributeAsSystemOwned": "FOLIO statistical code for INN-Reach system owned resource indication",
-  "settings.contribution-criteria.placeholder.centralServer": "Select central server"
+  "settings.contribution-criteria.placeholder.centralServer": "Select central server",
+  "settings.contribution-criteria.create-edit.modal-message.unsavedChanges": "There are unsaved changes",
+  "settings.contribution-criteria.create-edit.modal-heading.areYouSure": "Are you sure?",
+  "settings.contribution-criteria.create-edit.modal-cancelLabel.closeWithoutSaving": "Close without saving",
+  "settings.contribution-criteria.create-edit.modal-confirmLabel.keepEditing": "Keep editing",
+  "settings.contribution-criteria.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
+  "settings.contribution-criteria.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator"
 }
