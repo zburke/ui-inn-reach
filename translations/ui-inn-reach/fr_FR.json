@@ -68,5 +68,7 @@
     "settings.innreach-locations.description": "Description",
     "settings.innreach-locations.last-updated": "Dernière mise à jour",
     "settings.innreach-locations.actions": "Actions",
-    "settings.innreach-locations.locations": "Loc"
+    "settings.innreach-locations.locations": "Loc",
+    "settings.record-contribution": "Record contribution",
+    "settings.contribution-criteria": "Contribution criteria"
 }
