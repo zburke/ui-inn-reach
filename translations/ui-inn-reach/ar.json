@@ -68,5 +68,7 @@
     "settings.innreach-locations.description": "الوصف",
     "settings.innreach-locations.last-updated": "آخر تحديث",
     "settings.innreach-locations.actions": "الإجراءات",
-    "settings.innreach-locations.locations": "Loc"
+    "settings.innreach-locations.locations": "Loc",
+    "settings.record-contribution": "المساهمة في التسجيلة",
+    "settings.contribution-criteria": "معايير المساهمة"
 }
