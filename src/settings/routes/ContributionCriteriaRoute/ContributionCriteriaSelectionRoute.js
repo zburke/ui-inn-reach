@@ -1,13 +1,24 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
   Route,
 } from '@folio/stripes/core';
-import { Button, Col, Pane, PaneFooter, Row, Selection } from '@folio/stripes-components';
+import {
+  Button,
+  Col,
+  Pane,
+  PaneFooter,
+  Row,
+  Selection,
+} from '@folio/stripes-components';
 
-import { FormattedMessage, useIntl } from 'react-intl';
 import {
   CONTRIBUTION_CRITERIA,
   DEFAULT_PANE_WIDTH,

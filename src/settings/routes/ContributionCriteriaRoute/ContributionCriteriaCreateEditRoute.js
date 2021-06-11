@@ -2,8 +2,12 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { omit } from 'lodash';
-import { FormattedMessage } from 'react-intl';
+import {
+  omit,
+} from 'lodash';
+import {
+  FormattedMessage,
+} from 'react-intl';
 import {
   useParams,
 } from 'react-router-dom';
@@ -69,8 +73,9 @@ const ContributionCriteriaCreateEditRoute = ({
   const backPrevServer = () => {
     const id = CONTRIBUTION_CRITERIA.CENTRAL_SERVER_ID;
     const index = centralServersOptions.findIndex(server => server.label === prevServerName);
+    const prevOption = document.getElementById(`option-${id}-${index}-${prevServerName}`);
 
-    document.getElementById(`option-${id}-${index}-${prevServerName}`)?.click();
+    if (prevOption) prevOption.click();
   };
 
   const handleModalConfirm = () => {

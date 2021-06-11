@@ -2,15 +2,15 @@ import React from 'react';
 import {
   cloneDeep,
 } from 'lodash';
+import { createMemoryHistory } from 'history';
+import { act } from '@testing-library/react';
 
 import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jest/helpers';
-import { createMemoryHistory } from 'history';
-import { useParams } from 'react-router-dom';
+import { ConfirmationModal } from '@folio/stripes-components';
+
 import { translationsProperties } from '../../../../test/jest/helpers';
 import ContributionCriteriaCreateEditRoute from './ContributionCriteriaCreateEditRoute';
-import ContributionCriteriaForm from "../../components/ContributionCriteria/ContributionCriteriaForm";
-import {act} from "@testing-library/react";
-import {ConfirmationModal} from "@folio/stripes-components";
+import ContributionCriteriaForm from '../../components/ContributionCriteria/ContributionCriteriaForm';
 
 jest.mock('../../components/ContributionCriteria/ContributionCriteriaForm', () => {
   return jest.fn(() => 'ContributionCriteriaForm');
