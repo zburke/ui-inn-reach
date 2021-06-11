@@ -70,7 +70,7 @@ const ContributionCriteriaCreateEditRoute = ({
     const id = CONTRIBUTION_CRITERIA.CENTRAL_SERVER_ID;
     const index = centralServersOptions.findIndex(server => server.label === prevServerName);
 
-    document.getElementById(`option-${id}-${index}-${prevServerName}`).click();
+    document.getElementById(`option-${id}-${index}-${prevServerName}`)?.click();
   };
 
   const handleModalConfirm = () => {

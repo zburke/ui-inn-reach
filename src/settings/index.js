@@ -5,7 +5,6 @@ import React, {
 } from 'react';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
   stripesConnect,
