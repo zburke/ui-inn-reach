@@ -52,7 +52,7 @@ const ContributionCriteriaCreateEditRoute = ({
   onChangePristineState,
   mutator,
   serverSelection,
-  onFooter,
+  renderFooter,
 }) => {
   const showCallout = useCallout();
   const { id: centralServerId } = useParams();
@@ -169,7 +169,7 @@ const ContributionCriteriaCreateEditRoute = ({
         isResetForm={isResetForm}
         serverSelection={serverSelection}
         onSubmit={handleSubmit}
-        onFooter={onFooter}
+        renderFooter={renderFooter}
         onChangePristineState={onChangePristineState}
         onChangeFormResetState={changeFormResetState}
       />

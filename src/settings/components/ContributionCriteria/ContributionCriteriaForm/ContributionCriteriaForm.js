@@ -38,7 +38,7 @@ const ContributionCriteriaForm = ({
   handleSubmit,
   onChangeFormResetState,
   onChangePristineState,
-  onFooter,
+  renderFooter,
 }) => {
   const [statisticalCodeOptions, setStatisticalCodeOptions] = useState([]);
   const [folioLocationOptions, setFolioLocationOptions] = useState([]);
@@ -90,7 +90,7 @@ const ContributionCriteriaForm = ({
   return (
     <Pane
       defaultWidth={DEFAULT_PANE_WIDTH}
-      footer={onFooter(handleSubmit)}
+      footer={renderFooter(handleSubmit)}
       paneTitle={<FormattedMessage id='ui-inn-reach.settings.contribution-criteria.title' />}
     >
       {serverSelection}
@@ -155,7 +155,7 @@ ContributionCriteriaForm.propTypes = {
   values: PropTypes.object.isRequired,
   onChangeFormResetState: PropTypes.func.isRequired,
   onChangePristineState: PropTypes.func.isRequired,
-  onFooter: PropTypes.func.isRequired,
+  renderFooter: PropTypes.func.isRequired,
   folioLocations: PropTypes.arrayOf(PropTypes.object),
   statisticalCodeTypes: PropTypes.arrayOf(PropTypes.object),
   statisticalCodes: PropTypes.arrayOf(PropTypes.object),

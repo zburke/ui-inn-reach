@@ -41,7 +41,7 @@ const renderContributionCriteriaForm = ({
   isResetForm = false,
   onChangeFormResetState,
   onChangePristineState,
-  onFooter,
+  renderFooter,
   history = createMemoryHistory(),
   handleSubmit,
 } = {}) => {
@@ -56,7 +56,7 @@ const renderContributionCriteriaForm = ({
         serverSelection={serverSelection}
         onChangeFormResetState={onChangeFormResetState}
         onChangePristineState={onChangePristineState}
-        onFooter={onFooter}
+        renderFooter={renderFooter}
         onSubmit={handleSubmit}
       />
     </Router>,
@@ -67,13 +67,13 @@ const renderContributionCriteriaForm = ({
 describe('ContributionCriteriaForm', () => {
   const onChangeFormResetState = jest.fn();
   const onChangePristineState = jest.fn();
-  const onFooter = jest.fn();
+  const renderFooter = jest.fn();
   const handleSubmit = jest.fn();
 
   const commonProps = {
     onChangeFormResetState,
     onChangePristineState,
-    onFooter,
+    renderFooter,
     handleSubmit,
   };
 

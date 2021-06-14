@@ -132,7 +132,7 @@ const ContributionCriteriaSelectionRoute = ({
             centralServersOptions={centralServersOptions}
             serverSelection={serverSelection}
             onChangePrevServerName={changePrevServerName}
-            onFooter={getFooter}
+            renderFooter={getFooter}
             onChangePristineState={changePristineState}
           />
         )}

@@ -104,7 +104,7 @@ const renderContributionCriteriaCreateEditRoute = ({
   onChangePristineState,
   resources = resourcesMock,
   mutator = {},
-  onFooter,
+  renderFooter,
   history,
 } = {}) => {
   return renderWithIntl(
@@ -118,7 +118,7 @@ const renderContributionCriteriaCreateEditRoute = ({
       serverSelection={serverSelection}
       onChangePrevServerName={onChangePrevServerName}
       onChangePristineState={onChangePristineState}
-      onFooter={onFooter}
+      renderFooter={renderFooter}
     />,
     translationsProperties,
   );
@@ -127,13 +127,13 @@ const renderContributionCriteriaCreateEditRoute = ({
 describe('ContributionCriteriaCreateEditRoute component', () => {
   const onChangePrevServerName = jest.fn();
   const onChangePristineState = jest.fn();
-  const onFooter = jest.fn();
+  const renderFooter = jest.fn();
   let history;
 
   const commonProps = {
     onChangePrevServerName,
     onChangePristineState,
-    onFooter,
+    renderFooter,
   };
 
   beforeEach(() => {
