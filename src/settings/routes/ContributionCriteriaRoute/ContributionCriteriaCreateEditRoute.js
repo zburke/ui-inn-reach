@@ -205,7 +205,7 @@ ContributionCriteriaCreateEditRoute.manifest = Object.freeze({
   },
   contributionCriteria: {
     type: 'okapi',
-    path: 'inn-reach/contribution-criteria/:{id}',
+    path: 'inn-reach/central-servers/:{id}/contribution-criteria',
     throwErrors: false,
   },
 });
