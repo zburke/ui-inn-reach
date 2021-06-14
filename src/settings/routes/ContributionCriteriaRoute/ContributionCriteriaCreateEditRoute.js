@@ -168,8 +168,8 @@ const ContributionCriteriaCreateEditRoute = ({
         statisticalCodeTypes={statisticalCodeTypes}
         isResetForm={isResetForm}
         serverSelection={serverSelection}
-        onSubmit={handleSubmit}
         renderFooter={renderFooter}
+        onSubmit={handleSubmit}
         onChangePristineState={onChangePristineState}
         onChangeFormResetState={changeFormResetState}
       />

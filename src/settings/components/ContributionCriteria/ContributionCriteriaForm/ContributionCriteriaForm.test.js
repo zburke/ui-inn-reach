@@ -54,9 +54,9 @@ const renderContributionCriteriaForm = ({
         initialValues={initialValues}
         isResetForm={isResetForm}
         serverSelection={serverSelection}
+        renderFooter={renderFooter}
         onChangeFormResetState={onChangeFormResetState}
         onChangePristineState={onChangePristineState}
-        renderFooter={renderFooter}
         onSubmit={handleSubmit}
       />
     </Router>,

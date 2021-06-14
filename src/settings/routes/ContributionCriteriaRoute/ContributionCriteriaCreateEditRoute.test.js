@@ -116,9 +116,9 @@ const renderContributionCriteriaCreateEditRoute = ({
       centralServersOptions={centralServersOptions}
       mutator={mutator}
       serverSelection={serverSelection}
+      renderFooter={renderFooter}
       onChangePrevServerName={onChangePrevServerName}
       onChangePristineState={onChangePristineState}
-      renderFooter={renderFooter}
     />,
     translationsProperties,
   );

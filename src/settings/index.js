@@ -5,7 +5,7 @@ import React, {
 } from 'react';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage } from 'react-intl';
 
 import {
   stripesConnect,
@@ -30,7 +30,7 @@ import {
 import {
   Settings,
 } from './components';
-import {useCallout} from "../hooks";
+import { useCallout } from '../hooks';
 
 const InnReachSettings = ({
   children,
@@ -72,7 +72,7 @@ const InnReachSettings = ({
   }, []);
 
   if (isLoading) {
-    return <LoadingPane defaultWidth={SETTINGS_PANE_WIDTH}/>;
+    return <LoadingPane defaultWidth={SETTINGS_PANE_WIDTH} />;
   }
 
   return (

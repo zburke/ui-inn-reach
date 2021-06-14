@@ -48,7 +48,6 @@ const path = '/settings/innreach';
 
 const renderInnReachSettings = (props) => render(
   <InnReachSettings
-    stripes={useStripes()}
     match={{ path }}
     mutator={DEFAULT_MUTATOR}
     {...props}
@@ -56,13 +55,16 @@ const renderInnReachSettings = (props) => render(
 );
 
 describe('InnReachSettings', () => {
+  let stripes;
+
   beforeEach(() => {
+    stripes = useStripes();
     Settings.mockClear();
   });
 
   it('should display Settings component', async () => {
     await waitFor(() => {
-      renderInnReachSettings();
+      renderInnReachSettings({ stripes });
     });
 
     expect(screen.getByText('Settings')).toBeDefined();
@@ -71,6 +73,7 @@ describe('InnReachSettings', () => {
   it('should pass required props to Settings', async () => {
     await waitFor(() => {
       renderInnReachSettings({
+        stripes,
         mutator: {
           centralServerRecords: {
             GET: jest.fn(() => Promise.resolve(centralServers)),
@@ -85,7 +88,7 @@ describe('InnReachSettings', () => {
 
   it('should filter sections when there is no central server', async () => {
     await waitFor(() => {
-      renderInnReachSettings();
+      renderInnReachSettings({ stripes });
     });
 
     expect(Settings.mock.calls[1][0].sections).not.toEqual(sections);
