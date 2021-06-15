@@ -14,34 +14,45 @@ import {
 
 import {
   ConfirmationModal,
+  LoadingPane,
 } from '@folio/stripes-components';
 import { stripesConnect } from '@folio/stripes/core';
 
 import {
   CALLOUT_ERROR_TYPE,
   CONTRIBUTION_CRITERIA,
+  DEFAULT_PANE_WIDTH,
 } from '../../../constants';
 import ContributionCriteriaForm from '../../components/ContributionCriteria/ContributionCriteriaForm';
 import { useCallout } from '../../../hooks';
 
+const {
+  CENTRAL_SERVER_ID,
+  LOCATIONS_IDS,
+} = CONTRIBUTION_CRITERIA;
+
 export const DEFAULT_VALUES = {
-  [CONTRIBUTION_CRITERIA.LOCATIONS_IDS]: [],
+  [LOCATIONS_IDS]: [],
 };
 
 const ContributionCriteriaCreateEditRoute = ({
   resources: {
     folioLocations: {
       records: locations,
+      isPending: isLocationsPending,
     },
     statisticalCodeTypes: {
       records: statisticalCodeTypesData,
+      isPending: isStatCodeTypesPending,
     },
     statisticalCodes: {
       records: statisticalCodesData,
+      isPending: isStatCodesPending,
     },
     contributionCriteria: {
       failed: isCreation,
       records: contributionCriteria,
+      isPending: isContributionCriteriaPending,
     },
   },
   history,
@@ -71,9 +82,8 @@ const ContributionCriteriaCreateEditRoute = ({
   };
 
   const backPrevServer = () => {
-    const id = CONTRIBUTION_CRITERIA.CENTRAL_SERVER_ID;
     const index = centralServersOptions.findIndex(server => server.label === prevServerName);
-    const prevOption = document.getElementById(`option-${id}-${index}-${prevServerName}`);
+    const prevOption = document.getElementById(`option-${CENTRAL_SERVER_ID}-${index}-${prevServerName}`);
 
     if (prevOption) prevOption.click();
   };
@@ -96,14 +106,14 @@ const ContributionCriteriaCreateEditRoute = ({
   const handleSubmit = (record) => {
     const { contributionCriteria: { POST, PUT } } = mutator;
     const saveMethod = isCreation ? POST : PUT;
-    const FOLIOLocations = record[CONTRIBUTION_CRITERIA.LOCATIONS_IDS];
+    const FOLIOLocations = record[LOCATIONS_IDS];
     const finalRecord = {
-      ...omit(record, CONTRIBUTION_CRITERIA.LOCATIONS_IDS),
+      ...omit(record, LOCATIONS_IDS),
       centralServerId,
     };
 
     if (FOLIOLocations.length) {
-      finalRecord[CONTRIBUTION_CRITERIA.LOCATIONS_IDS] = FOLIOLocations.map(({ value }) => value);
+      finalRecord[LOCATIONS_IDS] = FOLIOLocations.map(({ value }) => value);
     }
 
     saveMethod(finalRecord)
@@ -126,10 +136,10 @@ const ContributionCriteriaCreateEditRoute = ({
     const contributionCriteriaRecord = contributionCriteria[0];
 
     if (contributionCriteriaRecord) {
-      const locationIds = contributionCriteriaRecord[CONTRIBUTION_CRITERIA.LOCATIONS_IDS];
+      const locationIds = contributionCriteriaRecord[LOCATIONS_IDS];
       const originalValues = {
         ...DEFAULT_VALUES,
-        ...omit(contributionCriteriaRecord, CONTRIBUTION_CRITERIA.LOCATIONS_IDS, CONTRIBUTION_CRITERIA.CENTRAL_SERVER_ID),
+        ...omit(contributionCriteriaRecord, LOCATIONS_IDS, CENTRAL_SERVER_ID),
       };
 
       if (locationIds) {
@@ -138,7 +148,7 @@ const ContributionCriteriaCreateEditRoute = ({
           label: folioLocations.find(location => location.id === id)?.name,
         }));
 
-        originalValues[CONTRIBUTION_CRITERIA.LOCATIONS_IDS] = formattedLocations;
+        originalValues[LOCATIONS_IDS] = formattedLocations;
       }
 
       setInitialValues(originalValues);
@@ -158,6 +168,15 @@ const ContributionCriteriaCreateEditRoute = ({
 
     return () => unblock();
   }, [isPristine]);
+
+  if (
+    isLocationsPending ||
+    isStatCodeTypesPending ||
+    isStatCodesPending ||
+    isContributionCriteriaPending
+  ) {
+    return <LoadingPane defaultWidth={DEFAULT_PANE_WIDTH} />;
+  }
 
   return (
     <>

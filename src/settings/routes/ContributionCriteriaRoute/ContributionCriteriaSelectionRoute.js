@@ -1,5 +1,4 @@
 import React, {
-  useContext,
   useEffect,
   useState,
 } from 'react';
@@ -8,11 +7,13 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
+  stripesConnect,
   Route,
 } from '@folio/stripes/core';
 import {
   Button,
   Col,
+  LoadingPane,
   Pane,
   PaneFooter,
   Row,
@@ -26,14 +27,22 @@ import {
 } from '../../../constants';
 import { getContributionCriteriaUrl } from '../../../utils';
 import ContributionCriteriaCreateEditRoute from './ContributionCriteriaCreateEditRoute';
-import { SettingsContext } from '../../../contexts';
+
+const {
+  CENTRAL_SERVER_ID,
+} = CONTRIBUTION_CRITERIA;
 
 const ContributionCriteriaSelectionRoute = ({
+  resources: {
+    centralServerRecords: {
+      records: centralServers,
+      isPending,
+    },
+  },
   match,
   location,
   history,
 }) => {
-  const { centralServers } = useContext(SettingsContext);
   const { formatMessage } = useIntl();
 
   const [isPristine, setIsPristine] = useState(true);
@@ -98,7 +107,7 @@ const ContributionCriteriaSelectionRoute = ({
     <Row>
       <Col sm={12}>
         <Selection
-          id={CONTRIBUTION_CRITERIA.CENTRAL_SERVER_ID}
+          id={CENTRAL_SERVER_ID}
           label={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.field.centralServer" />}
           dataOptions={centralServersOptions}
           placeholder={formatMessage({ id: 'ui-inn-reach.settings.contribution-criteria.placeholder.centralServer' })}
@@ -108,6 +117,10 @@ const ContributionCriteriaSelectionRoute = ({
       </Col>
     </Row>
   );
+
+  if (isPending) {
+    return <LoadingPane defaultWidth={DEFAULT_PANE_WIDTH} />;
+  }
 
   return (
     <>
@@ -141,14 +154,28 @@ const ContributionCriteriaSelectionRoute = ({
   );
 };
 
+ContributionCriteriaSelectionRoute.manifest = {
+  centralServerRecords: {
+    type: 'okapi',
+    path: 'inn-reach/central-servers',
+    throwErrors: false,
+  },
+};
+
 ContributionCriteriaSelectionRoute.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
-  }),
+  }).isRequired,
   match: PropTypes.shape({
     path: PropTypes.string.isRequired,
-  }),
+  }).isRequired,
+  resources: PropTypes.shape({
+    centralServerRecords: PropTypes.shape({
+      records: PropTypes.arrayOf(PropTypes.object),
+      isPending: PropTypes.bool,
+    }).isRequired,
+  }).isRequired,
 };
 
-export default ContributionCriteriaSelectionRoute;
+export default stripesConnect(ContributionCriteriaSelectionRoute);

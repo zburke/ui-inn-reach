@@ -17,7 +17,6 @@ import {
 
 import {
   CalloutContext,
-  SettingsContext,
 } from '../contexts';
 import {
   CALLOUT_ERROR_TYPE,
@@ -77,19 +76,13 @@ const InnReachSettings = ({
 
   return (
     <>
-      <SettingsContext.Provider
-        value={{
-          centralServers,
-        }}
-      >
-        <CalloutContext.Provider value={calloutRef.current}>
-          <Settings
-            path={path}
-            sections={sectionsToShow}
-          />
-          {children}
-        </CalloutContext.Provider>
-      </SettingsContext.Provider>
+      <CalloutContext.Provider value={calloutRef.current}>
+        <Settings
+          path={path}
+          sections={sectionsToShow}
+        />
+        {children}
+      </CalloutContext.Provider>
       <Callout ref={calloutRef} />
     </>
   );
@@ -99,6 +92,7 @@ InnReachSettings.manifest = Object.freeze({
   centralServerRecords: {
     type: 'okapi',
     path: 'inn-reach/central-servers',
+    fetch: false,
     accumulate: true,
     throwErrors: false,
   },

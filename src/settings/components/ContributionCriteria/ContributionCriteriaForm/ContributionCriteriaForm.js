@@ -26,6 +26,13 @@ import {
 
 import css from './ContributionCriteriaForm.css';
 
+const {
+  LOCATIONS_IDS,
+  CONTRIBUTE_BUT_SUPPRESS_ID,
+  DO_NOT_CONTRIBUTE_ID,
+  CONTRIBUTE_AS_SYSTEM_OWNED_ID,
+} = CONTRIBUTION_CRITERIA;
+
 const ContributionCriteriaForm = ({
   folioLocations,
   statisticalCodes,
@@ -44,14 +51,12 @@ const ContributionCriteriaForm = ({
   const [folioLocationOptions, setFolioLocationOptions] = useState([]);
 
   useEffect(() => {
-    if (!isEmpty(folioLocationOptions)) {
-      const folioLocationOpts = folioLocations.map(({ id, name }) => ({
-        label: name,
-        value: id,
-      }));
+    const folioLocationOpts = folioLocations.map(({ id, name }) => ({
+      label: name,
+      value: id,
+    }));
 
-      setFolioLocationOptions(folioLocationOpts);
-    }
+    setFolioLocationOptions(folioLocationOpts);
   }, [folioLocations]);
 
   useEffect(() => {
@@ -60,9 +65,9 @@ const ContributionCriteriaForm = ({
         const codeTypeName = statisticalCodeTypes.find(stCodeType => stCode.statisticalCodeTypeId === stCodeType.id)?.name;
         const label = `${codeTypeName}: ${stCode.code} - ${stCode.name}`;
         const isOptionDisabled = [
-          values[CONTRIBUTION_CRITERIA.CONTRIBUTE_BUT_SUPPRESS_ID],
-          values[CONTRIBUTION_CRITERIA.DO_NOT_CONTRIBUTE_ID],
-          values[CONTRIBUTION_CRITERIA.CONTRIBUTE_AS_SYSTEM_OWNED_ID],
+          values[CONTRIBUTE_BUT_SUPPRESS_ID],
+          values[DO_NOT_CONTRIBUTE_ID],
+          values[CONTRIBUTE_AS_SYSTEM_OWNED_ID],
         ].includes(stCode.id);
 
         return {
@@ -98,7 +103,7 @@ const ContributionCriteriaForm = ({
         <Row>
           <Col sm={12}>
             <Field
-              name={CONTRIBUTION_CRITERIA.LOCATIONS_IDS}
+              name={LOCATIONS_IDS}
               component={MultiSelection}
               dataOptions={folioLocationOptions}
               label={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.field.locations" />}
@@ -109,7 +114,7 @@ const ContributionCriteriaForm = ({
           <Col sm={12}>
             <Field
               label={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.field.contributeButSuppress" />}
-              name={CONTRIBUTION_CRITERIA.CONTRIBUTE_BUT_SUPPRESS_ID}
+              name={CONTRIBUTE_BUT_SUPPRESS_ID}
               component={Select}
               placeholder=" "
               dataOptions={statisticalCodeOptions}
@@ -121,7 +126,7 @@ const ContributionCriteriaForm = ({
           <Col sm={12}>
             <Field
               label={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.field.doNotContribute" />}
-              name={CONTRIBUTION_CRITERIA.DO_NOT_CONTRIBUTE_ID}
+              name={DO_NOT_CONTRIBUTE_ID}
               component={Select}
               placeholder=" "
               dataOptions={statisticalCodeOptions}
@@ -133,7 +138,7 @@ const ContributionCriteriaForm = ({
           <Col sm={12}>
             <Field
               label={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.field.contributeAsSystemOwned" />}
-              name={CONTRIBUTION_CRITERIA.CONTRIBUTE_AS_SYSTEM_OWNED_ID}
+              name={CONTRIBUTE_AS_SYSTEM_OWNED_ID}
               component={Select}
               placeholder=" "
               dataOptions={statisticalCodeOptions}
