@@ -7,7 +7,7 @@ import {
   Switch,
 } from '@folio/stripes/core';
 
-import ContributionCriteriaSelectionRoute from './ContributionCriteriaSelectionRoute';
+import ContributionCriteriaCreateEditRoute from './ContributionCriteriaCreateEditRoute';
 
 const ContributionCriteriaRoute = (props) => {
   const { match } = props;
@@ -16,7 +16,7 @@ const ContributionCriteriaRoute = (props) => {
     <Switch>
       <Route
         path={`${match.path}`}
-        component={ContributionCriteriaSelectionRoute}
+        component={ContributionCriteriaCreateEditRoute}
       />
     </Switch>
   );

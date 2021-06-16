@@ -5,9 +5,10 @@ import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import { screen } from '@testing-library/react';
 import { translationsProperties } from '../../../../test/jest/helpers';
-import ContributionCriteriaSelectionRoute from './ContributionCriteriaSelectionRoute';
 import ContributionCriteriaCreateEditRoute from './ContributionCriteriaCreateEditRoute';
 import { CONTRIBUTION_CRITERIA } from '../../../constants';
+// import ContributionCriteriaSelectionRoute from './ContributionCriteriaSelectionRoute';
+const ContributionCriteriaSelectionRoute = <div>ContributionCriteriaSelectionRoute</div>;
 
 jest.mock('./ContributionCriteriaCreateEditRoute', () => {
   return jest.fn(() => 'ContributionCriteriaCreateEditRoute');

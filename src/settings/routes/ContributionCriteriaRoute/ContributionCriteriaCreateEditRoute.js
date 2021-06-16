@@ -2,15 +2,14 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import ReactRouterPropTypes from 'react-router-prop-types';
+import PropTypes from 'prop-types';
 import {
   omit,
 } from 'lodash';
 import {
   FormattedMessage,
 } from 'react-intl';
-import {
-  useParams,
-} from 'react-router-dom';
 
 import {
   ConfirmationModal,
@@ -21,10 +20,10 @@ import { stripesConnect } from '@folio/stripes/core';
 import {
   CALLOUT_ERROR_TYPE,
   CONTRIBUTION_CRITERIA,
-  DEFAULT_PANE_WIDTH,
 } from '../../../constants';
 import ContributionCriteriaForm from '../../components/ContributionCriteria/ContributionCriteriaForm';
 import { useCallout } from '../../../hooks';
+import { useServers } from '../../hooks';
 
 const {
   CENTRAL_SERVER_ID,
@@ -37,79 +36,51 @@ export const DEFAULT_VALUES = {
 
 const ContributionCriteriaCreateEditRoute = ({
   resources: {
+    centralServerRecords: {
+      records: servers,
+      isPending: isServersPending,
+    },
     folioLocations: {
       records: locations,
-      isPending: isLocationsPending,
     },
     statisticalCodeTypes: {
       records: statisticalCodeTypesData,
-      isPending: isStatCodeTypesPending,
     },
     statisticalCodes: {
       records: statisticalCodesData,
-      isPending: isStatCodesPending,
-    },
-    contributionCriteria: {
-      failed: isCreation,
-      records: contributionCriteria,
-      isPending: isContributionCriteriaPending,
     },
   },
   history,
-  isPristine,
-  prevServerName,
-  centralServersOptions,
-  onChangePrevServerName,
-  onChangePristineState,
   mutator,
-  serverSelection,
-  renderFooter,
 }) => {
+  const [
+    selectedServer,
+    openModal,
+    isResetForm,
+    isPristine,
+    serverOptions,
+    changePristineState,
+    changeFormResetState,
+    handleServerChange,
+    handleModalConfirm,
+    handleModalCancel,
+  ] = useServers(history, servers);
   const showCallout = useCallout();
-  const { id: centralServerId } = useParams();
-
+  const [contributionCriteria, setContributionCriteria] = useState(null);
   const [initialValues, setInitialValues] = useState(DEFAULT_VALUES);
-  const [openModal, setOpenModal] = useState(false);
-  const [nextLocation, setNextLocation] = useState(null);
-  const [isResetForm, setIsResetForm] = useState(false);
+  const [isContributionCriteriaPending, setIsContributionCriteriaPending] = useState(false);
 
   const folioLocations = locations[0]?.locations || [];
   const statisticalCodeTypes = statisticalCodeTypesData[0]?.statisticalCodeTypes || [];
   const statisticalCodes = statisticalCodesData[0]?.statisticalCodes || [];
 
-  const changeFormResetState = (value) => {
-    setIsResetForm(value);
-  };
-
-  const backPrevServer = () => {
-    const index = centralServersOptions.findIndex(server => server.label === prevServerName);
-    const prevOption = document.getElementById(`option-${CENTRAL_SERVER_ID}-${index}-${prevServerName}`);
-
-    if (prevOption) prevOption.click();
-  };
-
-  const handleModalConfirm = () => {
-    if (prevServerName) {
-      backPrevServer();
-    }
-    onChangePristineState(false);
-    onChangePrevServerName(prevServerName);
-    setOpenModal(false);
-  };
-
-  const handleModalCancel = () => {
-    setOpenModal(false);
-    setIsResetForm(true);
-    history.push(nextLocation.pathname);
-  };
-
   const handleSubmit = (record) => {
     const { contributionCriteria: { POST, PUT } } = mutator;
-    const saveMethod = isCreation ? POST : PUT;
+    const saveMethod = contributionCriteria ? PUT : POST;
     const FOLIOLocations = record[LOCATIONS_IDS];
     const finalRecord = {
       ...omit(record, LOCATIONS_IDS),
-      centralServerId,
+      centralServerId: selectedServer.id,
     };
 
     if (FOLIOLocations.length) {
@@ -118,12 +89,12 @@ const ContributionCriteriaCreateEditRoute = ({
 
     saveMethod(finalRecord)
       .then(() => {
-        const action = isCreation ? 'create' : 'update';
+        const action = contributionCriteria ? 'update' : 'create';
 
         showCallout({ message: <FormattedMessage id={`ui-inn-reach.settings.contribution-criteria.${action}.success`} /> });
       })
       .catch(() => {
-        const action = isCreation ? 'post' : 'put';
+        const action = contributionCriteria ? 'put' : 'post';
 
         showCallout({
           type: CALLOUT_ERROR_TYPE,
@@ -133,13 +104,24 @@ const ContributionCriteriaCreateEditRoute = ({
   };
 
   useEffect(() => {
-    const contributionCriteriaRecord = contributionCriteria[0];
+    if (selectedServer.id) {
+      setIsContributionCriteriaPending(true);
 
-    if (contributionCriteriaRecord) {
-      const locationIds = contributionCriteriaRecord[LOCATIONS_IDS];
+      mutator.contributionCriteria.GET({
+        path: `inn-reach/central-servers/${selectedServer.id}/contribution-criteria`,
+      })
+        .then(response => setContributionCriteria(response))
+        .catch(() => {})
+        .finally(() => setIsContributionCriteriaPending(false));
+    }
+  }, [selectedServer]);
+
+  useEffect(() => {
+    if (contributionCriteria) {
+      const locationIds = contributionCriteria[LOCATIONS_IDS];
       const originalValues = {
         ...DEFAULT_VALUES,
-        ...omit(contributionCriteriaRecord, LOCATIONS_IDS, CENTRAL_SERVER_ID),
+        ...omit(contributionCriteria, LOCATIONS_IDS, CENTRAL_SERVER_ID),
       };
 
       if (locationIds) {
@@ -155,42 +137,26 @@ const ContributionCriteriaCreateEditRoute = ({
     }
   }, [contributionCriteria]);
 
-  useEffect(() => {
-    const unblock = history.block(nextLocat => {
-      if (!isPristine) {
-        setOpenModal(true);
-        onChangePristineState(true);
-        setNextLocation(nextLocat);
-      }
-
-      return isPristine;
-    });
-
-    return () => unblock();
-  }, [isPristine]);
-
-  if (
-    isLocationsPending ||
-    isStatCodeTypesPending ||
-    isStatCodesPending ||
-    isContributionCriteriaPending
-  ) {
-    return <LoadingPane defaultWidth={DEFAULT_PANE_WIDTH} />;
+  if (isServersPending) {
+    return <LoadingPane />;
   }
 
   return (
     <>
       <ContributionCriteriaForm
+        selectedServer={selectedServer}
+        isContributionCriteriaPending={isContributionCriteriaPending}
+        isPristine={isPristine}
+        serverOptions={serverOptions}
         initialValues={initialValues}
         folioLocations={folioLocations}
         statisticalCodes={statisticalCodes}
         statisticalCodeTypes={statisticalCodeTypes}
         isResetForm={isResetForm}
-        serverSelection={serverSelection}
-        renderFooter={renderFooter}
         onSubmit={handleSubmit}
-        onChangePristineState={onChangePristineState}
+        onChangePristineState={changePristineState}
         onChangeFormResetState={changeFormResetState}
+        onChangeServer={handleServerChange}
       />
       <ConfirmationModal
         id="cancel-editing-confirmation"
@@ -207,6 +173,11 @@ const ContributionCriteriaCreateEditRoute = ({
 };
 
 ContributionCriteriaCreateEditRoute.manifest = Object.freeze({
+  centralServerRecords: {
+    type: 'okapi',
+    path: 'inn-reach/central-servers',
+    throwErrors: false,
+  },
   folioLocations: {
     type: 'okapi',
     path: 'locations?limit=1000&query=cql.allRecords%3D1%20sortby%20name',
@@ -224,9 +195,36 @@ ContributionCriteriaCreateEditRoute.manifest = Object.freeze({
   },
   contributionCriteria: {
     type: 'okapi',
-    path: 'inn-reach/central-servers/:{id}/contribution-criteria',
+    accumulate: true,
+    fetch: false,
     throwErrors: false,
   },
 });
+
+ContributionCriteriaCreateEditRoute.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
+  resources: PropTypes.shape({
+    centralServerRecords: PropTypes.shape({
+      records: PropTypes.arrayOf(PropTypes.object).isRequired,
+      isPending: PropTypes.bool.isRequired,
+    }).isRequired,
+    folioLocations: PropTypes.shape({
+      records: PropTypes.arrayOf(PropTypes.object).isRequired,
+    }).isRequired,
+    statisticalCodes: PropTypes.shape({
+      records: PropTypes.arrayOf(PropTypes.object).isRequired,
+    }).isRequired,
+    statisticalCodeTypes: PropTypes.shape({
+      records: PropTypes.arrayOf(PropTypes.object).isRequired,
+    }).isRequired,
+  }).isRequired,
+  mutator: PropTypes.shape({
+    contributionCriteria: PropTypes.shape({
+      GET: PropTypes.func.isRequired,
+      POST: PropTypes.func.isRequired,
+      PUT: PropTypes.func.isRequired,
+    }),
+  }),
+};
 
 export default stripesConnect(ContributionCriteriaCreateEditRoute);
