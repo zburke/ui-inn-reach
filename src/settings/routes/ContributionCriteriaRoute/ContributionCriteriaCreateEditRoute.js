@@ -124,7 +124,7 @@ const ContributionCriteriaCreateEditRoute = ({
       };
 
       if (locationIds) {
-        const formattedLocations = locationIds.map(({ id }) => ({
+        const formattedLocations = locationIds.map(id => ({
           value: id,
           label: folioLocations.find(location => location.id === id)?.name,
         }));
@@ -136,9 +136,7 @@ const ContributionCriteriaCreateEditRoute = ({
     }
   }, [contributionCriteria]);
 
-  if (isServersPending) {
-    return <LoadingPane />;
-  }
+  if (isServersPending) return <LoadingPane />;
 
   return (
     <>
@@ -225,9 +223,9 @@ ContributionCriteriaCreateEditRoute.propTypes = {
       replace: PropTypes.func.isRequired,
     }).isRequired,
     contributionCriteria: PropTypes.shape({
-      GET: PropTypes.func.isRequired,
-      POST: PropTypes.func.isRequired,
-      PUT: PropTypes.func.isRequired,
+      GET: PropTypes.func,
+      POST: PropTypes.func,
+      PUT: PropTypes.func,
     }).isRequired,
   }),
 };

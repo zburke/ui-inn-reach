@@ -1,9 +1,10 @@
 import React from 'react';
 import {
   cloneDeep,
+  omit,
 } from 'lodash';
 import { createMemoryHistory } from 'history';
-import { act } from '@testing-library/react';
+import { waitFor, screen } from '@testing-library/react';
 
 import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jest/helpers';
 import { ConfirmationModal } from '@folio/stripes-components';
@@ -11,30 +12,39 @@ import { ConfirmationModal } from '@folio/stripes-components';
 import { translationsProperties } from '../../../../test/jest/helpers';
 import ContributionCriteriaCreateEditRoute from './ContributionCriteriaCreateEditRoute';
 import ContributionCriteriaForm from '../../components/ContributionCriteria/ContributionCriteriaForm';
+import { useServers } from '../../hooks';
+import { CONTRIBUTION_CRITERIA } from '../../../constants';
+
+const {
+  CENTRAL_SERVER_ID,
+  LOCATIONS_IDS,
+} = CONTRIBUTION_CRITERIA;
 
 jest.mock('../../components/ContributionCriteria/ContributionCriteriaForm', () => {
-  return jest.fn(() => 'ContributionCriteriaForm');
+  return jest.fn(() => <div>ContributionCriteriaForm</div>);
 });
 
-const centralServerId = 'efb089d4-4416-4892-ab81-bdfa00e4a2c3';
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn().mockReturnValue({ id: centralServerId }),
+jest.mock('../../hooks', () => ({
+  useServers: jest.fn().mockReturnValue([]),
 }));
 
 jest.mock('@folio/stripes-components', () => ({
   ConfirmationModal: jest.fn(() => 'ConfirmationModal'),
+  LoadingPane: jest.fn(() => 'LoadingPane'),
 }));
 
 const locations = [
   {
-    id: 1,
+    id: '99880669-07cc-4658-b213-e6200344d1c3',
     name: 'testLocation1',
   },
   {
-    id: 2,
+    id: '0ac0ffe6-c3ee-4610-b15c-019bbaea5dbd',
     name: 'testLocation2',
+  },
+  {
+    id: 'dfc42e20-7883-4c71-a3cf-f4c0aab1aedc',
+    name: 'testLocation3',
   }
 ];
 
@@ -54,8 +64,19 @@ const statisticalCodeTypesData = [
   }
 ];
 
+const servers = [
+  {
+    id: '1',
+    name: 'testServerName1',
+  },
+  {
+    id: '2',
+    name: 'testServerName2',
+  },
+];
+
 const contributionCriteria = {
-  centralServerId,
+  centralServerId: servers[1].id,
   locationIds: [
     '99880669-07cc-4658-b213-e6200344d1c3',
     '0ac0ffe6-c3ee-4610-b15c-019bbaea5dbd',
@@ -66,157 +87,125 @@ const contributionCriteria = {
   contributeAsSystemOwnedId: '73c8ba83-b80f-4287-a02d-79906d7864f1',
 };
 
+const serverOptions = [
+  {
+    id: '1',
+    value: 'testServerName1',
+    label: 'testServerName1',
+  },
+  {
+    id: '2',
+    value: 'testServerName2',
+    label: 'testServerName2',
+  },
+];
+
 const resourcesMock = {
+  selectedServerId: servers[1].id,
+  centralServerRecords: {
+    records: servers,
+    isPending: false,
+  },
   folioLocations: {
-    records: locations,
+    records: [{ locations }],
   },
   statisticalCodeTypes: {
-    records: statisticalCodeTypesData,
+    records: [{ statisticalCodeTypes: statisticalCodeTypesData }],
   },
   statisticalCodes: {
-    records: statisticalCodesData,
-  },
-  contributionCriteria: {
-    failed: false,
-    records: contributionCriteria,
+    records: [{ statisticalCodes: statisticalCodesData }],
   },
 };
 
-const centralServersOptions = [
-  {
-    id: '5f552f82-91a8-4700-9814-988826d825c9',
-    value: 'testName',
-    label: 'testName'
-  },
-  {
-    id: '0b3a1862-ef3c-4ef4-beba-f6444069a5f5',
-    value: 'testName2',
-    label: 'testName2'
-  }
-];
+const postMock = jest.fn(() => Promise.resolve());
+const putMock = jest.fn(() => Promise.resolve());
+const getMock = jest.fn(() => Promise.resolve());
+const replaceMock = jest.fn();
 
-const serverSelection = <div>Server Selection</div>;
+const mutatorMock = {
+  selectedServerId: {
+    replace: replaceMock,
+  },
+  contributionCriteria: {
+    GET: getMock,
+    POST: postMock,
+    PUT: putMock,
+  },
+};
 
 const renderContributionCriteriaCreateEditRoute = ({
-  isPristine = true,
-  prevServerName = '',
-  onChangePrevServerName,
-  onChangePristineState,
   resources = resourcesMock,
-  mutator = {},
-  renderFooter,
+  mutator = mutatorMock,
   history,
 } = {}) => {
   return renderWithIntl(
     <ContributionCriteriaCreateEditRoute
-      resources={resources}
       history={history}
-      isPristine={isPristine}
-      prevServerName={prevServerName}
-      centralServersOptions={centralServersOptions}
       mutator={mutator}
-      serverSelection={serverSelection}
-      renderFooter={renderFooter}
-      onChangePrevServerName={onChangePrevServerName}
-      onChangePristineState={onChangePristineState}
+      resources={resources}
     />,
     translationsProperties,
   );
 };
 
 describe('ContributionCriteriaCreateEditRoute component', () => {
-  const onChangePrevServerName = jest.fn();
-  const onChangePristineState = jest.fn();
-  const renderFooter = jest.fn();
+  const selectedServer = servers[1];
+  const openModal = false;
+  const isResetForm = false;
+  const isPristine = false;
+  const changePristineState = jest.fn();
+  const changeFormResetState = jest.fn();
+  const handleServerChange = jest.fn();
+  const handleModalConfirm = jest.fn();
+  const handleModalCancel = jest.fn();
   let history;
-
-  const commonProps = {
-    onChangePrevServerName,
-    onChangePristineState,
-    renderFooter,
-  };
 
   beforeEach(() => {
     ConfirmationModal.mockClear();
     ContributionCriteriaForm.mockClear();
     history = createMemoryHistory();
+    useServers.mockClear().mockReturnValue([
+      selectedServer,
+      openModal,
+      isResetForm,
+      isPristine,
+      serverOptions,
+      changePristineState,
+      changeFormResetState,
+      handleServerChange,
+      handleModalConfirm,
+      handleModalCancel,
+    ]);
   });
 
-  it('should be rendered', () => {
-    const { container } = renderContributionCriteriaCreateEditRoute({
-      ...commonProps,
-      history,
-    });
+  it('should be rendered', async () => {
+    let component;
 
-    expect(container).toBeVisible();
+    await waitFor(() => {
+      component = renderContributionCriteriaCreateEditRoute({ history });
+    });
+    expect(component).toBeDefined();
   });
 
-  describe('ContributionCriteriaForm', () => {
-    it('should change isResetForm prop', () => {
-      renderContributionCriteriaCreateEditRoute({
-        ...commonProps,
-        history,
-      });
-      expect(ContributionCriteriaForm.mock.calls[0][0].isResetForm).toBeFalsy();
-      act(() => {
-        ContributionCriteriaForm.mock.calls[0][0].onChangeFormResetState(true);
-      });
-      expect(ContributionCriteriaForm.mock.calls[1][0].isResetForm).toBeTruthy();
+  it('should display loading', async () => {
+    const newResources = cloneDeep(resourcesMock);
+
+    newResources.centralServerRecords.isPending = true;
+    await waitFor(() => {
+      renderContributionCriteriaCreateEditRoute({ history, resources: newResources });
     });
+    expect(screen.getByText('LoadingPane')).toBeVisible();
   });
 
-  describe('redirect', () => {
-    let historyPushSpy;
-
-    beforeEach(() => {
-      renderContributionCriteriaCreateEditRoute({
-        ...commonProps,
-        isPristine: false,
-        history,
-        prevServerName: 'testName2',
-      });
-
-      historyPushSpy = jest.spyOn(history, 'push');
-      act(() => history.push('/settings'));
+  it('should call GET', async () => {
+    await waitFor(() => {
+      renderContributionCriteriaCreateEditRoute({ history });
     });
-
-    it('should call onChangePristineState callback with true', () => {
-      expect(onChangePristineState).toHaveBeenCalledWith(true);
-    });
-
-    it('should open modal', () => {
-      expect(ConfirmationModal.mock.calls[1][0].open).toBeTruthy();
-    });
-
-    describe('confirm a modal', () => {
-      beforeEach(() => {
-        act(() => ConfirmationModal.mock.calls[1][0].onConfirm());
-      });
-
-      it('should change the isPristine state to false', () => {
-        expect(onChangePristineState).toHaveBeenCalledWith(false);
-      });
-
-      it('should call onChangePrevServerName callback with prevServerName', () => {
-        expect(onChangePrevServerName).toHaveBeenCalledWith('testName2');
-      });
-
-      it('should change openModal state to false', () => {
-        expect(ConfirmationModal.mock.calls[2][0].openModal).toBeFalsy();
-      });
-    });
-
-    describe('cancel a modal', () => {
-      it('should redirect', () => {
-        act(() => ConfirmationModal.mock.calls[1][0].onCancel());
-        expect(historyPushSpy).toHaveBeenCalledTimes(2);
-      });
-    });
+    expect(replaceMock).toHaveBeenCalled();
+    expect(getMock).toHaveBeenCalled();
   });
 
   describe('submit', () => {
-    const postMock = jest.fn(() => Promise.resolve());
-    const putMock = jest.fn(() => Promise.resolve());
     const record = {
       ...contributionCriteria,
       locationIds: [
@@ -227,39 +216,67 @@ describe('ContributionCriteriaCreateEditRoute component', () => {
     };
     const finalRecord = contributionCriteria;
 
-    it('should cause POST request', () => {
-      const resourcesForPOST = cloneDeep(resourcesMock);
-
-      resourcesForPOST.contributionCriteria.failed = true;
-
-      renderContributionCriteriaCreateEditRoute({
-        ...commonProps,
-        history,
-        resources: resourcesForPOST,
-        mutator: {
-          contributionCriteria: {
-            POST: postMock,
-          },
-        },
+    it('should cause POST request', async () => {
+      await waitFor(() => {
+        renderContributionCriteriaCreateEditRoute({ history });
       });
-
-      ContributionCriteriaForm.mock.calls[0][0].onSubmit(record);
+      ContributionCriteriaForm.mock.calls[3][0].onSubmit(record);
       expect(postMock).toHaveBeenCalledWith(finalRecord);
     });
 
-    it('should trigger PUT request', () => {
-      renderContributionCriteriaCreateEditRoute({
-        ...commonProps,
-        history,
-        mutator: {
-          contributionCriteria: {
-            PUT: putMock,
-          },
-        },
+    it('should trigger PUT request', async () => {
+      const newMutator = cloneDeep(mutatorMock);
+
+      newMutator.contributionCriteria.GET = jest.fn(() => Promise.resolve({ contributionCriteria }));
+
+      await waitFor(() => {
+        renderContributionCriteriaCreateEditRoute({
+          history,
+          mutator: newMutator,
+        });
+      });
+      ContributionCriteriaForm.mock.calls[3][0].onSubmit(record);
+      expect(putMock).toHaveBeenCalledWith(finalRecord);
+    });
+  });
+
+  describe('ContributionCriteriaForm', () => {
+    it('should be rendered', async () => {
+      await waitFor(() => {
+        renderContributionCriteriaCreateEditRoute({ history });
+      });
+      expect(screen.getByText('ContributionCriteriaForm')).toBeVisible();
+    });
+
+    it('should receive initialValues with response', async () => {
+      const newMutator = cloneDeep(mutatorMock);
+
+      newMutator.contributionCriteria.GET = jest.fn(() => Promise.resolve(contributionCriteria));
+
+      await waitFor(() => {
+        renderContributionCriteriaCreateEditRoute({
+          history,
+          mutator: newMutator,
+        });
       });
 
-      ContributionCriteriaForm.mock.calls[0][0].onSubmit(record);
-      expect(putMock).toHaveBeenCalledWith(finalRecord);
+      expect(ContributionCriteriaForm.mock.calls[3][0].initialValues).toEqual({
+        ...omit(contributionCriteria, LOCATIONS_IDS, CENTRAL_SERVER_ID),
+        locationIds: [
+          {
+            value: '99880669-07cc-4658-b213-e6200344d1c3',
+            label: 'testLocation1'
+          },
+          {
+            value: '0ac0ffe6-c3ee-4610-b15c-019bbaea5dbd',
+            label: 'testLocation2'
+          },
+          {
+            value: 'dfc42e20-7883-4c71-a3cf-f4c0aab1aedc',
+            label: 'testLocation3'
+          }
+        ],
+      });
     });
   });
 });

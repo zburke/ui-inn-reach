@@ -7,8 +7,8 @@ import { screen } from '@testing-library/react';
 import { translationsProperties } from '../../../../../test/jest/helpers';
 import { DEFAULT_VALUES } from '../../../routes/ContributionCriteriaRoute/ContributionCriteriaCreateEditRoute';
 import ContributionCriteriaForm from './ContributionCriteriaForm';
+import { CONTRIBUTION_CRITERIA } from '../../../../constants';
 
-const serverSelection = <div>Server Selection</div>;
 const folioLocations = [
   {
     id: 1,
@@ -36,28 +36,52 @@ const statisticalCodeTypes = [
   }
 ];
 
+const serverOptions = [
+  {
+    id: '5f552f82-91a8-4700-9814-988826d825c9',
+    value: 'testName',
+    label: 'testName'
+  },
+  {
+    id: '0b3a1862-ef3c-4ef4-beba-f6444069a5f5',
+    value: 'testName2',
+    label: 'testName2'
+  }
+];
+
+const selectedServerMock = {
+  id: serverOptions[1].id,
+  name: serverOptions[1].label,
+};
+
 const renderContributionCriteriaForm = ({
+  selectedServer = selectedServerMock,
+  isContributionCriteriaPending = false,
+  isPristine = true,
   initialValues = DEFAULT_VALUES,
   isResetForm = false,
   onChangeFormResetState,
   onChangePristineState,
-  renderFooter,
   history = createMemoryHistory(),
   handleSubmit,
+  onChangeServer,
 } = {}) => {
   return renderWithIntl(
     <Router history={history}>
       <ContributionCriteriaForm
+        selectedServer={selectedServer}
+        isContributionCriteriaPending={isContributionCriteriaPending}
+        isPristine={isPristine}
+        serverOptions={serverOptions}
         folioLocations={folioLocations}
         statisticalCodes={statisticalCodes}
         statisticalCodeTypes={statisticalCodeTypes}
         initialValues={initialValues}
         isResetForm={isResetForm}
-        serverSelection={serverSelection}
-        renderFooter={renderFooter}
         onChangeFormResetState={onChangeFormResetState}
         onChangePristineState={onChangePristineState}
         onSubmit={handleSubmit}
+        onChangeServer={onChangeServer}
       />
     </Router>,
     translationsProperties,
@@ -67,20 +91,29 @@ const renderContributionCriteriaForm = ({
 describe('ContributionCriteriaForm', () => {
   const onChangeFormResetState = jest.fn();
   const onChangePristineState = jest.fn();
-  const renderFooter = jest.fn();
   const handleSubmit = jest.fn();
+  const onChangeServer = jest.fn();
 
   const commonProps = {
     onChangeFormResetState,
     onChangePristineState,
-    renderFooter,
     handleSubmit,
+    onChangeServer,
   };
 
   it('should be rendered', () => {
     const { container } = renderContributionCriteriaForm(commonProps);
 
     expect(container).toBeVisible();
+  });
+
+  describe('Selection', () => {
+    it('should call onChangeServer', () => {
+      renderContributionCriteriaForm(commonProps);
+
+      document.getElementById(`option-${CONTRIBUTION_CRITERIA.CENTRAL_SERVER_ID}-1-testName2`).click();
+      expect(onChangeServer).toHaveBeenCalled();
+    });
   });
 
   it('should call onChangeFormResetState when isReset prop is true', () => {

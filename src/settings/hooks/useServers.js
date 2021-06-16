@@ -11,7 +11,6 @@ const useServers = (history, servers) => {
   const [isPristine, setIsPristine] = useState(true);
   const [prevServerName, setPrevServerName] = useState('');
   const [nextServer, setNextServer] = useState('');
-
   const [openModal, setOpenModal] = useState(false);
   const [nextLocation, setNextLocation] = useState(null);
   const [isResetForm, setIsResetForm] = useState(false);
