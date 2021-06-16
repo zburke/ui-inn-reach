@@ -64,7 +64,7 @@ const ContributionCriteriaCreateEditRoute = ({
     handleServerChange,
     handleModalConfirm,
     handleModalCancel,
-  ] = useServers(history, servers, mutator);
+  ] = useServers(history, servers);
   const showCallout = useCallout();
   const [contributionCriteria, setContributionCriteria] = useState(null);
   const [initialValues, setInitialValues] = useState(DEFAULT_VALUES);
@@ -105,6 +105,7 @@ const ContributionCriteriaCreateEditRoute = ({
 
   useEffect(() => {
     if (selectedServer.id) {
+      mutator.selectedServerId.replace(selectedServer.id);
       setIsContributionCriteriaPending(true);
 
       mutator.contributionCriteria.GET()
@@ -191,7 +192,7 @@ ContributionCriteriaCreateEditRoute.manifest = Object.freeze({
     path: 'statistical-code-types?query=cql.allRecords=1%20&limit=500',
     throwErrors: false,
   },
-  selectedServerId: {},
+  selectedServerId: { initialValue: '' },
   contributionCriteria: {
     type: 'okapi',
     path: 'inn-reach/central-servers/%{selectedServerId}/contribution-criteria',
@@ -204,6 +205,7 @@ ContributionCriteriaCreateEditRoute.manifest = Object.freeze({
 ContributionCriteriaCreateEditRoute.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   resources: PropTypes.shape({
+    selectedServerId: PropTypes.string,
     centralServerRecords: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
       isPending: PropTypes.bool.isRequired,
@@ -219,11 +221,14 @@ ContributionCriteriaCreateEditRoute.propTypes = {
     }).isRequired,
   }).isRequired,
   mutator: PropTypes.shape({
+    selectedServerId: PropTypes.shape({
+      replace: PropTypes.func.isRequired,
+    }).isRequired,
     contributionCriteria: PropTypes.shape({
       GET: PropTypes.func.isRequired,
       POST: PropTypes.func.isRequired,
       PUT: PropTypes.func.isRequired,
-    }),
+    }).isRequired,
   }),
 };
 

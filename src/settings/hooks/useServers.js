@@ -6,7 +6,7 @@ const {
   CENTRAL_SERVER_ID,
 } = CONTRIBUTION_CRITERIA;
 
-const useServers = (history, servers, mutator) => {
+const useServers = (history, servers) => {
   const [selectedServer, setSelectedServer] = useState({});
   const [isPristine, setIsPristine] = useState(true);
   const [prevServerName, setPrevServerName] = useState('');
@@ -33,8 +33,6 @@ const useServers = (history, servers, mutator) => {
   const handleServerChange = (selectedServerName) => {
     const optedServer = servers.find(server => server.name === selectedServerName);
     const isNewServerSelected = selectedServerName !== selectedServer.name;
-
-    mutator.selectedServerId.replace(optedServer.id);
 
     if (isNewServerSelected) {
       if (isPristine) {
