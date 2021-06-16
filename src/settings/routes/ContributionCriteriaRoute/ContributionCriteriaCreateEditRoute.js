@@ -64,7 +64,7 @@ const ContributionCriteriaCreateEditRoute = ({
     handleServerChange,
     handleModalConfirm,
     handleModalCancel,
-  ] = useServers(history, servers);
+  ] = useServers(history, servers, mutator);
   const showCallout = useCallout();
   const [contributionCriteria, setContributionCriteria] = useState(null);
   const [initialValues, setInitialValues] = useState(DEFAULT_VALUES);
@@ -107,9 +107,7 @@ const ContributionCriteriaCreateEditRoute = ({
     if (selectedServer.id) {
       setIsContributionCriteriaPending(true);
 
-      mutator.contributionCriteria.GET({
-        path: `inn-reach/central-servers/${selectedServer.id}/contribution-criteria`,
-      })
+      mutator.contributionCriteria.GET()
         .then(response => setContributionCriteria(response))
         .catch(() => {})
         .finally(() => setIsContributionCriteriaPending(false));
@@ -193,8 +191,10 @@ ContributionCriteriaCreateEditRoute.manifest = Object.freeze({
     path: 'statistical-code-types?query=cql.allRecords=1%20&limit=500',
     throwErrors: false,
   },
+  selectedServerId: {},
   contributionCriteria: {
     type: 'okapi',
+    path: 'inn-reach/central-servers/%{selectedServerId}/contribution-criteria',
     accumulate: true,
     fetch: false,
     throwErrors: false,
