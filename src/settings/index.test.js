@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { render } from '@testing-library/react';
+import {
+  screen,
+  render,
+  waitFor,
+} from '@testing-library/react';
 import { useStripes } from '@folio/stripes/core';
 import InnReachSettings from './index';
 
@@ -35,11 +39,17 @@ const centralServers = [
   },
 ];
 
+const DEFAULT_MUTATOR = {
+  centralServerRecords: {
+    GET: jest.fn(() => Promise.resolve([])),
+  },
+};
 const path = '/settings/innreach';
 
 const renderInnReachSettings = (props) => render(
   <InnReachSettings
     match={{ path }}
+    mutator={DEFAULT_MUTATOR}
     {...props}
   />
 );
@@ -52,41 +62,33 @@ describe('InnReachSettings', () => {
     Settings.mockClear();
   });
 
-  it('should display Settings component', () => {
-    const { getByText } = renderInnReachSettings({
-      stripes,
-      resources: {
-        centralServerRecords: {
-          records: [],
-        },
-      },
+  it('should display Settings component', async () => {
+    await waitFor(() => {
+      renderInnReachSettings({ stripes });
     });
 
-    expect(getByText('Settings')).toBeDefined();
+    expect(screen.getByText('Settings')).toBeDefined();
   });
 
-  it('should pass required props to Settings', () => {
-    renderInnReachSettings({
-      stripes,
-      resources: {
-        centralServerRecords: {
-          records: centralServers,
-        },
-      },
+  it('should pass required props to Settings', async () => {
+    await waitFor(() => {
+      renderInnReachSettings({
+        stripes,
+        mutator: {
+          centralServerRecords: {
+            GET: jest.fn(() => Promise.resolve(centralServers)),
+          },
+        }
+      });
     });
 
-    expect(Settings.mock.calls[0][0].path).toEqual(path);
-    expect(Settings.mock.calls[0][0].sections).toEqual(sections);
+    expect(Settings.mock.calls[1][0].path).toEqual(path);
+    expect(Settings.mock.calls[1][0].sections).toEqual(sections);
   });
 
-  it('should filter sections when there is no central server', () => {
-    renderInnReachSettings({
-      stripes,
-      resources: {
-        centralServerRecords: {
-          records: [],
-        },
-      },
+  it('should filter sections when there is no central server', async () => {
+    await waitFor(() => {
+      renderInnReachSettings({ stripes });
     });
 
     expect(Settings.mock.calls[1][0].sections).not.toEqual(sections);

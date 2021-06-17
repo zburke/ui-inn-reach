@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import {
   CentralServersConfigurationRoute,
   InnreachLocations,
+  ContributionCriteriaRoute,
 } from '../../routes';
 import {
   CONTRIBUTION_CRITERIA_ROUTE,
@@ -32,7 +33,7 @@ export const sections = [
       {
         route: CONTRIBUTION_CRITERIA_ROUTE,
         label: <FormattedMessage id="ui-inn-reach.settings.contribution-criteria" />,
-        component: <div>ContributionCriteriaRoute</div>,
+        component: ContributionCriteriaRoute,
       },
     ],
   }
