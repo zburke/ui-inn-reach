@@ -110,7 +110,7 @@ const ContributionCriteriaCreateEditRoute = ({
 
       mutator.contributionCriteria.GET()
         .then(response => setContributionCriteria(response))
-        .catch(() => {})
+        .catch(() => null)
         .finally(() => setIsContributionCriteriaPending(false));
     }
   }, [selectedServer]);
