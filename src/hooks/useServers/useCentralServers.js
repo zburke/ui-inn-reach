@@ -5,7 +5,7 @@ const {
   CENTRAL_SERVER_ID,
 } = CONTRIBUTION_CRITERIA;
 
-const useServers = (history, servers) => {
+const useCentralServers = (history, servers) => {
   const [selectedServer, setSelectedServer] = useState({});
   const [isPristine, setIsPristine] = useState(true);
   const [prevServerName, setPrevServerName] = useState('');
@@ -108,4 +108,4 @@ const useServers = (history, servers) => {
   ];
 };
 
-export default useServers;
+export default useCentralServers;

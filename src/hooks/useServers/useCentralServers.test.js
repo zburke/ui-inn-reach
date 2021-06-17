@@ -1,6 +1,6 @@
 import { createBrowserHistory } from 'history';
 import { renderHook, act } from '@testing-library/react-hooks';
-import useServers from './useServers';
+import useCentralServers from './useCentralServers';
 
 const servers = [
   {
@@ -24,7 +24,7 @@ describe('useServers hook', () => {
   beforeEach(() => {
     const history = createBrowserHistory();
 
-    result = renderHook(() => useServers(history, servers)).result;
+    result = renderHook(() => useCentralServers(history, servers)).result;
   });
 
   it('should return isPristine state as false', () => {

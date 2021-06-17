@@ -1,1 +1,1 @@
-export { default } from './useServers';
+export { default } from './useCentralServers';
