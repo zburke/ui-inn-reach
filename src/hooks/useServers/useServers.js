@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { isEmpty } from 'lodash';
 import { CONTRIBUTION_CRITERIA } from '../../constants';
 
 const {
@@ -70,18 +69,18 @@ const useServers = (history, servers) => {
 
     setOpenModal(false);
     setIsResetForm(true);
-    setNextLocation(null);
   };
 
   useEffect(() => {
-    if (isPristine && nextLocation && isEmpty(selectedServer)) {
+    if (isPristine && nextLocation) {
+      setNextLocation(null);
       history.push(nextLocation.pathname);
     }
-  }, [isPristine, nextLocation, selectedServer]);
+  }, [isPristine, nextLocation]);
 
   useEffect(() => {
     const unblock = history.block(nextLocat => {
-      if (isPristine && !nextLocation) { // if we navigate somewhere with empty additional fields
+      if (isPristine) { // if we navigate somewhere with empty additional fields
         setSelectedServer({});
       } else if (!isPristine) { // if we navigate somewhere with filled additional fields
         setOpenModal(true);

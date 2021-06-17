@@ -22,8 +22,10 @@ import {
   CONTRIBUTION_CRITERIA,
 } from '../../../constants';
 import ContributionCriteriaForm from '../../components/ContributionCriteria/ContributionCriteriaForm';
-import { useCallout } from '../../../hooks';
-import { useServers } from '../../hooks';
+import {
+  useCallout,
+  useServers,
+} from '../../../hooks';
 
 const {
   CENTRAL_SERVER_ID,

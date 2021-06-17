@@ -12,7 +12,7 @@ import { ConfirmationModal } from '@folio/stripes-components';
 import { translationsProperties } from '../../../../test/jest/helpers';
 import ContributionCriteriaCreateEditRoute from './ContributionCriteriaCreateEditRoute';
 import ContributionCriteriaForm from '../../components/ContributionCriteria/ContributionCriteriaForm';
-import { useServers } from '../../hooks';
+import { useServers } from '../../../hooks';
 import { CONTRIBUTION_CRITERIA } from '../../../constants';
 
 const {
@@ -24,7 +24,8 @@ jest.mock('../../components/ContributionCriteria/ContributionCriteriaForm', () =
   return jest.fn(() => <div>ContributionCriteriaForm</div>);
 });
 
-jest.mock('../../hooks', () => ({
+jest.mock('../../../hooks', () => ({
+  ...jest.requireActual('../../../hooks'),
   useServers: jest.fn().mockReturnValue([]),
 }));
 

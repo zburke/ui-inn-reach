@@ -1,6 +1,6 @@
 import { createBrowserHistory } from 'history';
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useServers } from './index';
+import useServers from './useServers';
 
 const servers = [
   {
