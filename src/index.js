@@ -14,7 +14,7 @@ import {
 import InnReachSettings from './settings';
 import {
   sections,
-} from './settings/components/Settings/constants';
+} from './constants/sections';
 
 export default function InnReach({
   showSettings,

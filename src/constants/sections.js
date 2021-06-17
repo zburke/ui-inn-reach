@@ -4,11 +4,11 @@ import {
   CentralServersConfigurationRoute,
   InnreachLocations,
   ContributionCriteriaRoute,
-} from '../../routes';
+} from '../settings/routes';
 import {
   CONTRIBUTION_CRITERIA_ROUTE,
   RECORD_CONTRIBUTION,
-} from '../../../constants';
+} from './index';
 
 export const sections = [
   {

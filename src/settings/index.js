@@ -25,7 +25,7 @@ import {
 } from '../constants';
 import {
   sections,
-} from './components/Settings/constants';
+} from '../constants/sections';
 import {
   Settings,
 } from './components';
