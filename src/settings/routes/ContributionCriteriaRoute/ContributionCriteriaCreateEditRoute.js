@@ -24,7 +24,7 @@ import {
 import ContributionCriteriaForm from '../../components/ContributionCriteria/ContributionCriteriaForm';
 import {
   useCallout,
-  useServers,
+  useCentralServers,
 } from '../../../hooks';
 
 const {
@@ -66,7 +66,7 @@ const ContributionCriteriaCreateEditRoute = ({
     handleServerChange,
     handleModalConfirm,
     handleModalCancel,
-  ] = useServers(history, servers);
+  ] = useCentralServers(history, servers);
   const showCallout = useCallout();
   const [contributionCriteria, setContributionCriteria] = useState(null);
   const [initialValues, setInitialValues] = useState(DEFAULT_VALUES);
