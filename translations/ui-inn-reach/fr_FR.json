@@ -70,5 +70,21 @@
     "settings.innreach-locations.actions": "Actions",
     "settings.innreach-locations.locations": "Loc",
     "settings.record-contribution": "Record contribution",
-    "settings.contribution-criteria": "Contribution criteria"
+    "settings.contribution-criteria": "Contribution criteria",
+    "settings.contribution-criteria.title": "Critères de contribution",
+    "settings.contribution-criteria.button.save": "Sauvegarder",
+    "settings.contribution-criteria.field.centralServer": "Serveur central",
+    "settings.contribution-criteria.field.locations": "FOLIO locations to exclude from contribution",
+    "settings.contribution-criteria.field.contributeButSuppress": "FOLIO statistical code to contribute but suppress from central discovery",
+    "settings.contribution-criteria.field.doNotContribute": "FOLIO statistical code to exclude from contribution",
+    "settings.contribution-criteria.field.contributeAsSystemOwned": "FOLIO statistical code for INN-Reach system owned resource indication",
+    "settings.contribution-criteria.placeholder.centralServer": "Sélectionnez le serveur central",
+    "settings.contribution-criteria.create-edit.modal-message.unsavedChanges": "Il y a des modifications non enregistrées",
+    "settings.contribution-criteria.create-edit.modal-heading.areYouSure": "Êtes-vous sûr(e)?",
+    "settings.contribution-criteria.create-edit.modal-cancelLabel.closeWithoutSaving": "Fermer sans sauvegarder",
+    "settings.contribution-criteria.create-edit.modal-confirmLabel.keepEditing": "Continuer l'édition",
+    "settings.contribution-criteria.callout.connectionProblem.post": "Impossible de créer des données en raison d'une erreur de module. Veuillez réessayer. Si un problème persiste, veuillez contacter votre administrateur système",
+    "settings.contribution-criteria.callout.connectionProblem.put": "Impossible de mettre à jour les données en raison d'une erreur de module. Veuillez réessayer. Si un problème persiste, veuillez contacter votre administrateur système",
+    "settings.contribution-criteria.create.success": "Contribution Criteria settings created successfully",
+    "settings.contribution-criteria.update.success": "Contribution Criteria settings updated successfully"
 }
