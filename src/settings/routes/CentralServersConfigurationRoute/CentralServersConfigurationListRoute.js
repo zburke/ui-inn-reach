@@ -44,7 +44,7 @@ const CentralServersConfigurationListRoute = ({
 
     return mutator.centralServerRecords.GET({})
       .then(centralServersResponse => {
-        setCentralServers(centralServersResponse);
+        setCentralServers(centralServersResponse.centralServers);
       })
       .catch(() => {
         showCallout({
