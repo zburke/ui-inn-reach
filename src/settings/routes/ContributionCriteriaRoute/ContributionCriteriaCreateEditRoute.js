@@ -39,7 +39,7 @@ export const DEFAULT_VALUES = {
 const ContributionCriteriaCreateEditRoute = ({
   resources: {
     centralServerRecords: {
-      records: servers,
+      records: centralServers,
       isPending: isServersPending,
     },
     folioLocations: {
@@ -55,6 +55,8 @@ const ContributionCriteriaCreateEditRoute = ({
   history,
   mutator,
 }) => {
+  const servers = centralServers?.[0].centralServers || [];
+
   const [
     selectedServer,
     openModal,

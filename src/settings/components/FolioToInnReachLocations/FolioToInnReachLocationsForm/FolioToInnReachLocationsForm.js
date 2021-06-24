@@ -29,40 +29,9 @@ const {
   MAPPING_TYPE,
   LIBRARY,
   INN_REACH_LOCATIONS,
-  TABULAR_LIST,
   FOLIO_LIBRARY,
   FOLIO_LOCATION,
 } = FOLIO_TO_INN_REACH_LOCATIONS;
-
-const validate = (values) => {
-  const errors = {};
-  const errorList = [];
-  const tabularList = values[TABULAR_LIST];
-
-  if (!tabularList) return errors;
-
-  const leftColumnName = tabularList[0][FOLIO_LIBRARY]
-    ? FOLIO_LIBRARY
-    : FOLIO_LOCATION;
-
-  if (leftColumnName === FOLIO_LIBRARY) {
-    tabularList.forEach((row, index) => {
-      if (!row[INN_REACH_LOCATIONS]) {
-        errorList[index] = { [INN_REACH_LOCATIONS]: <FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.create-edit.validation.pleaseEnterAValue" /> };
-      }
-    });
-  } else {
-    const isSomeFieldFilledIn = tabularList.some(row => row[INN_REACH_LOCATIONS]);
-
-    if (!isSomeFieldFilledIn) {
-      errorList[0] = { [INN_REACH_LOCATIONS]: <FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.create-edit.validation.pleaseEnterAValue" /> };
-    }
-  }
-
-  if (errorList.length) errors[TABULAR_LIST] = errorList;
-
-  return errors;
-};
 
 const FolioToInnReachLocationsForm = ({
   selectedServer,
@@ -89,7 +58,7 @@ const FolioToInnReachLocationsForm = ({
   onChangeMappingType,
   onChangeLibrary,
 }) => {
-  const [isRequiredFieldsFilledIn, setIsRequiredFieldsFilledIn] = useState(undefined);
+  const [isRequiredFieldsFilledIn, setIsRequiredFieldsFilledIn] = useState(false);
 
   const leftColumnName = mappingType === librariesMappingType
     ? FOLIO_LIBRARY
@@ -234,7 +203,6 @@ FolioToInnReachLocationsForm.propTypes = {
 };
 
 export default stripesFinalForm({
-  validate,
   subscription: {
     values: true,
   },

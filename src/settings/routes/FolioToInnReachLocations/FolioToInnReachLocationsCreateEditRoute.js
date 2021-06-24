@@ -469,32 +469,32 @@ FolioToInnReachLocationsCreateEditRoute.propTypes = {
     centralServerRecords: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
       isPending: PropTypes.bool.isRequired,
-      failed: PropTypes.object,
+      failed: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     }).isRequired,
     folioLibraries: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
       isPending: PropTypes.bool.isRequired,
-      failed: PropTypes.object,
+      failed: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     }).isRequired,
     folioLocations: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
       isPending: PropTypes.bool.isRequired,
-      failed: PropTypes.object,
+      failed: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     }).isRequired,
     innReachLocations: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
       isPending: PropTypes.bool.isRequired,
-      failed: PropTypes.object,
+      failed: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     }).isRequired,
     libraryMappings: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
       isPending: PropTypes.bool.isRequired,
-      failed: PropTypes.object,
+      failed: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     }).isRequired,
     locationMappings: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
       isPending: PropTypes.bool.isRequired,
-      failed: PropTypes.object,
+      failed: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     }).isRequired,
   }).isRequired,
   mutator: PropTypes.shape({
