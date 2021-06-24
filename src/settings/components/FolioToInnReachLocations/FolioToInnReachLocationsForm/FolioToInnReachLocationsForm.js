@@ -1,0 +1,241 @@
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+import stripesFinalForm from '@folio/stripes/final-form';
+import {
+  isEqual,
+} from 'lodash';
+import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
+import {
+  Button,
+  Col,
+  Loading,
+  Pane,
+  PaneFooter,
+  Row,
+  Select,
+  Selection,
+} from '@folio/stripes-components';
+import {
+  DEFAULT_PANE_WIDTH,
+  FOLIO_TO_INN_REACH_LOCATIONS,
+} from '../../../../constants';
+import { TabularList } from './components';
+
+const {
+  CENTRAL_SERVER,
+  MAPPING_TYPE,
+  LIBRARY,
+  INN_REACH_LOCATIONS,
+  TABULAR_LIST,
+  FOLIO_LIBRARY,
+  FOLIO_LOCATION,
+} = FOLIO_TO_INN_REACH_LOCATIONS;
+
+const validate = (values) => {
+  const errors = {};
+  const errorList = [];
+  const tabularList = values[TABULAR_LIST];
+
+  if (!tabularList) return errors;
+
+  const leftColumnName = tabularList[0][FOLIO_LIBRARY]
+    ? FOLIO_LIBRARY
+    : FOLIO_LOCATION;
+
+  if (leftColumnName === FOLIO_LIBRARY) {
+    tabularList.forEach((row, index) => {
+      if (!row[INN_REACH_LOCATIONS]) {
+        errorList[index] = { [INN_REACH_LOCATIONS]: <FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.create-edit.validation.pleaseEnterAValue" /> };
+      }
+    });
+  } else {
+    const isSomeFieldFilledIn = tabularList.some(row => row[INN_REACH_LOCATIONS]);
+
+    if (!isSomeFieldFilledIn) {
+      errorList[0] = { [INN_REACH_LOCATIONS]: <FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.create-edit.validation.pleaseEnterAValue" /> };
+    }
+  }
+
+  if (errorList.length) errors[TABULAR_LIST] = errorList;
+
+  return errors;
+};
+
+const FolioToInnReachLocationsForm = ({
+  selectedServer,
+  mappingType,
+  innReachLocations,
+  isPristine,
+  serverOptions,
+  selectedLibraryId,
+  serverLibrariesOptions,
+  mappingTypesOptions,
+  formatMessage,
+  librariesMappingType,
+  locationsMappingType,
+  initialValues,
+  isLibraryMappingsPending,
+  isLocationMappingsPending,
+  isResetForm,
+  handleSubmit,
+  values,
+  form,
+  onChangePristineState,
+  onChangeFormResetState,
+  onChangeServer,
+  onChangeMappingType,
+  onChangeLibrary,
+}) => {
+  const [isRequiredFieldsFilledIn, setIsRequiredFieldsFilledIn] = useState(undefined);
+
+  const leftColumnName = mappingType === librariesMappingType
+    ? FOLIO_LIBRARY
+    : FOLIO_LOCATION;
+  const isMappingsPending = isLocationMappingsPending || isLibraryMappingsPending;
+  const isShowTabularList = (
+    selectedServer.id &&
+    !isMappingsPending &&
+    ((mappingType === locationsMappingType && selectedLibraryId) || mappingType === librariesMappingType)
+  );
+
+  const handleMappingTypeChange = (event) => {
+    onChangeMappingType(event.target.value);
+  };
+
+  useEffect(() => {
+    if (isResetForm) {
+      form.reset();
+      onChangeFormResetState(false);
+    }
+  }, [isResetForm]);
+
+  useEffect(() => {
+    const {
+      tabularList,
+    } = values;
+
+    if (tabularList) {
+      if (mappingType === librariesMappingType) {
+        const isAllFieldsFilledIn = tabularList.every(row => row[INN_REACH_LOCATIONS]);
+
+        setIsRequiredFieldsFilledIn(isAllFieldsFilledIn);
+      } else if (mappingType === locationsMappingType) {
+        const isSomeFieldFilledIn = tabularList.some(row => row[INN_REACH_LOCATIONS]);
+
+        setIsRequiredFieldsFilledIn(isSomeFieldFilledIn);
+      }
+    }
+
+    onChangePristineState(isEqual(initialValues, values));
+  }, [values]);
+
+  const getFooter = () => {
+    const saveButton = (
+      <Button
+        marginBottom0
+        data-testid="save-button"
+        id="clickable-save-instance"
+        buttonStyle="primary small"
+        type="submit"
+        disabled={isPristine || !isRequiredFieldsFilledIn}
+        onClick={handleSubmit}
+      >
+        <FormattedMessage id="ui-inn-reach.settings.contribution-criteria.button.save" />
+      </Button>
+    );
+
+    return <PaneFooter renderEnd={saveButton} />;
+  };
+
+  return (
+    <Pane
+      defaultWidth={DEFAULT_PANE_WIDTH}
+      footer={getFooter()}
+      paneTitle={<FormattedMessage id='ui-inn-reach.settings.folio-to-inn-reach-locations.title' />}
+    >
+      <Row>
+        <Col sm={12}>
+          <Selection
+            id={CENTRAL_SERVER}
+            label={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.field.centralServer" />}
+            dataOptions={serverOptions}
+            placeholder={formatMessage({ id: 'ui-inn-reach.settings.contribution-criteria.placeholder.centralServer' })}
+            value={selectedServer.name}
+            onChange={onChangeServer}
+          />
+        </Col>
+      </Row>
+      {selectedServer.id &&
+        <Row>
+          <Col sm={12}>
+            <Select
+              id={MAPPING_TYPE}
+              label={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.mapping-type" />}
+              dataOptions={mappingTypesOptions}
+              value={mappingType}
+              onChange={handleMappingTypeChange}
+            />
+          </Col>
+        </Row>
+      }
+      {mappingType === locationsMappingType &&
+        <Row>
+          <Col sm={12}>
+            <Selection
+              id={LIBRARY}
+              label={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.library" />}
+              placeholder={formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.placeholder.select-library' })}
+              dataOptions={serverLibrariesOptions}
+              onChange={onChangeLibrary}
+            />
+          </Col>
+        </Row>
+      }
+      {isMappingsPending && <Loading />}
+      <form>
+        {isShowTabularList &&
+          <TabularList
+            innReachLocations={innReachLocations}
+            leftColumnName={leftColumnName}
+          />
+        }
+      </form>
+    </Pane>
+  );
+};
+
+FolioToInnReachLocationsForm.propTypes = {
+  form: PropTypes.object.isRequired,
+  formatMessage: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired,
+  innReachLocations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isLibraryMappingsPending: PropTypes.bool.isRequired,
+  isLocationMappingsPending: PropTypes.bool.isRequired,
+  isPristine: PropTypes.bool.isRequired,
+  isResetForm: PropTypes.bool.isRequired,
+  librariesMappingType: PropTypes.string.isRequired,
+  locationsMappingType: PropTypes.string.isRequired,
+  mappingType: PropTypes.string.isRequired,
+  mappingTypesOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  selectedLibraryId: PropTypes.string.isRequired,
+  selectedServer: PropTypes.object.isRequired,
+  serverLibrariesOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  values: PropTypes.object.isRequired,
+  onChangeFormResetState: PropTypes.func.isRequired,
+  onChangeLibrary: PropTypes.func.isRequired,
+  onChangeMappingType: PropTypes.func.isRequired,
+  onChangePristineState: PropTypes.func.isRequired,
+  onChangeServer: PropTypes.func.isRequired,
+};
+
+export default stripesFinalForm({
+  validate,
+  subscription: {
+    values: true,
+  },
+})(FolioToInnReachLocationsForm);

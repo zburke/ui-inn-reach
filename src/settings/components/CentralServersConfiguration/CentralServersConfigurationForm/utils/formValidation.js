@@ -15,7 +15,7 @@ export const validateLocalServerCode = (value) => {
   if (!value) {
     return <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.validation.required" />;
   } else {
-    const isCodeValid = /^[a-z0-9]{5}$/.test(value);
+    const isCodeValid = /^.{5}$/.test(value);
 
     if (!isCodeValid) {
       return <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.validation.fiveCharacterStringLowerCase" />;
@@ -56,7 +56,7 @@ export const validateLocalAgency = (localAgenciesValues) => {
 
   localAgenciesValues.forEach((item, index) => {
     if (item.localAgency) {
-      const isValid = /^[a-z0-9]{5}$/.test(item.localAgency);
+      const isValid = /^.{5}$/.test(item.localAgency);
 
       if (!isValid) {
         errorList[index] = { localAgency: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.validation.fiveCharacterStringLowerCase" /> };
