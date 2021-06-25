@@ -62,53 +62,55 @@ const TabularList = ({
   }, [innReachLocations]);
 
   return (
-    <>
-      <Row>
-        <Col
-          className={css.tabularHeaderCol}
-          sm={6}
-        >
-          {formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.locations' })}
-        </Col>
-        <Col
-          className={css.tabularHeaderCol}
-          sm={6}
-        >
-          {formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations' })}
-        </Col>
-      </Row>
-      <FieldArray name={TABULAR_LIST}>
-        {({ fields }) => fields.map((name, index) => (
-          <Row
-            key={index}
-            className={css.tabularRow}
+    <Row className={css.tabularContainer}>
+      <Col sm={12}>
+        <Row>
+          <Col
+            className={css.tabularHeaderCol}
+            sm={6}
           >
-            <Col
-              sm={6}
-              className={css.tabularCol}
+            {formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.locations' })}
+          </Col>
+          <Col
+            className={css.tabularHeaderCol}
+            sm={6}
+          >
+            {formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations' })}
+          </Col>
+        </Row>
+        <FieldArray name={TABULAR_LIST}>
+          {({ fields }) => fields.map((name, index) => (
+            <Row
+              key={index}
+              className={css.tabularRow}
             >
-              <Field
-                name={`${name}.${leftColumnName}`}
-                component={({ input }) => input.value}
-              />
-            </Col>
-            <Col
-              sm={6}
-              className={css.tabularCol}
-            >
-              <Field
-                marginBottom0
-                name={`${name}.${INN_REACH_LOCATIONS}`}
-                aria-label={formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations' })}
-                component={Selection}
-                dataOptions={innReachLocationOptions}
-                validate={validate}
-              />
-            </Col>
-          </Row>
-        ))}
-      </FieldArray>
-    </>
+              <Col
+                sm={6}
+                className={css.tabularCol}
+              >
+                <Field
+                  name={`${name}.${leftColumnName}`}
+                  component={({ input }) => input.value}
+                />
+              </Col>
+              <Col
+                sm={6}
+                className={css.tabularCol}
+              >
+                <Field
+                  marginBottom0
+                  name={`${name}.${INN_REACH_LOCATIONS}`}
+                  aria-label={formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations' })}
+                  component={Selection}
+                  dataOptions={innReachLocationOptions}
+                  validate={validate}
+                />
+              </Col>
+            </Row>
+          ))}
+        </FieldArray>
+      </Col>
+    </Row>
   );
 };
 

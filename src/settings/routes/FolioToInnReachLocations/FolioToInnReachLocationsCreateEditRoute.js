@@ -89,7 +89,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
 
   const extraNavigationConditions = [mappingType, librarySelection];
 
-  const [
+  const {
     selectedServer,
     openModal,
     isResetForm,
@@ -97,14 +97,13 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     serverOptions,
     changePristineState,
     changeFormResetState,
-    handleServerChange,
     handleModalConfirm,
     handleModalCancel,
     changeModalState,
     changeNextServer,
     changeSelectedServer,
     changePrevServerName,
-  ] = useCentralServers(history, centralServers, extraNavigationConditions);
+  } = useCentralServers(history, centralServers, extraNavigationConditions);
 
   const { formatMessage } = useIntl();
   const showCallout = useCallout();

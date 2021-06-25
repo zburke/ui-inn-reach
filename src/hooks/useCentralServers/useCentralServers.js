@@ -5,7 +5,7 @@ const {
   CENTRAL_SERVER_ID,
 } = CONTRIBUTION_CRITERIA;
 
-const useCentralServers = (history, servers, extraNavigationConditions) => {
+const useCentralServers = (history, servers, extraNavigationConditions = []) => {
   const [selectedServer, setSelectedServer] = useState({});
   const [isPristine, setIsPristine] = useState(true);
   const [prevServerName, setPrevServerName] = useState('');
@@ -112,7 +112,7 @@ const useCentralServers = (history, servers, extraNavigationConditions) => {
     return unblock;
   }, [isPristine, extraNavigationConditions]);
 
-  return [
+  return {
     selectedServer,
     openModal,
     isResetForm,
@@ -127,7 +127,7 @@ const useCentralServers = (history, servers, extraNavigationConditions) => {
     changeNextServer,
     changeSelectedServer,
     changePrevServerName,
-  ];
+  };
 };
 
 export default useCentralServers;
