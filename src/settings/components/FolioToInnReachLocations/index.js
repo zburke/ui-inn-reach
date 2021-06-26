@@ -1,1 +1,1 @@
-export { default } from './FolioToInnReachLocationsForm';
+export { default as FolioToInnReachLocationsForm } from './FolioToInnReachLocationsForm';

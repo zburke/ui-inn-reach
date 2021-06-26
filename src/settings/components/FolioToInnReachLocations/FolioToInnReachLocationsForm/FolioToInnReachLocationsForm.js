@@ -29,8 +29,6 @@ const {
   MAPPING_TYPE,
   LIBRARY,
   INN_REACH_LOCATIONS,
-  FOLIO_LIBRARY,
-  FOLIO_LOCATION,
 } = FOLIO_TO_INN_REACH_LOCATIONS;
 
 const FolioToInnReachLocationsForm = ({
@@ -39,15 +37,15 @@ const FolioToInnReachLocationsForm = ({
   innReachLocations,
   isPristine,
   serverOptions,
-  selectedLibraryId,
   serverLibrariesOptions,
   mappingTypesOptions,
   formatMessage,
   librariesMappingType,
   locationsMappingType,
   initialValues,
-  isLibraryMappingsPending,
-  isLocationMappingsPending,
+  isMappingsPending,
+  leftColumnName,
+  isShowTabularList,
   isResetForm,
   handleSubmit,
   values,
@@ -59,16 +57,6 @@ const FolioToInnReachLocationsForm = ({
   onChangeLibrary,
 }) => {
   const [isRequiredFieldsFilledIn, setIsRequiredFieldsFilledIn] = useState(false);
-
-  const leftColumnName = mappingType === librariesMappingType
-    ? FOLIO_LIBRARY
-    : FOLIO_LOCATION;
-  const isMappingsPending = isLocationMappingsPending || isLibraryMappingsPending;
-  const isShowTabularList = (
-    selectedServer.id &&
-    !isMappingsPending &&
-    ((mappingType === locationsMappingType && selectedLibraryId) || mappingType === librariesMappingType)
-  );
 
   const handleMappingTypeChange = (event) => {
     onChangeMappingType(event.target.value);
@@ -182,15 +170,15 @@ FolioToInnReachLocationsForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   innReachLocations: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isLibraryMappingsPending: PropTypes.bool.isRequired,
-  isLocationMappingsPending: PropTypes.bool.isRequired,
+  isMappingsPending: PropTypes.bool.isRequired,
   isPristine: PropTypes.bool.isRequired,
   isResetForm: PropTypes.bool.isRequired,
+  isShowTabularList: PropTypes.bool.isRequired,
+  leftColumnName: PropTypes.string.isRequired,
   librariesMappingType: PropTypes.string.isRequired,
   locationsMappingType: PropTypes.string.isRequired,
   mappingType: PropTypes.string.isRequired,
   mappingTypesOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  selectedLibraryId: PropTypes.string.isRequired,
   selectedServer: PropTypes.object.isRequired,
   serverLibrariesOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,

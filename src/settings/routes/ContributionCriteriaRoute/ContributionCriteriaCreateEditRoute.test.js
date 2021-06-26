@@ -150,33 +150,24 @@ const renderContributionCriteriaCreateEditRoute = ({
 };
 
 describe('ContributionCriteriaCreateEditRoute component', () => {
-  const selectedServer = servers[1];
-  const openModal = false;
-  const isResetForm = false;
-  const isPristine = false;
-  const changePristineState = jest.fn();
-  const changeFormResetState = jest.fn();
-  const handleServerChange = jest.fn();
-  const handleModalConfirm = jest.fn();
-  const handleModalCancel = jest.fn();
   let history;
 
   beforeEach(() => {
     ConfirmationModal.mockClear();
     ContributionCriteriaForm.mockClear();
     history = createMemoryHistory();
-    useCentralServers.mockClear().mockReturnValue([
-      selectedServer,
-      openModal,
-      isResetForm,
-      isPristine,
+    useCentralServers.mockClear().mockReturnValue({
+      selectedServer: servers[1],
+      openModal: false,
+      isResetForm: false,
+      isPristine: false,
       serverOptions,
-      changePristineState,
-      changeFormResetState,
-      handleServerChange,
-      handleModalConfirm,
-      handleModalCancel,
-    ]);
+      changePristineState: jest.fn(),
+      changeFormResetState: jest.fn(),
+      handleServerChange: jest.fn(),
+      handleModalConfirm: jest.fn(),
+      handleModalCancel: jest.fn(),
+    });
   });
 
   it('should be rendered', async () => {

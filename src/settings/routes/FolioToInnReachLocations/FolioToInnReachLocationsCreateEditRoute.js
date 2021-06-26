@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { ConfirmationModal, LoadingPane } from '@folio/stripes-components';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { stripesConnect } from '@folio/stripes/core';
-import FolioToInnReachLocationsForm from '../../components/FolioToInnReachLocations';
+import FolioToInnReachLocationsForm from '../../components/FolioToInnReachLocations/FolioToInnReachLocationsForm';
 import { useCallout, useCentralServers } from '../../../hooks';
 import { CALLOUT_ERROR_TYPE, FOLIO_TO_INN_REACH_LOCATIONS } from '../../../constants';
 import {
@@ -29,6 +29,8 @@ import {
 const {
   TABULAR_LIST,
   LIBRARY,
+  FOLIO_LIBRARY,
+  FOLIO_LOCATION,
 } = FOLIO_TO_INN_REACH_LOCATIONS;
 
 const FolioToInnReachLocationsCreateEditRoute = ({
@@ -54,16 +56,6 @@ const FolioToInnReachLocationsCreateEditRoute = ({
       isPending: isFolioLocationsPending,
       failed: isFolioLocationsFailed,
     },
-    locationMappings: {
-      records: locationMappings,
-      isPending: isLocationMappingsPending,
-      failed: isLocationMappingsFailed,
-    },
-    libraryMappings: {
-      records: libraryMappings,
-      isPending: isLibraryMappingsPending,
-      failed: isLibraryMappingsFailed,
-    },
   },
   history,
   mutator,
@@ -84,6 +76,11 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   const [initialValues, setInitialValues] = useState({});
   const [serverLibrariesOptions, setServerLibrariesOptions] = useState([]);
 
+  const [libraryMappings, setLibraryMappings] = useState({});
+  const [locationMappings, setLocationMappings] = useState({});
+  const [isMappingsPending, setIsMappingsPending] = useState(false);
+  const [isLocationMappingsFailed, setIsLocationMappingsFailed] = useState(false);
+  const [isLibraryMappingsFailed, setIsLibraryMappingsFailed] = useState(false);
   const [locationMappingsMap, setLocationMappingsMap] = useState(null);
   const [librariesMappingsMap, setLibrariesMappingsMap] = useState(null);
 
@@ -111,6 +108,14 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   const librariesMappingType = formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field-value.libraries' });
   const locationsMappingType = formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field-value.locations' });
   const mappingTypePlaceholder = formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.placeholder.select-type-to-map' });
+  const leftColumnName = mappingType === librariesMappingType
+    ? FOLIO_LIBRARY
+    : FOLIO_LOCATION;
+  const isShowTabularList = (
+    selectedServer.id &&
+    !isMappingsPending &&
+    ((mappingType === locationsMappingType && selectedLibraryId) || mappingType === librariesMappingType)
+  );
 
   const mappingTypesOptions = [
     {
@@ -161,7 +166,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
 
   const handleChangeLibrary = (selectedLibraryName) => {
     const isNewLibrarySelected = selectedLibraryName !== librarySelection;
-    const libraryId = serverLibrariesOptions.find(library => library.value === selectedLibraryName).id;
+    const libraryId = serverLibrariesOptions.find(library => library.value === selectedLibraryName)?.id;
 
     if (isNewLibrarySelected) {
       if (isPristine) {
@@ -198,7 +203,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     if (prevMappingType) { // if a new mapping type was selected
       setMappingType(nextMappingType);
     } else if (prevLibrarySelection) {
-      const libraryId = serverLibrariesOptions.find(library => library.value === nextLibrarySelection).id;
+      const libraryId = serverLibrariesOptions.find(library => library.value === nextLibrarySelection)?.id;
 
       setLibrarySelection(nextLibrarySelection);
       mutator.selectedLibraryId.replace(libraryId);
@@ -297,14 +302,22 @@ const FolioToInnReachLocationsCreateEditRoute = ({
       setServerLibrariesOptions(libraryOptions);
 
       if (mappingType === librariesMappingType) {
-        mutator.libraryMappings.GET();
+        setIsMappingsPending(true);
+        mutator.libraryMappings.GET()
+          .then(response => setLibraryMappings(response))
+          .catch(() => setIsLibraryMappingsFailed(true))
+          .finally(() => setIsMappingsPending(false));
       }
     }
   }, [mappingType]);
 
   useEffect(() => {
     if (selectedLibraryId) {
-      mutator.locationMappings.GET();
+      setIsMappingsPending(true);
+      mutator.locationMappings.GET()
+        .then(response => setLocationMappings(response))
+        .catch(() => setIsLocationMappingsFailed(true))
+        .finally(() => setIsMappingsPending(false));
     }
   }, [selectedLibraryId]);
 
@@ -391,9 +404,9 @@ const FolioToInnReachLocationsCreateEditRoute = ({
         innReachLocations={innReachLocations}
         isPristine={isPristine}
         serverOptions={serverOptions}
-        isLocationMappingsPending={isLocationMappingsPending}
-        isLibraryMappingsPending={isLibraryMappingsPending}
-        selectedLibraryId={selectedLibraryId}
+        isMappingsPending={isMappingsPending}
+        leftColumnName={leftColumnName}
+        isShowTabularList={isShowTabularList}
         mappingTypesOptions={mappingTypesOptions}
         formatMessage={formatMessage}
         librariesMappingType={librariesMappingType}
@@ -481,16 +494,6 @@ FolioToInnReachLocationsCreateEditRoute.propTypes = {
       failed: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     }).isRequired,
     innReachLocations: PropTypes.shape({
-      records: PropTypes.arrayOf(PropTypes.object).isRequired,
-      isPending: PropTypes.bool.isRequired,
-      failed: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-    }).isRequired,
-    libraryMappings: PropTypes.shape({
-      records: PropTypes.arrayOf(PropTypes.object).isRequired,
-      isPending: PropTypes.bool.isRequired,
-      failed: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-    }).isRequired,
-    locationMappings: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
       isPending: PropTypes.bool.isRequired,
       failed: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
