@@ -1,7 +1,3 @@
-.tabularContainer {
-  margin: 0;
-}
-
 .tabularHeaderCol {
   padding: 10px 15px 5px;
   border-bottom: 5px solid var(--primary);

@@ -192,7 +192,6 @@ const libraryMappings = [
 ];
 
 const resourcesMock = {
-  // selectedLibraryId: servers[1].id,
   selectedLibraryId: '',
   centralServerRecords: {
     records: [{ centralServers: servers }],
@@ -214,16 +213,6 @@ const resourcesMock = {
     isPending: false,
     failed: false,
   },
-  // locationMappings: {
-  //   records: [],
-  //   isPending: false,
-  //   failed: false,
-  // },
-  // libraryMappings: {
-  //   records: [],
-  //   isPending: false,
-  //   failed: false,
-  // },
 };
 
 const getLibraryMappings = jest.fn(() => Promise.resolve(libraryMappings));
@@ -384,30 +373,6 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
         });
         expect(replaceSelectedLibraryIdMock).toHaveBeenCalledWith(loclibs[1].id);
       });
-
-      // it('should open modal', () => {
-      //   // useCentralServers.mockClear().mockReturnValue({
-      //   //   ...hookMock,
-      //   //   isPristine: false,
-      //   //   // changeModalState,
-      //   // });
-      //   renderFolioToInnReachLocationsCreateEditRoute({ history });
-      //   act(() => {
-      //     FolioToInnReachLocationsForm.mock.calls[0][0].onChangeMappingType('Locations');
-      //   });
-      //
-      //   useCentralServers.mockClear().mockReturnValue({
-      //     ...hookMock,
-      //     isPristine: false,
-      //     // changeModalState,
-      //   });
-      //
-      //   console.log('FolioToInnReachLocationsForm.mock.calls2', FolioToInnReachLocationsForm.mock.calls)
-      //   act(() => {
-      //     FolioToInnReachLocationsForm.mock.calls[2][0].onChangeLibrary(loclibs[1].name);
-      //   });
-      //   expect(changeModalState).toHaveBeenCalledWith(true);
-      // })
     });
 
     describe('processModalConfirm', () => {
@@ -504,8 +469,6 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
         await waitFor(() => {
           FolioToInnReachLocationsForm.mock.calls[0][0].onChangeMappingType('Libraries');
         });
-
-        // console.log('45', FolioToInnReachLocationsForm.mock.calls)
 
         await waitFor(() => {
           FolioToInnReachLocationsForm.mock.calls[2][0].onSubmit(recordForLibrariesMappings);

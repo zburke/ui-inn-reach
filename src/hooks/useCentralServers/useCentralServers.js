@@ -109,7 +109,7 @@ const useCentralServers = (history, servers, extraNavigationConditions = []) => 
       return isPristine;
     });
 
-    return unblock;
+    return () => unblock();
   }, [isPristine, extraNavigationConditions]);
 
   return {

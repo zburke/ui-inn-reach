@@ -2,15 +2,26 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { isEmpty } from 'lodash';
+import {
+  isEmpty,
+} from 'lodash';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import PropTypes from 'prop-types';
-import { ConfirmationModal, LoadingPane } from '@folio/stripes-components';
+import {
+  ConfirmationModal,
+  LoadingPane,
+} from '@folio/stripes-components';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { stripesConnect } from '@folio/stripes/core';
 import FolioToInnReachLocationsForm from '../../components/FolioToInnReachLocations/FolioToInnReachLocationsForm';
-import { useCallout, useCentralServers } from '../../../hooks';
-import { CALLOUT_ERROR_TYPE, FOLIO_TO_INN_REACH_LOCATIONS } from '../../../constants';
+import {
+  useCallout,
+  useCentralServers,
+} from '../../../hooks';
+import {
+  CALLOUT_ERROR_TYPE,
+  FOLIO_TO_INN_REACH_LOCATIONS,
+} from '../../../constants';
 import {
   getInnReachLocationsMapCodeFirst,
   getLeftColumnLibraries,
@@ -205,6 +216,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   const processModalCancel = () => {
     if (prevMappingType) { // if a new mapping type was selected
       setMappingType(nextMappingType);
+      setPrevMappingType('');
     } else if (prevLibrarySelection) {
       const libraryId = serverLibrariesOptions.find(library => library.value === nextLibrarySelection)?.id;
 
