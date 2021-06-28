@@ -112,21 +112,24 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     ? FOLIO_LIBRARY
     : FOLIO_LOCATION;
   const isShowTabularList = (
-    selectedServer.id &&
+    !isEmpty(selectedServer) &&
     !isMappingsPending &&
-    ((mappingType === locationsMappingType && selectedLibraryId) || mappingType === librariesMappingType)
+    ((mappingType === locationsMappingType && !!selectedLibraryId) || mappingType === librariesMappingType)
   );
 
   const mappingTypesOptions = [
     {
+      id: '1',
       value: mappingTypePlaceholder,
       label: mappingTypePlaceholder,
     },
     {
+      id: '2',
       value: librariesMappingType,
       label: librariesMappingType,
     },
     {
+      id: '3',
       value: locationsMappingType,
       label: locationsMappingType,
     },
@@ -152,8 +155,9 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     const isNewMappingTypeSelected = selectedMappingType !== mappingType;
 
     if (isNewMappingTypeSelected) {
-      if (isPristine) {
+      if (isPristine && !librarySelection) {
         setMappingType(selectedMappingType);
+        setLibrarySelection('');
       } else {
         changeModalState(true);
         setNextMappingType(selectedMappingType);
@@ -161,7 +165,6 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     }
 
     setPrevMappingType(mappingType);
-    setLibrarySelection('');
   };
 
   const handleChangeLibrary = (selectedLibraryName) => {
@@ -295,16 +298,16 @@ const FolioToInnReachLocationsCreateEditRoute = ({
         folioLibraries,
       });
 
-      if (mappingType === librariesMappingType) {
-        mutator.selectedLibraryId.replace('');
-      }
-
+      mutator.selectedLibraryId.replace('');
       setServerLibrariesOptions(libraryOptions);
 
       if (mappingType === librariesMappingType) {
         setIsMappingsPending(true);
         mutator.libraryMappings.GET()
-          .then(response => setLibraryMappings(response))
+          .then(response => {
+            setLibraryMappings(response);
+            setIsLibraryMappingsFailed(false);
+          })
           .catch(() => setIsLibraryMappingsFailed(true))
           .finally(() => setIsMappingsPending(false));
       }
@@ -315,14 +318,17 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     if (selectedLibraryId) {
       setIsMappingsPending(true);
       mutator.locationMappings.GET()
-        .then(response => setLocationMappings(response))
+        .then(response => {
+          setLocationMappings(response);
+          setIsLocationMappingsFailed(false);
+        })
         .catch(() => setIsLocationMappingsFailed(true))
         .finally(() => setIsMappingsPending(false));
     }
   }, [selectedLibraryId]);
 
   useEffect(() => {
-    if (selectedLibraryId && !isEmpty(folioLibraries) && !isEmpty(folioLocations)) {
+    if (!isMappingsPending && selectedLibraryId && !isEmpty(folioLibraries) && !isEmpty(folioLocations)) {
       if (isLocationMappingsFailed) {
         setInitialValues({
           [TABULAR_LIST]: getLeftColumnLocations({
@@ -348,10 +354,10 @@ const FolioToInnReachLocationsCreateEditRoute = ({
         });
       }
     }
-  }, [locationMappings, isLocationMappingsFailed]);
+  }, [locationMappings, isLocationMappingsFailed, isMappingsPending]);
 
   useEffect(() => {
-    if (!isEmpty(serverLibrariesOptions)) {
+    if (!isMappingsPending && mappingType === librariesMappingType && !isEmpty(serverLibrariesOptions)) {
       if (isLibraryMappingsFailed) {
         setInitialValues({
           [TABULAR_LIST]: getLeftColumnLibraries(serverLibrariesOptions),
@@ -371,7 +377,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
         });
       }
     }
-  }, [libraryMappings, isLibraryMappingsFailed]);
+  }, [libraryMappings, isLibraryMappingsFailed, isMappingsPending]);
 
   useEffect(() => {
     // if we navigate to the current page or leave from the page or change server

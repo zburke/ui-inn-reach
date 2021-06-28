@@ -10,11 +10,9 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import {
   Button,
-  Col,
   Loading,
   Pane,
   PaneFooter,
-  Row,
   Select,
   Selection,
 } from '@folio/stripes-components';
@@ -113,43 +111,31 @@ const FolioToInnReachLocationsForm = ({
       footer={getFooter()}
       paneTitle={<FormattedMessage id='ui-inn-reach.settings.folio-to-inn-reach-locations.title' />}
     >
-      <Row>
-        <Col sm={12}>
-          <Selection
-            id={CENTRAL_SERVER}
-            label={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.field.centralServer" />}
-            dataOptions={serverOptions}
-            placeholder={formatMessage({ id: 'ui-inn-reach.settings.contribution-criteria.placeholder.centralServer' })}
-            value={selectedServer.name}
-            onChange={onChangeServer}
-          />
-        </Col>
-      </Row>
+      <Selection
+        id={CENTRAL_SERVER}
+        label={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.field.centralServer" />}
+        dataOptions={serverOptions}
+        placeholder={formatMessage({ id: 'ui-inn-reach.settings.contribution-criteria.placeholder.centralServer' })}
+        value={selectedServer.name}
+        onChange={onChangeServer}
+      />
       {selectedServer.id &&
-        <Row>
-          <Col sm={12}>
-            <Select
-              id={MAPPING_TYPE}
-              label={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.mapping-type" />}
-              dataOptions={mappingTypesOptions}
-              value={mappingType}
-              onChange={handleMappingTypeChange}
-            />
-          </Col>
-        </Row>
+      <Select
+        id={MAPPING_TYPE}
+        label={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.mapping-type" />}
+        dataOptions={mappingTypesOptions}
+        value={mappingType}
+        onChange={handleMappingTypeChange}
+      />
       }
       {mappingType === locationsMappingType &&
-        <Row>
-          <Col sm={12}>
-            <Selection
-              id={LIBRARY}
-              label={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.library" />}
-              placeholder={formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.placeholder.select-library' })}
-              dataOptions={serverLibrariesOptions}
-              onChange={onChangeLibrary}
-            />
-          </Col>
-        </Row>
+      <Selection
+        id={LIBRARY}
+        label={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.library" />}
+        placeholder={formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.placeholder.select-library' })}
+        dataOptions={serverLibrariesOptions}
+        onChange={onChangeLibrary}
+      />
       }
       {isMappingsPending && <Loading />}
       <form>
