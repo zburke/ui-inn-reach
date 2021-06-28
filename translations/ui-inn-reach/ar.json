@@ -70,5 +70,21 @@
     "settings.innreach-locations.actions": "الإجراءات",
     "settings.innreach-locations.locations": "Loc",
     "settings.record-contribution": "المساهمة في التسجيلة",
-    "settings.contribution-criteria": "معايير المساهمة"
+    "settings.contribution-criteria": "معايير المساهمة",
+    "settings.contribution-criteria.title": "معايير المساهمة",
+    "settings.contribution-criteria.button.save": "حفظ",
+    "settings.contribution-criteria.field.centralServer": "الخادم المركزي",
+    "settings.contribution-criteria.field.locations": "مواقع فوليو المراد استبعادها من المساهمة",
+    "settings.contribution-criteria.field.contributeButSuppress": "رمز فوليو الإحصائي للمساهمة لكن يتم حجبه من الاكتشاف المركزي",
+    "settings.contribution-criteria.field.doNotContribute": "رمز فوليو الإحصائي المراد استبعاده من المساهمة",
+    "settings.contribution-criteria.field.contributeAsSystemOwned": "رمز فوليو الإحصائي لمؤشر المورد المملوك لنظام INN-Reach",
+    "settings.contribution-criteria.placeholder.centralServer": "حدد الخادم المركزي",
+    "settings.contribution-criteria.create-edit.modal-message.unsavedChanges": "هناك تغييرات غير محفوظة",
+    "settings.contribution-criteria.create-edit.modal-heading.areYouSure": "هل أنت متأكد؟",
+    "settings.contribution-criteria.create-edit.modal-cancelLabel.closeWithoutSaving": "إغلاق بدون حفظ",
+    "settings.contribution-criteria.create-edit.modal-confirmLabel.keepEditing": "استمر في التحرير",
+    "settings.contribution-criteria.callout.connectionProblem.post": "تعذر إنشاء البيانات بسبب خطأ في الوحدة. يرجى إعادة المحاولة مرة أخرى. إذا استمرت المشكلة، يرجى الاتصال بمدير النظام",
+    "settings.contribution-criteria.callout.connectionProblem.put": "تعذر تحديث البيانات بسبب خطأ في الوحدة. يرجى إعادة المحاولة مرة أخرى. إذا استمرت المشكلة، يرجى الاتصال بمدير النظام",
+    "settings.contribution-criteria.create.success": "تم إنشاء إعدادات معايير المساهمة بنجاح",
+    "settings.contribution-criteria.update.success": "تم تحديث إعدادات معايير المساهمة بنجاح"
 }
