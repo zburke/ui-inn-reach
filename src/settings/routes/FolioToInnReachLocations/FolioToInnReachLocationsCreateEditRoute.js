@@ -197,7 +197,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     if (selectedMappingType === mappingType) return;
 
     // if it is the first selection or not the first, but the library is not selected and the tabular list is pristine
-    if (!mappingType || mappingType && !librarySelection && isPristine) {
+    if (!mappingType || (mappingType && !librarySelection && isPristine)) {
       setMappingType(selectedMappingType);
 
       if (selectedMappingType === librariesMappingType) {
@@ -216,7 +216,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     if (selectedLibraryName === librarySelection) return;
 
     // if it is the first selection or not the first, but the tabular list is pristine
-    if (!librarySelection || librarySelection && isPristine) {
+    if (!librarySelection || (librarySelection && isPristine)) {
       const libraryId = serverLibrariesOptions.find(library => library.value === selectedLibraryName)?.id;
 
       setLibrarySelection(selectedLibraryName);

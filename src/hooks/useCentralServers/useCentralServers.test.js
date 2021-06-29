@@ -18,153 +18,122 @@ const serverOptionsMock = [
   { id: '2', value: 'testServerName2', label: 'testServerName2' }
 ];
 
-describe('useCentralServers hook', () => {
+describe('useServers hook', () => {
   let result;
-  let history;
 
   beforeEach(() => {
-    history = createBrowserHistory();
+    const history = createBrowserHistory();
 
     result = renderHook(() => useCentralServers(history, servers)).result;
   });
 
   it('should return isPristine state as false', () => {
+    const changePristineState = result.current[5];
+
     act(() => {
-      result.current.changePristineState(false);
+      changePristineState(false);
     });
-    expect(result.current.isPristine).toBeFalsy();
+    const isPristine = result.current[3];
+
+    expect(isPristine).toBeFalsy();
   });
 
   it('should return isResetForm state as true', () => {
+    const changeFormResetState = result.current[6];
+
     act(() => {
-      result.current.changeFormResetState(true);
+      changeFormResetState(true);
     });
-    expect(result.current.isResetForm).toBeTruthy();
+    const isResetForm = result.current[2];
+
+    expect(isResetForm).toBeTruthy();
   });
 
-  describe('selectedServer state', () => {
-    it('should return selectedServer state data', () => {
-      act(() => {
-        result.current.handleServerChange(servers[1].name);
-      });
-      expect(result.current.selectedServer).toMatchObject(servers[1]);
-    });
+  it('should return selected server state data', () => {
+    const handleServerChange = result.current[7];
 
-    it('should return right selectedServer state', () => {
-      act(() => {
-        result.current.changeSelectedServer(servers[0]);
-      });
-      expect(result.current.selectedServer).toMatchObject(servers[0]);
+    act(() => {
+      handleServerChange(servers[1].name);
     });
+    const selectedServer = result.current[0];
 
-    it('should reset selectedServer state', () => {
-      act(() => {
-        result.current.changeSelectedServer(servers[0]);
-      });
-      expect(result.all[1].selectedServer).toEqual(servers[0]);
-      act(() => {
-        history.push('/');
-      });
-      expect(result.all[2].selectedServer).toEqual({});
-    });
+    expect(selectedServer).toMatchObject(servers[1]);
   });
 
-  describe('openModal state', () => {
-    it('should return openModal state as true', () => {
-      act(() => {
-        result.current.changePristineState(false);
-      });
-      act(() => {
-        result.all[1].handleServerChange(servers[1].name);
-      });
-      expect(result.all[2].openModal).toBeTruthy();
-    });
+  it('should return openModal state as true', () => {
+    const changePristineState = result.current[5];
 
-    it('should return openModal state', () => {
-      act(() => {
-        result.current.changeModalState(true);
-      });
-      expect(result.current.openModal).toBeTruthy();
+    act(() => {
+      changePristineState(false);
     });
+    const handleServerChange = result.all[1][7];
 
-    it('should open modal', () => {
-      act(() => {
-        result.current.changePristineState(false);
-      });
-      act(() => {
-        history.push('/');
-      });
-      expect(result.all[2].openModal).toBeTruthy();
+    act(() => {
+      handleServerChange(servers[1].name);
     });
+    const openModal = result.all[2][1];
+
+    expect(openModal).toBeTruthy();
   });
 
   it('should return correct serverOptions', () => {
-    expect(result.current.serverOptions).toMatchObject(serverOptionsMock);
-  });
+    const serverOptions = result.current[4];
 
-  it('should change prevServerName state', () => {
-    act(() => {
-      result.current.changePrevServerName(servers[0].name);
-    });
-    act(() => {
-      result.all[1].changeNextServer(servers[1]);
-    });
-    act(() => {
-      result.all[2].handleModalCancel();
-    });
-    expect(result.all[3].selectedServer).toEqual(servers[1]);
+    expect(serverOptions).toMatchObject(serverOptionsMock);
   });
 
   describe('handleModalConfirm', () => {
     it('should close the modal', () => {
+      const handleModalConfirm = result.current[8];
+
       act(() => {
-        result.current.handleModalConfirm();
+        handleModalConfirm();
       });
-      expect(result.current.openModal).toBeFalsy();
+      const openModal = result.current[1];
+
+      expect(openModal).toBeFalsy();
     });
 
     it('should change selection option if prevServerName is true', () => {
+      const handleServerChange = result.current[7];
+
       act(() => {
-        result.current.handleServerChange(servers[0].name);
+        handleServerChange(servers[0].name);
       });
+
+      const handleServerChangeAgain = result.all[1][7];
+
       act(() => {
-        result.all[1].handleServerChange(servers[1].name);
+        handleServerChangeAgain(servers[1].name);
       });
+
+      const handleModalConfirm = result.all[2][8];
+
       act(() => {
-        result.all[2].handleModalConfirm();
+        handleModalConfirm();
       });
     });
   });
 
   describe('handleModalCancel', () => {
     beforeEach(() => {
+      const handleModalCancel = result.current[9];
+
       act(() => {
-        result.current.handleModalCancel();
+        handleModalCancel();
       });
     });
 
     it('should close modal', () => {
-      expect(result.current.openModal).toBeFalsy();
+      const openModal = result.current[1];
+
+      expect(openModal).toBeFalsy();
     });
 
     it('should change isResetForm state to true', () => {
-      expect(result.current.isResetForm).toBeTruthy();
-    });
+      const isResetForm = result.current[2];
 
-    it('should make navigation', () => {
-      const historyPushSpy = jest.spyOn(history, 'push');
-
-      act(() => {
-        result.current.changePristineState(false);
-      });
-      act(() => {
-        history.push('/');
-      });
-      act(() => {
-        result.current.changePristineState(true);
-      });
-      expect(historyPushSpy.mock.calls[0][1]).toEqual(undefined);
-      historyPushSpy.mockClear();
+      expect(isResetForm).toBeTruthy();
     });
   });
 });

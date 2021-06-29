@@ -5,7 +5,7 @@ const {
   CENTRAL_SERVER_ID,
 } = CONTRIBUTION_CRITERIA;
 
-const useCentralServers = (history, servers, extraNavigationConditions = []) => {
+const useCentralServers = (history, servers) => {
   const [selectedServer, setSelectedServer] = useState({});
   const [isPristine, setIsPristine] = useState(true);
   const [prevServerName, setPrevServerName] = useState('');
@@ -26,22 +26,6 @@ const useCentralServers = (history, servers, extraNavigationConditions = []) => 
 
   const changeFormResetState = (value) => {
     setIsResetForm(value);
-  };
-
-  const changeModalState = (value) => {
-    setOpenModal(value);
-  };
-
-  const changeNextServer = (value) => {
-    setNextServer(value);
-  };
-
-  const changeSelectedServer = (value) => {
-    setSelectedServer(value);
-  };
-
-  const changePrevServerName = (value) => {
-    setPrevServerName(value);
   };
 
   const handleServerChange = (selectedServerName) => {
@@ -76,10 +60,10 @@ const useCentralServers = (history, servers, extraNavigationConditions = []) => 
     setOpenModal(false);
   };
 
-  const handleModalCancel = ({ isStopServerReset } = {}) => {
+  const handleModalCancel = () => {
     if (prevServerName) { // if a new central server was selected
       setSelectedServer(nextServer);
-    } else if (!isStopServerReset) { // otherwise, the navigation to the current page or leave from the page was pressed
+    } else { // otherwise, the navigation to the current page or leave from the page was pressed
       setSelectedServer({});
     }
 
@@ -96,11 +80,9 @@ const useCentralServers = (history, servers, extraNavigationConditions = []) => 
 
   useEffect(() => {
     const unblock = history.block(nextLocat => {
-      const shouldNavigate = isPristine && extraNavigationConditions.every(cond => !cond);
-
-      if (shouldNavigate) { // if we navigate somewhere with empty fields
+      if (isPristine) { // if we navigate somewhere with empty additional fields
         setSelectedServer({});
-      } else { // if we navigate somewhere and at least one field is filled
+      } else if (!isPristine) { // if we navigate somewhere with filled additional fields
         setOpenModal(true);
         setNextLocation(nextLocat);
         setPrevServerName('');
@@ -110,9 +92,9 @@ const useCentralServers = (history, servers, extraNavigationConditions = []) => 
     });
 
     return () => unblock();
-  }, [isPristine, extraNavigationConditions]);
+  }, [isPristine]);
 
-  return {
+  return [
     selectedServer,
     openModal,
     isResetForm,
@@ -123,11 +105,7 @@ const useCentralServers = (history, servers, extraNavigationConditions = []) => 
     handleServerChange,
     handleModalConfirm,
     handleModalCancel,
-    changeModalState,
-    changeNextServer,
-    changeSelectedServer,
-    changePrevServerName,
-  };
+  ];
 };
 
 export default useCentralServers;

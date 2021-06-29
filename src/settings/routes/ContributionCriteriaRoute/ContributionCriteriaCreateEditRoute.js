@@ -239,6 +239,9 @@ ContributionCriteriaCreateEditRoute.propTypes = {
       POST: PropTypes.func,
       PUT: PropTypes.func,
     }).isRequired,
+    contributionCriteriaCreate: PropTypes.shape({
+      POST: PropTypes.func,
+    }).isRequired,
   }),
 };
 
