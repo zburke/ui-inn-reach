@@ -53,7 +53,7 @@ const useCentralServers = (history, servers, extraNavigationConditions = []) => 
         setSelectedServer(optedServer);
       } else {
         setOpenModal(true);
-        setNextServer(selectedServer);
+        setNextServer(optedServer);
       }
 
       setPrevServerName(selectedServer.name);

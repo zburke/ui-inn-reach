@@ -1,5 +1,6 @@
 import React, {
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import {
@@ -16,7 +17,6 @@ import { stripesConnect } from '@folio/stripes/core';
 import FolioToInnReachLocationsForm from '../../components/FolioToInnReachLocations/FolioToInnReachLocationsForm';
 import {
   useCallout,
-  useCentralServers,
 } from '../../../hooks';
 import {
   CALLOUT_ERROR_TYPE,
@@ -40,94 +40,80 @@ import {
 const {
   TABULAR_LIST,
   LIBRARY,
-  FOLIO_LIBRARY,
-  FOLIO_LOCATION,
+  CENTRAL_SERVER,
 } = FOLIO_TO_INN_REACH_LOCATIONS;
 
 const FolioToInnReachLocationsCreateEditRoute = ({
   resources: {
     selectedLibraryId,
     centralServerRecords: {
-      records: servers,
+      records: centralServers,
       isPending: isServersPending,
-      failed: isCentralServersFailed,
     },
     innReachLocations: {
       records: innReachLoc,
       isPending: isInnReachLocPending,
-      failed: isInnReachLocationsFailed,
     },
     folioLibraries: {
       records: libraries,
       isPending: isFolioLibrariesPending,
-      failed: isFolioLibrariesFailed,
     },
     folioLocations: {
       records: locations,
       isPending: isFolioLocationsPending,
-      failed: isFolioLocationsFailed,
     },
   },
   history,
   mutator,
 }) => {
-  const centralServers = servers[0]?.centralServers || [];
+  const servers = centralServers[0]?.centralServers || [];
   const innReachLocations = innReachLoc[0]?.locations || [];
   const folioLocations = locations[0]?.locations || [];
   const folioLibraries = libraries[0]?.loclibs || [];
 
+  const { formatMessage } = useIntl();
+  const showCallout = useCallout();
+  const unblockRef = useRef();
+
+  // central server states
+  const [selectedServer, setSelectedServer] = useState({});
+  const [isPristine, setIsPristine] = useState(true);
+  const [prevServerName, setPrevServerName] = useState('');
+  const [nextServer, setNextServer] = useState('');
+  const [openModal, setOpenModal] = useState(false);
+  const [nextLocation, setNextLocation] = useState(null);
+  const [isResetForm, setIsResetForm] = useState(false);
+
+  // mapping type states
   const [mappingType, setMappingType] = useState('');
   const [nextMappingType, setNextMappingType] = useState('');
   const [prevMappingType, setPrevMappingType] = useState('');
 
+  // library states
   const [librarySelection, setLibrarySelection] = useState('');
   const [nextLibrarySelection, setNextLibrarySelection] = useState('');
   const [prevLibrarySelection, setPrevLibrarySelection] = useState('');
 
+  // common states
   const [initialValues, setInitialValues] = useState({});
   const [serverLibrariesOptions, setServerLibrariesOptions] = useState([]);
 
+  // mappings states
   const [libraryMappings, setLibraryMappings] = useState({});
   const [locationMappings, setLocationMappings] = useState({});
   const [isMappingsPending, setIsMappingsPending] = useState(false);
-  const [isLocationMappingsFailed, setIsLocationMappingsFailed] = useState(false);
-  const [isLibraryMappingsFailed, setIsLibraryMappingsFailed] = useState(false);
   const [locationMappingsMap, setLocationMappingsMap] = useState(null);
   const [librariesMappingsMap, setLibrariesMappingsMap] = useState(null);
 
-  const extraNavigationConditions = [mappingType, librarySelection];
-
-  const {
-    selectedServer,
-    openModal,
-    isResetForm,
-    isPristine,
-    serverOptions,
-    changePristineState,
-    changeFormResetState,
-    handleModalConfirm,
-    handleModalCancel,
-    changeModalState,
-    changeNextServer,
-    changeSelectedServer,
-    changePrevServerName,
-  } = useCentralServers(history, centralServers, extraNavigationConditions);
-
-  const { formatMessage } = useIntl();
-  const showCallout = useCallout();
+  const serverOptions = servers.map(({ id, name }) => ({
+    id,
+    value: name,
+    label: name,
+  }));
 
   const librariesMappingType = formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field-value.libraries' });
   const locationsMappingType = formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field-value.locations' });
   const mappingTypePlaceholder = formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.placeholder.select-type-to-map' });
-  const leftColumnName = mappingType === librariesMappingType
-    ? FOLIO_LIBRARY
-    : FOLIO_LOCATION;
-  const isShowTabularList = (
-    !isEmpty(selectedServer) &&
-    !isMappingsPending &&
-    ((mappingType === locationsMappingType && !!selectedLibraryId) || mappingType === librariesMappingType)
-  );
-
   const mappingTypesOptions = [
     {
       id: '1',
@@ -146,88 +132,104 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     },
   ];
 
-  const changeServer = (serverName) => {
-    const optedServer = centralServers.find(server => server.name === serverName);
-    const isNewServerSelected = selectedServer.name !== serverName;
+  const isShowTabularList = (
+    !isEmpty(selectedServer) &&
+    !isMappingsPending &&
+    ((mappingType === locationsMappingType && !!selectedLibraryId) || mappingType === librariesMappingType)
+  );
+
+  const changePristineState = (value) => {
+    setIsPristine(value);
+  };
+
+  const changeFormResetState = (value) => {
+    setIsResetForm(value);
+  };
+
+  const resetMappingTypeStates = () => {
+    setMappingType('');
+    setNextMappingType('');
+    setPrevMappingType('');
+  };
+
+  const resetLibraryStates = () => {
+    setLibrarySelection('');
+    setNextLibrarySelection('');
+    setPrevLibrarySelection('');
+    mutator.selectedLibraryId.replace('');
+  };
+
+  const fetchLibraryMappings = () => {
+    setIsMappingsPending(true);
+
+    mutator.libraryMappings.GET()
+      .then(response => setLibraryMappings(response))
+      .catch(() => null)
+      .finally(() => setIsMappingsPending(false));
+  };
+
+  const fetchLocationMappings = () => {
+    setIsMappingsPending(true);
+
+    mutator.locationMappings.GET()
+      .then(response => setLocationMappings(response))
+      .catch(() => null)
+      .finally(() => setIsMappingsPending(false));
+  };
+
+  const handleServerChange = (selectedServerName) => {
+    const optedServer = servers.find(server => server.name === selectedServerName);
+    const isNewServerSelected = selectedServerName !== selectedServer.name;
 
     if (isNewServerSelected) {
       if (mappingType) {
-        changeModalState(true);
-        changeNextServer(selectedServer);
+        setOpenModal(true);
+        setNextServer(optedServer);
       } else {
-        changeSelectedServer(optedServer);
+        setSelectedServer(optedServer);
       }
-    }
 
-    changePrevServerName(selectedServer.name);
+      setPrevServerName(selectedServer.name);
+    }
   };
 
   const changeMappingType = (selectedMappingType) => {
-    const isNewMappingTypeSelected = selectedMappingType !== mappingType;
+    if (selectedMappingType === mappingType) return;
 
-    if (isNewMappingTypeSelected) {
-      if (isPristine && !librarySelection) {
-        setMappingType(selectedMappingType);
-        setLibrarySelection('');
-      } else {
-        changeModalState(true);
-        setNextMappingType(selectedMappingType);
+    // if it is the first selection or not the first, but the library is not selected and the tabular list is pristine
+    if (!mappingType || mappingType && !librarySelection && isPristine) {
+      setMappingType(selectedMappingType);
+
+      if (selectedMappingType === librariesMappingType) {
+        setInitialValues({});
+        fetchLibraryMappings();
       }
+    } else { // if we have the selected library or the tabular list option
+      setOpenModal(true);
+      setNextMappingType(selectedMappingType);
     }
 
     setPrevMappingType(mappingType);
   };
 
   const handleChangeLibrary = (selectedLibraryName) => {
-    const isNewLibrarySelected = selectedLibraryName !== librarySelection;
-    const libraryId = serverLibrariesOptions.find(library => library.value === selectedLibraryName)?.id;
+    if (selectedLibraryName === librarySelection) return;
 
-    if (isNewLibrarySelected) {
-      if (isPristine) {
-        setLibrarySelection(selectedLibraryName);
-        mutator.selectedLibraryId.replace(libraryId);
-      } else {
-        changeModalState(true);
-        setNextLibrarySelection(selectedLibraryName);
-      }
+    // if it is the first selection or not the first, but the tabular list is pristine
+    if (!librarySelection || librarySelection && isPristine) {
+      const libraryId = serverLibrariesOptions.find(library => library.value === selectedLibraryName)?.id;
+
+      setLibrarySelection(selectedLibraryName);
+      mutator.selectedLibraryId.replace(libraryId);
+      setInitialValues({});
+      fetchLocationMappings();
+    } else {
+      setOpenModal(true);
+      setNextLibrarySelection(selectedLibraryName);
     }
 
     setPrevLibrarySelection(librarySelection);
-  };
-
-  const backPrevLibrary = () => {
-    const index = serverLibrariesOptions.findIndex(lib => lib.value === prevLibrarySelection);
-    const prevOption = document.getElementById(`option-${LIBRARY}-${index}-${prevLibrarySelection}`);
-
-    if (prevOption) prevOption.click();
-  };
-
-  const processModalConfirm = () => {
-    if (prevMappingType) { // if a new mapping type was selected
-      setPrevMappingType('');
-    } else if (prevLibrarySelection) { // if a new library was selected
-      backPrevLibrary();
-      setPrevLibrarySelection('');
-    }
-
-    handleModalConfirm();
-  };
-
-  const processModalCancel = () => {
-    if (prevMappingType) { // if a new mapping type was selected
-      setMappingType(nextMappingType);
-      setPrevMappingType('');
-    } else if (prevLibrarySelection) {
-      const libraryId = serverLibrariesOptions.find(library => library.value === nextLibrarySelection)?.id;
-
-      setLibrarySelection(nextLibrarySelection);
-      mutator.selectedLibraryId.replace(libraryId);
-    } else {
-      setMappingType('');
-      setLibrarySelection('');
-    }
-
-    handleModalCancel({ isStopServerReset: prevMappingType || prevLibrarySelection });
+    setPrevMappingType('');
   };
 
   const handleSubmit = (record) => {
@@ -284,97 +286,80 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     }
   };
 
-  useEffect(() => {
-    if (
-      isCentralServersFailed ||
-      isInnReachLocationsFailed ||
-      isFolioLibrariesFailed ||
-      isFolioLocationsFailed
-    ) {
-      showCallout({
-        type: CALLOUT_ERROR_TYPE,
-        message: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.connectionProblem.get" />,
-      });
-    }
-  }, [
-    isCentralServersFailed,
-    isInnReachLocationsFailed,
-    isFolioLibrariesFailed,
-    isFolioLocationsFailed,
-  ]);
+  const continueNavigation = () => {
+    unblockRef.current();
+    setNextLocation(null);
+    history.push(nextLocation.pathname);
+  };
 
-  useEffect(() => {
-    if (mappingType) {
-      const libraryOptions = getLibraryOptions({
-        localAgencies: selectedServer.localAgencies,
-        folioLibraries,
-      });
+  const handleModalCancel = () => {
+    if (prevServerName) { // if a new central server was selected
+      setPrevServerName('');
+      resetMappingTypeStates();
+      resetLibraryStates();
+      setSelectedServer(nextServer);
+    } else if (prevMappingType) { // if a new mapping type was selected
+      resetLibraryStates();
+      setPrevMappingType('');
+      setMappingType(nextMappingType);
 
-      mutator.selectedLibraryId.replace('');
-      setServerLibrariesOptions(libraryOptions);
-
-      if (mappingType === librariesMappingType) {
-        setIsMappingsPending(true);
-        mutator.libraryMappings.GET()
-          .then(response => {
-            setLibraryMappings(response);
-            setIsLibraryMappingsFailed(false);
-          })
-          .catch(() => setIsLibraryMappingsFailed(true))
-          .finally(() => setIsMappingsPending(false));
+      if (nextMappingType === librariesMappingType) {
+        setInitialValues({});
+        fetchLibraryMappings();
       }
+    } else if (prevLibrarySelection) { // if a new library was selected
+      const libraryId = serverLibrariesOptions.find(library => library.value === nextLibrarySelection)?.id;
+
+      setLibrarySelection(nextLibrarySelection);
+      mutator.selectedLibraryId.replace(libraryId);
+      setInitialValues({});
+      fetchLocationMappings();
+      setPrevLibrarySelection('');
+    } else { // otherwise, the navigation to the current page or leave from the page was pressed
+      setSelectedServer({});
     }
-  }, [mappingType]);
+
+    setOpenModal(false);
+    setIsResetForm(true);
+    if (nextLocation) continueNavigation();
+  };
+
+  const backPrevServer = () => {
+    const index = servers.findIndex(server => server.name === prevServerName);
+    const prevOption = document.getElementById(`option-${CENTRAL_SERVER}-${index}-${prevServerName}`);
+
+    if (prevOption) prevOption.click();
+  };
+
+  const backPrevLibrary = () => {
+    const index = serverLibrariesOptions.findIndex(lib => lib.value === prevLibrarySelection);
+    const prevOption = document.getElementById(`option-${LIBRARY}-${index}-${prevLibrarySelection}`);
+
+    if (prevOption) prevOption.click();
+  };
+
+  const handleModalConfirm = () => {
+    if (prevServerName) { // if a new central server was selected
+      backPrevServer();
+      setPrevServerName('');
+    } else if (prevMappingType) {
+      setPrevMappingType('');
+    } else if (prevLibrarySelection) {
+      backPrevLibrary();
+      setPrevLibrarySelection('');
+    }
+
+    setNextLocation(null);
+    setOpenModal(false);
+  };
 
   useEffect(() => {
-    if (selectedLibraryId) {
-      setIsMappingsPending(true);
-      mutator.locationMappings.GET()
-        .then(response => {
-          setLocationMappings(response);
-          setIsLocationMappingsFailed(false);
-        })
-        .catch(() => setIsLocationMappingsFailed(true))
-        .finally(() => setIsMappingsPending(false));
-    }
-  }, [selectedLibraryId]);
-
-  useEffect(() => {
-    if (!isMappingsPending && selectedLibraryId && !isEmpty(folioLibraries) && !isEmpty(folioLocations)) {
-      if (isLocationMappingsFailed) {
-        setInitialValues({
-          [TABULAR_LIST]: getLeftColumnLocations({
-            selectedLibraryId,
-            folioLocations,
-            folioLibraries,
-          }),
-        });
-      } else if (!isEmpty(locationMappings) && !isEmpty(innReachLocations)) {
-        const locMappings = locationMappings[0].locationMappings;
-        const locMappingsMap = getLocationMappingsMap(locMappings);
-
-        setLocationMappingsMap(locMappingsMap);
-
-        setInitialValues({
-          [TABULAR_LIST]: getTabularListForLocations({
-            locationMappingsMap: locMappingsMap,
-            selectedLibraryId,
-            folioLocations,
-            innReachLocations,
-            folioLibraries,
-          }),
-        });
-      }
-    }
-  }, [locationMappings, isLocationMappingsFailed, isMappingsPending]);
-
-  useEffect(() => {
-    if (!isMappingsPending && mappingType === librariesMappingType && !isEmpty(serverLibrariesOptions)) {
-      if (isLibraryMappingsFailed) {
+    if (!isMappingsPending && mappingType === librariesMappingType) {
+      if (isEmpty(libraryMappings)) {
         setInitialValues({
           [TABULAR_LIST]: getLeftColumnLibraries(serverLibrariesOptions),
         });
-      } else if (!isEmpty(libraryMappings) && !isEmpty(innReachLocations)) {
+      } else {
         const libMappings = libraryMappings[0].libraryMappings;
         const libMappingsMap = getLibrariesMappingsMap(libMappings);
 
@@ -382,27 +367,77 @@ const FolioToInnReachLocationsCreateEditRoute = ({
 
         setInitialValues({
           [TABULAR_LIST]: getLibrariesTabularList({
-            libraryMappingsMap: libMappingsMap,
+            libMappingsMap,
             serverLibrariesOptions,
             innReachLocations,
           }),
         });
       }
     }
-  }, [libraryMappings, isLibraryMappingsFailed, isMappingsPending]);
+  }, [libraryMappings, isMappingsPending]);
 
   useEffect(() => {
-    // if we navigate to the current page or leave from the page or change server
-    if (isPristine && !prevMappingType && !prevLibrarySelection) {
-      setMappingType('');
-      setLibrarySelection('');
+    if (!isMappingsPending && mappingType === locationsMappingType) {
+      if (isEmpty(locationMappings)) {
+        setInitialValues({
+          [TABULAR_LIST]: getLeftColumnLocations({
+            selectedLibraryId,
+            folioLocations,
+            folioLibraries,
+          }),
+        });
+      } else {
+        const locMappings = locationMappings[0].locationMappings;
+        const locMappingsMap = getLocationMappingsMap(locMappings);
+
+        setLocationMappingsMap(locMappingsMap);
+
+        setInitialValues({
+          [TABULAR_LIST]: getTabularListForLocations({
+            locMappingsMap,
+            selectedLibraryId,
+            folioLocations,
+            innReachLocations,
+            folioLibraries,
+          }),
+        });
+      }
     }
+  }, [locationMappings, isMappingsPending]);
 
-    setPrevMappingType('');
-    setPrevLibrarySelection('');
+  useEffect(() => {
+    if (isEmpty(selectedServer)) {
+      setServerLibrariesOptions([]);
+      mutator.selectedServerId.replace('');
+      resetMappingTypeStates();
+      resetLibraryStates();
+    } else {
+      const libraryOptions = getLibraryOptions({
+        localAgencies: selectedServer.localAgencies,
+        folioLibraries,
+      });
 
-    mutator.selectedServerId.replace(selectedServer.id || '');
-  }, [selectedServer, isPristine]);
+      mutator.selectedServerId.replace(selectedServer.id);
+      setServerLibrariesOptions(libraryOptions);
+    }
+  }, [selectedServer]);
+
+  useEffect(() => {
+    unblockRef.current = history.block(nextLocat => {
+      const shouldNavigate = !mappingType && !librarySelection && isPristine;
+
+      if (shouldNavigate) { // if we navigate somewhere with empty fields
+        setSelectedServer({});
+      } else { // if we navigate somewhere and at least one field is filled
+        setOpenModal(true);
+        setNextLocation(nextLocat);
+      }
+
+      return shouldNavigate;
+    });
+
+    return () => unblockRef.current();
+  }, [mappingType, librarySelection, isPristine]);
 
   if (
     isServersPending ||
@@ -423,7 +458,6 @@ const FolioToInnReachLocationsCreateEditRoute = ({
         isPristine={isPristine}
         serverOptions={serverOptions}
         isMappingsPending={isMappingsPending}
-        leftColumnName={leftColumnName}
         isShowTabularList={isShowTabularList}
         mappingTypesOptions={mappingTypesOptions}
         formatMessage={formatMessage}
@@ -434,7 +468,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
         onSubmit={handleSubmit}
         onChangePristineState={changePristineState}
         onChangeFormResetState={changeFormResetState}
-        onChangeServer={changeServer}
+        onChangeServer={handleServerChange}
         onChangeMappingType={changeMappingType}
         onChangeLibrary={handleChangeLibrary}
       />
@@ -445,8 +479,8 @@ const FolioToInnReachLocationsCreateEditRoute = ({
         message={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.create-edit.modal-message.unsavedChanges" />}
         confirmLabel={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.create-edit.modal-confirmLabel.keepEditing" />}
         cancelLabel={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.create-edit.modal-cancelLabel.closeWithoutSaving" />}
-        onCancel={processModalCancel}
-        onConfirm={processModalConfirm}
+        onCancel={handleModalCancel}
+        onConfirm={handleModalConfirm}
       />
     </>
   );

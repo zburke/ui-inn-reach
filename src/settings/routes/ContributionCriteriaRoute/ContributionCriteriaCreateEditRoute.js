@@ -79,8 +79,9 @@ const ContributionCriteriaCreateEditRoute = ({
   const statisticalCodes = statisticalCodesData[0]?.statisticalCodes || [];
 
   const handleSubmit = (record) => {
-    const { contributionCriteria: { POST, PUT } } = mutator;
-    const saveMethod = contributionCriteria ? PUT : POST;
+    const saveMethod = contributionCriteria
+      ? mutator.contributionCriteria.PUT
+      : mutator.contributionCriteriaCreate.POST;
     const FOLIOLocations = record[LOCATIONS_IDS];
     const finalRecord = {
       ...omit(record, LOCATIONS_IDS),
@@ -198,6 +199,13 @@ ContributionCriteriaCreateEditRoute.manifest = Object.freeze({
   contributionCriteria: {
     type: 'okapi',
     path: 'inn-reach/central-servers/%{selectedServerId}/contribution-criteria',
+    accumulate: true,
+    fetch: false,
+    throwErrors: false,
+  },
+  contributionCriteriaCreate: {
+    type: 'okapi',
+    path: 'inn-reach/central-servers/contribution-criteria',
     accumulate: true,
     fetch: false,
     throwErrors: false,

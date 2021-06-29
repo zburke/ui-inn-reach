@@ -27,6 +27,8 @@ const {
   MAPPING_TYPE,
   LIBRARY,
   INN_REACH_LOCATIONS,
+  FOLIO_LIBRARY,
+  FOLIO_LOCATION,
 } = FOLIO_TO_INN_REACH_LOCATIONS;
 
 const FolioToInnReachLocationsForm = ({
@@ -42,7 +44,6 @@ const FolioToInnReachLocationsForm = ({
   locationsMappingType,
   initialValues,
   isMappingsPending,
-  leftColumnName,
   isShowTabularList,
   isResetForm,
   handleSubmit,
@@ -55,6 +56,10 @@ const FolioToInnReachLocationsForm = ({
   onChangeLibrary,
 }) => {
   const [isRequiredFieldsFilledIn, setIsRequiredFieldsFilledIn] = useState(false);
+
+  const leftColumnName = mappingType === librariesMappingType
+    ? FOLIO_LIBRARY
+    : FOLIO_LOCATION;
 
   const handleMappingTypeChange = (event) => {
     onChangeMappingType(event.target.value);
@@ -160,7 +165,6 @@ FolioToInnReachLocationsForm.propTypes = {
   isPristine: PropTypes.bool.isRequired,
   isResetForm: PropTypes.bool.isRequired,
   isShowTabularList: PropTypes.bool.isRequired,
-  leftColumnName: PropTypes.string.isRequired,
   librariesMappingType: PropTypes.string.isRequired,
   locationsMappingType: PropTypes.string.isRequired,
   mappingType: PropTypes.string.isRequired,

@@ -182,7 +182,7 @@ export const getLeftColumnLibraries = (serverLibrariesOptions) => {
 };
 
 export const getTabularListForLocations = ({
-  locationMappingsMap,
+  locMappingsMap,
   selectedLibraryId,
   folioLocations,
   innReachLocations,
@@ -194,10 +194,10 @@ export const getTabularListForLocations = ({
   return folioLocations.reduce((accum, { id, name, code, campusId }) => {
     if (campusId === selectedLibraryCampusId) {
       let innReachLocationCode = '';
-      const isCodeSelected = locationMappingsMap.has(id);
+      const isCodeSelected = locMappingsMap.has(id);
 
       if (isCodeSelected) {
-        const innReachLocationId = locationMappingsMap.get(id).innReachLocationId;
+        const innReachLocationId = locMappingsMap.get(id).innReachLocationId;
 
         innReachLocationCode = innReachLocationsMap.get(innReachLocationId);
       }
@@ -214,17 +214,17 @@ export const getTabularListForLocations = ({
 
 export const getLibrariesTabularList = ({
   serverLibrariesOptions,
-  libraryMappingsMap,
+  libMappingsMap,
   innReachLocations,
 }) => {
   const innReachLocationsMap = getInnReachLocationsMap(innReachLocations);
 
   return serverLibrariesOptions.map(({ id, label }) => {
     let innReachLocationCode = '';
-    const isCodeSelected = libraryMappingsMap.has(id);
+    const isCodeSelected = libMappingsMap.has(id);
 
     if (isCodeSelected) {
-      const innReachLocationId = libraryMappingsMap.get(id).innReachLocationId;
+      const innReachLocationId = libMappingsMap.get(id).innReachLocationId;
 
       innReachLocationCode = innReachLocationsMap.get(innReachLocationId);
     }

@@ -57,7 +57,10 @@ const TabularList = ({
           className={css.tabularHeaderCol}
           sm={6}
         >
-          {formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.locations' })}
+          {leftColumnName === FOLIO_LIBRARY
+            ? formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.libraries' })
+            : formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.locations' })
+          }
         </Col>
         <Col
           className={css.tabularHeaderCol}
