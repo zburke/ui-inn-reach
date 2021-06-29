@@ -4,10 +4,12 @@ import {
   CentralServersConfigurationRoute,
   InnreachLocations,
   ContributionCriteriaRoute,
+  MaterialTypeRoute,
 } from '../../routes';
 import {
   CONTRIBUTION_CRITERIA_ROUTE,
   RECORD_CONTRIBUTION,
+  MATERIAL_TYPE_ROUTE,
 } from '../../../constants';
 
 export const sections = [
@@ -34,6 +36,11 @@ export const sections = [
         route: CONTRIBUTION_CRITERIA_ROUTE,
         label: <FormattedMessage id="ui-inn-reach.settings.contribution-criteria" />,
         component: ContributionCriteriaRoute,
+      },
+      {
+        route: MATERIAL_TYPE_ROUTE,
+        label: <FormattedMessage id="ui-inn-reach.settings.material-type-mappings" />,
+        component: MaterialTypeRoute,
       },
     ],
   }

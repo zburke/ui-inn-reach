@@ -1,0 +1,3 @@
+.selectControl option:disabled {
+  background-color: var(--color-fill-disabled) !important;
+}

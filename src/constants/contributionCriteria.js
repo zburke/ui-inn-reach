@@ -1,6 +1,6 @@
 import { SETTINGS_PATH } from './base';
 
-export const RECORD_CONTRIBUTION = 'Record contribution';
+export const RECORD_CONTRIBUTION = 'recordContribution';
 export const CONTRIBUTION_CRITERIA_ROUTE = 'contribution-criteria';
 export const CONTRIBUTION_CRITERIA_PATH = `/${SETTINGS_PATH}/${CONTRIBUTION_CRITERIA_ROUTE}`;
 
