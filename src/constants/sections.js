@@ -8,9 +8,11 @@ import {
 } from '../settings/routes';
 import {
   CONTRIBUTION_CRITERIA_ROUTE,
-  FOLIO_TO_INN_REACH_LOCATIONS_ROUTE,
   RECORD_CONTRIBUTION,
-} from '../constants';
+} from './contribution-criteria';
+import {
+  FOLIO_TO_INN_REACH_LOCATIONS_ROUTE,
+} from './folio-to-innreach-locations';
 
 export const sections = [
   {
