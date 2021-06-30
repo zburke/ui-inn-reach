@@ -6,12 +6,12 @@ import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/react';
 import { translationsProperties } from '../../../../../test/jest/helpers';
 import FolioToInnReachLocationsForm from './FolioToInnReachLocationsForm';
-import { FOLIO_TO_INN_REACH_LOCATIONS } from '../../../../constants';
+import { FOLIO_TO_INN_REACH_LOCATION_FIELDS } from '../../../../constants';
 
 const {
   FOLIO_LIBRARY,
   FOLIO_LOCATION,
-} = FOLIO_TO_INN_REACH_LOCATIONS;
+} = FOLIO_TO_INN_REACH_LOCATION_FIELDS;
 
 const serverOptions = [
   {

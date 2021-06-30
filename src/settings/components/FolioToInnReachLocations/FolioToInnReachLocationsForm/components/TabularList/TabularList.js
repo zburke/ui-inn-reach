@@ -10,7 +10,7 @@ import {
   Selection,
 } from '@folio/stripes-components';
 
-import { FOLIO_TO_INN_REACH_LOCATIONS } from '../../../../../../constants';
+import { FOLIO_TO_INN_REACH_LOCATION_FIELDS } from '../../../../../../constants';
 import css from './TabularList.css';
 
 const {
@@ -18,7 +18,7 @@ const {
   TABULAR_LIST,
   FOLIO_LIBRARY,
   FOLIO_LOCATION,
-} = FOLIO_TO_INN_REACH_LOCATIONS;
+} = FOLIO_TO_INN_REACH_LOCATION_FIELDS;
 
 const TabularList = ({
   innReachLocations,

@@ -18,7 +18,7 @@ import {
 } from '@folio/stripes-components';
 import {
   DEFAULT_PANE_WIDTH,
-  FOLIO_TO_INN_REACH_LOCATIONS,
+  FOLIO_TO_INN_REACH_LOCATION_FIELDS,
 } from '../../../../constants';
 import { TabularList } from './components';
 
@@ -29,7 +29,7 @@ const {
   INN_REACH_LOCATIONS,
   FOLIO_LIBRARY,
   FOLIO_LOCATION,
-} = FOLIO_TO_INN_REACH_LOCATIONS;
+} = FOLIO_TO_INN_REACH_LOCATION_FIELDS;
 
 const FolioToInnReachLocationsForm = ({
   selectedServer,

@@ -1,10 +1,10 @@
-import { FOLIO_TO_INN_REACH_LOCATIONS } from '../../../constants';
+import { FOLIO_TO_INN_REACH_LOCATION_FIELDS } from '../../../constants';
 
 const {
   INN_REACH_LOCATIONS,
   FOLIO_LIBRARY,
   FOLIO_LOCATION,
-} = FOLIO_TO_INN_REACH_LOCATIONS;
+} = FOLIO_TO_INN_REACH_LOCATION_FIELDS;
 
 export const getLibraryOptions = ({
   localAgencies,

@@ -10,7 +10,7 @@ import {
   CONTRIBUTION_CRITERIA_ROUTE,
   FOLIO_TO_INN_REACH_LOCATIONS_ROUTE,
   RECORD_CONTRIBUTION,
-} from './index';
+} from '../constants';
 
 export const sections = [
   {

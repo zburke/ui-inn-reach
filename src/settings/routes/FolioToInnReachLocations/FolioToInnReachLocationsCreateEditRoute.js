@@ -20,7 +20,7 @@ import {
 } from '../../../hooks';
 import {
   CALLOUT_ERROR_TYPE,
-  FOLIO_TO_INN_REACH_LOCATIONS,
+  FOLIO_TO_INN_REACH_LOCATION_FIELDS,
 } from '../../../constants';
 import {
   getInnReachLocationsMapCodeFirst,
@@ -41,7 +41,7 @@ const {
   TABULAR_LIST,
   LIBRARY,
   CENTRAL_SERVER,
-} = FOLIO_TO_INN_REACH_LOCATIONS;
+} = FOLIO_TO_INN_REACH_LOCATION_FIELDS;
 
 const FolioToInnReachLocationsCreateEditRoute = ({
   resources: {
@@ -75,7 +75,6 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   const showCallout = useCallout();
   const unblockRef = useRef();
 
-  // central server states
   const [selectedServer, setSelectedServer] = useState({});
   const [isPristine, setIsPristine] = useState(true);
   const [prevServerName, setPrevServerName] = useState('');
@@ -84,21 +83,17 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   const [nextLocation, setNextLocation] = useState(null);
   const [isResetForm, setIsResetForm] = useState(false);
 
-  // mapping type states
   const [mappingType, setMappingType] = useState('');
   const [nextMappingType, setNextMappingType] = useState('');
   const [prevMappingType, setPrevMappingType] = useState('');
 
-  // library states
   const [librarySelection, setLibrarySelection] = useState('');
   const [nextLibrarySelection, setNextLibrarySelection] = useState('');
   const [prevLibrarySelection, setPrevLibrarySelection] = useState('');
 
-  // common states
   const [initialValues, setInitialValues] = useState({});
   const [serverLibrariesOptions, setServerLibrariesOptions] = useState([]);
 
-  // mappings states
   const [libraryMappings, setLibraryMappings] = useState({});
   const [locationMappings, setLocationMappings] = useState({});
   const [isMappingsPending, setIsMappingsPending] = useState(false);

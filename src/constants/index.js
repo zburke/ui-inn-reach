@@ -1,4 +1,4 @@
 export * from './base';
 export * from './central-server-configuration';
-export * from './contributionCriteria';
-export * from './folioToInnReachLocations';
+export * from './contribution-criteria';
+export * from './folio-to-innreach-locations';
