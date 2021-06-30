@@ -9,6 +9,7 @@
   "settings.central-server.configuration": "Central Server Configuration",
   "settings.innreach.locations": "INN-Reach Locations",
   "settings.contribution-criteria": "Contribution criteria",
+  "settings.folio-to-inn-reach-locations": "FOLIO to INN-Reach locations",
   "settings.some-feature.message": "These are your settings for some app feature.",
 
   "settings.central-server-configuration.callout.connectionProblem.get": "Unable to get data due to a module error. Please try again. If a problem persists please contact your system administrator",
@@ -101,5 +102,28 @@
   "settings.contribution-criteria.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
   "settings.contribution-criteria.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator",
   "settings.contribution-criteria.create.success": "Contribution Criteria settings created successfully",
-  "settings.contribution-criteria.update.success": "Contribution Criteria settings updated successfully"
+  "settings.contribution-criteria.update.success": "Contribution Criteria settings updated successfully",
+
+  "settings.folio-to-inn-reach-locations.title": "FOLIO to INN-Reach locations",
+  "settings.folio-to-inn-reach-locations.button.save": "Save",
+  "settings.folio-to-inn-reach-locations.field.centralServer": "Central server",
+  "settings.folio-to-inn-reach-locations.placeholder.centralServer": "Select central server",
+  "settings.folio-to-inn-reach-locations.field.mapping-type": "Mapping type",
+  "settings.folio-to-inn-reach-locations.placeholder.select-type-to-map": "Select type to map",
+  "settings.folio-to-inn-reach-locations.field.library": "Library",
+  "settings.folio-to-inn-reach-locations.placeholder.select-library": "Select library",
+  "settings.folio-to-inn-reach-locations.field.libraries": "Libraries",
+  "settings.folio-to-inn-reach-locations.field.locations": "Locations",
+  "settings.folio-to-inn-reach-locations.field.inn-reach-locations": "INN-Reach locations",
+  "settings.folio-to-inn-reach-locations.field-value.libraries": "Libraries",
+  "settings.folio-to-inn-reach-locations.field-value.locations": "Locations",
+  "settings.folio-to-inn-reach-locations.create-edit.modal-message.unsavedChanges": "There are unsaved changes",
+  "settings.folio-to-inn-reach-locations.create-edit.modal-heading.areYouSure": "Are you sure?",
+  "settings.folio-to-inn-reach-locations.create-edit.modal-cancelLabel.closeWithoutSaving": "Close without saving",
+  "settings.folio-to-inn-reach-locations.create-edit.modal-confirmLabel.keepEditing": "Keep editing",
+  "settings.folio-to-inn-reach-locations.create-edit.validation.pleaseEnterAValue": "Please enter a value",
+  "settings.folio-to-inn-reach-locations.create-edit.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
+  "settings.folio-to-inn-reach-locations.create-edit.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator",
+  "settings.folio-to-inn-reach-locations.create-edit.create.success": "FOLIO to INN-Reach locations settings created successfully",
+  "settings.folio-to-inn-reach-locations.create-edit.update.success": "FOLIO to INN-Reach locations settings updated successfully"
 }

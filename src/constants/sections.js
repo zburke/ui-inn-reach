@@ -4,11 +4,15 @@ import {
   CentralServersConfigurationRoute,
   InnreachLocations,
   ContributionCriteriaRoute,
-} from '../../routes';
+  FolioToInnReachLocationsRoute,
+} from '../settings/routes';
 import {
   CONTRIBUTION_CRITERIA_ROUTE,
   RECORD_CONTRIBUTION,
-} from '../../../constants';
+} from './contribution-criteria';
+import {
+  FOLIO_TO_INN_REACH_LOCATIONS_ROUTE,
+} from './folio-to-innreach-locations';
 
 export const sections = [
   {
@@ -34,6 +38,11 @@ export const sections = [
         route: CONTRIBUTION_CRITERIA_ROUTE,
         label: <FormattedMessage id="ui-inn-reach.settings.contribution-criteria" />,
         component: ContributionCriteriaRoute,
+      },
+      {
+        route: FOLIO_TO_INN_REACH_LOCATIONS_ROUTE,
+        label: <FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations" />,
+        component: FolioToInnReachLocationsRoute,
       },
     ],
   }

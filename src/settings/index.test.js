@@ -9,7 +9,7 @@ import { useStripes } from '@folio/stripes/core';
 import InnReachSettings from './index';
 
 import { Settings } from './components/Settings';
-import { sections } from './components/Settings/constants';
+import { sections } from '../constants/sections';
 
 jest.mock('./components/Settings/Settings', () => jest.fn(() => 'Settings'));
 

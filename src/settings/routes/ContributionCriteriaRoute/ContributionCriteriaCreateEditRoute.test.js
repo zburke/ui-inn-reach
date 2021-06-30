@@ -12,7 +12,7 @@ import { ConfirmationModal } from '@folio/stripes-components';
 import { translationsProperties } from '../../../../test/jest/helpers';
 import ContributionCriteriaCreateEditRoute from './ContributionCriteriaCreateEditRoute';
 import ContributionCriteriaForm from '../../components/ContributionCriteria/ContributionCriteriaForm';
-import { useServers } from '../../../hooks';
+import { useCentralServers } from '../../../hooks';
 import { CONTRIBUTION_CRITERIA } from '../../../constants';
 
 const {
@@ -26,7 +26,7 @@ jest.mock('../../components/ContributionCriteria/ContributionCriteriaForm', () =
 
 jest.mock('../../../hooks', () => ({
   ...jest.requireActual('../../../hooks'),
-  useServers: jest.fn().mockReturnValue([]),
+  useCentralServers: jest.fn().mockReturnValue([]),
 }));
 
 jest.mock('@folio/stripes-components', () => ({
@@ -129,8 +129,10 @@ const mutatorMock = {
   },
   contributionCriteria: {
     GET: getMock,
-    POST: postMock,
     PUT: putMock,
+  },
+  contributionCriteriaCreate: {
+    POST: postMock,
   },
 };
 
@@ -165,7 +167,7 @@ describe('ContributionCriteriaCreateEditRoute component', () => {
     ConfirmationModal.mockClear();
     ContributionCriteriaForm.mockClear();
     history = createMemoryHistory();
-    useServers.mockClear().mockReturnValue([
+    useCentralServers.mockClear().mockReturnValue([
       selectedServer,
       openModal,
       isResetForm,

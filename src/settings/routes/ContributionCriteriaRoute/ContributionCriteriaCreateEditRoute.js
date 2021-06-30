@@ -24,7 +24,7 @@ import {
 import ContributionCriteriaForm from '../../components/ContributionCriteria/ContributionCriteriaForm';
 import {
   useCallout,
-  useServers,
+  useCentralServers,
 } from '../../../hooks';
 
 const {
@@ -68,7 +68,7 @@ const ContributionCriteriaCreateEditRoute = ({
     handleServerChange,
     handleModalConfirm,
     handleModalCancel,
-  ] = useServers(history, servers);
+  ] = useCentralServers(history, servers);
   const showCallout = useCallout();
   const [contributionCriteria, setContributionCriteria] = useState(null);
   const [initialValues, setInitialValues] = useState(DEFAULT_VALUES);
@@ -79,8 +79,9 @@ const ContributionCriteriaCreateEditRoute = ({
   const statisticalCodes = statisticalCodesData[0]?.statisticalCodes || [];
 
   const handleSubmit = (record) => {
-    const { contributionCriteria: { POST, PUT } } = mutator;
-    const saveMethod = contributionCriteria ? PUT : POST;
+    const saveMethod = contributionCriteria
+      ? mutator.contributionCriteria.PUT
+      : mutator.contributionCriteriaCreate.POST;
     const FOLIOLocations = record[LOCATIONS_IDS];
     const finalRecord = {
       ...omit(record, LOCATIONS_IDS),
@@ -202,6 +203,13 @@ ContributionCriteriaCreateEditRoute.manifest = Object.freeze({
     fetch: false,
     throwErrors: false,
   },
+  contributionCriteriaCreate: {
+    type: 'okapi',
+    path: 'inn-reach/central-servers/contribution-criteria',
+    accumulate: true,
+    fetch: false,
+    throwErrors: false,
+  },
 });
 
 ContributionCriteriaCreateEditRoute.propTypes = {
@@ -230,6 +238,9 @@ ContributionCriteriaCreateEditRoute.propTypes = {
       GET: PropTypes.func,
       POST: PropTypes.func,
       PUT: PropTypes.func,
+    }).isRequired,
+    contributionCriteriaCreate: PropTypes.shape({
+      POST: PropTypes.func,
     }).isRequired,
   }),
 };
