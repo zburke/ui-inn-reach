@@ -59,15 +59,6 @@ const ContributionOptionsForm = ({
   const [folioLoanTypeOptions, setFolioLoanTypeOptions] = useState([]);
 
   useEffect(() => {
-    if (!isEmpty(folioLocations)) {
-      const folioLocationOpts = folioLocations.map(({ id, name }) => ({
-        label: name,
-        value: id,
-      }));
-
-      setFolioLocationOptions(folioLocationOpts);
-    }
-
     if (!isEmpty(materialTypes)) {
       const folioMaterialTypeOpts = materialTypes.map(({ id, name }) => ({
         label: name,
@@ -75,6 +66,15 @@ const ContributionOptionsForm = ({
       }));
 
       setFolioMaterialTypeOptions(folioMaterialTypeOpts);
+    }
+
+    if (!isEmpty(folioLocations)) {
+      const folioLocationOpts = folioLocations.map(({ id, name }) => ({
+        label: name,
+        value: id,
+      }));
+
+      setFolioLocationOptions(folioLocationOpts);
     }
 
     if (!isEmpty(loanTypes)) {

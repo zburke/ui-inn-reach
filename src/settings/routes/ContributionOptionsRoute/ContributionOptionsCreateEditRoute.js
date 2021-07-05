@@ -223,11 +223,11 @@ const ContributionOptionsCreateEditRoute = ({
         folioLocations={folioLocations}
         loanTypes={loanTypes}
         isResetForm={isResetForm}
+        materialTypes={materialTypes}
         onSubmit={handleSubmit}
         onChangePristineState={changePristineState}
         onChangeFormResetState={changeFormResetState}
         onChangeServer={handleServerChange}
-        materialTypes={materialTypes}
       />
     </>
   );
