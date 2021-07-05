@@ -6,6 +6,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import PropTypes from 'prop-types';
 import {
   omit,
+  isEmpty,
 } from 'lodash';
 import {
   FormattedMessage,
@@ -20,6 +21,7 @@ import { stripesConnect } from '@folio/stripes/core';
 import {
   CALLOUT_ERROR_TYPE,
   CONTRIBUTION_CRITERIA,
+  METADATA,
 } from '../../../constants';
 import ContributionCriteriaForm from '../../components/ContributionCriteria/ContributionCriteriaForm';
 import {
@@ -41,6 +43,7 @@ const ContributionCriteriaCreateEditRoute = ({
     centralServerRecords: {
       records: centralServers,
       isPending: isServersPending,
+      hasLoaded: hasLoadedServers,
     },
     folioLocations: {
       records: locations,
@@ -70,7 +73,7 @@ const ContributionCriteriaCreateEditRoute = ({
     handleModalCancel,
   ] = useCentralServers(history, servers);
   const showCallout = useCallout();
-  const [contributionCriteria, setContributionCriteria] = useState(null);
+  const [contributionCriteria, setContributionCriteria] = useState({});
   const [initialValues, setInitialValues] = useState(DEFAULT_VALUES);
   const [isContributionCriteriaPending, setIsContributionCriteriaPending] = useState(false);
 
@@ -78,13 +81,19 @@ const ContributionCriteriaCreateEditRoute = ({
   const statisticalCodeTypes = statisticalCodeTypesData[0]?.statisticalCodeTypes || [];
   const statisticalCodes = statisticalCodesData[0]?.statisticalCodes || [];
 
+  const fetchContributionCriteria = () => {
+    mutator.contributionCriteria.GET()
+      .then(response => setContributionCriteria(response))
+      .catch(() => null)
+      .finally(() => setIsContributionCriteriaPending(false));
+  };
+
   const handleSubmit = (record) => {
-    const saveMethod = contributionCriteria
-      ? mutator.contributionCriteria.PUT
-      : mutator.contributionCriteriaCreate.POST;
+    const { contributionCriteria: { POST, PUT } } = mutator;
+    const saveMethod = isEmpty(contributionCriteria) ? POST : PUT;
     const FOLIOLocations = record[LOCATIONS_IDS];
     const finalRecord = {
-      ...omit(record, LOCATIONS_IDS),
+      ...omit(record, LOCATIONS_IDS, METADATA),
       centralServerId: selectedServer.id,
     };
 
@@ -94,12 +103,13 @@ const ContributionCriteriaCreateEditRoute = ({
 
     saveMethod(finalRecord)
       .then(() => {
-        const action = contributionCriteria ? 'update' : 'create';
+        const action = isEmpty(contributionCriteria) ? 'create' : 'update';
 
+        fetchContributionCriteria();
         showCallout({ message: <FormattedMessage id={`ui-inn-reach.settings.contribution-criteria.${action}.success`} /> });
       })
       .catch(() => {
-        const action = contributionCriteria ? 'put' : 'post';
+        const action = isEmpty(contributionCriteria) ? 'post' : 'put';
 
         showCallout({
           type: CALLOUT_ERROR_TYPE,
@@ -111,17 +121,15 @@ const ContributionCriteriaCreateEditRoute = ({
   useEffect(() => {
     if (selectedServer.id) {
       mutator.selectedServerId.replace(selectedServer.id);
+      setInitialValues(DEFAULT_VALUES);
+      setContributionCriteria({});
       setIsContributionCriteriaPending(true);
-
-      mutator.contributionCriteria.GET()
-        .then(response => setContributionCriteria(response))
-        .catch(() => null)
-        .finally(() => setIsContributionCriteriaPending(false));
+      fetchContributionCriteria();
     }
   }, [selectedServer]);
 
   useEffect(() => {
-    if (contributionCriteria) {
+    if (!isEmpty(contributionCriteria)) {
       const locationIds = contributionCriteria[LOCATIONS_IDS];
       const originalValues = {
         ...DEFAULT_VALUES,
@@ -141,7 +149,7 @@ const ContributionCriteriaCreateEditRoute = ({
     }
   }, [contributionCriteria]);
 
-  if (isServersPending) return <LoadingPane />;
+  if (isServersPending && !hasLoadedServers) return <LoadingPane />;
 
   return (
     <>
@@ -199,13 +207,10 @@ ContributionCriteriaCreateEditRoute.manifest = Object.freeze({
   contributionCriteria: {
     type: 'okapi',
     path: 'inn-reach/central-servers/%{selectedServerId}/contribution-criteria',
-    accumulate: true,
-    fetch: false,
-    throwErrors: false,
-  },
-  contributionCriteriaCreate: {
-    type: 'okapi',
-    path: 'inn-reach/central-servers/contribution-criteria',
+    POST: {
+      path: 'inn-reach/central-servers/contribution-criteria',
+    },
+    clientGeneratePk: false,
     accumulate: true,
     fetch: false,
     throwErrors: false,
@@ -219,6 +224,7 @@ ContributionCriteriaCreateEditRoute.propTypes = {
     centralServerRecords: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
       isPending: PropTypes.bool.isRequired,
+      hasLoaded: PropTypes.bool.isRequired,
     }).isRequired,
     folioLocations: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -238,9 +244,6 @@ ContributionCriteriaCreateEditRoute.propTypes = {
       GET: PropTypes.func,
       POST: PropTypes.func,
       PUT: PropTypes.func,
-    }).isRequired,
-    contributionCriteriaCreate: PropTypes.shape({
-      POST: PropTypes.func,
     }).isRequired,
   }),
 };
