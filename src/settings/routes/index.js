@@ -2,3 +2,4 @@ export { default as CentralServersConfigurationRoute } from './CentralServersCon
 export { default as ContributionCriteriaRoute } from './ContributionCriteriaRoute';
 export { default as InnreachLocations } from './InnreachLocations';
 export { default as FolioToInnReachLocationsRoute } from './FolioToInnReachLocations';
+export { default as ContributionOptionsRoute } from './ContributionOptionsRoute';
