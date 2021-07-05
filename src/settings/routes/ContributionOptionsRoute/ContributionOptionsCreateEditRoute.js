@@ -203,22 +203,6 @@ const ContributionOptionsCreateEditRoute = ({
 
   return (
     <>
-      <ContributionOptionsForm
-        selectedServer={selectedServer}
-        isContributionOptionsPending={isContributionOptionsPending}
-        isPristine={isPristine}
-        serverOptions={serverOptions}
-        statusesOptions={getFormatedStatusesOptions}
-        initialValues={initialValues}
-        folioLocations={folioLocations}
-        materialTypes={materialTypes}
-        loanTypes={loanTypes}
-        isResetForm={isResetForm}
-        onSubmit={handleSubmit}
-        onChangePristineState={changePristineState}
-        onChangeFormResetState={changeFormResetState}
-        onChangeServer={handleServerChange}
-      />
       <ConfirmationModal
         id="cancel-editing-confirmation"
         open={openModal}
@@ -228,6 +212,22 @@ const ContributionOptionsCreateEditRoute = ({
         cancelLabel={<FormattedMessage id="ui-inn-reach.settings.contribution-options.create-edit.modal-cancelLabel.closeWithoutSaving" />}
         onCancel={handleModalCancel}
         onConfirm={handleModalConfirm}
+      />
+      <ContributionOptionsForm
+        selectedServer={selectedServer}
+        isContributionOptionsPending={isContributionOptionsPending}
+        isPristine={isPristine}
+        serverOptions={serverOptions}
+        statusesOptions={getFormatedStatusesOptions}
+        initialValues={initialValues}
+        folioLocations={folioLocations}
+        loanTypes={loanTypes}
+        isResetForm={isResetForm}
+        onSubmit={handleSubmit}
+        onChangePristineState={changePristineState}
+        onChangeFormResetState={changeFormResetState}
+        onChangeServer={handleServerChange}
+        materialTypes={materialTypes}
       />
     </>
   );
