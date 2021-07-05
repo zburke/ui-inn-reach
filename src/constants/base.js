@@ -6,6 +6,7 @@ export const SETTINGS_PATH = `${SETTINGS}/${MODULE_ROUTE}`;
 export const SETTINGS_PANE_WIDTH = '15%';
 export const DEFAULT_PANE_WIDTH = '65%';
 export const FILL_PANE_WIDTH = 'fill';
+export const METADATA = 'metadata';
 
 export const CALLOUT_ERROR_TYPE = 'error';
 

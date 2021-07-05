@@ -49,10 +49,12 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     centralServerRecords: {
       records: centralServers,
       isPending: isServersPending,
+      hasLoaded: hasLoadedServers,
     },
     innReachLocations: {
       records: innReachLoc,
       isPending: isInnReachLocPending,
+      hasLoaded: hasLoadedInnReachLoc,
     },
     folioLibraries: {
       records: libraries,
@@ -94,8 +96,8 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   const [initialValues, setInitialValues] = useState({});
   const [serverLibrariesOptions, setServerLibrariesOptions] = useState([]);
 
-  const [libraryMappings, setLibraryMappings] = useState({});
-  const [locationMappings, setLocationMappings] = useState({});
+  const [libraryMappings, setLibraryMappings] = useState([]);
+  const [locationMappings, setLocationMappings] = useState([]);
   const [isMappingsPending, setIsMappingsPending] = useState(false);
   const [locationMappingsMap, setLocationMappingsMap] = useState(null);
   const [librariesMappingsMap, setLibrariesMappingsMap] = useState(null);
@@ -155,19 +157,15 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   };
 
   const fetchLibraryMappings = () => {
-    setIsMappingsPending(true);
-
     mutator.libraryMappings.GET()
-      .then(response => setLibraryMappings(response))
+      .then(response => setLibraryMappings(response.libraryMappings))
       .catch(() => null)
       .finally(() => setIsMappingsPending(false));
   };
 
   const fetchLocationMappings = () => {
-    setIsMappingsPending(true);
-
     mutator.locationMappings.GET()
-      .then(response => setLocationMappings(response))
+      .then(response => setLocationMappings(response.locationMappings))
       .catch(() => null)
       .finally(() => setIsMappingsPending(false));
   };
@@ -197,6 +195,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
 
       if (selectedMappingType === librariesMappingType) {
         setInitialValues({});
+        setIsMappingsPending(true);
         fetchLibraryMappings();
       }
     } else { // if we have the selected library or the tabular list option
@@ -217,6 +216,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
       setLibrarySelection(selectedLibraryName);
       mutator.selectedLibraryId.replace(libraryId);
       setInitialValues({});
+      setIsMappingsPending(true);
       fetchLocationMappings();
     } else {
       setOpenModal(true);
@@ -244,6 +244,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
         .then(() => {
           const action = isEmpty(locationMappings) ? 'create' : 'update';
 
+          fetchLocationMappings();
           showCallout({ message: <FormattedMessage id={`ui-inn-reach.settings.folio-to-inn-reach-locations.create-edit.${action}.success`} /> });
         })
         .catch(() => {
@@ -268,6 +269,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
         .then(() => {
           const action = isEmpty(libraryMappings) ? 'create' : 'update';
 
+          fetchLibraryMappings();
           showCallout({ message: <FormattedMessage id={`ui-inn-reach.settings.folio-to-inn-reach-locations.create-edit.${action}.success`} /> });
         })
         .catch(() => {
@@ -300,6 +302,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
 
       if (nextMappingType === librariesMappingType) {
         setInitialValues({});
+        setIsMappingsPending(true);
         fetchLibraryMappings();
       }
     } else if (prevLibrarySelection) { // if a new library was selected
@@ -308,6 +311,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
       setLibrarySelection(nextLibrarySelection);
       mutator.selectedLibraryId.replace(libraryId);
       setInitialValues({});
+      setIsMappingsPending(true);
       fetchLocationMappings();
       setPrevLibrarySelection('');
     } else { // otherwise, the navigation to the current page or leave from the page was pressed
@@ -355,8 +359,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
           [TABULAR_LIST]: getLeftColumnLibraries(serverLibrariesOptions),
         });
       } else {
-        const libMappings = libraryMappings[0].libraryMappings;
-        const libMappingsMap = getLibrariesMappingsMap(libMappings);
+        const libMappingsMap = getLibrariesMappingsMap(libraryMappings);
 
         setLibrariesMappingsMap(libMappingsMap);
 
@@ -382,8 +385,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
           }),
         });
       } else {
-        const locMappings = locationMappings[0].locationMappings;
-        const locMappingsMap = getLocationMappingsMap(locMappings);
+        const locMappingsMap = getLocationMappingsMap(locationMappings);
 
         setLocationMappingsMap(locMappingsMap);
 
@@ -435,8 +437,8 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   }, [mappingType, librarySelection, isPristine]);
 
   if (
-    isServersPending ||
-    isInnReachLocPending ||
+    (isServersPending && !hasLoadedServers) ||
+    (isInnReachLocPending && !hasLoadedInnReachLoc) ||
     isFolioLibrariesPending ||
     isFolioLocationsPending
   ) {
@@ -506,14 +508,14 @@ FolioToInnReachLocationsCreateEditRoute.manifest = Object.freeze({
   },
   libraryMappings: {
     type: 'okapi',
-    path: 'inn-reach/central-servers/%{selectedServerId}/libraries/loc-mappings',
+    path: 'inn-reach/central-servers/%{selectedServerId}/libraries/location-mappings',
     accumulate: true,
     fetch: false,
     throwErrors: false,
   },
   locationMappings: {
     type: 'okapi',
-    path: 'inn-reach/central-servers/%{selectedServerId}/libraries/%{selectedLibraryId}/locations/loc-mappings',
+    path: 'inn-reach/central-servers/%{selectedServerId}/libraries/%{selectedLibraryId}/locations/location-mappings',
     accumulate: true,
     fetch: false,
     throwErrors: false,
@@ -529,6 +531,7 @@ FolioToInnReachLocationsCreateEditRoute.propTypes = {
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
       isPending: PropTypes.bool.isRequired,
       failed: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+      hasLoaded: PropTypes.bool.isRequired,
     }).isRequired,
     folioLibraries: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -544,6 +547,7 @@ FolioToInnReachLocationsCreateEditRoute.propTypes = {
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
       isPending: PropTypes.bool.isRequired,
       failed: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+      hasLoaded: PropTypes.bool.isRequired,
     }).isRequired,
   }).isRequired,
   mutator: PropTypes.shape({
