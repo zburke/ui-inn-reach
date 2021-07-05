@@ -210,6 +210,7 @@ ContributionCriteriaCreateEditRoute.manifest = Object.freeze({
     POST: {
       path: 'inn-reach/central-servers/contribution-criteria',
     },
+    clientGeneratePk: false,
     accumulate: true,
     fetch: false,
     throwErrors: false,

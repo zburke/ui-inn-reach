@@ -174,11 +174,13 @@ const resourcesMock = {
     records: [{ centralServers: servers }],
     isPending: false,
     failed: false,
+    hasLoaded: false,
   },
   innReachLocations: {
     records: [{ locations: innReachLocations }],
     isPending: false,
     failed: false,
+    hasLoaded: false,
   },
   folioLibraries: {
     records: [{ loclibs }],
@@ -257,8 +259,8 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
     it('should open modal window', async () => {
       renderFolioToInnReachLocationsCreateEditRoute({ history });
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Libraries'); });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[5][0].onChangeServer(servers[0].name); });
-      expect(ConfirmationModal.mock.calls[6][0].open).toBeTruthy();
+      act(() => { FolioToInnReachLocationsForm.mock.calls[4][0].onChangeServer(servers[0].name); });
+      expect(ConfirmationModal.mock.calls[5][0].open).toBeTruthy();
     });
 
     it('should change selected server', () => {
@@ -308,8 +310,11 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
         history,
         mutator: newMutator,
       });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
+      console.log('ll', FolioToInnReachLocationsForm.mock.calls.length)
+      act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
+      console.log('ll2', FolioToInnReachLocationsForm.mock.calls.length)
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[3][0].onChangeMappingType('Libraries'); });
+      console.log('ll3', FolioToInnReachLocationsForm.mock.calls.length)
       expect(FolioToInnReachLocationsForm.mock.calls[7][0].initialValues).toEqual(recordForLibrariesMappings);
     });
 
