@@ -25,7 +25,7 @@ import {
 } from '../constants';
 import {
   sections,
-} from './components/Settings/constants';
+} from '../constants/sections';
 import {
   Settings,
 } from './components';
@@ -60,7 +60,7 @@ const InnReachSettings = ({
     setIsLoading(true);
 
     mutator.centralServerRecords.GET()
-      .then(response => setCentralServers(response))
+      .then(response => setCentralServers(response.centralServers))
       .catch(() => {
         showCallout({
           type: CALLOUT_ERROR_TYPE,

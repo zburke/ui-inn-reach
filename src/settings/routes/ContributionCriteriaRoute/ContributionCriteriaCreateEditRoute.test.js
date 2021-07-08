@@ -4,7 +4,7 @@ import {
   omit,
 } from 'lodash';
 import { createMemoryHistory } from 'history';
-import { waitFor, screen } from '@testing-library/react';
+import { waitFor, screen, act } from '@testing-library/react';
 
 import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jest/helpers';
 import { ConfirmationModal } from '@folio/stripes-components';
@@ -12,7 +12,7 @@ import { ConfirmationModal } from '@folio/stripes-components';
 import { translationsProperties } from '../../../../test/jest/helpers';
 import ContributionCriteriaCreateEditRoute from './ContributionCriteriaCreateEditRoute';
 import ContributionCriteriaForm from '../../components/ContributionCriteria/ContributionCriteriaForm';
-import { useServers } from '../../../hooks';
+import { useCentralServers } from '../../../hooks';
 import { CONTRIBUTION_CRITERIA } from '../../../constants';
 
 const {
@@ -26,7 +26,7 @@ jest.mock('../../components/ContributionCriteria/ContributionCriteriaForm', () =
 
 jest.mock('../../../hooks', () => ({
   ...jest.requireActual('../../../hooks'),
-  useServers: jest.fn().mockReturnValue([]),
+  useCentralServers: jest.fn().mockReturnValue([]),
 }));
 
 jest.mock('@folio/stripes-components', () => ({
@@ -106,6 +106,7 @@ const resourcesMock = {
   centralServerRecords: {
     records: servers,
     isPending: false,
+    hasLoaded: false,
   },
   folioLocations: {
     records: [{ locations }],
@@ -129,8 +130,8 @@ const mutatorMock = {
   },
   contributionCriteria: {
     GET: getMock,
-    POST: postMock,
     PUT: putMock,
+    POST: postMock,
   },
 };
 
@@ -165,7 +166,7 @@ describe('ContributionCriteriaCreateEditRoute component', () => {
     ConfirmationModal.mockClear();
     ContributionCriteriaForm.mockClear();
     history = createMemoryHistory();
-    useServers.mockClear().mockReturnValue([
+    useCentralServers.mockClear().mockReturnValue([
       selectedServer,
       openModal,
       isResetForm,
@@ -218,10 +219,8 @@ describe('ContributionCriteriaCreateEditRoute component', () => {
     const finalRecord = contributionCriteria;
 
     it('should cause POST request', async () => {
-      await waitFor(() => {
-        renderContributionCriteriaCreateEditRoute({ history });
-      });
-      ContributionCriteriaForm.mock.calls[3][0].onSubmit(record);
+      await act(async () => { await renderContributionCriteriaCreateEditRoute({ history }); });
+      await act(async () => { await ContributionCriteriaForm.mock.calls[3][0].onSubmit(record); });
       expect(postMock).toHaveBeenCalledWith(finalRecord);
     });
 
@@ -230,13 +229,13 @@ describe('ContributionCriteriaCreateEditRoute component', () => {
 
       newMutator.contributionCriteria.GET = jest.fn(() => Promise.resolve({ contributionCriteria }));
 
-      await waitFor(() => {
-        renderContributionCriteriaCreateEditRoute({
+      await act(async () => {
+        await renderContributionCriteriaCreateEditRoute({
           history,
           mutator: newMutator,
         });
       });
-      ContributionCriteriaForm.mock.calls[3][0].onSubmit(record);
+      await act(async () => { await ContributionCriteriaForm.mock.calls[3][0].onSubmit(record); });
       expect(putMock).toHaveBeenCalledWith(finalRecord);
     });
   });

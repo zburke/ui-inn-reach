@@ -37,7 +37,7 @@ const useCentralServers = (history, servers) => {
         setSelectedServer(optedServer);
       } else {
         setOpenModal(true);
-        setNextServer(selectedServer);
+        setNextServer(optedServer);
       }
 
       setPrevServerName(selectedServer.name);

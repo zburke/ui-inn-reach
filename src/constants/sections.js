@@ -5,12 +5,22 @@ import {
   InnreachLocations,
   ContributionCriteriaRoute,
   MaterialTypeRoute,
+  FolioToInnReachLocationsRoute,
+  ContributionOptionsRoute,
 } from '../../routes';
+import {
+  MATERIAL_TYPE_ROUTE,
+} from './material-type';
 import {
   CONTRIBUTION_CRITERIA_ROUTE,
   RECORD_CONTRIBUTION,
-  MATERIAL_TYPE_ROUTE,
-} from '../../../constants';
+} from './contribution-criteria';
+import {
+  FOLIO_TO_INN_REACH_LOCATIONS_ROUTE,
+} from './folio-to-innreach-locations';
+import {
+  CONTRIBUTION_OPTIONS_ROUTE,
+} from './contribution-options';
 
 export const sections = [
   {
@@ -41,6 +51,16 @@ export const sections = [
         route: MATERIAL_TYPE_ROUTE,
         label: <FormattedMessage id="ui-inn-reach.settings.material-type-mappings" />,
         component: MaterialTypeRoute,
+      },
+      {
+        route: FOLIO_TO_INN_REACH_LOCATIONS_ROUTE,
+        label: <FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations" />,
+        component: FolioToInnReachLocationsRoute,
+      },
+      {
+        route: CONTRIBUTION_OPTIONS_ROUTE,
+        label: <FormattedMessage id="ui-inn-reach.settings.contribution-options" />,
+        component: ContributionOptionsRoute,
       },
     ],
   }
