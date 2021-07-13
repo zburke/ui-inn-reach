@@ -7,7 +7,7 @@ import {
   MaterialTypeRoute,
   FolioToInnReachLocationsRoute,
   ContributionOptionsRoute,
-} from '../../routes';
+} from '../settings/routes';
 import {
   MATERIAL_TYPE_ROUTE,
 } from './material-type';

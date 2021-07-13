@@ -8,6 +8,7 @@ import {
   Col,
   Row,
   Selection,
+  TextField,
 } from '@folio/stripes-components';
 
 import { FOLIO_TO_INN_REACH_LOCATION_FIELDS } from '../../../../../../constants';
