@@ -76,6 +76,13 @@
     "actsAs": [
       "settings"
     ],
+    "icons": [
+      {
+        "name": "app",
+        "alt": "Inn-reach management app",
+        "title": "Inn-reach"
+      }
+    ],
     "displayName": "ui-inn-reach.meta.title",
     "route": "/innreach",
     "okapiInterfaces": {
