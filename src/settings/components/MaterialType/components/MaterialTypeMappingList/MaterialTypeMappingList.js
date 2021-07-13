@@ -17,16 +17,15 @@ const {
   MATERIAL_TYPE_MAPPING_LIST,
   CENTRAL_ITEM_TYPE,
   MATERIAL_TYPE_ID,
-  MATERIAL_TYPE_LABEL
+  MATERIAL_TYPE_LABEL,
+  ID,
 } = MATERIAL_TYPE_FIELDS;
 
 const MaterialTypeMappingList = ({
-  materialTypeOptions,
   innReachItemTypeOptions,
 }) => {
   const { formatMessage } = useIntl();
 
-  console.log('innReachItemTypeOptions', innReachItemTypeOptions);
   return (
     <Col sm={12}>
       <Row>
@@ -34,18 +33,17 @@ const MaterialTypeMappingList = ({
           className={css.tabularHeaderCol}
           sm={6}
         >
-          {formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.locations' })}
+          {formatMessage({ id: 'ui-inn-reach.settings.material-type-mapping.field.folio-material-types' })}
         </Col>
         <Col
           className={css.tabularHeaderCol}
           sm={6}
         >
-          {formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations' })}
+          {formatMessage({ id: 'ui-inn-reach.settings.material-type-mapping.field.item-type' })}
         </Col>
       </Row>
       <FieldArray name={MATERIAL_TYPE_MAPPING_LIST}>
         {({ fields }) => {
-          console.log('fields', fields);
           return fields.map((name, index) => (
             <Row
               key={index}
@@ -61,7 +59,11 @@ const MaterialTypeMappingList = ({
                 />
                 <Field
                   name={`${name}.${MATERIAL_TYPE_ID}`}
-                  component={({ input }) => null}
+                  component={() => null}
+                />
+                <Field
+                  name={`${name}.${ID}`}
+                  component={() => null}
                 />
               </Col>
               <Col
@@ -71,13 +73,13 @@ const MaterialTypeMappingList = ({
                 <Field
                   marginBottom0
                   name={`${name}.${CENTRAL_ITEM_TYPE}`}
-                  aria-label={formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations' })}
+                  aria-label={formatMessage({ id: 'ui-inn-reach.settings.material-type-mapping.field.item-type' })}
                   component={Selection}
                   dataOptions={innReachItemTypeOptions}
                 />
               </Col>
             </Row>
-          ))
+          ));
         }}
       </FieldArray>
     </Col>
@@ -85,7 +87,6 @@ const MaterialTypeMappingList = ({
 };
 
 MaterialTypeMappingList.propTypes = {
-  materialTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   innReachItemTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

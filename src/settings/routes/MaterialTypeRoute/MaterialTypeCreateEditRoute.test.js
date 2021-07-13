@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   cloneDeep,
-  omit,
 } from 'lodash';
 import { createMemoryHistory } from 'history';
 import { waitFor, screen } from '@testing-library/react';
@@ -10,18 +9,12 @@ import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jes
 import { ConfirmationModal } from '@folio/stripes-components';
 
 import { translationsProperties } from '../../../../test/jest/helpers';
-import ContributionCriteriaCreateEditRoute from './MaterialTypeCreateEditRoute';
-import ContributionCriteriaForm from '../../components/ContributionCriteria/ContributionCriteriaForm';
+import MaterialTypeCreateEditRoute from './MaterialTypeCreateEditRoute';
+import MaterialTypeForm from '../../components/MaterialType/MaterialTypeForm';
 import { useCentralServers } from '../../../hooks';
-import { CONTRIBUTION_CRITERIA } from '../../../constants';
 
-const {
-  CENTRAL_SERVER_ID,
-  LOCATIONS_IDS,
-} = CONTRIBUTION_CRITERIA;
-
-jest.mock('../../components/ContributionCriteria/ContributionCriteriaForm', () => {
-  return jest.fn(() => <div>ContributionCriteriaForm</div>);
+jest.mock('../../components/MaterialType/MaterialTypeForm', () => {
+  return jest.fn(() => <div>MaterialTypeForm</div>);
 });
 
 jest.mock('../../../hooks', () => ({
@@ -34,34 +27,38 @@ jest.mock('@folio/stripes-components', () => ({
   LoadingPane: jest.fn(() => 'LoadingPane'),
 }));
 
-const locations = [
-  {
-    id: '99880669-07cc-4658-b213-e6200344d1c3',
-    name: 'testLocation1',
-  },
-  {
-    id: '0ac0ffe6-c3ee-4610-b15c-019bbaea5dbd',
-    name: 'testLocation2',
-  },
-  {
-    id: 'dfc42e20-7883-4c71-a3cf-f4c0aab1aedc',
-    name: 'testLocation3',
-  }
-];
-
-const statisticalCodesData = [
+const materialTypes = [
   {
     id: '7a82f404-07df-4e5e-8e8f-a15f3b6ddffa',
-    statisticalCodeTypeId: '882a737a-27ce-4f0c-90fc-36b92c6046bf',
-    code: 'testCode',
-    name: 'testCodeName',
+    name: 'testMaterialType1',
+  },
+  {
+    id: '7a82f404-07df-4e5e-8e8f-a15f3b6ddffb',
+    name: 'testMaterialType2',
   }
 ];
 
-const statisticalCodeTypesData = [
+const materialTypeMappings = [
   {
-    name: 'typeName',
-    id: '882a737a-27ce-4f0c-90fc-36b92c6046bf',
+    materialTypeId: '7a82f404-07df-4e5e-8e8f-a15f3b6ddffa',
+    centralItemType: 202
+  },
+  {
+    materialTypeId: '7a82f404-07df-4e5e-8e8f-a15f3b6ddffb',
+    centralItemType: 211
+  },
+];
+
+const centralItemTypes = [
+  {
+    id: '0b3a1862-ef3c-4ef4-beba-f6444069a5f5',
+    centralItemType: 202,
+    description: 'test1'
+  },
+  {
+    id: '5f552f82-91a8-4700-9814-988826d825c9',
+    centralItemType: 211,
+    description: 'test2'
   }
 ];
 
@@ -75,18 +72,6 @@ const servers = [
     name: 'testServerName2',
   },
 ];
-
-const contributionCriteria = {
-  centralServerId: servers[1].id,
-  locationIds: [
-    '99880669-07cc-4658-b213-e6200344d1c3',
-    '0ac0ffe6-c3ee-4610-b15c-019bbaea5dbd',
-    'dfc42e20-7883-4c71-a3cf-f4c0aab1aedc'
-  ],
-  contributeButSuppressId: '54a61ace-affc-4bf9-a9b9-d604b2d36250',
-  doNotContributeId: '19e8ee99-2e6b-4e2d-96e6-402d9caf9efa',
-  contributeAsSystemOwnedId: '73c8ba83-b80f-4287-a02d-79906d7864f1',
-};
 
 const serverOptions = [
   {
@@ -107,18 +92,17 @@ const resourcesMock = {
     records: servers,
     isPending: false,
   },
-  folioLocations: {
-    records: [{ locations }],
+  materialTypes: {
+    records: [{ mtypes: materialTypes }],
   },
-  statisticalCodeTypes: {
-    records: [{ statisticalCodeTypes: statisticalCodeTypesData }],
+  innReachItemTypes: {
+    records: [{ itemTypeList: centralItemTypes }],
   },
-  statisticalCodes: {
-    records: [{ statisticalCodes: statisticalCodesData }],
-  },
+  materialTypeMappings: {
+    records: [{ materialTypeMapping: materialTypeMappings }],
+  }
 };
 
-const postMock = jest.fn(() => Promise.resolve());
 const putMock = jest.fn(() => Promise.resolve());
 const getMock = jest.fn(() => Promise.resolve());
 const replaceMock = jest.fn();
@@ -127,20 +111,22 @@ const mutatorMock = {
   selectedServerId: {
     replace: replaceMock,
   },
-  contributionCriteria: {
+  materialTypeMappings: {
     GET: getMock,
-    POST: postMock,
     PUT: putMock,
+  },
+  innReachItemTypes: {
+    GET: getMock,
   },
 };
 
-const renderContributionCriteriaCreateEditRoute = ({
+const renderMaterialTypesCreateEditRoute = ({
   resources = resourcesMock,
   mutator = mutatorMock,
   history,
 } = {}) => {
   return renderWithIntl(
-    <ContributionCriteriaCreateEditRoute
+    <MaterialTypeCreateEditRoute
       history={history}
       mutator={mutator}
       resources={resources}
@@ -149,7 +135,7 @@ const renderContributionCriteriaCreateEditRoute = ({
   );
 };
 
-describe('ContributionCriteriaCreateEditRoute component', () => {
+describe('MaterialTypeCreateEditRoute component', () => {
   const selectedServer = servers[1];
   const openModal = false;
   const isResetForm = false;
@@ -163,7 +149,7 @@ describe('ContributionCriteriaCreateEditRoute component', () => {
 
   beforeEach(() => {
     ConfirmationModal.mockClear();
-    ContributionCriteriaForm.mockClear();
+    MaterialTypeForm.mockClear();
     history = createMemoryHistory();
     useCentralServers.mockClear().mockReturnValue([
       selectedServer,
@@ -183,7 +169,7 @@ describe('ContributionCriteriaCreateEditRoute component', () => {
     let component;
 
     await waitFor(() => {
-      component = renderContributionCriteriaCreateEditRoute({ history });
+      component = renderMaterialTypesCreateEditRoute({ history });
     });
     expect(component).toBeDefined();
   });
@@ -193,91 +179,25 @@ describe('ContributionCriteriaCreateEditRoute component', () => {
 
     newResources.centralServerRecords.isPending = true;
     await waitFor(() => {
-      renderContributionCriteriaCreateEditRoute({ history, resources: newResources });
+      renderMaterialTypesCreateEditRoute({ history, resources: newResources });
     });
     expect(screen.getByText('LoadingPane')).toBeVisible();
   });
 
   it('should call GET', async () => {
     await waitFor(() => {
-      renderContributionCriteriaCreateEditRoute({ history });
+      renderMaterialTypesCreateEditRoute({ history });
     });
     expect(replaceMock).toHaveBeenCalled();
     expect(getMock).toHaveBeenCalled();
   });
 
-  describe('submit', () => {
-    const record = {
-      ...contributionCriteria,
-      locationIds: [
-        { value: '99880669-07cc-4658-b213-e6200344d1c3' },
-        { value: '0ac0ffe6-c3ee-4610-b15c-019bbaea5dbd' },
-        { value: 'dfc42e20-7883-4c71-a3cf-f4c0aab1aedc' },
-      ],
-    };
-    const finalRecord = contributionCriteria;
-
-    it('should cause POST request', async () => {
-      await waitFor(() => {
-        renderContributionCriteriaCreateEditRoute({ history });
-      });
-      ContributionCriteriaForm.mock.calls[3][0].onSubmit(record);
-      expect(postMock).toHaveBeenCalledWith(finalRecord);
-    });
-
-    it('should trigger PUT request', async () => {
-      const newMutator = cloneDeep(mutatorMock);
-
-      newMutator.contributionCriteria.GET = jest.fn(() => Promise.resolve({ contributionCriteria }));
-
-      await waitFor(() => {
-        renderContributionCriteriaCreateEditRoute({
-          history,
-          mutator: newMutator,
-        });
-      });
-      ContributionCriteriaForm.mock.calls[3][0].onSubmit(record);
-      expect(putMock).toHaveBeenCalledWith(finalRecord);
-    });
-  });
-
-  describe('ContributionCriteriaForm', () => {
+  describe('MaterialTypeForm', () => {
     it('should be rendered', async () => {
       await waitFor(() => {
-        renderContributionCriteriaCreateEditRoute({ history });
+        renderMaterialTypesCreateEditRoute({ history });
       });
-      expect(screen.getByText('ContributionCriteriaForm')).toBeVisible();
-    });
-
-    it('should receive initialValues with response', async () => {
-      const newMutator = cloneDeep(mutatorMock);
-
-      newMutator.contributionCriteria.GET = jest.fn(() => Promise.resolve(contributionCriteria));
-
-      await waitFor(() => {
-        renderContributionCriteriaCreateEditRoute({
-          history,
-          mutator: newMutator,
-        });
-      });
-
-      expect(ContributionCriteriaForm.mock.calls[3][0].initialValues).toEqual({
-        ...omit(contributionCriteria, LOCATIONS_IDS, CENTRAL_SERVER_ID),
-        locationIds: [
-          {
-            value: '99880669-07cc-4658-b213-e6200344d1c3',
-            label: 'testLocation1'
-          },
-          {
-            value: '0ac0ffe6-c3ee-4610-b15c-019bbaea5dbd',
-            label: 'testLocation2'
-          },
-          {
-            value: 'dfc42e20-7883-4c71-a3cf-f4c0aab1aedc',
-            label: 'testLocation3'
-          }
-        ],
-      });
+      expect(screen.getByText('MaterialTypeForm')).toBeVisible();
     });
   });
 });

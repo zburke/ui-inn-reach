@@ -49,7 +49,7 @@ export const sections = [
       },
       {
         route: MATERIAL_TYPE_ROUTE,
-        label: <FormattedMessage id="ui-inn-reach.settings.material-type-mappings" />,
+        label: <FormattedMessage id="ui-inn-reach.settings.material-type-mapping" />,
         component: MaterialTypeRoute,
       },
       {

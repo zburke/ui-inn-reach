@@ -1,42 +1,32 @@
 import React, {
   useEffect,
-  useState,
 } from 'react';
 import {
-  isEmpty,
   isEqual,
 } from 'lodash';
-import { Field } from 'react-final-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {
   Button,
   Col,
-  MultiSelection,
   Pane,
   PaneFooter,
   Row,
-  Select,
   Selection,
   Loading,
 } from '@folio/stripes-components';
 import stripesFinalForm from '@folio/stripes/final-form';
 
 import {
-  CONTRIBUTION_CRITERIA,
+  MATERIAL_TYPE_FIELDS,
   DEFAULT_PANE_WIDTH,
 } from '../../../../constants';
-import { MaterialTypeMappingList } from '../components'
-
-import css from './MaterialTypeForm.css';
+import { MaterialTypeMappingList } from '../components';
 
 const {
   CENTRAL_SERVER_ID,
-  MATERIAL_TYPE_MAPPING_LIST,
-  CENTRAL_ITEM_TYPE,
-  MATERIAL_TYPE_ID,
-} = CONTRIBUTION_CRITERIA;
+} = MATERIAL_TYPE_FIELDS;
 
 const MaterialTypeForm = ({
   selectedServer,
@@ -44,7 +34,6 @@ const MaterialTypeForm = ({
   isPristine,
   serverOptions,
   initialValues,
-  materialTypeOptions,
   innReachItemTypeOptions,
   isResetForm,
   handleSubmit,
@@ -89,15 +78,15 @@ const MaterialTypeForm = ({
     <Pane
       defaultWidth={DEFAULT_PANE_WIDTH}
       footer={getFooter()}
-      paneTitle={<FormattedMessage id='ui-inn-reach.settings.contribution-criteria.title' />}
+      paneTitle={<FormattedMessage id='ui-inn-reach.settings.material-type-mapping.title' />}
     >
       <Row>
         <Col sm={12}>
           <Selection
             id={CENTRAL_SERVER_ID}
-            label={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.field.centralServer" />}
+            label={<FormattedMessage id="ui-inn-reach.settings.material-type-mapping.field.centralServer" />}
             dataOptions={serverOptions}
-            placeholder={formatMessage({ id: 'ui-inn-reach.settings.contribution-criteria.placeholder.centralServer' })}
+            placeholder={formatMessage({ id: 'ui-inn-reach.settings.material-type-mapping.placeholder.centralServer' })}
             value={selectedServer.name}
             onChange={onChangeServer}
           />
@@ -107,7 +96,6 @@ const MaterialTypeForm = ({
       {selectedServer.id && !isMaterialTypeMappingsPending &&
         <form>
           <MaterialTypeMappingList
-            materialTypeOptions={materialTypeOptions}
             innReachItemTypeOptions={innReachItemTypeOptions}
           />
         </form>
@@ -129,7 +117,6 @@ MaterialTypeForm.propTypes = {
   onChangeFormResetState: PropTypes.func.isRequired,
   onChangePristineState: PropTypes.func.isRequired,
   onChangeServer: PropTypes.func.isRequired,
-  materialTypeOptions: PropTypes.arrayOf(PropTypes.object),
   innReachItemTypeOptions: PropTypes.arrayOf(PropTypes.object),
 };
 

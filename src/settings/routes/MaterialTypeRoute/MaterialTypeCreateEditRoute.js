@@ -6,7 +6,6 @@ import React, {
 import ReactRouterPropTypes from 'react-router-prop-types';
 import PropTypes from 'prop-types';
 import {
-  omit,
   isEmpty,
 } from 'lodash';
 import {
@@ -30,90 +29,81 @@ import {
 } from '../../../hooks';
 
 const {
-  CENTRAL_SERVER_ID,
   MATERIAL_TYPE_MAPPING_LIST,
   CENTRAL_ITEM_TYPE,
   MATERIAL_TYPE_ID,
   MATERIAL_TYPE_LABEL,
 } = MATERIAL_TYPE_FIELDS;
 
-export const DEFAULT_VALUES = {
-  [MATERIAL_TYPE_MAPPING_LIST]: [],
-};
-
 const getInnReachMaterialTypeMapingsMap = (mappings) => {
   const materialTypeMappingsMap = new Map();
-  console.log('mappings', mappings);
-  mappings.forEach(({ id, centralItemType, materialTypeId }) => {
+
+  mappings.forEach(({
+    id,
+    centralItemType,
+    materialTypeId,
+  }) => {
     materialTypeMappingsMap.set(materialTypeId, { id, centralItemType });
   });
 
   return materialTypeMappingsMap;
 };
 
-const getInnReachMaterialTypesMap = (materialTypes) => {
-  const materialTypesMap = new Map();
-
-  materialTypes.forEach(({ value, label }) => {
-    innReachMaterialTypesMap.set(value, label);
-  });
-
-  return innReachMaterialTypesMap;
-};
-
-export const getFolioMappingTypesOptions = (folioMappingTypesOptions) => {
+const getFolioMappingTypesOptions = (folioMappingTypesOptions) => {
   return folioMappingTypesOptions.map(({ label, value }) => ({
     [MATERIAL_TYPE_ID]: value,
     [MATERIAL_TYPE_LABEL]: label,
   }));
 };
 
-export const getMaterialTypesList = ({
+const getMaterialTypesList = ({
   materialTypeMappingsMap,
-  innReachItemTypeOptions,
   folioMaterialTypeOptions,
 }) => {
-  debugger;
+  if (materialTypeMappingsMap) {
+    return folioMaterialTypeOptions.map(({ value, label }) => {
+      let centralItemType = '';
+      let mappingId = '';
+      const isMaterialTypeSelected = materialTypeMappingsMap.has(value);
 
-  return folioMaterialTypeOptions.map(({ value, label }) => {
-    let centralItemType = '';
-    const isMaterialTypeSelected = materialTypeMappingsMap.has(value);
+      if (isMaterialTypeSelected) {
+        centralItemType = materialTypeMappingsMap.get(value).centralItemType;
+        mappingId = materialTypeMappingsMap.get(value).id;
+      }
 
-    if (isMaterialTypeSelected) {
-      centralItemType = materialTypeMappingsMap.get(value).centralItemType;
-    }
+      const record = {
+        [CENTRAL_ITEM_TYPE]: centralItemType,
+        [MATERIAL_TYPE_ID]: value,
+        [MATERIAL_TYPE_LABEL]: label,
+      };
 
-    return {
-      [CENTRAL_ITEM_TYPE]: centralItemType,
-      [MATERIAL_TYPE_ID]: value,
-      [MATERIAL_TYPE_LABEL]: label,
-    };
-  });
+      if (mappingId) record.id = mappingId;
+
+      return record;
+    });
+  }
+
+  return false;
 };
 
 const formatPayload = ({
-  materialTypeMappingsMap,
-  innReachItemTypes,
-  materialTypes,
+  record,
 }) => {
-  return materialTypes.reduce((accum, { value, label }) => {
-    if (materialTypeMappingsMap.has(value)) {
-      const centralItemType = materialTypeMappingsMap.get(value).centralItemType;
+  return record[MATERIAL_TYPE_MAPPING_LIST].reduce((accum, { materialTypeId, centralItemType, id }) => {
+    if (centralItemType) {
+      const mapping = {
+        materialTypeId,
+        centralItemType
+      };
 
-      if (centralItemType) { // if there is an Inn-Reach code in the right column
+      if (id) mapping.id = id;
 
-        const mapping = {
-          materialTypeId: value,
-          centralItemType
-        };
-        accum.push(mapping);
-
-      }
+      accum.push(mapping);
     }
+
     return accum;
   }, []);
 };
-
 
 const MaterialTypeCreateEditRoute = ({
   resources: {
@@ -124,29 +114,12 @@ const MaterialTypeCreateEditRoute = ({
     materialTypes: {
       records: materialTypesData,
     },
-    innReachItemTypes: {
-      records: innReachItemTypesData,
-    },
-    materialTypeMappings: {
-      records: materialTypeMappingsData,
-    }
   },
   history,
   mutator,
 }) => {
   const servers = centralServers[0]?.centralServers || [];
   const materialTypes = materialTypesData[0]?.mtypes || [];
-  const innReachItemTypes = innReachItemTypesData[0]?.itemTypeList || [];
-
-  const getFormatedInnReachItemTypeOptions = useMemo(() => innReachItemTypes.map(type => ({
-    label: type.description,
-    value: type.centralItemType,
-  })), [innReachItemTypes]);
-
-  const getFormatedMaterialTypeOptions = useMemo(() => materialTypes.map(type => ({
-    label: type.name,
-    value: type.id,
-  })), [materialTypes]);
 
   const [
     selectedServer,
@@ -163,13 +136,23 @@ const MaterialTypeCreateEditRoute = ({
 
   const showCallout = useCallout();
   const [materialTypeMappings, setMaterialTypeMappings] = useState([]);
-  const [materialTypeMappingsMap, setMaterialTypeMappingsMap] = useState(null);
-
-  const [initialValues, setInitialValues] = useState(DEFAULT_VALUES);
+  const [innReachItemTypes, setInnReachItemTypes] = useState([]);
+  const [initialValues, setInitialValues] = useState({});
   const [isMaterialTypeMappingsPending, setIsMaterialTypeMappingsPending] = useState(false);
+  const [isInnReachItemTypesPending, setIsInnReachItemTypesPending] = useState(false);
+
+  const getFormatedInnReachItemTypeOptions = useMemo(() => innReachItemTypes.map(type => ({
+    label: type.description,
+    value: type.centralItemType,
+  })), [innReachItemTypes]);
+
+  const getFormatedMaterialTypeOptions = useMemo(() => materialTypes.map(type => ({
+    label: type.name,
+    value: type.id,
+  })), [materialTypes]);
 
   useEffect(() => {
-    if (!isMaterialTypeMappingsPending) {
+    if (!isMaterialTypeMappingsPending && !isInnReachItemTypesPending) {
       if (isEmpty(materialTypeMappings)) {
         setInitialValues({
           [MATERIAL_TYPE_MAPPING_LIST]: getFolioMappingTypesOptions(getFormatedMaterialTypeOptions),
@@ -177,41 +160,35 @@ const MaterialTypeCreateEditRoute = ({
       } else {
         const mTypeMappingsMap = getInnReachMaterialTypeMapingsMap(materialTypeMappings);
 
-        setMaterialTypeMappingsMap(mTypeMappingsMap);
+        const list = getMaterialTypesList({
+          materialTypeMappingsMap: mTypeMappingsMap,
+          innReachItemTypeOptions: getFormatedInnReachItemTypeOptions,
+          folioMaterialTypeOptions: getFormatedMaterialTypeOptions,
+        });
 
         setInitialValues({
-          [MATERIAL_TYPE_MAPPING_LIST]: getMaterialTypesList({
-            materialTypeMappingsMap,
-            innReachItemTypeOptions: getFormatedInnReachItemTypeOptions,
-            folioMaterialTypeOptions: getFormatedMaterialTypeOptions,
-          }),
+          [MATERIAL_TYPE_MAPPING_LIST]: [
+            ...list
+          ],
         });
       }
     }
-  }, [materialTypeMappings, isMaterialTypeMappingsPending]);
-
-
+  }, [materialTypeMappings, isMaterialTypeMappingsPending, isInnReachItemTypesPending]);
 
   const handleSubmit = (record) => {
-    console.log('record', record);
-    console.log('materialTypeMappings', materialTypeMappings);
-    const { materialTypeMappings: { POST, PUT } } = mutator;
-    const saveMethod = materialTypeMappings.length ? PUT : POST;
-    debugger;
-    record[MATERIAL_TYPE_MAPPING_LIST].forEach(mapping => delete mapping[MATERIAL_TYPE_LABEL]);
-    debugger;
-    saveMethod(record)
-      .then(() => {
-        const action = materialTypeMappings.length ? 'update' : 'create';
+    const { materialTypeMappings: { PUT } } = mutator;
+    const saveMethod = PUT;
 
-        showCallout({ message: <FormattedMessage id={`ui-inn-reach.settings.contribution-criteria.${action}.success`} /> });
+    saveMethod({
+      [MATERIAL_TYPE_MAPPING_LIST]: formatPayload({ record })
+    })
+      .then(() => {
+        showCallout({ message: <FormattedMessage id='ui-inn-reach.settings.material-type-mapping.update.success' /> });
       })
       .catch(() => {
-        const action = materialTypeMappings ? 'put' : 'post';
-
         showCallout({
           type: CALLOUT_ERROR_TYPE,
-          message: <FormattedMessage id={`ui-inn-reach.settings.contribution-criteria.callout.connectionProblem.${action}`} />,
+          message: <FormattedMessage id='ui-inn-reach.settings.material-type-mapping.callout.connectionProblem.put' />,
         });
       });
   };
@@ -220,38 +197,31 @@ const MaterialTypeCreateEditRoute = ({
     if (selectedServer.id) {
       mutator.selectedServerId.replace(selectedServer.id);
       setIsMaterialTypeMappingsPending(true);
+      setIsInnReachItemTypesPending(true);
 
       mutator.materialTypeMappings.GET()
         .then(response => setMaterialTypeMappings(response.materialTypeMappings || []))
         .catch(() => null)
         .finally(() => setIsMaterialTypeMappingsPending(false));
+
+      mutator.innReachItemTypes.GET()
+        .then(response => setInnReachItemTypes(response.itemTypeList))
+        .catch(() => setInnReachItemTypes([]))
+        .finally(() => setIsInnReachItemTypesPending(false));
     }
-  }, [selectedServer]);
+  }, [selectedServer.id]);
 
-  useEffect(() => {
-    if (materialTypeMappings) {
-
-
-      const originalValues = {
-        ...DEFAULT_VALUES,
-        ...omit(materialTypeMappings, CENTRAL_SERVER_ID),
-      };
-
-      setInitialValues(originalValues);
-    }
-  }, [materialTypeMappings]);
-
-  if (isServersPending) return <LoadingPane />;
+  if (isServersPending || isMaterialTypeMappingsPending) return <LoadingPane />;
 
   return (
     <>
       <ConfirmationModal
         id="cancel-editing-confirmation"
         open={openModal}
-        heading={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.create-edit.modal-heading.areYouSure" />}
-        message={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.create-edit.modal-message.unsavedChanges" />}
-        confirmLabel={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.create-edit.modal-confirmLabel.keepEditing" />}
-        cancelLabel={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.create-edit.modal-cancelLabel.closeWithoutSaving" />}
+        heading={<FormattedMessage id="ui-inn-reach.settings.material-type-mapping.create-edit.modal-heading.areYouSure" />}
+        message={<FormattedMessage id="ui-inn-reach.settings.material-type-mapping.create-edit.modal-message.unsavedChanges" />}
+        confirmLabel={<FormattedMessage id="ui-inn-reach.settings.material-type-mapping.create-edit.modal-confirmLabel.keepEditing" />}
+        cancelLabel={<FormattedMessage id="ui-inn-reach.settings.material-type-mapping.create-edit.modal-cancelLabel.closeWithoutSaving" />}
         onCancel={handleModalCancel}
         onConfirm={handleModalConfirm}
       />
@@ -262,7 +232,6 @@ const MaterialTypeCreateEditRoute = ({
         serverOptions={serverOptions}
         initialValues={initialValues}
         isResetForm={isResetForm}
-        materialTypeOptions={getFormatedMaterialTypeOptions}
         innReachItemTypeOptions={getFormatedInnReachItemTypeOptions}
         onSubmit={handleSubmit}
         onChangePristineState={changePristineState}
@@ -288,6 +257,8 @@ MaterialTypeCreateEditRoute.manifest = Object.freeze({
     type: 'okapi',
     path: 'inn-reach/central-servers/%{selectedServerId}/d2r/contribution/itemtypes',
     throwErrors: false,
+    accumulate: true,
+    fetch: false,
   },
   selectedServerId: { initialValue: '' },
   materialTypeMappings: {
@@ -318,8 +289,10 @@ MaterialTypeCreateEditRoute.propTypes = {
     }).isRequired,
     materialTypeMappings: PropTypes.shape({
       GET: PropTypes.func,
-      POST: PropTypes.func,
       PUT: PropTypes.func,
+    }).isRequired,
+    innReachItemTypes: PropTypes.shape({
+      GET: PropTypes.func,
     }).isRequired,
   }),
 };
