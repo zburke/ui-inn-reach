@@ -20,6 +20,7 @@ import {
 } from '../contexts';
 import {
   CALLOUT_ERROR_TYPE,
+  CIRCULATION_MAPPINGS,
   RECORD_CONTRIBUTION,
   SETTINGS_PANE_WIDTH,
 } from '../constants';
@@ -47,7 +48,7 @@ const InnReachSettings = ({
   useEffect(() => {
     if (isEmpty(centralServers)) {
       const filteredSections = sections.filter(section => (
-        ![RECORD_CONTRIBUTION].includes(section.id)
+        ![RECORD_CONTRIBUTION, CIRCULATION_MAPPINGS].includes(section.id)
       ));
 
       setSectionsToShow(filteredSections);
