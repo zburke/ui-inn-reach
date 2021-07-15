@@ -94,7 +94,6 @@ const ContributionCriteriaCreateEditRoute = ({
     const FOLIOLocations = record[LOCATIONS_IDS];
     const finalRecord = {
       ...omit(record, LOCATIONS_IDS, METADATA),
-      centralServerId: selectedServer.id,
     };
 
     if (FOLIOLocations.length) {
@@ -207,10 +206,8 @@ ContributionCriteriaCreateEditRoute.manifest = Object.freeze({
   contributionCriteria: {
     type: 'okapi',
     path: 'inn-reach/central-servers/%{selectedServerId}/contribution-criteria',
-    POST: {
-      path: 'inn-reach/central-servers/contribution-criteria',
-    },
     clientGeneratePk: false,
+    pk: '',
     accumulate: true,
     fetch: false,
     throwErrors: false,
