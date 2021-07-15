@@ -30,8 +30,9 @@ const {
 
 const MaterialTypeForm = ({
   selectedServer,
-  isMaterialTypeMappingsPending,
+  isPending,
   isPristine,
+  isServersPending,
   serverOptions,
   initialValues,
   innReachItemTypeOptions,
@@ -88,12 +89,13 @@ const MaterialTypeForm = ({
             dataOptions={serverOptions}
             placeholder={formatMessage({ id: 'ui-inn-reach.settings.material-type-mapping.placeholder.centralServer' })}
             value={selectedServer.name}
+            loading={isServersPending}
             onChange={onChangeServer}
           />
         </Col>
       </Row>
-      {isMaterialTypeMappingsPending && <Loading />}
-      {selectedServer.id && !isMaterialTypeMappingsPending &&
+      {isPending && <Loading />}
+      {selectedServer.id && !isPending &&
         <form>
           <MaterialTypeMappingList
             innReachItemTypeOptions={innReachItemTypeOptions}
@@ -107,17 +109,18 @@ const MaterialTypeForm = ({
 MaterialTypeForm.propTypes = {
   form: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  innReachItemTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   initialValues: PropTypes.object.isRequired,
-  isMaterialTypeMappingsPending: PropTypes.bool.isRequired,
+  isPending: PropTypes.bool.isRequired,
   isPristine: PropTypes.bool.isRequired,
   isResetForm: PropTypes.bool.isRequired,
+  isServersPending: PropTypes.bool.isRequired,
   selectedServer: PropTypes.object.isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   values: PropTypes.object.isRequired,
   onChangeFormResetState: PropTypes.func.isRequired,
   onChangePristineState: PropTypes.func.isRequired,
   onChangeServer: PropTypes.func.isRequired,
-  innReachItemTypeOptions: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default stripesFinalForm({

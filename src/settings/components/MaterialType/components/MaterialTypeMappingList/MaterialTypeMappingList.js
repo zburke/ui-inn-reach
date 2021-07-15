@@ -57,14 +57,6 @@ const MaterialTypeMappingList = ({
                   name={`${name}.${MATERIAL_TYPE_LABEL}`}
                   component={({ input }) => input.value}
                 />
-                <Field
-                  name={`${name}.${MATERIAL_TYPE_ID}`}
-                  component={() => null}
-                />
-                <Field
-                  name={`${name}.${ID}`}
-                  component={() => null}
-                />
               </Col>
               <Col
                 sm={6}

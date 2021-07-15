@@ -171,5 +171,6 @@
   "settings.material-type-mapping.field.item-type": "Item type (Description)",
   "settings.material-type-mapping.field.centralServer": "Central server",
   "settings.material-type-mapping.title": "Material to item type mapping",
-  "settings.material-type-mapping.placeholder.centralServer": "Select central server"
+  "settings.material-type-mapping.placeholder.centralServer": "Select central server",
+  "settings.material-type-mapping.no-selection": "No selection"
 }

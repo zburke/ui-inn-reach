@@ -14,7 +14,6 @@ import {
 
 import {
   ConfirmationModal,
-  LoadingPane,
 } from '@folio/stripes-components';
 import { stripesConnect } from '@folio/stripes/core';
 
@@ -27,83 +26,16 @@ import {
   useCallout,
   useCentralServers,
 } from '../../../hooks';
+import {
+  getInnReachMaterialTypeMapingsMap,
+  getFolioMappingTypesOptions,
+  getMaterialTypesList,
+  formatPayload,
+} from './utils';
 
 const {
   MATERIAL_TYPE_MAPPING_LIST,
-  CENTRAL_ITEM_TYPE,
-  MATERIAL_TYPE_ID,
-  MATERIAL_TYPE_LABEL,
 } = MATERIAL_TYPE_FIELDS;
-
-const getInnReachMaterialTypeMapingsMap = (mappings) => {
-  const materialTypeMappingsMap = new Map();
-
-  mappings.forEach(({
-    id,
-    centralItemType,
-    materialTypeId,
-  }) => {
-    materialTypeMappingsMap.set(materialTypeId, { id, centralItemType });
-  });
-
-  return materialTypeMappingsMap;
-};
-
-const getFolioMappingTypesOptions = (folioMappingTypesOptions) => {
-  return folioMappingTypesOptions.map(({ label, value }) => ({
-    [MATERIAL_TYPE_ID]: value,
-    [MATERIAL_TYPE_LABEL]: label,
-  }));
-};
-
-const getMaterialTypesList = ({
-  materialTypeMappingsMap,
-  folioMaterialTypeOptions,
-}) => {
-  if (materialTypeMappingsMap) {
-    return folioMaterialTypeOptions.map(({ value, label }) => {
-      let centralItemType = '';
-      let mappingId = '';
-      const isMaterialTypeSelected = materialTypeMappingsMap.has(value);
-
-      if (isMaterialTypeSelected) {
-        centralItemType = materialTypeMappingsMap.get(value).centralItemType;
-        mappingId = materialTypeMappingsMap.get(value).id;
-      }
-
-      const record = {
-        [CENTRAL_ITEM_TYPE]: centralItemType,
-        [MATERIAL_TYPE_ID]: value,
-        [MATERIAL_TYPE_LABEL]: label,
-      };
-
-      if (mappingId) record.id = mappingId;
-
-      return record;
-    });
-  }
-
-  return false;
-};
-
-const formatPayload = ({
-  record,
-}) => {
-  return record[MATERIAL_TYPE_MAPPING_LIST].reduce((accum, { materialTypeId, centralItemType, id }) => {
-    if (centralItemType) {
-      const mapping = {
-        materialTypeId,
-        centralItemType
-      };
-
-      if (id) mapping.id = id;
-
-      accum.push(mapping);
-    }
-
-    return accum;
-  }, []);
-};
 
 const MaterialTypeCreateEditRoute = ({
   resources: {
@@ -141,10 +73,23 @@ const MaterialTypeCreateEditRoute = ({
   const [isMaterialTypeMappingsPending, setIsMaterialTypeMappingsPending] = useState(false);
   const [isInnReachItemTypesPending, setIsInnReachItemTypesPending] = useState(false);
 
-  const getFormatedInnReachItemTypeOptions = useMemo(() => innReachItemTypes.map(type => ({
-    label: type.description,
-    value: type.centralItemType,
-  })), [innReachItemTypes]);
+  const getFormatedInnReachItemTypeOptions = useMemo(() => {
+    let options = [];
+    const noValueOption = {
+      label: <FormattedMessage id="ui-inn-reach.settings.material-type-mapping.no-selection" />,
+      value: '',
+    }
+    const innReachOptions = innReachItemTypes.map(type => ({
+      label: type.description,
+      value: type.centralItemType,
+    }));
+
+    if (innReachItemTypes.length) {
+      options = [noValueOption, ...innReachOptions];
+    } 
+
+    return options;
+  }, [innReachItemTypes]);
 
   const getFormatedMaterialTypeOptions = useMemo(() => materialTypes.map(type => ({
     label: type.name,
@@ -178,11 +123,12 @@ const MaterialTypeCreateEditRoute = ({
   const handleSubmit = (record) => {
     const { materialTypeMappings: { PUT } } = mutator;
     const saveMethod = PUT;
-
+    const payload = formatPayload({ record });
     saveMethod({
-      [MATERIAL_TYPE_MAPPING_LIST]: formatPayload({ record })
+      [MATERIAL_TYPE_MAPPING_LIST]: payload,
     })
       .then(() => {
+        setMaterialTypeMappings([...payload]);
         showCallout({ message: <FormattedMessage id='ui-inn-reach.settings.material-type-mapping.update.success' /> });
       })
       .catch(() => {
@@ -211,7 +157,6 @@ const MaterialTypeCreateEditRoute = ({
     }
   }, [selectedServer.id]);
 
-  if (isServersPending || isMaterialTypeMappingsPending) return <LoadingPane />;
 
   return (
     <>
@@ -227,7 +172,8 @@ const MaterialTypeCreateEditRoute = ({
       />
       <MaterialTypeForm
         selectedServer={selectedServer}
-        isMaterialTypeMappingsPending={isMaterialTypeMappingsPending}
+        isServersPending={isServersPending}
+        isPending={isMaterialTypeMappingsPending || isInnReachItemTypesPending}
         isPristine={isPristine}
         serverOptions={serverOptions}
         initialValues={initialValues}
