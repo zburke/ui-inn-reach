@@ -157,5 +157,20 @@
   "settings.contribution-options.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
   "settings.contribution-options.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator",
   "settings.contribution-options.create.success": "Item contribution options settings created successfully",
-  "settings.contribution-options.update.success": "Item contribution options settings updated successfully"
+  "settings.contribution-options.update.success": "Item contribution options settings updated successfully",
+
+  "settings.material-type-mapping": "Material to item type mappings",
+  "settings.material-type-mapping.update.success": "Material type mappings updated successfully",
+  "settings.material-type-mapping.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator",
+  "settings.material-type-mapping.create-edit.modal-message.unsavedChanges": "There are unsaved changes",
+  "settings.material-type-mapping.create-edit.modal-heading.areYouSure": "Are you sure?",
+  "settings.material-type-mapping.create-edit.modal-cancelLabel.closeWithoutSaving": "Close without saving",
+  "settings.material-type-mapping.create-edit.modal-confirmLabel.keepEditing": "Keep editing",
+
+  "settings.material-type-mapping.field.folio-material-types": "FOLIO material types",
+  "settings.material-type-mapping.field.item-type": "Item type (Description)",
+  "settings.material-type-mapping.field.centralServer": "Central server",
+  "settings.material-type-mapping.title": "Material to item type mapping",
+  "settings.material-type-mapping.placeholder.centralServer": "Select central server",
+  "settings.material-type-mapping.no-selection": "No selection"
 }

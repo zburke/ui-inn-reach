@@ -18,7 +18,7 @@ const serverOptionsMock = [
   { id: '2', value: 'testServerName2', label: 'testServerName2' }
 ];
 
-describe('useServers hook', () => {
+describe('useCentralServers hook', () => {
   let result;
 
   beforeEach(() => {
