@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  cloneDeep,
-} from 'lodash';
+
 import { createMemoryHistory } from 'history';
 import { waitFor, screen } from '@testing-library/react';
 
@@ -172,16 +170,6 @@ describe('MaterialTypeCreateEditRoute component', () => {
       component = renderMaterialTypesCreateEditRoute({ history });
     });
     expect(component).toBeDefined();
-  });
-
-  it('should display loading', async () => {
-    const newResources = cloneDeep(resourcesMock);
-
-    newResources.centralServerRecords.isPending = true;
-    await waitFor(() => {
-      renderMaterialTypesCreateEditRoute({ history, resources: newResources });
-    });
-    expect(screen.getByText('LoadingPane')).toBeVisible();
   });
 
   it('should call GET', async () => {
