@@ -16,9 +16,7 @@ import css from './MaterialTypeMappingList.css';
 const {
   MATERIAL_TYPE_MAPPING_LIST,
   CENTRAL_ITEM_TYPE,
-  MATERIAL_TYPE_ID,
   MATERIAL_TYPE_LABEL,
-  ID,
 } = MATERIAL_TYPE_FIELDS;
 
 const MaterialTypeMappingList = ({

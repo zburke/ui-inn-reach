@@ -78,7 +78,7 @@ const MaterialTypeCreateEditRoute = ({
     const noValueOption = {
       label: <FormattedMessage id="ui-inn-reach.settings.material-type-mapping.no-selection" />,
       value: '',
-    }
+    };
     const innReachOptions = innReachItemTypes.map(type => ({
       label: type.description,
       value: type.centralItemType,
@@ -86,7 +86,7 @@ const MaterialTypeCreateEditRoute = ({
 
     if (innReachItemTypes.length) {
       options = [noValueOption, ...innReachOptions];
-    } 
+    }
 
     return options;
   }, [innReachItemTypes]);
@@ -124,6 +124,7 @@ const MaterialTypeCreateEditRoute = ({
     const { materialTypeMappings: { PUT } } = mutator;
     const saveMethod = PUT;
     const payload = formatPayload({ record });
+
     saveMethod({
       [MATERIAL_TYPE_MAPPING_LIST]: payload,
     })
@@ -156,7 +157,6 @@ const MaterialTypeCreateEditRoute = ({
         .finally(() => setIsInnReachItemTypesPending(false));
     }
   }, [selectedServer.id]);
-
 
   return (
     <>

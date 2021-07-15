@@ -109,8 +109,8 @@ const MaterialTypeForm = ({
 MaterialTypeForm.propTypes = {
   form: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  innReachItemTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   initialValues: PropTypes.object.isRequired,
+  innReachItemTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   isPending: PropTypes.bool.isRequired,
   isPristine: PropTypes.bool.isRequired,
   isResetForm: PropTypes.bool.isRequired,
