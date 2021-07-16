@@ -15,7 +15,7 @@ import {
 } from '../../../../../../constants';
 import {
   getFolioLocationOptions,
-} from '../../../../../routes/AgencyToFolioLocations/utils';
+} from "../../utils";
 
 import css from './TabularList.css';
 
@@ -104,7 +104,6 @@ const TabularList = ({
                     aria-label={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-library' })}
                     component={Selection}
                     dataOptions={librariesOptions}
-                    placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-library' })}
                     onChange={libId => handleLibraryChange(libId, index, fields)}
                   />
                 </div>

@@ -1,9 +1,11 @@
+import React from 'react';
 import {
   omit,
 } from 'lodash';
 import {
   AGENCY_TO_FOLIO_LOCATIONS_FIELDS,
 } from '../../../constants';
+import {FormattedMessage} from "react-intl";
 
 const {
   AGENCY,
@@ -51,6 +53,10 @@ export const getFolioLibraryOptions = ({
   const libOptions = [];
   const mapByCampusId = getMapByCampusId(folioLibraries);
   const mapByInstitutionId = getMapByInstitutionId(campuses, mapByCampusId);
+  const noValueOption = {
+    label: <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-library" />,
+    value: '',
+  };
 
   institutions.forEach(({ id, code: institutionCode }) => {
     if (mapByInstitutionId.has(id)) {
@@ -65,6 +71,10 @@ export const getFolioLibraryOptions = ({
         label: `${institutionCode} > ${campusCode} > ${libCode}`,
         value: libId,
       };
+
+      if (!libOptions.length) {
+        libOptions.push(noValueOption);
+      }
 
       libOptions.push(option);
     }
@@ -85,16 +95,6 @@ export const getFolioLocationsMap = (folioLocations) => {
 
     return accum;
   }, new Map());
-};
-
-export const getFolioLocationOptions = (folioLocationsMap, libraryId) => {
-  const locationsBySelectedLib = folioLocationsMap.get(libraryId);
-
-  return locationsBySelectedLib.map(({ id, name, code }) => ({
-    id,
-    label: `${name} (${code})`,
-    value: id,
-  }));
 };
 
 const getAgencyCodeMappingsMap = (agencyCodeMappings) => {

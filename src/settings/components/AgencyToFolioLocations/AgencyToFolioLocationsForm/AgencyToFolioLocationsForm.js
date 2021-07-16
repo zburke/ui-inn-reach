@@ -1,6 +1,8 @@
 import React, {
   useEffect,
   useState,
+  useRef,
+  useMemo,
 } from 'react';
 import {
   Field,
@@ -28,17 +30,15 @@ import {
   TabularList,
 } from './components';
 import {
-  getFolioLocationOptions,
   getLocalServerData,
-} from '../../../routes/AgencyToFolioLocations/utils';
+} from "../../../routes/AgencyToFolioLocations/utils";
+import {
+  getFolioLocationOptions,
+  getLocalServerOptions,
+  validateRequired,
+} from "./utils";
 
 import css from './AgencyToFolioLocationsForm.css';
-
-const validateRequired = (value) => {
-  return value
-    ? undefined
-    : <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.validation.required" />;
-};
 
 const {
   CENTRAL_SERVER_ID,
@@ -69,9 +69,9 @@ const AgencyToFolioLocationsForm = ({
   onChangePristineState,
   onChangeFormResetState,
 }) => {
-  const [localServerOptions, setLocalServerOptions] = useState([]);
   const [serverLocationOptions, setServerLocationOptions] = useState([]);
   const [localServerLocationOptions, setLocalServerLocationOptions] = useState([]);
+  const submitted = useRef(false);
 
   const isLibraryChanged = values[LIBRARY_ID] && (values[LIBRARY_ID] !== agencyMappings[LIBRARY_ID]);
   const isLocationChanged = values[LOCATION_ID] && (values[LOCATION_ID] !== agencyMappings[LOCATION_ID]);
@@ -90,10 +90,15 @@ const AgencyToFolioLocationsForm = ({
     isAgencyCodeMappingsChanged
   );
 
+  const localServerOptions = useMemo(() => getLocalServerOptions(localServers), [localServers]);
+
   const handleChangeServerLibrary = (libraryId) => {
     if (values[LIBRARY_ID] === libraryId) return;
 
+    const locOptions = getFolioLocationOptions(folioLocationsMap, libraryId);
+
     form.change(LIBRARY_ID, libraryId);
+    setServerLocationOptions(locOptions);
 
     if (agencyMappings[LIBRARY_ID] === libraryId) {
       form.change(LOCATION_ID, agencyMappings[LOCATION_ID]);
@@ -106,6 +111,7 @@ const AgencyToFolioLocationsForm = ({
     if (values[LOCATION_ID] === locationId) return;
 
     form.change(LOCATION_ID, locationId);
+    submitted.current = false;
   };
 
   const handleChangeLocalServer = (localCode) => {
@@ -125,13 +131,13 @@ const AgencyToFolioLocationsForm = ({
     const locServerData = getLocalServerData(agencyMappings, initialValues[LOCAL_CODE]);
 
     form.change(LOCAL_SERVER_LIBRARY_ID, libraryId);
+    setLocalServerLocationOptions(locOptions);
 
     if (locServerData?.[LOCAL_SERVER_LIBRARY_ID] === libraryId) {
       form.change(LOCAL_SERVER_LOCATION_ID, locServerData[LOCAL_SERVER_LOCATION_ID]);
     } else {
       form.change(LOCAL_SERVER_LOCATION_ID, undefined);
     }
-    setLocalServerLocationOptions(locOptions);
   };
 
   const handleChangeLocalServerLocation = (locationId) => {
@@ -140,34 +146,10 @@ const AgencyToFolioLocationsForm = ({
     form.change(LOCAL_SERVER_LOCATION_ID, locationId);
   };
 
-  useEffect(() => {
-    const { localServerList } = localServers;
-
-    if (localServerList) {
-      const localServerOpts = localServerList.map(({ localCode, description }) => ({
-        label: `${localCode} (${description})`,
-        value: localCode,
-      }));
-
-      setLocalServerOptions(localServerOpts);
-    }
-  }, [localServers]);
-
-  useEffect(() => {
-    if (values[LIBRARY_ID]) {
-      const locOptions = getFolioLocationOptions(folioLocationsMap, values[LIBRARY_ID]);
-
-      setServerLocationOptions(locOptions);
-    }
-  }, [values[LIBRARY_ID]]);
-
-  useEffect(() => {
-    if (values[LOCAL_SERVER_LIBRARY_ID]) {
-      const locOptions = getFolioLocationOptions(folioLocationsMap, values[LOCAL_SERVER_LIBRARY_ID]);
-
-      setLocalServerLocationOptions(locOptions);
-    }
-  }, [values[LOCAL_SERVER_LIBRARY_ID]]);
+  const handleSave = (event) => {
+    submitted.current = true;
+    handleSubmit(event);
+  };
 
   useEffect(() => {
     onChangePristineState(isPristine);
@@ -189,7 +171,7 @@ const AgencyToFolioLocationsForm = ({
         buttonStyle="primary small"
         type="submit"
         disabled={!enabled}
-        onClick={handleSubmit}
+        onClick={handleSave}
       >
         <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.button.save" />
       </Button>
@@ -218,25 +200,37 @@ const AgencyToFolioLocationsForm = ({
         {selectedServer.id && !isLocalServersPending &&
           <>
             <Field
-              required
               name={LIBRARY_ID}
-              component={Selection}
-              label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-library" />}
-              dataOptions={libraryOptions}
-              placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-library' })}
-              onChange={handleChangeServerLibrary}
-            />
-            <Field
-              required
-              disabled={!values[LIBRARY_ID]}
-              name={LOCATION_ID}
-              component={Selection}
-              label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-location" />}
-              dataOptions={serverLocationOptions}
-              placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-location' })}
               validate={validateRequired}
-              onChange={handleChangeServerLocation}
-            />
+            >
+              {({ input, meta }) => (
+                  <Selection
+                    {...input}
+                    required
+                    label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-library" />}
+                    dataOptions={libraryOptions}
+                    onChange={handleChangeServerLibrary}
+                    error={submitted.current ? meta.error : undefined}
+                  />
+              )}
+            </Field>
+            <Field
+              name={LOCATION_ID}
+              validate={validateRequired}
+            >
+              {({ input, meta }) => (
+                <Selection
+                  {...input}
+                  required
+                  disabled={!values[LIBRARY_ID]}
+                  label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-location" />}
+                  dataOptions={serverLocationOptions}
+                  placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-location' })}
+                  onChange={handleChangeServerLocation}
+                  error={submitted.current ? meta.error : undefined}
+                />
+              )}
+            </Field>
           </>
         }
         {((values[LOCATION_ID] && !isLocalServersPending) || values[LOCAL_CODE]) &&
@@ -245,7 +239,6 @@ const AgencyToFolioLocationsForm = ({
             component={Selection}
             label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.local-server" />}
             dataOptions={localServerOptions}
-            placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.local-server' })}
             onChange={handleChangeLocalServer}
           />
         }
@@ -256,7 +249,6 @@ const AgencyToFolioLocationsForm = ({
               component={Selection}
               label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-library" />}
               dataOptions={libraryOptions}
-              placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-library' })}
               onChange={handleChangeLocalServerLibrary}
             />
             <Field
