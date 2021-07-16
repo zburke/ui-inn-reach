@@ -2,10 +2,10 @@ import React from 'react';
 import {
   omit,
 } from 'lodash';
+import { FormattedMessage } from 'react-intl';
 import {
   AGENCY_TO_FOLIO_LOCATIONS_FIELDS,
 } from '../../../constants';
-import {FormattedMessage} from "react-intl";
 
 const {
   AGENCY,

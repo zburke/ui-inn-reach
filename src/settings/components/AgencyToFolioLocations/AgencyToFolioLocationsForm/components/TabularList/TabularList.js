@@ -15,7 +15,7 @@ import {
 } from '../../../../../../constants';
 import {
   getFolioLocationOptions,
-} from "../../utils";
+} from '../../utils';
 
 import css from './TabularList.css';
 

@@ -31,12 +31,12 @@ import {
 } from './components';
 import {
   getLocalServerData,
-} from "../../../routes/AgencyToFolioLocations/utils";
+} from '../../../routes/AgencyToFolioLocations/utils';
 import {
   getFolioLocationOptions,
   getLocalServerOptions,
   validateRequired,
-} from "./utils";
+} from './utils';
 
 import css from './AgencyToFolioLocationsForm.css';
 
@@ -163,7 +163,7 @@ const AgencyToFolioLocationsForm = ({
   }, [isResetForm]);
 
   const getFooter = () => {
-    const enabled = values[LOCAL_CODE] || values[LIBRARY_ID] && values[LOCATION_ID];
+    const enabled = values[LOCAL_CODE] || (values[LIBRARY_ID] && values[LOCATION_ID]);
 
     const saveButton = (
       <Button
@@ -204,14 +204,14 @@ const AgencyToFolioLocationsForm = ({
               validate={validateRequired}
             >
               {({ input, meta }) => (
-                  <Selection
-                    {...input}
-                    required
-                    label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-library" />}
-                    dataOptions={libraryOptions}
-                    onChange={handleChangeServerLibrary}
-                    error={submitted.current ? meta.error : undefined}
-                  />
+                <Selection
+                  {...input}
+                  required
+                  label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-library" />}
+                  dataOptions={libraryOptions}
+                  error={submitted.current ? meta.error : undefined}
+                  onChange={handleChangeServerLibrary}
+                />
               )}
             </Field>
             <Field
@@ -226,8 +226,8 @@ const AgencyToFolioLocationsForm = ({
                   label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-location" />}
                   dataOptions={serverLocationOptions}
                   placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-location' })}
-                  onChange={handleChangeServerLocation}
                   error={submitted.current ? meta.error : undefined}
+                  onChange={handleChangeServerLocation}
                 />
               )}
             </Field>

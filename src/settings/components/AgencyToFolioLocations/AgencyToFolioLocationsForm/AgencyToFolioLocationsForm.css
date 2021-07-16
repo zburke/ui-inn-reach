@@ -1,9 +1,9 @@
 .form {
   & button[class^="isChanged"] {
-      background-color: var(--color-fill);
-    }
+    background-color: var(--color-fill);
+  }
 
   & button[class*="hasError"] {
-      background-color: color(var(--error) alpha(-95%));
-    }
+    background-color: color(var(--error) alpha(-95%));
+  }
 }
