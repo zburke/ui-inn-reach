@@ -181,9 +181,7 @@ const AgencyToFolioLocationsForm = ({
   }, [isResetForm]);
 
   const getFooter = () => {
-    const enabled = values[LOCAL_CODE]
-      ? !isPristine
-      : isLibraryChanged && isLocationChanged;
+    const enabled = values[LOCAL_CODE] || values[LIBRARY_ID] && values[LOCATION_ID];
 
     const saveButton = (
       <Button

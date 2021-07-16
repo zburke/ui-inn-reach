@@ -25,7 +25,8 @@ import {
 } from '../../../constants';
 import {
   getFolioLibraryOptions,
-  getFolioLocationsMap, getLocalInitialValues,
+  getFolioLocationsMap,
+  getLocalInitialValues,
   getLeftColumn,
   getLocalServerData,
   getLocalServers,
@@ -34,6 +35,7 @@ import {
 const {
   LIBRARY_ID,
   LOCATION_ID,
+  LOCAL_CODE,
   AGENCY_CODE_MAPPINGS,
 } = AGENCY_TO_FOLIO_LOCATIONS_FIELDS;
 
@@ -99,17 +101,6 @@ const AgencyToFolioLocationsCreateEditRoute = ({
       .catch(() => null);
   };
 
-  const resetData = () => {
-    setInitialValues({});
-    setAgencyMappings({});
-    setIsResetForm(true);
-  };
-
-  const resetCentralServer = () => {
-    setSelectedServer({});
-    mutator.selectedServerId.replace('');
-  };
-
   const fetchLocalServers = () => {
     setIsLocalServersPending(true);
 
@@ -122,6 +113,17 @@ const AgencyToFolioLocationsCreateEditRoute = ({
         });
       })
       .finally(() => setIsLocalServersPending(false));
+  };
+
+  const resetData = () => {
+    setInitialValues({});
+    setAgencyMappings({});
+    setIsResetForm(true);
+  };
+
+  const resetCentralServer = () => {
+    setSelectedServer({});
+    mutator.selectedServerId.replace('');
   };
 
   const changePristineState = (value) => {
@@ -196,8 +198,10 @@ const AgencyToFolioLocationsCreateEditRoute = ({
       [LOCATION_ID]: record[LOCATION_ID],
     };
 
-    if (agencyMappings.localServers) {
+    if (record[LOCAL_CODE]) {
       finalRecord.localServers = getLocalServers(record, agencyMappings);
+    } else if (agencyMappings.localServers) {
+      finalRecord.localServers = agencyMappings.localServers;
     }
 
     mutator.agencyMappings.PUT(finalRecord)

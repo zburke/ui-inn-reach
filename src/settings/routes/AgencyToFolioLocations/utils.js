@@ -196,14 +196,16 @@ export const getLocalServers = (record, agencyMappings) => {
   const dataOfLocalServers = [];
   let isNewLocalServerDataCreated = true;
 
-  agencyMappings.localServers.forEach(localServerData => {
-    if (localServerData.localCode === record[LOCAL_CODE]) {
-      dataOfLocalServers.push(getFormattedLocalServerData(record));
-      isNewLocalServerDataCreated = false;
-    } else {
-      dataOfLocalServers.push(localServerData);
-    }
-  });
+  if (agencyMappings.localServers) {
+    agencyMappings.localServers.forEach(localServerData => {
+      if (localServerData.localCode === record[LOCAL_CODE]) {
+        dataOfLocalServers.push(getFormattedLocalServerData(record));
+        isNewLocalServerDataCreated = false;
+      } else {
+        dataOfLocalServers.push(localServerData);
+      }
+    });
+  }
 
   if (isNewLocalServerDataCreated) {
     dataOfLocalServers.push(getFormattedLocalServerData(record));
