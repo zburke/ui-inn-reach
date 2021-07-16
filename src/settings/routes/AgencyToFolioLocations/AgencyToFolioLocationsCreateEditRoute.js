@@ -30,6 +30,7 @@ import {
   getLeftColumn,
   getLocalServerData,
   getLocalServers,
+  getServerOptions,
 } from './utils';
 
 const {
@@ -89,11 +90,7 @@ const AgencyToFolioLocationsCreateEditRoute = ({
   const [folioLocationsMap, setFolioLocationsMap] = useState(null);
   const [nextLocation, setNextLocation] = useState(null);
 
-  const serverOptions = useMemo(() => servers.map(({ id, name }) => ({
-    id,
-    label: name,
-    value: id,
-  })), [servers]);
+  const serverOptions = useMemo(() => getServerOptions(servers), [servers]);
 
   const fetchAgencyMappings = () => {
     mutator.agencyMappings.GET()
@@ -208,7 +205,7 @@ const AgencyToFolioLocationsCreateEditRoute = ({
       .then(() => {
         const action = isEmpty(agencyMappings) ? 'create' : 'update';
 
-        fetchAgencyMappings();
+        setAgencyMappings(finalRecord);
         showCallout({
           message: <FormattedMessage
             id={`ui-inn-reach.settings.agency-to-folio-locations.${action}.success`}

@@ -213,3 +213,11 @@ export const getLocalServers = (record, agencyMappings) => {
 
   return dataOfLocalServers;
 };
+
+export const getServerOptions = (servers) => {
+  return servers.map(({ id, name }) => ({
+    id,
+    label: name,
+    value: id,
+  }));
+};
