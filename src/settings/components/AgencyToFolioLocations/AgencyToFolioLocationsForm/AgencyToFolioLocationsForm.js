@@ -207,6 +207,7 @@ const AgencyToFolioLocationsForm = ({
                 <Selection
                   {...input}
                   required
+                  id={LIBRARY_ID}
                   label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-library" />}
                   dataOptions={libraryOptions}
                   error={submitted.current ? meta.error : undefined}
@@ -222,6 +223,7 @@ const AgencyToFolioLocationsForm = ({
                 <Selection
                   {...input}
                   required
+                  id={LOCATION_ID}
                   disabled={!values[LIBRARY_ID]}
                   label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-location" />}
                   dataOptions={serverLocationOptions}
@@ -235,6 +237,7 @@ const AgencyToFolioLocationsForm = ({
         }
         {((values[LOCATION_ID] && !isLocalServersPending) || values[LOCAL_CODE]) &&
           <Field
+            id={LOCAL_CODE}
             name={LOCAL_CODE}
             component={Selection}
             label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.local-server" />}
@@ -245,6 +248,7 @@ const AgencyToFolioLocationsForm = ({
         {values[LOCAL_CODE] &&
           <>
             <Field
+              id={LOCAL_SERVER_LIBRARY_ID}
               name={LOCAL_SERVER_LIBRARY_ID}
               component={Selection}
               label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-library" />}
@@ -252,6 +256,7 @@ const AgencyToFolioLocationsForm = ({
               onChange={handleChangeLocalServerLibrary}
             />
             <Field
+              id={LOCAL_SERVER_LOCATION_ID}
               disabled={!values[LOCAL_SERVER_LIBRARY_ID]}
               name={LOCAL_SERVER_LOCATION_ID}
               component={Selection}

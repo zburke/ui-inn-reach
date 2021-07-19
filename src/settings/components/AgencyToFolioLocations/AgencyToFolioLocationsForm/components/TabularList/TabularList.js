@@ -100,6 +100,7 @@ const TabularList = ({
                 <div className={css.topFieldWrapper}>
                   <Field
                     marginBottom0
+                    id={`${name}.${LIBRARY_ID}`}
                     name={`${name}.${LIBRARY_ID}`}
                     aria-label={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-library' })}
                     component={Selection}
@@ -109,6 +110,7 @@ const TabularList = ({
                 </div>
                 <Field
                   marginBottom0
+                  id={`${name}.${LOCATION_ID}`}
                   disabled={!libraryId}
                   name={`${name}.${LOCATION_ID}`}
                   aria-label={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-location' })}

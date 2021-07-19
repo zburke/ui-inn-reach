@@ -45,11 +45,7 @@ const getMapByInstitutionId = (campuses, mapByCampusId) => {
   return mapByInstitutionId;
 };
 
-export const getFolioLibraryOptions = ({
-  folioLibraries,
-  campuses,
-  institutions,
-}) => {
+export const getFolioLibraryOptions = (folioLibraries, campuses, institutions) => {
   const libOptions = [];
   const mapByCampusId = getMapByCampusId(folioLibraries);
   const mapByInstitutionId = getMapByInstitutionId(campuses, mapByCampusId);
@@ -154,7 +150,7 @@ export const getLocalInitialValues = (localServerList, agencyMappings, selectedL
 };
 
 export const getLocalServerData = (agencyMappings, selectedLocalCode) => {
-  return agencyMappings.localServers?.find(({ localCode }) => localCode === selectedLocalCode);
+  return agencyMappings?.localServers?.find(({ localCode }) => localCode === selectedLocalCode);
 };
 
 const getFormattedAgencyCodeMappings = (agencyCodeMappings) => {

@@ -135,12 +135,7 @@ const AgencyToFolioLocationsCreateEditRoute = ({
     if (selectedServerId === selectedServer.id) return;
 
     const optedServer = servers.find(server => server.id === selectedServerId);
-    const libOptions = getFolioLibraryOptions({
-      localAgencies: optedServer.localAgencies,
-      folioLibraries,
-      campuses,
-      institutions,
-    });
+    const libOptions = getFolioLibraryOptions(folioLibraries, campuses, institutions);
 
     setSelectedServer(optedServer);
     mutator.selectedServerId.replace(optedServer.id);
