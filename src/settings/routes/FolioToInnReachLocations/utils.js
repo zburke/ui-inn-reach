@@ -6,10 +6,15 @@ const {
   FOLIO_LOCATION,
 } = FOLIO_TO_INN_REACH_LOCATION_FIELDS;
 
-export const getLibraryOptions = ({
-  localAgencies,
-  folioLibraries,
-}) => {
+export const getServerOptions = (servers) => {
+  return servers.map(({ id, name }) => ({
+    id,
+    value: name,
+    label: name,
+  }))
+};
+
+export const getLibraryOptions = (localAgencies, folioLibraries) => {
   const librariesIdsOfSelectedServer = new Set();
   const libraryOptions = [];
 

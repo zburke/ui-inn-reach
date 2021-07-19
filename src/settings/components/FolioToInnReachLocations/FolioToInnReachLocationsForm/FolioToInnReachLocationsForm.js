@@ -3,9 +3,6 @@ import React, {
   useState,
 } from 'react';
 import stripesFinalForm from '@folio/stripes/final-form';
-import {
-  isEqual,
-} from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -35,21 +32,19 @@ const FolioToInnReachLocationsForm = ({
   selectedServer,
   mappingType,
   innReachLocations,
-  isPristine,
   serverOptions,
   serverLibrariesOptions,
   mappingTypesOptions,
   formatMessage,
   librariesMappingType,
   locationsMappingType,
-  initialValues,
   isMappingsPending,
   isShowTabularList,
   isResetForm,
   handleSubmit,
   values,
   form,
-  onChangePristineState,
+  pristine,
   onChangeFormResetState,
   onChangeServer,
   onChangeMappingType,
@@ -88,8 +83,6 @@ const FolioToInnReachLocationsForm = ({
         setIsRequiredFieldsFilledIn(isSomeFieldFilledIn);
       }
     }
-
-    onChangePristineState(isEqual(initialValues, values));
   }, [values]);
 
   const getFooter = () => {
@@ -100,7 +93,7 @@ const FolioToInnReachLocationsForm = ({
         id="clickable-save-instance"
         buttonStyle="primary small"
         type="submit"
-        disabled={isPristine || !isRequiredFieldsFilledIn}
+        disabled={pristine || !isRequiredFieldsFilledIn}
         onClick={handleSubmit}
       >
         <FormattedMessage id="ui-inn-reach.settings.contribution-criteria.button.save" />
@@ -162,7 +155,6 @@ FolioToInnReachLocationsForm.propTypes = {
   initialValues: PropTypes.object.isRequired,
   innReachLocations: PropTypes.arrayOf(PropTypes.object).isRequired,
   isMappingsPending: PropTypes.bool.isRequired,
-  isPristine: PropTypes.bool.isRequired,
   isResetForm: PropTypes.bool.isRequired,
   isShowTabularList: PropTypes.bool.isRequired,
   librariesMappingType: PropTypes.string.isRequired,
@@ -176,11 +168,11 @@ FolioToInnReachLocationsForm.propTypes = {
   onChangeFormResetState: PropTypes.func.isRequired,
   onChangeLibrary: PropTypes.func.isRequired,
   onChangeMappingType: PropTypes.func.isRequired,
-  onChangePristineState: PropTypes.func.isRequired,
   onChangeServer: PropTypes.func.isRequired,
 };
 
 export default stripesFinalForm({
+  navigationCheck: true,
   subscription: {
     values: true,
   },
