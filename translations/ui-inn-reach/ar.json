@@ -139,5 +139,18 @@
     "settings.contribution-options.callout.connectionProblem.post": "تعذر إنشاء البيانات بسبب خطأ في الوحدة. يرجى إعادة المحاولة مرة أخرى. إذا استمرت المشكلة، يرجى الاتصال بمدير النظام",
     "settings.contribution-options.callout.connectionProblem.put": "تعذر تحديث البيانات بسبب خطأ في الوحدة. يرجى إعادة المحاولة مرة أخرى. إذا استمرت المشكلة، يرجى الاتصال بمدير النظام",
     "settings.contribution-options.create.success": "تم إنشاء إعدادات خيارات مساهمة المادة بنجاح",
-    "settings.contribution-options.update.success": "تم تحديث إعدادات خيارات مساهمة المادة بنجاح"
+    "settings.contribution-options.update.success": "تم تحديث إعدادات خيارات مساهمة المادة بنجاح",
+    "settings.material-type-mapping": "تعيينات مادة إلى نوع مادة",
+    "settings.material-type-mapping.update.success": "تم تحديث تعيينات نوع المادة بنجاح",
+    "settings.material-type-mapping.callout.connectionProblem.put": "تعذر تحديث البيانات بسبب خطأ في الوحدة. يرجى إعادة المحاولة مرة أخرى. إذا استمرت المشكلة، يرجى الاتصال بمدير النظام",
+    "settings.material-type-mapping.create-edit.modal-message.unsavedChanges": "هناك تغييرات غير محفوظة",
+    "settings.material-type-mapping.create-edit.modal-heading.areYouSure": "هل أنت متأكد؟",
+    "settings.material-type-mapping.create-edit.modal-cancelLabel.closeWithoutSaving": "إغلاق بدون حفظ",
+    "settings.material-type-mapping.create-edit.modal-confirmLabel.keepEditing": "استمر في التحرير",
+    "settings.material-type-mapping.field.folio-material-types": "أنواع مواد فوليو",
+    "settings.material-type-mapping.field.item-type": "نوع المادة (وصف)",
+    "settings.material-type-mapping.field.centralServer": "الخادم المركزي",
+    "settings.material-type-mapping.title": "تعيين مادة إلى نوع مادة",
+    "settings.material-type-mapping.placeholder.centralServer": "حدد الخادم المركزي",
+    "settings.material-type-mapping.no-selection": "لا يوجد تحديد"
 }
