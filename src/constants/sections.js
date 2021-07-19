@@ -7,6 +7,7 @@ import {
   MaterialTypeRoute,
   FolioToInnReachLocationsRoute,
   ContributionOptionsRoute,
+  AgencyToFolioLocationsRoute,
 } from '../settings/routes';
 import {
   MATERIAL_TYPE_ROUTE,
@@ -21,6 +22,10 @@ import {
 import {
   CONTRIBUTION_OPTIONS_ROUTE,
 } from './contribution-options';
+import {
+  AGENCY_TO_FOLIO_LOCATIONS_ROUTE,
+  CIRCULATION_MAPPINGS,
+} from './agency-to-folio-locations';
 
 export const sections = [
   {
@@ -63,5 +68,16 @@ export const sections = [
         component: ContributionOptionsRoute,
       },
     ],
-  }
+  },
+  {
+    id: CIRCULATION_MAPPINGS,
+    label: <FormattedMessage id="ui-inn-reach.settings.circulation-mappings" />,
+    pages: [
+      {
+        route: AGENCY_TO_FOLIO_LOCATIONS_ROUTE,
+        label: <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations" />,
+        component: AgencyToFolioLocationsRoute,
+      },
+    ],
+  },
 ];
