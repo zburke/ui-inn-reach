@@ -372,7 +372,6 @@ FolioToInnReachLocationsCreateEditRoute.manifest = Object.freeze({
 });
 
 FolioToInnReachLocationsCreateEditRoute.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
   resources: PropTypes.shape({
     selectedServerId: PropTypes.string,
     selectedLibraryId: PropTypes.string,

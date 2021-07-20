@@ -11,7 +11,7 @@ export const getServerOptions = (servers) => {
     id,
     value: name,
     label: name,
-  }))
+  }));
 };
 
 export const getLibraryOptions = (localAgencies, folioLibraries) => {
