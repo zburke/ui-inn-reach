@@ -96,7 +96,7 @@ const ContributionOptionsCreateEditRoute = ({
   const handleSubmit = (record) => {
     const saveMethod = contributionOptions
       ? mutator.contributionOptions.PUT
-      : mutator.contributionOptionsCreate.POST;
+      : mutator.contributionOptions.POST;
     const recordLocations = record[LOCATION_IDS];
     const recordStatuses = record[STATUSES];
     const recordLoanTypes = record[LOAN_TYPE_IDS];
@@ -259,14 +259,8 @@ ContributionOptionsCreateEditRoute.manifest = Object.freeze({
     type: 'okapi',
     path: 'inn-reach/central-servers/%{selectedServerId}/contribution-options',
     accumulate: true,
-    fetch: false,
-    throwErrors: false,
-  },
-  contributionOptionsCreate: {
-    type: 'okapi',
-    path: 'inn-reach/central-servers/contribution-options',
-    accumulate: true,
     clientGeneratePk: false,
+    pk: '',
     fetch: false,
     throwErrors: false,
   },
@@ -298,9 +292,6 @@ ContributionOptionsCreateEditRoute.propTypes = {
       GET: PropTypes.func,
       POST: PropTypes.func,
       PUT: PropTypes.func,
-    }).isRequired,
-    contributionOptionsCreate: PropTypes.shape({
-      POST: PropTypes.func,
     }).isRequired,
   }),
 };
