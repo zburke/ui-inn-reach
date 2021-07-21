@@ -244,7 +244,7 @@ describe('ContributionOptionsCreateEditRoute component', () => {
       const newMutator = cloneDeep(mutatorMock);
 
       newMutator.contributionOptions.GET = jest.fn(() => Promise.reject());
-      
+
       await waitFor(() => {
         renderContributionOptionsCreateEditRoute({
           history,
