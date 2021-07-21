@@ -243,28 +243,21 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
 
   it('should change the isResetForm state', () => {
     renderFolioToInnReachLocationsCreateEditRoute({ history });
-    act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeFormResetState(true); });
-    expect(FolioToInnReachLocationsForm.mock.calls[2][0].isResetForm).toBeTruthy();
+    act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeFormResetState(true); });
+    expect(FolioToInnReachLocationsForm.mock.calls[1][0].isResetForm).toBeTruthy();
   });
 
   describe('changeServer function', () => {
-    it('should open modal window', async () => {
-      renderFolioToInnReachLocationsCreateEditRoute({ history });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Libraries'); });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[4][0].onChangeServer(servers[0].name); });
-      expect(ConfirmationModal.mock.calls[5][0].open).toBeTruthy();
-    });
-
     it('should change selected server', () => {
       renderFolioToInnReachLocationsCreateEditRoute({ history });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
+      act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
       expect(mutatorMock.selectedServerId.replace).toHaveBeenCalledWith(servers[0].id);
     });
 
     it('should create server library options', () => {
       renderFolioToInnReachLocationsCreateEditRoute({ history });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
-      expect(FolioToInnReachLocationsForm.mock.calls[3][0].serverLibrariesOptions).toEqual([
+      act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
+      expect(FolioToInnReachLocationsForm.mock.calls[1][0].serverLibrariesOptions).toEqual([
         {
           id: '0939ebc4-cf37-4968-841e-912c0c02eacf',
           label: 'newLib (QWER)',
@@ -282,9 +275,9 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
   describe('Initial values', () => {
     it('should be with the folio libraries only', async () => {
       renderFolioToInnReachLocationsCreateEditRoute({ history });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[3][0].onChangeMappingType('Libraries'); });
-      expect(FolioToInnReachLocationsForm.mock.calls[6][0].initialValues).toEqual({
+      act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Libraries'); });
+      expect(FolioToInnReachLocationsForm.mock.calls[4][0].initialValues).toEqual({
         tabularList: [
           { folioLibrary: 'newLib (QWER)' },
           { folioLibrary: 'test library (l)' }
@@ -301,9 +294,9 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
         history,
         mutator: newMutator,
       });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[3][0].onChangeMappingType('Libraries'); });
-      expect(FolioToInnReachLocationsForm.mock.calls[7][0].initialValues).toEqual(recordForLibrariesMappings);
+      act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Libraries'); });
+      expect(FolioToInnReachLocationsForm.mock.calls[5][0].initialValues).toEqual(recordForLibrariesMappings);
     });
 
     it('should be with the folio locations only', async () => {
@@ -314,9 +307,9 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
           selectedLibraryId: loclibs[1].id,
         },
       });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Locations'); });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[2][0].onChangeLibrary(loclibs[1].name); });
-      expect(FolioToInnReachLocationsForm.mock.calls[5][0].initialValues).toEqual({
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[0][0].onChangeMappingType('Locations'); });
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeLibrary(loclibs[1].name); });
+      expect(FolioToInnReachLocationsForm.mock.calls[4][0].initialValues).toEqual({
         tabularList: [
           { folioLocation: 'folioName5 (code5)' },
           { folioLocation: 'FOLIOname1 (7sdfe)' }
@@ -337,9 +330,9 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
         },
         mutator: newMutator,
       });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Locations'); });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[2][0].onChangeLibrary(loclibs[1].name); });
-      expect(FolioToInnReachLocationsForm.mock.calls[6][0].initialValues).toEqual(recordForLocationMappings);
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[0][0].onChangeMappingType('Locations'); });
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeLibrary(loclibs[1].name); });
+      expect(FolioToInnReachLocationsForm.mock.calls[5][0].initialValues).toEqual(recordForLocationMappings);
     });
   });
 
@@ -347,7 +340,7 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
     it('should change mapping type', () => {
       renderFolioToInnReachLocationsCreateEditRoute({ history });
       act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeMappingType('Locations'); });
-      expect(FolioToInnReachLocationsForm.mock.calls[2][0].mappingType).toEqual('Locations');
+      expect(FolioToInnReachLocationsForm.mock.calls[1][0].mappingType).toEqual('Locations');
     });
 
     it('should make GET request for library mappings', async () => {
@@ -355,37 +348,21 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[0][0].onChangeMappingType('Libraries'); });
       expect(mutatorMock.libraryMappings.GET).toHaveBeenCalled();
     });
-
-    it('should open modal', () => {
-      renderFolioToInnReachLocationsCreateEditRoute({ history });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangePristineState(false); });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[2][0].onChangeMappingType('Locations'); });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[3][0].onChangeMappingType('Libraries'); });
-      expect(ConfirmationModal.mock.calls[4][0].open).toEqual(true);
-    });
   });
 
   describe('handleChangeLibrary', () => {
     it('should save the selected library id to redux', async () => {
       renderFolioToInnReachLocationsCreateEditRoute({ history });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[3][0].onChangeLibrary(loclibs[1].name); });
+      act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeLibrary(loclibs[1].name); });
       expect(mutatorMock.selectedLibraryId.replace).toHaveBeenCalledWith(loclibs[1].id);
     });
 
     it('should make GET request for location mappings', async () => {
       renderFolioToInnReachLocationsCreateEditRoute({ history });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[3][0].onChangeLibrary(loclibs[1].name); });
+      act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeLibrary(loclibs[1].name); });
       expect(mutatorMock.locationMappings.GET).toHaveBeenCalled();
-    });
-
-    it('should open modal window', async () => {
-      renderFolioToInnReachLocationsCreateEditRoute({ history });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangePristineState(false); });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[2][0].onChangeLibrary(loclibs[1].name); });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[4][0].onChangeLibrary(loclibs[0].name); });
-      expect(ConfirmationModal.mock.calls[5][0].open).toBeTruthy();
     });
   });
 
@@ -398,8 +375,8 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
           selectedLibraryId: '0939ebc4-cf37-4968-841e-912c0c02eacf',
         },
       });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Locations'); });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[2][0].onSubmit(recordForLocationMappings); });
+      act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeMappingType('Locations'); });
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onSubmit(recordForLocationMappings); });
       expect(mutatorMock.locationMappings.PUT).toHaveBeenCalledWith({
         locationMappings: [
           {
@@ -412,8 +389,8 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
 
     it('should make PUT for libraryMappings', async () => {
       renderFolioToInnReachLocationsCreateEditRoute({ history });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Libraries'); });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[2][0].onSubmit(recordForLibrariesMappings); });
+      act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeMappingType('Libraries'); });
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onSubmit(recordForLibrariesMappings); });
       expect(mutatorMock.libraryMappings.PUT).toHaveBeenCalledWith({
         libraryMappings: [
           {
@@ -422,178 +399,6 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
           }
         ]
       });
-    });
-  });
-
-  describe('handleModalCancel', () => {
-    describe('changing the central server', () => {
-      beforeEach(() => {
-        renderFolioToInnReachLocationsCreateEditRoute({ history });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[3][0].onChangeMappingType('Locations'); });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[4][0].onChangeServer(servers[1].name); });
-        act(() => { ConfirmationModal.mock.calls[5][0].onCancel(); });
-      });
-
-      it('should change the central server', () => {
-        expect(FolioToInnReachLocationsForm.mock.calls[7][0].selectedServer).toEqual(servers[1]);
-      });
-
-      it('should reset the form', () => {
-        expect(FolioToInnReachLocationsForm.mock.calls[7][0].isResetForm).toBeTruthy();
-      });
-
-      it('should close modal window', () => {
-        expect(ConfirmationModal.mock.calls[7][0].open).toBeFalsy();
-      });
-    });
-
-    describe('changing the mapping type', () => {
-      describe('without navigation', () => {
-        beforeEach(async () => {
-          renderFolioToInnReachLocationsCreateEditRoute({ history });
-          act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Locations'); });
-          act(() => { FolioToInnReachLocationsForm.mock.calls[2][0].onChangePristineState(false); });
-          act(() => { FolioToInnReachLocationsForm.mock.calls[3][0].onChangeMappingType('Libraries'); });
-          await act(async () => { await ConfirmationModal.mock.calls[4][0].onCancel(); });
-        });
-
-        it('should change the mapping type', () => {
-          expect(FolioToInnReachLocationsForm.mock.calls[7][0].mappingType).toEqual('Libraries');
-        });
-
-        it('should make GET request for the library mappings', () => {
-          expect(mutatorMock.libraryMappings.GET).toHaveBeenCalled();
-        });
-
-        it('should reset the form', () => {
-          expect(FolioToInnReachLocationsForm.mock.calls[7][0].isResetForm).toBeTruthy();
-        });
-
-        it('should close modal window', () => {
-          expect(ConfirmationModal.mock.calls[7][0].open).toBeFalsy();
-        });
-      });
-
-      it('should navigate', () => {
-        renderFolioToInnReachLocationsCreateEditRoute({ history });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Locations'); });
-        act(() => { history.push('/'); });
-        const historyPushSpy = jest.spyOn(history, 'push');
-
-        act(() => { ConfirmationModal.mock.calls[3][0].onCancel(); });
-        expect(historyPushSpy.mock.calls[0]).toBeDefined();
-      });
-    });
-
-    describe('changing the library', () => {
-      beforeEach(async () => {
-        renderFolioToInnReachLocationsCreateEditRoute({ history });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[3][0].onChangeLibrary(loclibs[0].name); });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[4][0].onChangePristineState(false); });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[5][0].onChangeLibrary(loclibs[1].name); });
-        await act(async () => { await ConfirmationModal.mock.calls[6][0].onCancel(); });
-      });
-
-      it('should change the library', () => {
-        expect(mutatorMock.selectedLibraryId.replace).toHaveBeenCalledWith(loclibs[1].id);
-      });
-
-      it('should make GET request for the location mappings', () => {
-        expect(mutatorMock.locationMappings.GET).toHaveBeenCalled();
-      });
-
-      it('should reset the form', () => {
-        expect(FolioToInnReachLocationsForm.mock.calls[8][0].isResetForm).toBeTruthy();
-      });
-
-      it('should close modal window', () => {
-        expect(ConfirmationModal.mock.calls[8][0].open).toBeFalsy();
-      });
-    });
-
-    describe('navigation to the current page or leave from the page', () => {
-      beforeEach(async () => {
-        renderFolioToInnReachLocationsCreateEditRoute({ history });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
-        await act(async () => { await ConfirmationModal.mock.calls[3][0].onCancel(); });
-      });
-
-      it('should clean up the centrals server', () => {
-        expect(FolioToInnReachLocationsForm.mock.calls[5][0].selectedServer).toEqual({});
-      });
-
-      it('should reset the form', () => {
-        expect(FolioToInnReachLocationsForm.mock.calls[5][0].isResetForm).toBeTruthy();
-      });
-
-      it('should close modal window', () => {
-        expect(ConfirmationModal.mock.calls[5][0].open).toBeFalsy();
-      });
-    });
-  });
-
-  describe('handleModalConfirm', () => {
-    describe('changing the central server', () => {
-      beforeEach(() => {
-        renderFolioToInnReachLocationsCreateEditRoute({ history });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[3][0].onChangeMappingType('Locations'); });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[4][0].onChangeServer(servers[1].name); });
-        act(() => { ConfirmationModal.mock.calls[5][0].onConfirm(); });
-      });
-
-      it('should close modal window', () => {
-        expect(ConfirmationModal.mock.calls[6][0].open).toBeFalsy();
-      });
-    });
-
-    describe('changing the mapping type', () => {
-      beforeEach(async () => {
-        renderFolioToInnReachLocationsCreateEditRoute({ history });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Locations'); });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[2][0].onChangePristineState(false); });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[3][0].onChangeMappingType('Libraries'); });
-        await act(async () => { await ConfirmationModal.mock.calls[4][0].onConfirm(); });
-      });
-
-      it('should close modal window', () => {
-        expect(ConfirmationModal.mock.calls[5][0].open).toBeFalsy();
-      });
-    });
-
-    describe('changing the library', () => {
-      beforeEach(async () => {
-        renderFolioToInnReachLocationsCreateEditRoute({ history });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[3][0].onChangeLibrary(loclibs[0].name); });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[4][0].onChangePristineState(false); });
-        act(() => { FolioToInnReachLocationsForm.mock.calls[5][0].onChangeLibrary(loclibs[1].name); });
-        await act(async () => { await ConfirmationModal.mock.calls[6][0].onConfirm(); });
-      });
-
-      it('should close modal window', () => {
-        expect(ConfirmationModal.mock.calls[7][0].open).toBeFalsy();
-      });
-    });
-  });
-
-  describe('navigation', () => {
-    beforeEach(() => {
-      renderFolioToInnReachLocationsCreateEditRoute({ history });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
-    });
-
-    it('should reset the selected server', () => {
-      act(() => { history.push('/'); });
-      expect(FolioToInnReachLocationsForm.mock.calls[5][0].selectedServer).toEqual({});
-    });
-
-    it('should open modal', () => {
-      act(() => { FolioToInnReachLocationsForm.mock.calls[3][0].onChangeMappingType('Locations'); });
-      act(() => { history.push('/'); });
-      expect(ConfirmationModal.mock.calls[5][0].open).toBeTruthy();
     });
   });
 });

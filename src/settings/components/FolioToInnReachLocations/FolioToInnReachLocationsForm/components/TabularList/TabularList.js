@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {
+  useMemo,
+} from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { Field } from 'react-final-form';
@@ -26,10 +28,10 @@ const TabularList = ({
 }) => {
   const { formatMessage } = useIntl();
 
-  const innReachLocationOptions = innReachLocations.map(({ code }) => ({
+  const innReachLocationOptions = useMemo(() => innReachLocations.map(({ code }) => ({
     value: code,
     label: code,
-  }));
+  })), [innReachLocations]);
 
   const validate = (value, allValues) => {
     const tabularList = allValues[TABULAR_LIST];
