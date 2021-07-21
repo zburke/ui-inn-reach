@@ -39,6 +39,7 @@ const ContributionOptionsForm = ({
   selectedServer,
   isContributionOptionsPending,
   isPristine,
+  isServersPending,
   serverOptions,
   statusesOptions,
   initialValues,
@@ -130,6 +131,7 @@ const ContributionOptionsForm = ({
             dataOptions={serverOptions}
             placeholder={formatMessage({ id: 'ui-inn-reach.settings.contribution-options.placeholder.centralServer' })}
             value={selectedServer.name}
+            loading={isServersPending}
             onChange={onChangeServer}
           />
         </Col>
@@ -190,6 +192,7 @@ ContributionOptionsForm.propTypes = {
   isContributionOptionsPending: PropTypes.bool.isRequired,
   isPristine: PropTypes.bool.isRequired,
   isResetForm: PropTypes.bool.isRequired,
+  isServersPending: PropTypes.bool.isRequired,
   selectedServer: PropTypes.object.isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   statusesOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
