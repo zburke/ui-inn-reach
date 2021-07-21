@@ -1,12 +1,13 @@
 export const CONTRIBUTION_OPTIONS = 'Record contribution';
-export const CONTRIBUTION_OPTIONS_ROUTE = 'contribution-options';
+export const CONTRIBUTION_OPTIONS_ROUTE = 'item-contribution-options';
 
 export const CONTRIBUTION_OPTIONS_FIELDS = {
   CENTRAL_SERVER_ID: 'centralServerId',
-  STATUSES: 'statuses',
-  LOAN_TYPE_IDS: 'loanTypeIds',
-  LOCATION_IDS: 'locationIds',
-  MATERIAL_TYPE_IDS: 'materialTypeIds',
+  STATUSES: 'notAvailableItemStatuses',
+  LOAN_TYPE_IDS: 'nonLendableLoanTypes',
+  LOCATION_IDS: 'nonLendableLocations',
+  MATERIAL_TYPE_IDS: 'nonLendableMaterialTypes',
+  METADATA: 'metadata',
 };
 
 export const STATUSES_LIST = {

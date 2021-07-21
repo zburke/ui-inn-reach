@@ -15,7 +15,6 @@ import {
 
 import {
   ConfirmationModal,
-  LoadingPane,
 } from '@folio/stripes-components';
 import { stripesConnect } from '@folio/stripes/core';
 
@@ -36,6 +35,7 @@ const {
   LOAN_TYPE_IDS,
   LOCATION_IDS,
   MATERIAL_TYPE_IDS,
+  METADATA,
 } = CONTRIBUTION_OPTIONS_FIELDS;
 
 export const DEFAULT_VALUES = {
@@ -84,7 +84,8 @@ const ContributionOptionsCreateEditRoute = ({
     handleModalCancel,
   ] = useCentralServers(history, servers);
   const showCallout = useCallout();
-  const [contributionOptions, setContributionOptions] = useState(null);
+  const [contributionOptions, setContributionOptions] = useState({});
+  const [isNewRecord, setIsNewRecord] = useState(false);
   const [initialValues, setInitialValues] = useState(DEFAULT_VALUES);
   const [isContributionOptionsPending, setIsContributionOptionsPending] = useState(false);
 
@@ -94,16 +95,15 @@ const ContributionOptionsCreateEditRoute = ({
   })), [STATUSES_LIST_OPTIONS]);
 
   const handleSubmit = (record) => {
-    const saveMethod = contributionOptions
-      ? mutator.contributionOptions.PUT
-      : mutator.contributionOptionsCreate.POST;
+    const saveMethod = isNewRecord
+      ? mutator.contributionOptions.POST
+      : mutator.contributionOptions.PUT;
     const recordLocations = record[LOCATION_IDS];
     const recordStatuses = record[STATUSES];
     const recordLoanTypes = record[LOAN_TYPE_IDS];
     const recordMaterialTypes = record[MATERIAL_TYPE_IDS];
     const finalRecord = {
-      ...omit(record, LOCATION_IDS, STATUSES, LOAN_TYPE_IDS, MATERIAL_TYPE_IDS),
-      centralServerId: selectedServer.id,
+      ...omit(record, LOCATION_IDS, STATUSES, LOAN_TYPE_IDS, MATERIAL_TYPE_IDS, METADATA),
     };
 
     if (recordLocations.length) {
@@ -123,6 +123,7 @@ const ContributionOptionsCreateEditRoute = ({
       .then(() => {
         const action = contributionOptions ? 'update' : 'create';
 
+        setContributionOptions({ ...finalRecord });
         showCallout({ message: <FormattedMessage id={`ui-inn-reach.settings.contribution-options.${action}.success`} /> });
       })
       .catch(() => {
@@ -141,11 +142,17 @@ const ContributionOptionsCreateEditRoute = ({
       setIsContributionOptionsPending(true);
 
       mutator.contributionOptions.GET()
-        .then(response => setContributionOptions(response))
-        .catch(() => null)
+        .then(response => {
+          setIsNewRecord(false);
+          setContributionOptions({ ...response });
+        })
+        .catch(() => {
+          setIsNewRecord(true);
+          setContributionOptions({});
+        })
         .finally(() => setIsContributionOptionsPending(false));
     }
-  }, [selectedServer]);
+  }, [selectedServer.id]);
 
   useEffect(() => {
     if (contributionOptions) {
@@ -197,9 +204,7 @@ const ContributionOptionsCreateEditRoute = ({
 
       setInitialValues(originalValues);
     }
-  }, [contributionOptions]);
-
-  if (isServersPending) return <LoadingPane />;
+  }, [contributionOptions, selectedServer.id]);
 
   return (
     <>
@@ -217,6 +222,7 @@ const ContributionOptionsCreateEditRoute = ({
         selectedServer={selectedServer}
         isContributionOptionsPending={isContributionOptionsPending}
         isPristine={isPristine}
+        isServersPending={isServersPending}
         serverOptions={serverOptions}
         statusesOptions={getFormatedStatusesOptions}
         initialValues={initialValues}
@@ -257,16 +263,10 @@ ContributionOptionsCreateEditRoute.manifest = Object.freeze({
   selectedServerId: { initialValue: '' },
   contributionOptions: {
     type: 'okapi',
-    path: 'inn-reach/central-servers/%{selectedServerId}/contribution-options',
-    accumulate: true,
-    fetch: false,
-    throwErrors: false,
-  },
-  contributionOptionsCreate: {
-    type: 'okapi',
-    path: 'inn-reach/central-servers/contribution-options',
+    path: 'inn-reach/central-servers/%{selectedServerId}/item-contribution-options',
     accumulate: true,
     clientGeneratePk: false,
+    pk: '',
     fetch: false,
     throwErrors: false,
   },
@@ -298,9 +298,6 @@ ContributionOptionsCreateEditRoute.propTypes = {
       GET: PropTypes.func,
       POST: PropTypes.func,
       PUT: PropTypes.func,
-    }).isRequired,
-    contributionOptionsCreate: PropTypes.shape({
-      POST: PropTypes.func,
     }).isRequired,
   }),
 };
