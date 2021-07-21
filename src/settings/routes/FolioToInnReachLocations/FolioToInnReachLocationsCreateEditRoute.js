@@ -6,7 +6,6 @@ import React, {
 import {
   isEmpty,
 } from 'lodash';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import PropTypes from 'prop-types';
 import {
   LoadingPane,
