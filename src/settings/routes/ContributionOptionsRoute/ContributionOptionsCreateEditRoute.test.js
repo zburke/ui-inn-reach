@@ -90,20 +90,20 @@ const servers = [
 
 const contributionOptions = {
   centralServerId: servers[1].id,
-  locationIds: [
+  nonLendableLocations: [
     '99880669-07cc-4658-b213-e6200344d1c3',
     '0ac0ffe6-c3ee-4610-b15c-019bbaea5dbd',
     'dfc42e20-7883-4c71-a3cf-f4c0aab1aedc'
   ],
-  statuses: [
+  notAvailableItemStatuses: [
     STATUSES_LIST.AWAITING_DELIVERY,
     STATUSES_LIST.IN_PROCESS,
   ],
-  materialTypeIds: [
+  nonLendableMaterialTypes: [
     '7a82f404-07df-4e5e-8e8f-a15f3b6ddffa',
     '7a82f404-07df-4e5e-8e8f-a15f3b6ddffb',
   ],
-  loanTypeIds: [
+  nonLendableLoanTypes: [
     '7a82f404-07df-4e5e-8e8f-a15f3b6ddffa',
     '7a82f404-07df-4e5e-8e8f-a15f3b6ddffb',
   ],
@@ -151,8 +151,6 @@ const mutatorMock = {
   contributionOptions: {
     GET: getMock,
     PUT: putMock,
-  },
-  contributionOptionsCreate: {
     POST: postMock,
   },
 };
@@ -211,16 +209,6 @@ describe('ContributionOptionsCreateEditRoute component', () => {
     expect(component).toBeDefined();
   });
 
-  it('should display loading', async () => {
-    const newResources = cloneDeep(resourcesMock);
-
-    newResources.centralServerRecords.isPending = true;
-    await waitFor(() => {
-      renderContributionOptionsCreateEditRoute({ history, resources: newResources });
-    });
-    expect(screen.getByText('LoadingPane')).toBeVisible();
-  });
-
   it('should call GET', async () => {
     await waitFor(() => {
       renderContributionOptionsCreateEditRoute({ history });
@@ -232,20 +220,20 @@ describe('ContributionOptionsCreateEditRoute component', () => {
   describe('submit', () => {
     const record = {
       ...contributionOptions,
-      locationIds: [
+      nonLendableLocations: [
         { value: '99880669-07cc-4658-b213-e6200344d1c3' },
         { value: '0ac0ffe6-c3ee-4610-b15c-019bbaea5dbd' },
         { value: 'dfc42e20-7883-4c71-a3cf-f4c0aab1aedc' },
       ],
-      materialTypeIds: [
+      nonLendableMaterialTypes: [
         { value: '7a82f404-07df-4e5e-8e8f-a15f3b6ddffa' },
         { value: '7a82f404-07df-4e5e-8e8f-a15f3b6ddffb' },
       ],
-      loanTypeIds: [
+      nonLendableLoanTypes: [
         { value: '7a82f404-07df-4e5e-8e8f-a15f3b6ddffa' },
         { value: '7a82f404-07df-4e5e-8e8f-a15f3b6ddffb' },
       ],
-      statuses: [
+      notAvailableItemStatuses: [
         { value: STATUSES_LIST.AWAITING_DELIVERY },
         { value: STATUSES_LIST.IN_PROCESS },
       ],
@@ -253,8 +241,15 @@ describe('ContributionOptionsCreateEditRoute component', () => {
     const finalRecord = contributionOptions;
 
     it('should cause POST request', async () => {
+      const newMutator = cloneDeep(mutatorMock);
+
+      newMutator.contributionOptions.GET = jest.fn(() => Promise.reject());
+      
       await waitFor(() => {
-        renderContributionOptionsCreateEditRoute({ history });
+        renderContributionOptionsCreateEditRoute({
+          history,
+          mutator: newMutator,
+        });
       });
       ContributionOptionsForm.mock.calls[3][0].onSubmit(record);
       expect(postMock).toHaveBeenCalledWith(finalRecord);
@@ -298,7 +293,7 @@ describe('ContributionOptionsCreateEditRoute component', () => {
 
       expect(ContributionOptionsForm.mock.calls[3][0].initialValues).toEqual({
         ...omit(contributionOptions, LOCATION_IDS, CENTRAL_SERVER_ID, MATERIAL_TYPE_IDS, LOAN_TYPE_IDS, STATUSES),
-        locationIds: [
+        nonLendableLocations: [
           {
             value: '99880669-07cc-4658-b213-e6200344d1c3',
             label: 'testLocation1'
@@ -312,7 +307,7 @@ describe('ContributionOptionsCreateEditRoute component', () => {
             label: 'testLocation3'
           }
         ],
-        loanTypeIds: [
+        nonLendableLoanTypes: [
           {
             value: '7a82f404-07df-4e5e-8e8f-a15f3b6ddffa',
             label: 'testLoanType1',
@@ -322,7 +317,7 @@ describe('ContributionOptionsCreateEditRoute component', () => {
             label: 'testLoanType2',
           }
         ],
-        materialTypeIds: [
+        nonLendableMaterialTypes: [
           {
             value: '7a82f404-07df-4e5e-8e8f-a15f3b6ddffa',
             label: 'testMaterialType1',
@@ -332,7 +327,7 @@ describe('ContributionOptionsCreateEditRoute component', () => {
             label: 'testMaterialType2',
           }
         ],
-        statuses: [
+        notAvailableItemStatuses: [
           {
             label: STATUSES_LIST.AWAITING_DELIVERY,
             value: STATUSES_LIST.AWAITING_DELIVERY,
