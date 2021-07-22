@@ -129,4 +129,24 @@ describe('useCentralServers hook', () => {
       historyPushSpy.mockClear();
     });
   });
+
+  describe('unblock function', () => {
+    it('should open a modal', async () => {
+      const handleServerChange = result.current[7];
+      act(() => { handleServerChange(servers[1].name); });
+      const selectedServer1 = result.current[0];
+      expect(selectedServer1).toEqual(servers[1]);
+      act(() => { history.push('/'); })
+      const selectedServer2 = result.current[0];
+      expect(selectedServer2).toEqual({});
+    });
+
+    it('should reset the selected server', () => {
+      const changePristineState = result.current[5];
+      act(() => { changePristineState(false); });
+      act(() => { history.push('/'); })
+      const openModal = result.current[1];
+      expect(openModal).toBeTruthy();
+    });
+  });
 });
