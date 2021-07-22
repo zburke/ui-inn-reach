@@ -1,13 +1,13 @@
 import {
   MATERIAL_TYPE_FIELDS,
-  NO_VALUE_OPTION_VALUE,
 } from '../../../constants';
 
 const {
   MATERIAL_TYPE_MAPPING_LIST,
-  CENTRAL_ITEM_TYPE,
   MATERIAL_TYPE_ID,
   MATERIAL_TYPE_LABEL,
+  ID,
+  CENTRAL_ITEM_TYPE,
 } = MATERIAL_TYPE_FIELDS;
 
 export const getInnReachMaterialTypeMapingsMap = (mappings) => {
@@ -28,7 +28,6 @@ export const getFolioMappingTypesOptions = (folioMappingTypesOptions) => {
   return folioMappingTypesOptions.map(({ label, value }) => ({
     [MATERIAL_TYPE_ID]: value,
     [MATERIAL_TYPE_LABEL]: label,
-    [CENTRAL_ITEM_TYPE]: NO_VALUE_OPTION_VALUE,
   }));
 };
 
@@ -38,7 +37,7 @@ export const getMaterialTypesList = ({
 }) => {
   if (materialTypeMappingsMap) {
     return folioMaterialTypeOptions.map(({ value, label }) => {
-      let centralItemType = NO_VALUE_OPTION_VALUE;
+      let centralItemType = '';
       let mappingId = '';
       const isMaterialTypeSelected = materialTypeMappingsMap.has(value);
 
@@ -48,12 +47,12 @@ export const getMaterialTypesList = ({
       }
 
       const record = {
-        [CENTRAL_ITEM_TYPE]: centralItemType,
         [MATERIAL_TYPE_ID]: value,
         [MATERIAL_TYPE_LABEL]: label,
       };
 
-      if (mappingId) record.id = mappingId;
+      if (centralItemType) record[CENTRAL_ITEM_TYPE] = centralItemType;
+      if (mappingId) record[ID] = mappingId;
 
       return record;
     });
@@ -66,7 +65,7 @@ export const formatPayload = ({
   record,
 }) => {
   return record[MATERIAL_TYPE_MAPPING_LIST].reduce((accum, { materialTypeId, centralItemType, id }) => {
-    if (centralItemType && centralItemType !== NO_VALUE_OPTION_VALUE) {
+    if (centralItemType) {
       const mapping = {
         materialTypeId,
         centralItemType

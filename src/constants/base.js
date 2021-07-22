@@ -20,4 +20,4 @@ export const UNPROCESSABLE_ENTITY_STATUS_CODE = 422;
 
 export const PAGE_AMOUNT = 100;
 
-export const NO_VALUE_OPTION_VALUE = 'novalue';
+export const NO_VALUE_OPTION_VALUE = '';
