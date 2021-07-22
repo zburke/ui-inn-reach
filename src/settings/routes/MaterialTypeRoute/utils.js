@@ -1,5 +1,6 @@
 import {
   MATERIAL_TYPE_FIELDS,
+  NO_VALUE_OPTION_VALUE,
 } from '../../../constants';
 
 const {
@@ -27,6 +28,7 @@ export const getFolioMappingTypesOptions = (folioMappingTypesOptions) => {
   return folioMappingTypesOptions.map(({ label, value }) => ({
     [MATERIAL_TYPE_ID]: value,
     [MATERIAL_TYPE_LABEL]: label,
+    [CENTRAL_ITEM_TYPE]: NO_VALUE_OPTION_VALUE,
   }));
 };
 
@@ -36,7 +38,7 @@ export const getMaterialTypesList = ({
 }) => {
   if (materialTypeMappingsMap) {
     return folioMaterialTypeOptions.map(({ value, label }) => {
-      let centralItemType = '';
+      let centralItemType = NO_VALUE_OPTION_VALUE;
       let mappingId = '';
       const isMaterialTypeSelected = materialTypeMappingsMap.has(value);
 
@@ -64,7 +66,7 @@ export const formatPayload = ({
   record,
 }) => {
   return record[MATERIAL_TYPE_MAPPING_LIST].reduce((accum, { materialTypeId, centralItemType, id }) => {
-    if (centralItemType) {
+    if (centralItemType && centralItemType !== NO_VALUE_OPTION_VALUE) {
       const mapping = {
         materialTypeId,
         centralItemType
