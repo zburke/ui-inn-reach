@@ -2,7 +2,6 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import {
   act,
-  waitFor,
 } from '@testing-library/react';
 
 import {
@@ -90,12 +89,6 @@ describe('CentralServersConfigurationCreateRoute component', () => {
     expect(getByText('CentralServersConfigurationCreateEditContainer')).toBeDefined();
   });
 
-  it('should pass isCentralServerDataInvalid as false', async () => {
-    renderCreateRoute();
-    CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onMakeValidCentralServerData();
-    expect(CentralServersConfigurationCreateEditContainer.mock.calls[0][0].isCentralServerDataInvalid).toEqual(false);
-  });
-
   describe('handleCreateRecord', () => {
     it('should be passed as submit prop', () => {
       renderCreateRoute();
@@ -138,12 +131,6 @@ describe('CentralServersConfigurationCreateRoute component', () => {
         expect(downloadJsonFile).not.toHaveBeenCalled();
         downloadJsonFile.mockRestore();
       });
-
-      it('should call navigation to the list page', async () => {
-        await CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(record);
-        expect(getCentralServerConfigurationListUrl).toHaveBeenCalled();
-        getCentralServerConfigurationListUrl.mockRestore();
-      });
     });
 
     describe('POST with error number 400', () => {
@@ -160,12 +147,6 @@ describe('CentralServersConfigurationCreateRoute component', () => {
             },
           },
         });
-      });
-
-      it('should pass isCentralServerDataInvalid as true', async () => {
-        await waitFor(() => CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(record));
-        expect(CentralServersConfigurationCreateEditContainer.mock.calls[1][0]).toHaveProperty('isCentralServerDataInvalid', true);
-        expect(useCallout.mock.results[0].value()).toEqual('error');
       });
     });
 
@@ -220,8 +201,7 @@ describe('CentralServersConfigurationCreateRoute component', () => {
         CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onModalConfirm();
       });
 
-      expect(CentralServersConfigurationCreateEditContainer.mock.calls[1][0]).toHaveProperty('isCentralServerDataInvalid', true);
-      expect(CentralServersConfigurationCreateEditContainer.mock.calls[1][0]).toHaveProperty('openModal', false);
+      expect(CentralServersConfigurationCreateEditContainer.mock.calls[0][0]).toHaveProperty('openModal', false);
     });
   });
 });

@@ -20,9 +20,10 @@ const serverOptionsMock = [
 
 describe('useCentralServers hook', () => {
   let result;
+  let history;
 
   beforeEach(() => {
-    const history = createBrowserHistory();
+    history = createBrowserHistory();
 
     result = renderHook(() => useCentralServers(history, servers)).result;
   });
@@ -60,22 +61,6 @@ describe('useCentralServers hook', () => {
     expect(selectedServer).toMatchObject(servers[1]);
   });
 
-  it('should return openModal state as true', () => {
-    const changePristineState = result.current[5];
-
-    act(() => {
-      changePristineState(false);
-    });
-    const handleServerChange = result.all[1][7];
-
-    act(() => {
-      handleServerChange(servers[1].name);
-    });
-    const openModal = result.all[2][1];
-
-    expect(openModal).toBeTruthy();
-  });
-
   it('should return correct serverOptions', () => {
     const serverOptions = result.current[4];
 
@@ -93,26 +78,6 @@ describe('useCentralServers hook', () => {
 
       expect(openModal).toBeFalsy();
     });
-
-    it('should change selection option if prevServerName is true', () => {
-      const handleServerChange = result.current[7];
-
-      act(() => {
-        handleServerChange(servers[0].name);
-      });
-
-      const handleServerChangeAgain = result.all[1][7];
-
-      act(() => {
-        handleServerChangeAgain(servers[1].name);
-      });
-
-      const handleModalConfirm = result.all[2][8];
-
-      act(() => {
-        handleModalConfirm();
-      });
-    });
   });
 
   describe('handleModalCancel', () => {
@@ -122,6 +87,23 @@ describe('useCentralServers hook', () => {
       act(() => {
         handleModalCancel();
       });
+    });
+
+    it('should reset the selected server', () => {
+      const handleServerChange = result.current[7];
+
+      act(() => {
+        handleServerChange(servers[1].name);
+      });
+
+      const handleModalCancel = result.current[9];
+
+      act(() => {
+        handleModalCancel();
+      });
+      const selectedServer = result.current[0];
+
+      expect(selectedServer).toEqual({});
     });
 
     it('should close modal', () => {
@@ -134,6 +116,17 @@ describe('useCentralServers hook', () => {
       const isResetForm = result.current[2];
 
       expect(isResetForm).toBeTruthy();
+    });
+
+    it('should navigate to another location', () => {
+      const historyPushSpy = jest.spyOn(history, 'push');
+      const handleModalCancel = result.current[9];
+
+      act(() => {
+        handleModalCancel();
+      });
+      expect(historyPushSpy.mock.calls[0][0]).toBe();
+      historyPushSpy.mockClear();
     });
   });
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import { createMemoryHistory } from 'history';
 import userEvent from '@testing-library/user-event';
 
 import {
@@ -38,7 +39,6 @@ jest.mock('../../components/CentralServersConfiguration/CentralServersConfigurat
 
 const renderContainer = ({
   initialValues = undefined,
-  isCentralServerDataInvalid = false,
   showPrevLocalServerValue = false,
   onShowPreviousLocalServerValue = jest.fn(),
   onFormCancel = jest.fn(),
@@ -51,11 +51,12 @@ const renderContainer = ({
   return renderWithIntl(
     <MemoryRouter>
       <CentralServersConfigurationCreateEditContainer
+        history={createMemoryHistory()}
         initialValues={initialValues}
-        isCentralServerDataInvalid={isCentralServerDataInvalid}
         showPrevLocalServerValue={showPrevLocalServerValue}
         openModal={openModal}
         modalContent={modalContent}
+        unblockRef={{ current: jest.fn() }}
         onShowPreviousLocalServerValue={onShowPreviousLocalServerValue}
         onFormCancel={onFormCancel}
         onSubmit={onSubmit}
@@ -81,7 +82,6 @@ describe('CentralServersConfigurationCreateEditContainer', () => {
   it('should pass required props to CentralServersConfigurationForm', () => {
     const props = {
       initialValues: records,
-      isCentralServerDataInvalid: false,
       showPrevLocalServerValue: false,
       onShowPreviousLocalServerValue: jest.fn(),
       onFormCancel: jest.fn(),
@@ -91,7 +91,6 @@ describe('CentralServersConfigurationCreateEditContainer', () => {
     renderContainer(props);
 
     expect(CentralServersConfigurationForm.mock.calls[0][0].initialValues).toEqual(props.initialValues);
-    expect(CentralServersConfigurationForm.mock.calls[0][0].isCentralServerDataInvalid).toEqual(props.isCentralServerDataInvalid);
     expect(CentralServersConfigurationForm.mock.calls[0][0].showPrevLocalServerValue).toEqual(props.showPrevLocalServerValue);
     expect(CentralServersConfigurationForm.mock.calls[0][0].onShowPreviousLocalServerValue).toEqual(props.onShowPreviousLocalServerValue);
     expect(CentralServersConfigurationForm.mock.calls[0][0].onCancel).toEqual(props.onFormCancel);

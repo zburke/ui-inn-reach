@@ -1,6 +1,6 @@
 import React, {
-  useEffect,
   useState,
+  useRef,
 } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -29,19 +29,27 @@ const CentralServersConfigurationCreateRoute = ({
   history,
   mutator,
 }) => {
+  const unblockRef = useRef();
   const showCallout = useCallout();
-  const [isCentralServerDataInvalid, setIsCentralServerDataInvalid] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
   const navigateToList = () => history.push(getCentralServerConfigurationListUrl());
 
+  const changeModalState = (value) => {
+    setOpenModal(value);
+  };
+
   const handleModalConfirm = () => {
-    setIsCentralServerDataInvalid(true);
     setOpenModal(false);
   };
 
-  const makeValidCentralServerData = () => {
-    setIsCentralServerDataInvalid(false);
+  const navigate = () => {
+    unblockRef.current();
+    navigateToList();
+  };
+
+  const handleModalCancel = () => {
+    navigate();
   };
 
   const handleCreateRecord = (record) => {
@@ -64,14 +72,13 @@ const CentralServersConfigurationCreateRoute = ({
         if (localServerKey && localServerSecret) {
           downloadJsonFile(exportData, fileName);
         }
-        navigateToList();
+        navigate();
         showCallout({ message: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create.success" /> });
       })
       .catch(error => {
         let message;
 
         if (error.status === 400) {
-          setIsCentralServerDataInvalid(true);
           message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.invalidData" />;
         } else {
           message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.connectionProblem.post" />;
@@ -84,28 +91,16 @@ const CentralServersConfigurationCreateRoute = ({
       });
   };
 
-  useEffect(() => {
-    const unblock = history.block(() => {
-      if (isCentralServerDataInvalid) {
-        setOpenModal(true);
-        setIsCentralServerDataInvalid(false);
-      }
-
-      return !isCentralServerDataInvalid;
-    });
-
-    return () => unblock();
-  }, [isCentralServerDataInvalid]);
-
   return (
     <CentralServersConfigurationCreateEditContainer
-      isCentralServerDataInvalid={isCentralServerDataInvalid}
       openModal={openModal}
+      history={history}
+      unblockRef={unblockRef}
       onFormCancel={navigateToList}
       onSubmit={handleCreateRecord}
-      onMakeValidCentralServerData={makeValidCentralServerData}
-      onModalCancel={navigateToList}
+      onModalCancel={handleModalCancel}
       onModalConfirm={handleModalConfirm}
+      onChangeModalState={changeModalState}
     />
   );
 };

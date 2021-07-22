@@ -1,5 +1,9 @@
-import React from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
@@ -21,23 +25,41 @@ export const DEFAULT_VALUES = {
 };
 
 const CentralServersConfigurationCreateEditContainer = ({
+  history,
   initialValues,
   showPrevLocalServerValue,
-  isCentralServerDataInvalid,
   onFormCancel,
   onSubmit,
   openModal,
   modalContent,
   onShowPreviousLocalServerValue,
-  onMakeValidCentralServerData,
   onModalCancel,
   onModalConfirm,
+  unblockRef,
+  onChangeModalState,
 }) => {
+  const [isPristine, setIsPristine] = useState(true);
   const intl = useIntl();
   const fieldsInitialValues = {
     ...DEFAULT_VALUES,
     ...initialValues,
   };
+
+  const changePristineState = (value) => {
+    setIsPristine(value);
+  };
+
+  useEffect(() => {
+    unblockRef.current = history.block(() => {
+      if (!isPristine) {
+        onChangeModalState(true);
+      }
+
+      return isPristine;
+    });
+
+    return () => unblockRef.current();
+  }, [isPristine]);
 
   return (
     <Paneset>
@@ -48,16 +70,17 @@ const CentralServersConfigurationCreateEditContainer = ({
       >
         <CentralServersConfigurationForm
           initialValues={fieldsInitialValues}
-          isCentralServerDataInvalid={isCentralServerDataInvalid}
           showPrevLocalServerValue={showPrevLocalServerValue}
           onShowPreviousLocalServerValue={onShowPreviousLocalServerValue}
-          onMakeValidCentralServerData={onMakeValidCentralServerData}
           onCancel={onFormCancel}
           onSubmit={onSubmit}
+          onChangePristineState={changePristineState}
         />
         <ConfirmationModal
           id="cancel-editing-confirmation"
           open={openModal}
+          buttonStyle={modalContent?.confirmLabel ? 'default' : 'primary'}
+          cancelButtonStyle={modalContent?.cancelLabel ? 'primary' : 'default'}
           heading={modalContent?.heading || <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-heading.areYouSure" />}
           message={modalContent?.message || <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-message.unsavedChanges" />}
           confirmLabel={modalContent?.confirmLabel || <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-confirmLabel.keepEditing" />}
@@ -71,22 +94,22 @@ const CentralServersConfigurationCreateEditContainer = ({
 };
 
 CentralServersConfigurationCreateEditContainer.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
   openModal: PropTypes.bool.isRequired,
+  unblockRef: PropTypes.object.isRequired,
   onFormCancel: PropTypes.func.isRequired,
   onModalCancel: PropTypes.func.isRequired,
   onModalConfirm: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object,
-  isCentralServerDataInvalid: PropTypes.bool,
   modalContent: PropTypes.object,
   showPrevLocalServerValue: PropTypes.bool,
-  onMakeValidCentralServerData: PropTypes.func,
+  onChangeModalState: PropTypes.func,
   onShowPreviousLocalServerValue: PropTypes.func,
 };
 
 CentralServersConfigurationCreateEditContainer.defaultProps = {
   initialValues: {},
-  isCentralServerDataInvalid: false,
   modalContent: {},
 };
 
