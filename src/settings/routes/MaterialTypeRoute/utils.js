@@ -4,9 +4,10 @@ import {
 
 const {
   MATERIAL_TYPE_MAPPING_LIST,
-  CENTRAL_ITEM_TYPE,
   MATERIAL_TYPE_ID,
   MATERIAL_TYPE_LABEL,
+  ID,
+  CENTRAL_ITEM_TYPE,
 } = MATERIAL_TYPE_FIELDS;
 
 export const getInnReachMaterialTypeMapingsMap = (mappings) => {
@@ -46,12 +47,12 @@ export const getMaterialTypesList = ({
       }
 
       const record = {
-        [CENTRAL_ITEM_TYPE]: centralItemType,
         [MATERIAL_TYPE_ID]: value,
         [MATERIAL_TYPE_LABEL]: label,
       };
 
-      if (mappingId) record.id = mappingId;
+      if (centralItemType) record[CENTRAL_ITEM_TYPE] = centralItemType;
+      if (mappingId) record[ID] = mappingId;
 
       return record;
     });
