@@ -2,6 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { createMemoryHistory } from 'history';
+import { act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {
@@ -38,6 +39,7 @@ jest.mock('../../components/CentralServersConfiguration/CentralServersConfigurat
 });
 
 const renderContainer = ({
+  history,
   initialValues = undefined,
   showPrevLocalServerValue = false,
   onShowPreviousLocalServerValue = jest.fn(),
@@ -47,11 +49,12 @@ const renderContainer = ({
   modalContent,
   onModalCancel = jest.fn(),
   onModalConfirm = jest.fn(),
+  onChangeModalState = jest.fn(),
 } = {}) => {
   return renderWithIntl(
     <MemoryRouter>
       <CentralServersConfigurationCreateEditContainer
-        history={createMemoryHistory()}
+        history={history}
         initialValues={initialValues}
         showPrevLocalServerValue={showPrevLocalServerValue}
         openModal={openModal}
@@ -62,6 +65,7 @@ const renderContainer = ({
         onSubmit={onSubmit}
         onModalCancel={onModalCancel}
         onModalConfirm={onModalConfirm}
+        onChangeModalState={onChangeModalState}
       />
     </MemoryRouter>,
     translationsProperties
@@ -69,18 +73,21 @@ const renderContainer = ({
 };
 
 describe('CentralServersConfigurationCreateEditContainer', () => {
+  const history = createMemoryHistory();
+
   beforeEach(() => {
     CentralServersConfigurationForm.mockClear();
   });
 
   it('should display CentralServersConfigurationForm', () => {
-    const { getByText } = renderContainer();
+    const { getByText } = renderContainer({ history });
 
     expect(getByText('CentralServersConfigurationForm')).toBeDefined();
   });
 
   it('should pass required props to CentralServersConfigurationForm', () => {
     const props = {
+      history,
       initialValues: records,
       showPrevLocalServerValue: false,
       onShowPreviousLocalServerValue: jest.fn(),
@@ -99,7 +106,10 @@ describe('CentralServersConfigurationCreateEditContainer', () => {
 
   describe('ConfirmationModal', () => {
     it('should be open when openModal prop is true', () => {
-      renderContainer({ openModal: true });
+      renderContainer({
+        history,
+        openModal: true,
+      });
       const modal = document.querySelector('#cancel-editing-confirmation');
 
       expect(modal).toBeDefined();
@@ -107,7 +117,10 @@ describe('CentralServersConfigurationCreateEditContainer', () => {
 
     describe('content', () => {
       it('should display default content', () => {
-        const { getByText } = renderContainer({ openModal: true });
+        const { getByText } = renderContainer({
+          history,
+          openModal: true,
+        });
 
         expect(getByText('Are you sure?')).toBeDefined();
         expect(getByText('There are unsaved changes')).toBeDefined();
@@ -117,6 +130,7 @@ describe('CentralServersConfigurationCreateEditContainer', () => {
 
       it('should display custom content', () => {
         const { getByText } = renderContainer({
+          history,
           openModal: true,
           modalContent: {
             heading: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.edit.modal-heading.updateLocalServerKeyConfirmation" />,
@@ -137,6 +151,7 @@ describe('CentralServersConfigurationCreateEditContainer', () => {
       const onModalConfirm = jest.fn();
 
       renderContainer({
+        history,
         openModal: true,
         onModalConfirm,
       });
@@ -151,6 +166,7 @@ describe('CentralServersConfigurationCreateEditContainer', () => {
       const onModalCancel = jest.fn();
 
       renderContainer({
+        history,
         openModal: true,
         onModalCancel,
       });
@@ -159,6 +175,20 @@ describe('CentralServersConfigurationCreateEditContainer', () => {
 
       userEvent.click(cancelButton);
       expect(onModalCancel).toHaveBeenCalled();
+    });
+  });
+
+  describe('unblock function', () => {
+    it('should open a modal', async () => {
+      const onChangeModalState = jest.fn();
+
+      renderContainer({
+        history,
+        onChangeModalState,
+      });
+      act(() => { CentralServersConfigurationForm.mock.calls[0][0].onChangePristineState(false); });
+      history.push('/');
+      expect(onChangeModalState).toHaveBeenCalledWith(true);
     });
   });
 });
