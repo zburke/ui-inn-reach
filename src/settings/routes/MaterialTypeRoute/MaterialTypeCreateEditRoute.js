@@ -20,6 +20,7 @@ import { stripesConnect } from '@folio/stripes/core';
 import {
   CALLOUT_ERROR_TYPE,
   MATERIAL_TYPE_FIELDS,
+  NO_VALUE_OPTION_VALUE,
 } from '../../../constants';
 import MaterialTypeForm from '../../components/MaterialType/MaterialTypeForm';
 import {
@@ -77,7 +78,7 @@ const MaterialTypeCreateEditRoute = ({
     let options = [];
     const noValueOption = {
       label: <FormattedMessage id="ui-inn-reach.settings.material-type-mapping.no-selection" />,
-      value: '',
+      value: NO_VALUE_OPTION_VALUE,
     };
     const innReachOptions = innReachItemTypes.map(type => ({
       label: type.description,

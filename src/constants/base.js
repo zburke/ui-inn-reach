@@ -19,3 +19,5 @@ export const ENTITY_NOT_FOUND_STATUS_CODE = 404;
 export const UNPROCESSABLE_ENTITY_STATUS_CODE = 422;
 
 export const PAGE_AMOUNT = 100;
+
+export const NO_VALUE_OPTION_VALUE = '';
