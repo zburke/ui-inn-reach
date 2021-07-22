@@ -44,7 +44,7 @@ const CentralServersConfigurationCreateRoute = ({
   };
 
   const navigate = () => {
-    unblockRef.current();
+    if (unblockRef.current) unblockRef.current();
     navigateToList();
   };
 

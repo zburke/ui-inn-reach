@@ -148,6 +148,11 @@ describe('CentralServersConfigurationCreateRoute component', () => {
           },
         });
       });
+
+      it('should cause an error callout', () => {
+        act(() => CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(record));
+        expect(useCallout.mock.results[0].value()).toEqual('error');
+      });
     });
 
     describe('POST with error number not 400', () => {
@@ -202,6 +207,23 @@ describe('CentralServersConfigurationCreateRoute component', () => {
       });
 
       expect(CentralServersConfigurationCreateEditContainer.mock.calls[0][0]).toHaveProperty('openModal', false);
+    });
+  });
+
+  describe('handleModalCancel', () => {
+    it('should invoke the getCentralServerConfigurationListUrl', () => {
+      renderCreateRoute();
+      CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onModalCancel();
+      expect(getCentralServerConfigurationListUrl).toHaveBeenCalled();
+      getCentralServerConfigurationListUrl.mockRestore();
+    });
+  });
+
+  describe('onChangeModalState', () => {
+    it('should change a modal state', () => {
+      renderCreateRoute();
+      act(() => { CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onChangeModalState(true); });
+      expect(CentralServersConfigurationCreateEditContainer.mock.calls[1][0].openModal).toBeTruthy();
     });
   });
 });
