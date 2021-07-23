@@ -65,6 +65,7 @@ const renderContributionOptionsForm = ({
   selectedServer = selectedServerMock,
   isContributionOptionsPending = false,
   isPristine = true,
+  isServersPending = false,
   initialValues = DEFAULT_VALUES,
   isResetForm = false,
   onChangeFormResetState,
@@ -79,6 +80,7 @@ const renderContributionOptionsForm = ({
         selectedServer={selectedServer}
         isContributionOptionsPending={isContributionOptionsPending}
         isPristine={isPristine}
+        isServersPending={isServersPending}
         serverOptions={serverOptions}
         materialTypes={materialTypes}
         loanTypes={loanTypes}

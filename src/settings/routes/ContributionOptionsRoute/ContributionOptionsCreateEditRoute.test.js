@@ -4,7 +4,7 @@ import {
   omit,
 } from 'lodash';
 import { createMemoryHistory } from 'history';
-import { waitFor, screen } from '@testing-library/react';
+import { waitFor, screen, act } from '@testing-library/react';
 
 import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jest/helpers';
 import { ConfirmationModal } from '@folio/stripes-components';
@@ -251,7 +251,7 @@ describe('ContributionOptionsCreateEditRoute component', () => {
           mutator: newMutator,
         });
       });
-      ContributionOptionsForm.mock.calls[3][0].onSubmit(record);
+      await act(async () => { await ContributionOptionsForm.mock.calls[3][0].onSubmit(record); });
       expect(postMock).toHaveBeenCalledWith(finalRecord);
     });
 
@@ -266,7 +266,7 @@ describe('ContributionOptionsCreateEditRoute component', () => {
           mutator: newMutator,
         });
       });
-      ContributionOptionsForm.mock.calls[3][0].onSubmit(record);
+      await act(async () => { await ContributionOptionsForm.mock.calls[3][0].onSubmit(record); });
       expect(putMock).toHaveBeenCalledWith(finalRecord);
     });
   });

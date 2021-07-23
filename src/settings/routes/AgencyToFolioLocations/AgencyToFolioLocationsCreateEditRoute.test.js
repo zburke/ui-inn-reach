@@ -13,6 +13,7 @@ import { FormattedMessage } from 'react-intl';
 import { translationsProperties } from '../../../../test/jest/helpers';
 import AgencyToFolioLocationsCreateEditRoute from './AgencyToFolioLocationsCreateEditRoute';
 import AgencyToFolioLocationsForm from '../../components/AgencyToFolioLocations/AgencyToFolioLocationsForm';
+import { NO_VALUE_OPTION_VALUE } from '../../../constants';
 
 jest.mock('../../components/AgencyToFolioLocations/AgencyToFolioLocationsForm', () => {
   return jest.fn(() => <div>AgencyToFolioLocationsForm</div>);
@@ -348,6 +349,22 @@ describe('AgencyToFolioLocationsCreateEditRoute component', () => {
   });
 
   describe('addLocalInitialValues function', () => {
+    it('should add the server libraryId and locationId to the initialValues', () => {
+      renderAgencyToFolioLocationsCreateEditRoute({ history });
+      act(() => {
+        AgencyToFolioLocationsForm.mock.calls[1][0].onChangeLocalServer(
+          NO_VALUE_OPTION_VALUE,
+          loclibs[0].id,
+          locations[0].id,
+          true,
+        );
+      });
+      expect(AgencyToFolioLocationsForm.mock.calls[2][0].initialValues).toEqual({
+        libraryId: loclibs[0].id,
+        locationId: locations[0].id,
+      });
+    });
+
     it('should add to initialValues all data of the tabular list', async () => {
       renderAgencyToFolioLocationsCreateEditRoute({ history });
       await act(async () => { await AgencyToFolioLocationsForm.mock.calls[1][0].onChangeServer(servers[0].id); });

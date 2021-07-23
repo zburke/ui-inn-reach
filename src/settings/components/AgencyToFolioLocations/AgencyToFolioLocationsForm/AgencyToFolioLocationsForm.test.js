@@ -6,6 +6,11 @@ import { screen } from '@testing-library/react';
 import { FormattedMessage } from 'react-intl';
 import { translationsProperties } from '../../../../../test/jest/helpers';
 import AgencyToFolioLocationsForm from './AgencyToFolioLocationsForm';
+import { AGENCY_TO_FOLIO_LOCATIONS_FIELDS } from '../../../../constants';
+
+const {
+  AGENCY_CODE_MAPPINGS,
+} = AGENCY_TO_FOLIO_LOCATIONS_FIELDS;
 
 const serverOptions = [
   {
@@ -220,6 +225,10 @@ describe('AgencyToFolioLocationsForm', () => {
         expect(screen.getByRole('button', { name })).toBeVisible();
       });
 
+      it('should add the tabular list', () => {
+        expect(screen.getByTestId(AGENCY_CODE_MAPPINGS)).toBeVisible();
+      });
+
       describe('handleChangeLocalServerLibrary', () => {
         const utils1 = jest.requireActual('./utils');
         const utils2 = jest.requireActual('../../../routes/AgencyToFolioLocations/utils');
@@ -243,6 +252,7 @@ describe('AgencyToFolioLocationsForm', () => {
 
   describe('handleLibraryChange in the tabular list', () => {
     it('should make the location field enabled', () => {
+      const name = 'FOLIO library & location Select location';
       const initialValuesMock = {
         localCode: '5dlpl',
         agencyCodeMappings: [{ agency: '5dlpl (Sierra Alpha)' }],
@@ -254,12 +264,10 @@ describe('AgencyToFolioLocationsForm', () => {
       document.getElementById('option-locationId-1-d428ca1d-f33b-4d4c-a160-d9f41c657bb7').click();
       document.getElementById('option-localCode-1-5dlpl').click();
       document.getElementById(`option-localServerLibraryId-1-${loclibs[0].id}`).click();
-      document.getElementById('agencyCodeMappings[0].libraryId').click();
-      document.getElementById(`option-agencyCodeMappings[0].libraryId-1-${loclibs[0].id}`).click();
-
-      const name = 'FOLIO location (default) ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-location';
-
-      expect(screen.getByRole('button', { name })).toBeVisible();
+      expect(screen.getByRole('button', { name })).toBeDisabled();
+      document.getElementById('agencyCodeMappings[0].libraryId-0').click();
+      document.getElementById(`option-agencyCodeMappings[0].libraryId-0-1-${loclibs[0].id}`).click();
+      expect(screen.getByRole('button', { name })).toBeEnabled();
     });
   });
 });

@@ -42,6 +42,8 @@ const renderMappingTypeForm = ({
   selectedServer = selectedServerMock,
   isMaterialTypeMappingsPending = false,
   isPristine = true,
+  isPending = false,
+  isServersPending = false,
   initialValues = {},
   isResetForm = false,
   onChangeFormResetState,
@@ -55,7 +57,9 @@ const renderMappingTypeForm = ({
       <MaterialTypeForm
         selectedServer={selectedServer}
         isMaterialTypeMappingsPending={isMaterialTypeMappingsPending}
+        isPending={isPending}
         isPristine={isPristine}
+        isServersPending={isServersPending}
         serverOptions={serverOptions}
         innReachItemTypeOptions={centralItemTypes}
         initialValues={initialValues}

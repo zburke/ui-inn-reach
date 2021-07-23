@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { NO_VALUE_OPTION_VALUE } from '../../../../constants';
 
 export const validateRequired = (value) => {
   return value
@@ -8,12 +9,10 @@ export const validateRequired = (value) => {
 };
 
 export const getFolioLocationOptions = (folioLocationsMap, libraryId) => {
-  if (!libraryId) return [];
-
   const locationsBySelectedLib = folioLocationsMap.get(libraryId);
   const noValueOption = {
     label: <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-location" />,
-    value: '',
+    value: NO_VALUE_OPTION_VALUE,
   };
 
   return locationsBySelectedLib.reduce((accum, { id, name, code }) => {
@@ -38,7 +37,7 @@ export const getLocalServerOptions = ({ localServerList }) => {
 
   const noValueOption = {
     label: <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.placeholder.local-server" />,
-    value: '',
+    value: NO_VALUE_OPTION_VALUE,
   };
 
   return localServerList.reduce((accum, { localCode, description }) => {
@@ -55,4 +54,14 @@ export const getLocalServerOptions = ({ localServerList }) => {
 
     return accum;
   }, []);
+};
+
+export const getSelectedOptionInfo = (selectedOptionValue) => {
+  const isNoValueOption = selectedOptionValue === NO_VALUE_OPTION_VALUE;
+  const selectedValue = isNoValueOption ? undefined : selectedOptionValue;
+
+  return {
+    isNoValueOption,
+    selectedValue,
+  };
 };

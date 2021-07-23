@@ -49,23 +49,21 @@ const renderForm = ({
   onCancel,
   initialValues,
   onSubmit,
-  isCentralServerDataInvalid,
   showPrevLocalServerValue,
-  onMakeValidCentralServerData,
   onShowPreviousLocalServerValue,
+  onChangePristineState,
 }) => {
   return renderWithIntl(
     <MemoryRouter>
       <CentralServersConfigurationContext.Provider value={data}>
         <CentralServersConfigurationForm
           initialValues={initialValues}
-          isCentralServerDataInvalid={isCentralServerDataInvalid}
           showPrevLocalServerValue={showPrevLocalServerValue}
           onSaveLocalServerKeypair={jest.fn()}
           onCancel={onCancel}
           onSubmit={onSubmit}
-          onMakeValidCentralServerData={onMakeValidCentralServerData}
           onShowPreviousLocalServerValue={onShowPreviousLocalServerValue}
+          onChangePristineState={onChangePristineState}
         />
       </CentralServersConfigurationContext.Provider>
     </MemoryRouter>,
@@ -76,12 +74,13 @@ const renderForm = ({
 describe('CentralServerConfigurationForm component', () => {
   const handleCancel = jest.fn();
   const handleSubmit = jest.fn();
-  const onMakeValidCentralServerData = jest.fn();
   const onShowPreviousLocalServerValue = jest.fn();
+  const onChangePristineState = jest.fn();
   const commonProps = {
     initialValues: initValues,
     onSubmit: handleSubmit,
     onCancel: handleCancel,
+    onChangePristineState,
   };
 
   it('should display "edit" title', () => {
@@ -121,17 +120,6 @@ describe('CentralServerConfigurationForm component', () => {
     renderForm(commonProps);
     userEvent.click(screen.getByRole('button', { name: 'Close' }));
     expect(handleCancel).toBeCalled();
-  });
-
-  it('should cause onMakeValidCentralServerData callback', () => {
-    const { getByRole } = renderForm({
-      ...commonProps,
-      isCentralServerDataInvalid: true,
-      onMakeValidCentralServerData,
-    });
-
-    userEvent.type(getByRole('textbox', { name: 'Central server address' }), 'https://opentown-lib.edu/andromeda');
-    expect(onMakeValidCentralServerData).toHaveBeenCalled();
   });
 
   it('should show the original data of the local server', () => {

@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { CONTRIBUTION_CRITERIA } from '../../constants';
-
-const {
-  CENTRAL_SERVER_ID,
-} = CONTRIBUTION_CRITERIA;
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+} from 'react';
 
 const useCentralServers = (history, servers) => {
   const [selectedServer, setSelectedServer] = useState({});
   const [isPristine, setIsPristine] = useState(true);
-  const [prevServerName, setPrevServerName] = useState('');
-  const [nextServer, setNextServer] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [nextLocation, setNextLocation] = useState(null);
   const [isResetForm, setIsResetForm] = useState(false);
+  const unblockRef = useRef();
 
-  const serverOptions = servers.map(({ id, name }) => ({
+  const serverOptions = useMemo(() => servers.map(({ id, name }) => ({
     id,
     value: name,
     label: name,
-  }));
+  })), [servers]);
 
   const changePristineState = (value) => {
     setIsPristine(value);
@@ -29,70 +28,42 @@ const useCentralServers = (history, servers) => {
   };
 
   const handleServerChange = (selectedServerName) => {
+    if (selectedServerName === selectedServer.name) return;
     const optedServer = servers.find(server => server.name === selectedServerName);
-    const isNewServerSelected = selectedServerName !== selectedServer.name;
 
-    if (isNewServerSelected) {
-      if (isPristine) {
-        setSelectedServer(optedServer);
-      } else {
-        setOpenModal(true);
-        setNextServer(optedServer);
-      }
-
-      setPrevServerName(selectedServer.name);
-    }
-  };
-
-  const backPrevServer = () => {
-    const index = servers.findIndex(server => server.name === prevServerName);
-    const prevOption = document.getElementById(`option-${CENTRAL_SERVER_ID}-${index}-${prevServerName}`);
-
-    if (prevOption) prevOption.click();
+    setSelectedServer(optedServer);
   };
 
   const handleModalConfirm = () => {
-    if (prevServerName) { // if a new central server was selected
-      backPrevServer();
-    }
-
-    setNextLocation(null);
     setOpenModal(false);
+  };
+
+  const navigate = () => {
+    unblockRef.current();
+    history.push(nextLocation?.pathname);
   };
 
   const handleModalCancel = () => {
-    if (prevServerName) { // if a new central server was selected
-      setSelectedServer(nextServer);
-    } else { // otherwise, the navigation to the current page or leave from the page was pressed
-      setSelectedServer({});
-    }
-
+    setSelectedServer({});
     setOpenModal(false);
     setIsResetForm(true);
+    navigate();
   };
 
   useEffect(() => {
-    if (isPristine && nextLocation) {
-      setNextLocation(null);
-      history.push(nextLocation.pathname);
-    }
-  }, [isPristine, nextLocation]);
-
-  useEffect(() => {
-    const unblock = history.block(nextLocat => {
-      if (isPristine) { // if we navigate somewhere with empty additional fields
+    unblockRef.current = history.block(nextLocat => {
+      if (isPristine) {
         setSelectedServer({});
-      } else if (!isPristine) { // if we navigate somewhere with filled additional fields
+      } else {
         setOpenModal(true);
         setNextLocation(nextLocat);
-        setPrevServerName('');
       }
 
       return isPristine;
     });
 
-    return () => unblock();
-  }, [isPristine]);
+    return () => unblockRef.current();
+  }, [isPristine, history]);
 
   return [
     selectedServer,
