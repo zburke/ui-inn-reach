@@ -144,7 +144,6 @@ const CentralConfigurationForm = ({
       <Button
         data-testid="cancel-button"
         buttonStyle="default mega"
-        id="cancel-instance-edition"
         onClick={onCancel}
       >
         <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.button.cancel" />
@@ -154,7 +153,6 @@ const CentralConfigurationForm = ({
     const saveButton = (
       <Button
         data-testid="save-button"
-        id="clickable-save-instance"
         buttonStyle="primary mega"
         type="submit"
         disabled={invalid || !getIsCentralServerDataChanged() || pristine}
@@ -346,7 +344,6 @@ const CentralConfigurationForm = ({
                   data-testid="generate-keypair"
                   buttonStyle="default"
                   buttonClass={styles.generateKeypair}
-                  id="cancel-instance-edition"
                   onClick={generateKeyAndSecret}
                 >
                   <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.button.generateKeypair" />
@@ -378,9 +375,7 @@ export default stripesFinalForm({
   validate,
   subscription: {
     invalid: true,
-    error: true,
     dirtyFieldsSinceLastSubmit: true,
-    submitSucceeded: true,
     values: true,
   },
   initialValuesEqual: (a, b) => isEqual(a, b),
