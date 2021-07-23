@@ -1,4 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -41,6 +46,7 @@ const CentralServersConfigurationEditRoute = ({
   },
   mutator,
 }) => {
+  const unblockRef = useRef();
   const showCallout = useCallout();
   const {
     folioLibraries,
@@ -54,17 +60,18 @@ const CentralServersConfigurationEditRoute = ({
 
   const navigateToView = () => history.push(getCentralServerConfigurationViewUrl(id));
 
+  const changeModalState = (value) => {
+    setOpenModal(value);
+  };
+
   const isLocalServerKeypairChanged = (record) => (
     initialValues.localServerKey !== record.localServerKey &&
     initialValues.localServerSecret !== record.localServerSecret
   );
 
-  const handleModalCancel = () => {
-    if (isLocalServerKeypairChanged(formData)) {
-      setShowPrevLocalServerValue(true);
-    }
-
-    setOpenModal(false);
+  const navigate = () => {
+    unblockRef.current();
+    navigateToView();
   };
 
   const saveData = (actualFormData) => {
@@ -90,7 +97,7 @@ const CentralServersConfigurationEditRoute = ({
           }
         }
 
-        navigateToView();
+        navigate();
         showCallout({ message: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.update.success" /> });
       })
       .catch(error => {
@@ -105,9 +112,21 @@ const CentralServersConfigurationEditRoute = ({
       });
   };
 
+  const handleModalCancel = () => {
+    if (isLocalServerKeypairChanged(formData)) {
+      setOpenModal(false);
+      saveData(formData);
+    } else {
+      navigate();
+    }
+  };
+
   const handleModalConfirm = () => {
+    if (isLocalServerKeypairChanged(formData)) {
+      setShowPrevLocalServerValue(true);
+    }
+
     setOpenModal(false);
-    saveData(formData);
   };
 
   const showPreviousLocalServerValue = (value) => {
@@ -124,8 +143,8 @@ const CentralServersConfigurationEditRoute = ({
       setModalContent({
         heading: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.edit.modal-heading.updateLocalServerKeyConfirmation" />,
         message: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.edit.modal-message.updateLocalServerKeypair" />,
-        cancelLabel: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-confirmLabel.keepEditing" />,
-        confirmLabel: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.edit.modal-button.confirm" />,
+        cancelLabel: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.edit.modal-button.confirm" />,
+        confirmLabel: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-confirmLabel.keepEditing" />,
       });
 
       setFormData(actualFormData);
@@ -137,10 +156,13 @@ const CentralServersConfigurationEditRoute = ({
 
   useEffect(() => {
     if (records[0] && folioLibraries.length) {
-      setInitialValues({
+      const originalValues = {
         ...records[0],
         localAgencies: getConvertedLocalAgencies(records[0].localAgencies, folioLibraries),
-      });
+      };
+
+      setInitialValues(originalValues);
+      setFormData(originalValues);
     }
   }, [records, folioLibraries]);
 
@@ -161,15 +183,18 @@ const CentralServersConfigurationEditRoute = ({
 
   return (
     <CentralServersConfigurationCreateEditContainer
+      history={history}
       initialValues={initialValues}
       showPrevLocalServerValue={showPrevLocalServerValue}
       openModal={openModal}
       modalContent={modalContent}
+      unblockRef={unblockRef}
       onShowPreviousLocalServerValue={showPreviousLocalServerValue}
       onFormCancel={navigateToView}
       onSubmit={handleUpdateRecord}
       onModalCancel={handleModalCancel}
       onModalConfirm={handleModalConfirm}
+      onChangeModalState={changeModalState}
     />
   );
 };
