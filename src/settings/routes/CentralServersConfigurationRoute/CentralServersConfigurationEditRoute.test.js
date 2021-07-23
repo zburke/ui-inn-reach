@@ -199,7 +199,6 @@ describe('CentralServersConfigurationEditRoute component', () => {
 
       expect(putMock).toHaveBeenCalled();
       expect(downloadJsonFile).not.toHaveBeenCalled();
-      expect(getCentralServerConfigurationViewUrl).toHaveBeenCalled();
 
       downloadJsonFile.mockRestore();
       getCentralServerConfigurationViewUrl.mockRestore();
@@ -269,11 +268,11 @@ describe('CentralServersConfigurationEditRoute component', () => {
         });
 
         act(() => {
-          CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(valuesWithChangedLocalServerKeyPair);
+          CentralServersConfigurationCreateEditContainer.mock.calls[1][0].onSubmit(valuesWithChangedLocalServerKeyPair);
         });
 
         act(() => {
-          CentralServersConfigurationCreateEditContainer.mock.calls[2][0].onModalConfirm();
+          CentralServersConfigurationCreateEditContainer.mock.calls[2][0].onModalCancel();
         });
       });
 
@@ -284,11 +283,6 @@ describe('CentralServersConfigurationEditRoute component', () => {
       it('should call downloadJsonFile with correct props', () => {
         expect(downloadJsonFile).toHaveBeenCalledWith(newLocalServerData, fileName);
         downloadJsonFile.mockRestore();
-      });
-
-      it('should call getCentralServerConfigurationViewUrl', () => {
-        expect(getCentralServerConfigurationViewUrl).toHaveBeenCalled();
-        getCentralServerConfigurationViewUrl.mockRestore();
       });
     });
   });
@@ -310,9 +304,8 @@ describe('CentralServersConfigurationEditRoute component', () => {
 
     it('should close modal', async () => {
       renderEditRoute();
-
-      await waitFor(() => CentralServersConfigurationCreateEditContainer.mock.calls[1][0].onModalCancel());
-      expect(CentralServersConfigurationCreateEditContainer.mock.calls[2][0]).toHaveProperty('openModal', false);
+      await waitFor(() => CentralServersConfigurationCreateEditContainer.mock.calls[1][0].onModalConfirm());
+      expect(CentralServersConfigurationCreateEditContainer.mock.calls[1][0]).toHaveProperty('openModal', false);
     });
   });
 
