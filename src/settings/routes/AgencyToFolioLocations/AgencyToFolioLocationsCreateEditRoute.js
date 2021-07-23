@@ -103,12 +103,7 @@ const AgencyToFolioLocationsCreateEditRoute = ({
 
     mutator.localServers.GET()
       .then(response => setLocalServers(response))
-      .catch(() => {
-        showCallout({
-          type: CALLOUT_ERROR_TYPE,
-          message: <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.callout.connection-problem.get" />,
-        });
-      })
+      .catch(() => null)
       .finally(() => setIsLocalServersPending(false));
   };
 
