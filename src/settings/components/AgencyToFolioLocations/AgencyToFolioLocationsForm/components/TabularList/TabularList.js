@@ -12,6 +12,7 @@ import {
 
 import {
   AGENCY_TO_FOLIO_LOCATIONS_FIELDS,
+  NO_VALUE_OPTION_VALUE,
 } from '../../../../../../constants';
 import {
   getFolioLocationOptions,
@@ -34,6 +35,7 @@ const TabularList = ({
   const { formatMessage } = useIntl();
 
   const handleLibraryChange = (libId, index, fields) => {
+    const isNoValueOption = libId === NO_VALUE_OPTION_VALUE;
     const {
       id,
       libraryId,
@@ -42,21 +44,24 @@ const TabularList = ({
 
     const rowData = {
       [AGENCY]: fields.value[index][AGENCY],
-      [LIBRARY_ID]: libId,
     };
 
+    if (!isNoValueOption) {
+      rowData[LIBRARY_ID] = libId;
+    }
     if (libraryId === libId) {
       rowData[LOCATION_ID] = locationId;
     }
-    if (id) {
-      rowData.id = id;
-    }
+    if (id) rowData.id = id;
 
     fields.update(index, rowData);
   };
 
   return (
-    <Col sm={12}>
+    <Col
+      sm={12}
+      data-testid={AGENCY_CODE_MAPPINGS}
+    >
       <Row>
         <Col
           className={css.tabularHeaderCol}
@@ -89,6 +94,7 @@ const TabularList = ({
                 className={css.tabularCol}
               >
                 <Field
+                  id={`${name}.${AGENCY}${index}`}
                   name={`${name}.${AGENCY}`}
                   component={({ input }) => input.value}
                 />
@@ -100,20 +106,21 @@ const TabularList = ({
                 <div className={css.topFieldWrapper}>
                   <Field
                     marginBottom0
-                    id={`${name}.${LIBRARY_ID}`}
+                    id={`${name}.${LIBRARY_ID}-${index}`}
                     name={`${name}.${LIBRARY_ID}`}
-                    aria-label={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-library' })}
+                    aria-label={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.field.folio-library-and-location' })}
                     component={Selection}
                     dataOptions={librariesOptions}
+                    placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-library' })}
                     onChange={libId => handleLibraryChange(libId, index, fields)}
                   />
                 </div>
                 <Field
                   marginBottom0
-                  id={`${name}.${LOCATION_ID}`}
+                  id={`${name}.${LOCATION_ID}-${index}`}
                   disabled={!libraryId}
                   name={`${name}.${LOCATION_ID}`}
-                  aria-label={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-location' })}
+                  aria-label={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.field.folio-library-and-location' })}
                   component={Selection}
                   dataOptions={locationOptions}
                   placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-location' })}

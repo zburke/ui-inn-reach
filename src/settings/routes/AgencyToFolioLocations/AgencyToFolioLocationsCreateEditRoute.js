@@ -145,11 +145,20 @@ const AgencyToFolioLocationsCreateEditRoute = ({
     setLibraryOptions(libOptions);
   };
 
-  const addLocalInitialValues = (localCode, libraryId, locationId) => {
-    const locServerData = getLocalServerData(agencyMappings, localCode);
+  const addLocalInitialValues = (localCode, libraryId, locationId, isNoValueOption) => {
     const { localServerList } = localServers;
+    let locServerData;
 
-    if (locServerData) {
+    if (!isNoValueOption) {
+      locServerData = getLocalServerData(agencyMappings, localCode);
+    }
+
+    if (isNoValueOption) {
+      setInitialValues({
+        libraryId,
+        locationId,
+      });
+    } else if (locServerData) {
       setInitialValues({
         libraryId,
         locationId,
