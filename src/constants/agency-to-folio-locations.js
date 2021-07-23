@@ -2,6 +2,7 @@ export const CIRCULATION_MAPPINGS = 'Circulation mappings';
 export const AGENCY_TO_FOLIO_LOCATIONS_ROUTE = 'agency-to-folio-locations';
 
 export const AGENCY_TO_FOLIO_LOCATIONS_FIELDS = {
+  ID: 'id',
   CENTRAL_SERVER_ID: 'centralServerId',
   LIBRARY_ID: 'libraryId',
   LOCATION_ID: 'locationId',

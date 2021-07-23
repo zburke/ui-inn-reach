@@ -103,12 +103,7 @@ const AgencyToFolioLocationsCreateEditRoute = ({
 
     mutator.localServers.GET()
       .then(response => setLocalServers(response))
-      .catch(() => {
-        showCallout({
-          type: CALLOUT_ERROR_TYPE,
-          message: <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.callout.connection-problem.get" />,
-        });
-      })
+      .catch(() => null)
       .finally(() => setIsLocalServersPending(false));
   };
 
@@ -145,11 +140,20 @@ const AgencyToFolioLocationsCreateEditRoute = ({
     setLibraryOptions(libOptions);
   };
 
-  const addLocalInitialValues = (localCode, libraryId, locationId) => {
-    const locServerData = getLocalServerData(agencyMappings, localCode);
+  const addLocalInitialValues = (localCode, libraryId, locationId, isNoValueOption) => {
     const { localServerList } = localServers;
+    let locServerData;
 
-    if (locServerData) {
+    if (!isNoValueOption) {
+      locServerData = getLocalServerData(agencyMappings, localCode);
+    }
+
+    if (isNoValueOption) {
+      setInitialValues({
+        libraryId,
+        locationId,
+      });
+    } else if (locServerData) {
       setInitialValues({
         libraryId,
         locationId,

@@ -5,6 +5,7 @@ import {
 import { FormattedMessage } from 'react-intl';
 import {
   AGENCY_TO_FOLIO_LOCATIONS_FIELDS,
+  NO_VALUE_OPTION_VALUE,
 } from '../../../constants';
 
 const {
@@ -51,7 +52,7 @@ export const getFolioLibraryOptions = (folioLibraries, campuses, institutions) =
   const mapByInstitutionId = getMapByInstitutionId(campuses, mapByCampusId);
   const noValueOption = {
     label: <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-library" />,
-    value: '',
+    value: NO_VALUE_OPTION_VALUE,
   };
 
   institutions.forEach(({ id, code: institutionCode }) => {
