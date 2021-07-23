@@ -21,6 +21,7 @@ import {
 import css from './TabularList.css';
 
 const {
+  ID,
   AGENCY,
   LIBRARY_ID,
   LOCATION_ID,
@@ -52,7 +53,7 @@ const TabularList = ({
     if (libraryId === libId) {
       rowData[LOCATION_ID] = locationId;
     }
-    if (id) rowData.id = id;
+    if (id) rowData[ID] = id;
 
     fields.update(index, rowData);
   };
