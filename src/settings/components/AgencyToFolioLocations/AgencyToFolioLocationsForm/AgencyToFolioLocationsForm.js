@@ -168,7 +168,7 @@ const AgencyToFolioLocationsForm = ({
     const saveButton = (
       <Button
         marginBottom0
-        buttonStyle="primary small"
+        buttonStyle="primary mega"
         type="submit"
         disabled={!enabled}
         onClick={handleSave}

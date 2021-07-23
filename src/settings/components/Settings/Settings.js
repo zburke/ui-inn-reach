@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -12,13 +14,16 @@ import {
 
 import SectionItem from './components/SectionItem';
 import {
-  SETTINGS_PANE_WIDTH,
+  SETTINGS_PANE_WIDTH, SETTINGS_PATH,
 } from '../../../constants';
 
 const Settings = ({
   sections,
   path,
+  location,
 }) => {
+  const [activeLink, setActiveLink] = useState('');
+
   return (
     <Pane
       defaultWidth={SETTINGS_PANE_WIDTH}
@@ -32,14 +37,26 @@ const Settings = ({
               key={index}
               label={section.label}
               data-testid="settings"
+              activeLink={activeLink}
             >
-              {section.pages.map(setting => (
-                <SectionItem
-                  setting={setting}
-                  path={path}
-                  key={setting.route}
-                />
-              ))}
+              {section.pages.map(setting => {
+                const { pathname } = location;
+                const link = `${path}/${setting.route}`;
+
+                if (pathname.endsWith(SETTINGS_PATH) && !!activeLink) {
+                  setActiveLink('');
+                } else if (pathname.startsWith(link) && activeLink !== link) {
+                  setActiveLink(link);
+                }
+
+                return (
+                  <SectionItem
+                    setting={setting}
+                    path={path}
+                    key={setting.route}
+                  />
+                );
+              })}
             </NavListSection>
           );
 
@@ -60,6 +77,7 @@ const Settings = ({
 };
 
 Settings.propTypes = {
+  location: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
   sections: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

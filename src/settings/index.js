@@ -38,6 +38,7 @@ const InnReachSettings = ({
     path,
   },
   mutator,
+  location,
 }) => {
   const showCallout = useCallout();
   const calloutRef = useRef(null);
@@ -81,6 +82,7 @@ const InnReachSettings = ({
         <Settings
           path={path}
           sections={sectionsToShow}
+          location={location}
         />
         {children}
       </CalloutContext.Provider>
@@ -100,6 +102,7 @@ InnReachSettings.manifest = Object.freeze({
 });
 
 InnReachSettings.propTypes = {
+  location: PropTypes.object.isRequired,
   match: PropTypes.shape({
     path: PropTypes.string.isRequired,
   }).isRequired,
