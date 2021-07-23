@@ -83,13 +83,11 @@ const CentralConfigurationForm = ({
     section2: true,
   });
 
-  const loanTypeOptions = useMemo(() => (loanTypes
-    ? loanTypes.map(({ id, name }) => ({
-      label: name,
-      value: id,
-      id,
-    }))
-    : []), [loanTypes]);
+  const loanTypeOptions = useMemo(() => loanTypes.map(({ id, name }) => ({
+    label: name,
+    value: id,
+    id,
+  })), [loanTypes]);
 
   const changeLocalServerKeypair = (localServerKey, localServerSecret) => {
     form.change(LOCAL_SERVER_KEY, localServerKey);

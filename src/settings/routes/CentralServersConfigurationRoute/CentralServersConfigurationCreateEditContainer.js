@@ -59,7 +59,7 @@ const CentralServersConfigurationCreateEditContainer = ({
     });
 
     return () => unblockRef.current();
-  }, [isPristine]);
+  }, [isPristine, history]);
 
   return (
     <Paneset>
