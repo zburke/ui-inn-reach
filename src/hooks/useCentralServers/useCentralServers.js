@@ -92,7 +92,7 @@ const useCentralServers = (history, servers) => {
     });
 
     return () => unblock();
-  }, [isPristine]);
+  }, [isPristine, history]);
 
   return [
     selectedServer,
