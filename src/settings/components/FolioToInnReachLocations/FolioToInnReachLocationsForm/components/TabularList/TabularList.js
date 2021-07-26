@@ -1,6 +1,4 @@
-import React, {
-  useMemo,
-} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { Field } from 'react-final-form';
@@ -12,7 +10,9 @@ import {
   Selection,
 } from '@folio/stripes-components';
 
-import { FOLIO_TO_INN_REACH_LOCATION_FIELDS } from '../../../../../../constants';
+import {
+  FOLIO_TO_INN_REACH_LOCATION_FIELDS,
+} from '../../../../../../constants';
 import css from './TabularList.css';
 
 const {
@@ -23,15 +23,10 @@ const {
 } = FOLIO_TO_INN_REACH_LOCATION_FIELDS;
 
 const TabularList = ({
-  innReachLocations,
+  innReachLocationOptions,
   leftColumnName,
 }) => {
   const { formatMessage } = useIntl();
-
-  const innReachLocationOptions = useMemo(() => innReachLocations.map(({ code }) => ({
-    value: code,
-    label: code,
-  })), [innReachLocations]);
 
   const validate = (value, allValues) => {
     const tabularList = allValues[TABULAR_LIST];
@@ -107,7 +102,7 @@ const TabularList = ({
 };
 
 TabularList.propTypes = {
-  innReachLocations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  innReachLocationOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   leftColumnName: PropTypes.string.isRequired,
 };
 

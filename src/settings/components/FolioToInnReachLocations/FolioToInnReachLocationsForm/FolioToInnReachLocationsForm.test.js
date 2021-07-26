@@ -6,7 +6,10 @@ import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/react';
 import { translationsProperties } from '../../../../../test/jest/helpers';
 import FolioToInnReachLocationsForm from './FolioToInnReachLocationsForm';
-import { FOLIO_TO_INN_REACH_LOCATION_FIELDS } from '../../../../constants';
+import {
+  FOLIO_TO_INN_REACH_LOCATION_FIELDS,
+  NO_VALUE_OPTION,
+} from '../../../../constants';
 
 const {
   FOLIO_LIBRARY,
@@ -27,6 +30,7 @@ const serverOptions = [
 ];
 
 const serverLibrariesOptions = [
+  NO_VALUE_OPTION,
   {
     id: '0939ebc4-cf37-4968-841e-912c0c02eacf',
     label: 'newLib (QWER)',
@@ -78,7 +82,6 @@ const mappingTypesOptions = [
 ];
 
 const renderFolioToInnReachLocationsForm = ({
-  // selectedServer = selectedServerMock,
   selectedServer = {},
   mappingType = '',
   isPristine = true,

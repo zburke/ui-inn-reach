@@ -119,6 +119,7 @@
   "settings.folio-to-inn-reach-locations.field.libraries": "Libraries",
   "settings.folio-to-inn-reach-locations.field.locations": "Locations",
   "settings.folio-to-inn-reach-locations.field.inn-reach-locations": "INN-Reach locations",
+  "settings.folio-to-inn-reach-locations.placeholder.select-location": "Select location",
   "settings.folio-to-inn-reach-locations.field-value.libraries": "Libraries",
   "settings.folio-to-inn-reach-locations.field-value.locations": "Locations",
   "settings.folio-to-inn-reach-locations.create-edit.modal-message.unsavedChanges": "There are unsaved changes",

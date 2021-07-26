@@ -1,4 +1,7 @@
-import { FOLIO_TO_INN_REACH_LOCATION_FIELDS } from '../../../constants';
+import {
+  FOLIO_TO_INN_REACH_LOCATION_FIELDS,
+  NO_VALUE_OPTION,
+} from '../../../constants';
 
 const {
   INN_REACH_LOCATIONS,
@@ -14,9 +17,10 @@ export const getServerOptions = (servers) => {
   }));
 };
 
-export const getLibraryOptions = (localAgencies, folioLibraries) => {
+export const getServerLibraries = (localAgencies, folioLibraries) => {
   const librariesIdsOfSelectedServer = new Set();
-  const libraryOptions = [];
+  const formattedLibraries = [];
+  const libraryOptions = [NO_VALUE_OPTION];
 
   localAgencies.forEach(({ folioLibraryIds }) => {
     folioLibraryIds.forEach(libraryId => {
@@ -25,18 +29,21 @@ export const getLibraryOptions = (localAgencies, folioLibraries) => {
   });
 
   for (const { id, name, code } of folioLibraries) {
-    if (libraryOptions.length === librariesIdsOfSelectedServer.size) break;
+    if (formattedLibraries.length === librariesIdsOfSelectedServer.size) break;
 
     if (librariesIdsOfSelectedServer.has(id)) {
-      libraryOptions.push({
+      const option = {
         id,
         label: `${name} (${code})`,
         value: name,
-      });
+      };
+
+      formattedLibraries.push(option);
+      libraryOptions.push(option);
     }
   }
 
-  return libraryOptions;
+  return { formattedLibraries, libraryOptions };
 };
 
 const getCampusId = ({
@@ -180,8 +187,8 @@ export const getLeftColumnLocations = ({
   }, []);
 };
 
-export const getLeftColumnLibraries = (serverLibrariesOptions) => {
-  return serverLibrariesOptions.map(({ label }) => ({
+export const getLeftColumnLibraries = (serverLibraries) => {
+  return serverLibraries.map(({ label }) => ({
     [FOLIO_LIBRARY]: label,
   }));
 };
@@ -218,13 +225,13 @@ export const getTabularListForLocations = ({
 };
 
 export const getLibrariesTabularList = ({
-  serverLibrariesOptions,
+  serverLibraries,
   libMappingsMap,
   innReachLocations,
 }) => {
   const innReachLocationsMap = getInnReachLocationsMap(innReachLocations);
 
-  return serverLibrariesOptions.map(({ id, label }) => {
+  return serverLibraries.map(({ id, label }) => {
     let innReachLocationCode = '';
     const isCodeSelected = libMappingsMap.has(id);
 

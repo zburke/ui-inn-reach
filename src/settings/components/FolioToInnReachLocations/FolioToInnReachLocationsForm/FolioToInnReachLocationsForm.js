@@ -1,5 +1,6 @@
 import React, {
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import stripesFinalForm from '@folio/stripes/final-form';
@@ -18,6 +19,9 @@ import {
   FOLIO_TO_INN_REACH_LOCATION_FIELDS,
 } from '../../../../constants';
 import { TabularList } from './components';
+import {
+  getInnReachLocationOptions,
+} from './utils';
 
 const {
   CENTRAL_SERVER,
@@ -33,7 +37,7 @@ const FolioToInnReachLocationsForm = ({
   mappingType,
   innReachLocations,
   serverOptions,
-  serverLibrariesOptions,
+  serverLibraryOptions,
   mappingTypesOptions,
   formatMessage,
   librariesMappingType,
@@ -51,6 +55,8 @@ const FolioToInnReachLocationsForm = ({
   onChangeLibrary,
 }) => {
   const [isRequiredFieldsFilledIn, setIsRequiredFieldsFilledIn] = useState(false);
+
+  const innReachLocationOptions = useMemo(() => getInnReachLocationOptions(innReachLocations), [innReachLocations]);
 
   const leftColumnName = mappingType === librariesMappingType
     ? FOLIO_LIBRARY
@@ -131,7 +137,7 @@ const FolioToInnReachLocationsForm = ({
         id={LIBRARY}
         label={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.library" />}
         placeholder={formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.placeholder.select-library' })}
-        dataOptions={serverLibrariesOptions}
+        dataOptions={serverLibraryOptions}
         onChange={onChangeLibrary}
       />
       }
@@ -139,7 +145,7 @@ const FolioToInnReachLocationsForm = ({
       <form>
         {isShowTabularList &&
           <TabularList
-            innReachLocations={innReachLocations}
+            innReachLocationOptions={innReachLocationOptions}
             leftColumnName={leftColumnName}
           />
         }
@@ -162,7 +168,7 @@ FolioToInnReachLocationsForm.propTypes = {
   mappingTypesOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   pristine: PropTypes.bool.isRequired,
   selectedServer: PropTypes.object.isRequired,
-  serverLibrariesOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  serverLibraryOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   values: PropTypes.object.isRequired,
   onChangeFormResetState: PropTypes.func.isRequired,
