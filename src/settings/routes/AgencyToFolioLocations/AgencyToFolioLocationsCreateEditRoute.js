@@ -24,6 +24,9 @@ import {
   AGENCY_TO_FOLIO_LOCATIONS_FIELDS,
 } from '../../../constants';
 import {
+  getFolioLocationOptions,
+} from '../../components/AgencyToFolioLocations/AgencyToFolioLocationsForm/utils';
+import {
   getFolioLibraryOptions,
   getFolioLocationsMap,
   getLocalInitialValues,
@@ -89,6 +92,8 @@ const AgencyToFolioLocationsCreateEditRoute = ({
   const [libraryOptions, setLibraryOptions] = useState([]);
   const [folioLocationsMap, setFolioLocationsMap] = useState(null);
   const [nextLocation, setNextLocation] = useState(null);
+  const [serverLocationOptions, setServerLocationOptions] = useState([]);
+  const [localServerLocationOptions, setLocalServerLocationOptions] = useState([]);
 
   const serverOptions = useMemo(() => getServerOptions(servers), [servers]);
 
@@ -126,6 +131,14 @@ const AgencyToFolioLocationsCreateEditRoute = ({
     setIsResetForm(value);
   };
 
+  const changeServerLocationOptions = (locOptions) => {
+    setServerLocationOptions(locOptions);
+  };
+
+  const changeLocalServerLocationOptions = (locOptions) => {
+    setLocalServerLocationOptions(locOptions);
+  };
+
   const changeServer = (selectedServerId) => {
     if (selectedServerId === selectedServer.id) return;
 
@@ -154,10 +167,26 @@ const AgencyToFolioLocationsCreateEditRoute = ({
         locationId,
       });
     } else if (locServerData) {
+      const {
+        localCode: localCodeValue,
+        localServerLibraryId,
+        localServerLocationId,
+        agencyCodeMappings,
+      } = getLocalInitialValues(localServerList, agencyMappings, locServerData);
+
+      if (localServerLibraryId) {
+        const locOptions = getFolioLocationOptions(folioLocationsMap, localServerLibraryId);
+
+        setLocalServerLocationOptions(locOptions);
+      }
+
       setInitialValues({
         libraryId,
         locationId,
-        ...getLocalInitialValues(localServerList, agencyMappings, localCode, locServerData),
+        localCode: localCodeValue,
+        localServerLibraryId,
+        localServerLocationId,
+        agencyCodeMappings,
       });
     } else {
       setInitialValues({
@@ -234,6 +263,10 @@ const AgencyToFolioLocationsCreateEditRoute = ({
       if (localCode) {
         addLocalInitialValues(localCode, libraryId, locationId);
       } else {
+        const locOptions = getFolioLocationOptions(folioLocationsMap, libraryId);
+
+        setServerLocationOptions(locOptions);
+
         setInitialValues({
           libraryId,
           locationId,
@@ -290,11 +323,15 @@ const AgencyToFolioLocationsCreateEditRoute = ({
         formatMessage={formatMessage}
         initialValues={initialValues}
         isResetForm={isResetForm}
+        serverLocationOptions={serverLocationOptions}
+        localServerLocationOptions={localServerLocationOptions}
         onSubmit={handleSubmit}
         onChangeServer={changeServer}
         onChangeLocalServer={addLocalInitialValues}
         onChangePristineState={changePristineState}
         onChangeFormResetState={changeFormResetState}
+        onChangeServerLocationOptions={changeServerLocationOptions}
+        onChangeLocalServerLocationOptions={changeLocalServerLocationOptions}
       />
       <ConfirmationModal
         id="cancel-editing-confirmation"
