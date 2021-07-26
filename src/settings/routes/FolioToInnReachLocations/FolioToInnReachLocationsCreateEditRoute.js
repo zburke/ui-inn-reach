@@ -336,7 +336,7 @@ FolioToInnReachLocationsCreateEditRoute.manifest = Object.freeze({
   selectedLibraryId: { initialValue: '' },
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers',
+    path: 'inn-reach/central-servers?limit=1000',
     throwErrors: false,
   },
   folioLibraries: {

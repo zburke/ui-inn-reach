@@ -89,7 +89,7 @@ const CentralServersConfigurationListRoute = ({
 CentralServersConfigurationListRoute.manifest = Object.freeze({
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers',
+    path: 'inn-reach/central-servers?limit=1000',
     fetch: false,
     accumulate: true,
     throwErrors: false,

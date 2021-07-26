@@ -1,9 +1,8 @@
 import React, {
   useEffect,
-  useState,
+  useMemo,
 } from 'react';
 import {
-  isEmpty,
   isEqual,
 } from 'lodash';
 import { Field } from 'react-final-form';
@@ -29,6 +28,10 @@ import {
 } from '../../../../constants';
 
 import css from './ContributionCriteriaForm.css';
+import {
+  getFolioLocations,
+  getStatisticalCodeOptions,
+} from './utils';
 
 const {
   CENTRAL_SERVER_ID,
@@ -56,41 +59,10 @@ const ContributionCriteriaForm = ({
   onChangeServer,
 }) => {
   const { formatMessage } = useIntl();
-  const [statisticalCodeOptions, setStatisticalCodeOptions] = useState([]);
-  const [folioLocationOptions, setFolioLocationOptions] = useState([]);
-
-  useEffect(() => {
-    if (!isEmpty(folioLocations)) {
-      const folioLocationOpts = folioLocations.map(({ id, name }) => ({
-        label: name,
-        value: id,
-      }));
-
-      setFolioLocationOptions(folioLocationOpts);
-    }
-  }, [folioLocations]);
-
-  useEffect(() => {
-    if (!isEmpty(statisticalCodes) && !isEmpty(statisticalCodeTypes)) {
-      const statisticalCodeOpts = statisticalCodes.map(stCode => {
-        const codeTypeName = statisticalCodeTypes.find(stCodeType => stCode.statisticalCodeTypeId === stCodeType.id)?.name;
-        const label = `${codeTypeName}: ${stCode.code} - ${stCode.name}`;
-        const isOptionDisabled = [
-          values[CONTRIBUTE_BUT_SUPPRESS_ID],
-          values[DO_NOT_CONTRIBUTE_ID],
-          values[CONTRIBUTE_AS_SYSTEM_OWNED_ID],
-        ].includes(stCode.id);
-
-        return {
-          label,
-          value: stCode.id,
-          disabled: isOptionDisabled,
-        };
-      });
-
-      setStatisticalCodeOptions(statisticalCodeOpts);
-    }
-  }, [statisticalCodes, statisticalCodeTypes, values]);
+  const folioLocationOptions = useMemo(() => getFolioLocations(folioLocations), [folioLocations]);
+  const statisticalCodeOptions = useMemo(() => {
+    return getStatisticalCodeOptions(statisticalCodes, statisticalCodeTypes, formatMessage, values);
+  }, [statisticalCodes, statisticalCodeTypes, formatMessage, values]);
 
   useEffect(() => {
     if (isResetForm) {
@@ -158,7 +130,6 @@ const ContributionCriteriaForm = ({
                 label={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.field.contributeButSuppress" />}
                 name={CONTRIBUTE_BUT_SUPPRESS_ID}
                 component={Select}
-                placeholder=" "
                 dataOptions={statisticalCodeOptions}
                 selectClass={css.selectControl}
               />
@@ -170,7 +141,6 @@ const ContributionCriteriaForm = ({
                 label={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.field.doNotContribute" />}
                 name={DO_NOT_CONTRIBUTE_ID}
                 component={Select}
-                placeholder=" "
                 dataOptions={statisticalCodeOptions}
                 selectClass={css.selectControl}
               />
@@ -182,7 +152,6 @@ const ContributionCriteriaForm = ({
                 label={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.field.contributeAsSystemOwned" />}
                 name={CONTRIBUTE_AS_SYSTEM_OWNED_ID}
                 component={Select}
-                placeholder=" "
                 dataOptions={statisticalCodeOptions}
                 selectClass={css.selectControl}
               />

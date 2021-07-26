@@ -5,7 +5,7 @@ import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/react';
 import { translationsProperties } from '../../../../../test/jest/helpers';
-import { DEFAULT_VALUES } from '../../../routes/ContributionCriteriaRoute/ContributionCriteriaCreateEditRoute';
+import { DEFAULT_VALUES } from '../../../routes/ContributionCriteriaRoute/utils';
 import ContributionCriteriaForm from './ContributionCriteriaForm';
 import { CONTRIBUTION_CRITERIA } from '../../../../constants';
 

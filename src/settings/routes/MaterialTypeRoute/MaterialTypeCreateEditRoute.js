@@ -77,7 +77,7 @@ const MaterialTypeCreateEditRoute = ({
   const getFormatedInnReachItemTypeOptions = useMemo(() => {
     let options = [];
     const noValueOption = {
-      label: <FormattedMessage id="ui-inn-reach.settings.material-type-mapping.no-selection" />,
+      label: <FormattedMessage id="ui-inn-reach.no-selection" />,
       value: NO_VALUE_OPTION_VALUE,
     };
     const innReachOptions = innReachItemTypes.map(type => ({
@@ -192,7 +192,7 @@ const MaterialTypeCreateEditRoute = ({
 MaterialTypeCreateEditRoute.manifest = Object.freeze({
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers',
+    path: 'inn-reach/central-servers?limit=1000',
     throwErrors: false,
   },
   materialTypes: {

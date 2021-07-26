@@ -1,5 +1,6 @@
 {
   "meta.title": "INN-Reach",
+  "no-selection": "No selection",
   "settings.title": "INN-Reach",
   "settings.central-servers.list.title": "Central servers",
   "settings.central-servers.view.title": "View {name}",
@@ -174,7 +175,6 @@
   "settings.material-type-mapping.field.centralServer": "Central server",
   "settings.material-type-mapping.title": "Material to item type mapping",
   "settings.material-type-mapping.placeholder.centralServer": "Select central server",
-  "settings.material-type-mapping.no-selection": "No selection",
 
   "settings.agency-to-folio-locations.title": "Agency to FOLIO location",
   "settings.agency-to-folio-locations.button.save": "Save",

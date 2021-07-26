@@ -5,7 +5,6 @@ import React, {
 import ReactRouterPropTypes from 'react-router-prop-types';
 import PropTypes from 'prop-types';
 import {
-  omit,
   isEmpty,
 } from 'lodash';
 import {
@@ -20,23 +19,17 @@ import { stripesConnect } from '@folio/stripes/core';
 
 import {
   CALLOUT_ERROR_TYPE,
-  CONTRIBUTION_CRITERIA,
-  METADATA,
 } from '../../../constants';
 import ContributionCriteriaForm from '../../components/ContributionCriteria/ContributionCriteriaForm';
 import {
   useCallout,
   useCentralServers,
 } from '../../../hooks';
-
-const {
-  CENTRAL_SERVER_ID,
-  LOCATIONS_IDS,
-} = CONTRIBUTION_CRITERIA;
-
-export const DEFAULT_VALUES = {
-  [LOCATIONS_IDS]: [],
-};
+import {
+  getFinalRecord,
+  getInitialValues,
+  DEFAULT_VALUES,
+} from './utils';
 
 const ContributionCriteriaCreateEditRoute = ({
   resources: {
@@ -91,20 +84,13 @@ const ContributionCriteriaCreateEditRoute = ({
   const handleSubmit = (record) => {
     const { contributionCriteria: { POST, PUT } } = mutator;
     const saveMethod = isEmpty(contributionCriteria) ? POST : PUT;
-    const FOLIOLocations = record[LOCATIONS_IDS];
-    const finalRecord = {
-      ...omit(record, LOCATIONS_IDS, METADATA),
-    };
-
-    if (FOLIOLocations.length) {
-      finalRecord[LOCATIONS_IDS] = FOLIOLocations.map(({ value }) => value);
-    }
+    const finalRecord = getFinalRecord(record);
 
     saveMethod(finalRecord)
       .then(() => {
         const action = isEmpty(contributionCriteria) ? 'create' : 'update';
 
-        fetchContributionCriteria();
+        setContributionCriteria(finalRecord);
         showCallout({ message: <FormattedMessage id={`ui-inn-reach.settings.contribution-criteria.${action}.success`} /> });
       })
       .catch(() => {
@@ -129,20 +115,7 @@ const ContributionCriteriaCreateEditRoute = ({
 
   useEffect(() => {
     if (!isEmpty(contributionCriteria)) {
-      const locationIds = contributionCriteria[LOCATIONS_IDS];
-      const originalValues = {
-        ...DEFAULT_VALUES,
-        ...omit(contributionCriteria, LOCATIONS_IDS, CENTRAL_SERVER_ID),
-      };
-
-      if (locationIds) {
-        const formattedLocations = locationIds.map(id => ({
-          value: id,
-          label: folioLocations.find(location => location.id === id)?.name,
-        }));
-
-        originalValues[LOCATIONS_IDS] = formattedLocations;
-      }
+      const originalValues = getInitialValues(contributionCriteria, folioLocations);
 
       setInitialValues(originalValues);
     }
@@ -184,7 +157,7 @@ const ContributionCriteriaCreateEditRoute = ({
 ContributionCriteriaCreateEditRoute.manifest = Object.freeze({
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers',
+    path: 'inn-reach/central-servers?limit=1000',
     throwErrors: false,
   },
   folioLocations: {
