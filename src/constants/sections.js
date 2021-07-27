@@ -29,7 +29,7 @@ import {
 
 export const sections = [
   {
-    label: <FormattedMessage id="ui-inn-reach.settings.general" />,
+    label: 'ui-inn-reach.settings.general',
     pages: [
       {
         route: 'central-server-configurations',
@@ -45,7 +45,7 @@ export const sections = [
   },
   {
     id: RECORD_CONTRIBUTION,
-    label: <FormattedMessage id="ui-inn-reach.settings.record-contribution" />,
+    label: 'ui-inn-reach.settings.record-contribution',
     pages: [
       {
         route: CONTRIBUTION_CRITERIA_ROUTE,
@@ -71,7 +71,7 @@ export const sections = [
   },
   {
     id: CIRCULATION_MAPPINGS,
-    label: <FormattedMessage id="ui-inn-reach.settings.circulation-mappings" />,
+    label: 'ui-inn-reach.settings.circulation-mappings',
     pages: [
       {
         route: AGENCY_TO_FOLIO_LOCATIONS_ROUTE,

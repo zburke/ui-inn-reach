@@ -2,7 +2,7 @@ import React, {
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { IfInterface } from '@folio/stripes/core';
 import {
@@ -22,6 +22,7 @@ const Settings = ({
   path,
   location,
 }) => {
+  const { formatMessage } = useIntl();
   const [activeLink, setActiveLink] = useState('');
 
   return (
@@ -30,12 +31,17 @@ const Settings = ({
       paneTitle={<FormattedMessage id="ui-inn-reach.meta.title" />}
       firstMenu={<PaneBackLink to="/settings" />}
     >
-      <NavList>
-        {sections.map((section, index) => {
-          const sectionInner = (
+      {sections.map((section, index) => {
+        const label = formatMessage({ id: section.label });
+
+        const sectionInner = (
+          <NavList
+            tabIndex="0"
+            key={index}
+            aria-label={label}
+          >
             <NavListSection
-              key={index}
-              label={section.label}
+              label={label}
               data-testid="settings"
               activeLink={activeLink}
             >
@@ -58,20 +64,20 @@ const Settings = ({
                 );
               })}
             </NavListSection>
-          );
+          </NavList>
+        );
 
-          return section.interface
-            ? (
-              <IfInterface
-                key={index}
-                name={section.interface}
-              >
-                {sectionInner}
-              </IfInterface>
-            )
-            : sectionInner;
-        })}
-      </NavList>
+        return section.interface
+          ? (
+            <IfInterface
+              key={index}
+              name={section.interface}
+            >
+              {sectionInner}
+            </IfInterface>
+          )
+          : sectionInner;
+      })}
     </Pane>
   );
 };
