@@ -33,8 +33,10 @@ import {
   getLeftColumn,
   getLocalServerData,
   getLocalServers,
-  getServerOptions,
 } from './utils';
+import {
+  getCentralServerOptions,
+} from '../../../utils';
 
 const {
   LIBRARY_ID,
@@ -95,7 +97,7 @@ const AgencyToFolioLocationsCreateEditRoute = ({
   const [serverLocationOptions, setServerLocationOptions] = useState([]);
   const [localServerLocationOptions, setLocalServerLocationOptions] = useState([]);
 
-  const serverOptions = useMemo(() => getServerOptions(servers), [servers]);
+  const serverOptions = useMemo(() => getCentralServerOptions(servers), [servers]);
 
   const fetchAgencyMappings = () => {
     mutator.agencyMappings.GET()
@@ -139,10 +141,10 @@ const AgencyToFolioLocationsCreateEditRoute = ({
     setLocalServerLocationOptions(locOptions);
   };
 
-  const changeServer = (selectedServerId) => {
-    if (selectedServerId === selectedServer.id) return;
+  const changeServer = (selectedServerName) => {
+    if (selectedServerName === selectedServer.name) return;
 
-    const optedServer = servers.find(server => server.id === selectedServerId);
+    const optedServer = servers.find(server => server.name === selectedServerName);
     const libOptions = getFolioLibraryOptions(folioLibraries, campuses, institutions);
 
     setSelectedServer(optedServer);

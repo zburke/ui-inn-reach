@@ -225,7 +225,7 @@ const AgencyToFolioLocationsForm = ({
           label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.central-server" />}
           dataOptions={serverOptions}
           placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.central-server' })}
-          value={selectedServer.id}
+          value={selectedServer.name}
           onChange={onChangeServer}
         />
         {isLocalServersPending && <Loading />}
@@ -318,8 +318,8 @@ AgencyToFolioLocationsForm.propTypes = {
     locationId: PropTypes.string,
     localServers: PropTypes.arrayOf(PropTypes.shape({
       localCode: PropTypes.string,
-      localServerLibraryId: PropTypes.string,
-      localServerLocationId: PropTypes.string,
+      libraryId: PropTypes.string,
+      locationId: PropTypes.string,
       agencyCodeMappings: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
         agencyCode: PropTypes.string,

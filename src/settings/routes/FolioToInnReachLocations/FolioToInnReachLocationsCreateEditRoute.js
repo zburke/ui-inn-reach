@@ -34,8 +34,10 @@ import {
   getFinalLibraryMappings,
   getTabularListMapForLibraries,
   getLibrariesMappingsMap,
-  getServerOptions,
 } from './utils';
+import {
+  getCentralServerOptions,
+} from '../../../utils';
 
 const {
   TABULAR_LIST,
@@ -86,7 +88,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   const [locationMappingsMap, setLocationMappingsMap] = useState(null);
   const [librariesMappingsMap, setLibrariesMappingsMap] = useState(null);
 
-  const serverOptions = useMemo(() => getServerOptions(servers), [servers]);
+  const serverOptions = useMemo(() => getCentralServerOptions(servers), [servers]);
   const librariesMappingType = formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field-value.libraries' });
   const locationsMappingType = formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field-value.locations' });
   const mappingTypePlaceholder = formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.placeholder.select-type-to-map' });
