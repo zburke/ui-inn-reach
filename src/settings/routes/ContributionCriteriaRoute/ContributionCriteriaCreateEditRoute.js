@@ -66,7 +66,7 @@ const ContributionCriteriaCreateEditRoute = ({
     handleModalCancel,
   ] = useCentralServers(history, servers);
   const showCallout = useCallout();
-  const [contributionCriteria, setContributionCriteria] = useState({});
+  const [contributionCriteria, setContributionCriteria] = useState(null);
   const [initialValues, setInitialValues] = useState(DEFAULT_VALUES);
   const [isContributionCriteriaPending, setIsContributionCriteriaPending] = useState(false);
 
@@ -127,6 +127,7 @@ const ContributionCriteriaCreateEditRoute = ({
     <>
       <ContributionCriteriaForm
         selectedServer={selectedServer}
+        contributionCriteria={contributionCriteria}
         isContributionCriteriaPending={isContributionCriteriaPending}
         isPristine={isPristine}
         serverOptions={serverOptions}

@@ -10,7 +10,6 @@ import {
 
 const {
   LOCATIONS_IDS,
-  CENTRAL_SERVER_ID,
 } = CONTRIBUTION_CRITERIA;
 
 export const DEFAULT_VALUES = {
@@ -25,32 +24,28 @@ const getLocations = (locationIds, folioLocations) => {
 };
 
 export const getInitialValues = (contributionCriteria, folioLocations) => {
-  const locationIds = contributionCriteria[LOCATIONS_IDS];
-  const initialValues = {
-    ...DEFAULT_VALUES,
-    ...omit(contributionCriteria, LOCATIONS_IDS, CENTRAL_SERVER_ID),
-  };
+  const initialValues = { ...DEFAULT_VALUES };
 
-  if (locationIds) {
-    initialValues[LOCATIONS_IDS] = getLocations(locationIds, folioLocations);
-  }
+  forEach(contributionCriteria, (value, key) => {
+    if (key === LOCATIONS_IDS) {
+      if (!isEmpty(value)) {
+        initialValues[key] = getLocations(value, folioLocations);
+      }
+    } else if (value) {
+      initialValues[key] = value;
+    }
+  });
 
   return initialValues;
 };
 
 export const getFinalRecord = (record) => {
-  const finalRecord = {};
+  const finalRecord = omit(record, LOCATIONS_IDS, METADATA);
   const folioLocations = record[LOCATIONS_IDS];
 
-  forEach(record, (value, key) => {
-    if (key === LOCATIONS_IDS) {
-      if (!isEmpty(folioLocations)) {
-        finalRecord[LOCATIONS_IDS] = folioLocations.map(({ val }) => val);
-      }
-    } else if (key !== METADATA && value) {
-      finalRecord[key] = value;
-    }
-  });
+  if (!isEmpty(folioLocations)) {
+    finalRecord[LOCATIONS_IDS] = folioLocations.map(({ val }) => val);
+  }
 
   return finalRecord;
 };

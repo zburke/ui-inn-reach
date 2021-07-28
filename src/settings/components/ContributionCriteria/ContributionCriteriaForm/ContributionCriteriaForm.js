@@ -43,6 +43,7 @@ const {
 
 const ContributionCriteriaForm = ({
   selectedServer,
+  contributionCriteria,
   isContributionCriteriaPending,
   isPristine,
   serverOptions,
@@ -112,7 +113,7 @@ const ContributionCriteriaForm = ({
         </Col>
       </Row>
       {isContributionCriteriaPending && <Loading />}
-      {selectedServer.id && !isContributionCriteriaPending &&
+      {selectedServer.id && !isContributionCriteriaPending && contributionCriteria &&
         <form>
           <Row>
             <Col sm={12}>
@@ -176,6 +177,7 @@ ContributionCriteriaForm.propTypes = {
   onChangeFormResetState: PropTypes.func.isRequired,
   onChangePristineState: PropTypes.func.isRequired,
   onChangeServer: PropTypes.func.isRequired,
+  contributionCriteria: PropTypes.object,
   folioLocations: PropTypes.arrayOf(PropTypes.object),
   statisticalCodeTypes: PropTypes.arrayOf(PropTypes.object),
   statisticalCodes: PropTypes.arrayOf(PropTypes.object),
