@@ -14,7 +14,8 @@ import {
 
 import SectionItem from './components/SectionItem';
 import {
-  SETTINGS_PANE_WIDTH, SETTINGS_PATH,
+  SETTINGS_PANE_WIDTH,
+  SETTINGS_PATH,
 } from '../../../constants';
 
 const Settings = ({
