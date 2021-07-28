@@ -11,7 +11,7 @@
   "settings.central-server.configuration": "Central Server Configuration",
   "settings.innreach.locations": "INN-Reach Locations",
   "settings.contribution-criteria": "Contribution criteria",
-  "settings.contribution-options": "Item contribution options",
+  "settings.contribution-options": "Circulation status mapping",
   "settings.folio-to-inn-reach-locations": "FOLIO to INN-Reach locations",
   "settings.agency-to-folio-locations": "Agency to FOLIO location",
   "settings.some-feature.message": "These are your settings for some app feature.",
@@ -146,7 +146,7 @@
   "settings.contribution-options.status.unavailable": "Unavailable",
   "settings.contribution-options.status.unknown": "Unknown",
 
-  "settings.contribution-options.title": "Item contribution options",
+  "settings.contribution-options.title": "Circulation status mapping",
   "settings.contribution-options.button.save": "Save",
   "settings.contribution-options.field.centralServer": "Central server",
   "settings.contribution-options.field.locations": "Non-lendable locations",
@@ -160,8 +160,8 @@
   "settings.contribution-options.create-edit.modal-confirmLabel.keepEditing": "Keep editing",
   "settings.contribution-options.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
   "settings.contribution-options.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator",
-  "settings.contribution-options.create.success": "Item contribution options settings created successfully",
-  "settings.contribution-options.update.success": "Item contribution options settings updated successfully",
+  "settings.contribution-options.create.success": "Circulation status mapping settings created successfully",
+  "settings.contribution-options.update.success": "Circulation status mapping settings updated successfully",
 
   "settings.material-type-mapping": "Material to item type mappings",
   "settings.material-type-mapping.update.success": "Material type mappings updated successfully",
