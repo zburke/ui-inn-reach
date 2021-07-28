@@ -221,7 +221,6 @@ const AgencyToFolioLocationsForm = ({
     >
       <form className={css.form}>
         <Selection
-          required
           id={CENTRAL_SERVER_ID}
           label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.central-server" />}
           dataOptions={serverOptions}

@@ -6,6 +6,7 @@ import { FieldArray } from 'react-final-form-arrays';
 
 import {
   Col,
+  Label,
   Row,
   Selection,
 } from '@folio/stripes-components';
@@ -54,16 +55,20 @@ const TabularList = ({
           className={css.tabularHeaderCol}
           sm={6}
         >
-          {leftColumnName === FOLIO_LIBRARY
-            ? formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.libraries' })
-            : formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.locations' })
-          }
+          <Label>
+            {leftColumnName === FOLIO_LIBRARY
+              ? formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.libraries' })
+              : formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.locations' })
+            }
+          </Label>
         </Col>
         <Col
           className={css.tabularHeaderCol}
           sm={6}
         >
-          {formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations' })}
+          <Label required={leftColumnName === FOLIO_LIBRARY}>
+            {formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations' })}
+          </Label>
         </Col>
       </Row>
       <FieldArray name={TABULAR_LIST}>
