@@ -44,7 +44,7 @@ export const getFinalRecord = (record) => {
   const folioLocations = record[LOCATIONS_IDS];
 
   if (!isEmpty(folioLocations)) {
-    finalRecord[LOCATIONS_IDS] = folioLocations.map(({ val }) => val);
+    finalRecord[LOCATIONS_IDS] = folioLocations.map(({ value }) => value);
   }
 
   return finalRecord;

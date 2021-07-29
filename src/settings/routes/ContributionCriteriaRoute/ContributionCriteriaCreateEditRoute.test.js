@@ -16,7 +16,6 @@ import { useCentralServers } from '../../../hooks';
 import { CONTRIBUTION_CRITERIA } from '../../../constants';
 
 const {
-  CENTRAL_SERVER_ID,
   LOCATIONS_IDS,
 } = CONTRIBUTION_CRITERIA;
 
@@ -77,7 +76,6 @@ const servers = [
 ];
 
 const contributionCriteria = {
-  centralServerId: servers[1].id,
   locationIds: [
     '99880669-07cc-4658-b213-e6200344d1c3',
     '0ac0ffe6-c3ee-4610-b15c-019bbaea5dbd',
@@ -261,7 +259,7 @@ describe('ContributionCriteriaCreateEditRoute component', () => {
       });
 
       expect(ContributionCriteriaForm.mock.calls[3][0].initialValues).toEqual({
-        ...omit(contributionCriteria, LOCATIONS_IDS, CENTRAL_SERVER_ID),
+        ...omit(contributionCriteria, LOCATIONS_IDS),
         locationIds: [
           {
             value: '99880669-07cc-4658-b213-e6200344d1c3',

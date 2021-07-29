@@ -92,6 +92,7 @@ const TabularList = ({
             >
               <Field
                 marginBottom0
+                id={`${name}.${INN_REACH_LOCATIONS}-${index}`}
                 name={`${name}.${INN_REACH_LOCATIONS}`}
                 aria-label={formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations' })}
                 component={Selection}

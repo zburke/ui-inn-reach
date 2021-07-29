@@ -56,6 +56,7 @@ const selectedServerMock = {
 
 const renderContributionCriteriaForm = ({
   selectedServer = selectedServerMock,
+  contributionCriteria = {},
   isContributionCriteriaPending = false,
   isPristine = true,
   initialValues = DEFAULT_VALUES,
@@ -70,6 +71,7 @@ const renderContributionCriteriaForm = ({
     <Router history={history}>
       <ContributionCriteriaForm
         selectedServer={selectedServer}
+        contributionCriteria={contributionCriteria}
         isContributionCriteriaPending={isContributionCriteriaPending}
         isPristine={isPristine}
         serverOptions={serverOptions}

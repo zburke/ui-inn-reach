@@ -1,6 +1,5 @@
 import {
   FOLIO_TO_INN_REACH_LOCATION_FIELDS,
-  NO_VALUE_OPTION,
 } from '../../../constants';
 
 const {
@@ -12,7 +11,6 @@ const {
 export const getServerLibraries = (localAgencies, folioLibraries) => {
   const librariesIdsOfSelectedServer = new Set();
   const formattedLibraries = [];
-  const libraryOptions = [NO_VALUE_OPTION];
 
   localAgencies.forEach(({ folioLibraryIds }) => {
     folioLibraryIds.forEach(libraryId => {
@@ -31,11 +29,10 @@ export const getServerLibraries = (localAgencies, folioLibraries) => {
       };
 
       formattedLibraries.push(option);
-      libraryOptions.push(option);
     }
   }
 
-  return { formattedLibraries, libraryOptions };
+  return formattedLibraries;
 };
 
 const getCampusId = ({

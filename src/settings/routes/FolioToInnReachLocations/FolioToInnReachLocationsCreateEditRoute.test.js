@@ -11,7 +11,7 @@ import { ConfirmationModal } from '@folio/stripes-components';
 import { translationsProperties } from '../../../../test/jest/helpers';
 import FolioToInnReachLocationsCreateEditRoute from './FolioToInnReachLocationsCreateEditRoute';
 import FolioToInnReachLocationsForm from '../../components/FolioToInnReachLocations/FolioToInnReachLocationsForm';
-import { NO_VALUE_OPTION } from '../../../constants';
+import { NO_VALUE_LIBRARY_OPTION } from '../../../constants';
 
 jest.mock('../../components/FolioToInnReachLocations/FolioToInnReachLocationsForm', () => {
   return jest.fn(() => <div>FolioToInnReachLocationsForm</div>);
@@ -258,8 +258,8 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
     it('should create server library options', () => {
       renderFolioToInnReachLocationsCreateEditRoute({ history });
       act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
-      expect(FolioToInnReachLocationsForm.mock.calls[1][0].serverLibrariesOptions).toEqual([
-        NO_VALUE_OPTION,
+      expect(FolioToInnReachLocationsForm.mock.calls[1][0].serverLibraryOptions).toEqual([
+        NO_VALUE_LIBRARY_OPTION,
         {
           id: '0939ebc4-cf37-4968-841e-912c0c02eacf',
           label: 'newLib (QWER)',

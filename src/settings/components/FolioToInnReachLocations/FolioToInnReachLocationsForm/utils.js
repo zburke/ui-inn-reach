@@ -1,5 +1,5 @@
 import {
-  NO_VALUE_OPTION,
+  NO_VALUE_LOCATION_OPTION,
 } from '../../../../constants';
 
 export const getInnReachLocationOptions = (innReachLocations) => {
@@ -13,5 +13,5 @@ export const getInnReachLocationOptions = (innReachLocations) => {
     accum.push(option);
 
     return accum;
-  }, [NO_VALUE_OPTION]);
+  }, [NO_VALUE_LOCATION_OPTION]);
 };

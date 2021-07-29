@@ -7,6 +7,10 @@ import { FormattedMessage } from 'react-intl';
 import { translationsProperties } from '../../../../../test/jest/helpers';
 import AgencyToFolioLocationsForm from './AgencyToFolioLocationsForm';
 import { AGENCY_TO_FOLIO_LOCATIONS_FIELDS } from '../../../../constants';
+import {
+  NO_VALUE_LOCAL_SERVER_OPTION,
+  NO_VALUE_LOCATION_OPTION,
+} from './utils';
 
 const {
   AGENCY_CODE_MAPPINGS,
@@ -59,6 +63,29 @@ const libraryOptions = [
     label: 'MSU > MG > LIBR',
     value: loclibs[1].id,
   }
+];
+
+const serverLocationOptions = [
+  NO_VALUE_LOCATION_OPTION,
+  {
+    id: 'd428ca1d-f33b-4d4c-a160-d9f41c657bb7',
+    label: 'A copy of another location (umdub)',
+    value: 'd428ca1d-f33b-4d4c-a160-d9f41c657bb7',
+  },
+  {
+    id: 'ae5032a1-fe55-41d1-ab29-b7696b3312a4',
+    label: 'Big Circ (EZBC)',
+    value: 'ae5032a1-fe55-41d1-ab29-b7696b3312a4',
+  },
+];
+
+const localServerLocationOptions = [
+  NO_VALUE_LOCAL_SERVER_OPTION,
+  {
+    id: 'aa58c309-4522-4b46-8d1e-0396ee493460',
+    label: 'Meyer General (smgen)',
+    value: 'aa58c309-4522-4b46-8d1e-0396ee493460',
+  },
 ];
 
 const localServers = {
@@ -126,6 +153,8 @@ const renderAgencyToFolioLocationsForm = ({
   isLocalServersPending = false,
   onChangePristineState,
   onChangeFormResetState,
+  onChangeLocalServerLocationOptions,
+  onChangeServerLocationOptions,
 } = {}) => {
   return renderWithIntl(
     <Router history={history}>
@@ -142,11 +171,15 @@ const renderAgencyToFolioLocationsForm = ({
         isResetForm={isResetForm}
         values={values}
         form={form}
+        serverLocationOptions={serverLocationOptions}
+        localServerLocationOptions={localServerLocationOptions}
         onSubmit={handleSubmit}
         onChangeServer={onChangeServer}
         onChangeLocalServer={onChangeLocalServer}
         onChangePristineState={onChangePristineState}
         onChangeFormResetState={onChangeFormResetState}
+        onChangeLocalServerLocationOptions={onChangeLocalServerLocationOptions}
+        onChangeServerLocationOptions={onChangeServerLocationOptions}
       />
     </Router>,
     translationsProperties,
@@ -159,6 +192,8 @@ describe('AgencyToFolioLocationsForm', () => {
   const handleSubmit = jest.fn();
   const onChangeServer = jest.fn();
   const onChangeLocalServer = jest.fn();
+  const onChangeLocalServerLocationOptions = jest.fn();
+  const onChangeServerLocationOptions = jest.fn();
 
   const commonProps = {
     onChangeFormResetState,
@@ -166,6 +201,8 @@ describe('AgencyToFolioLocationsForm', () => {
     handleSubmit,
     onChangeServer,
     onChangeLocalServer,
+    onChangeLocalServerLocationOptions,
+    onChangeServerLocationOptions,
   };
 
   it('should be rendered', () => {
@@ -186,7 +223,7 @@ describe('AgencyToFolioLocationsForm', () => {
 
     it('should enable the location field', () => {
       const { getByRole } = renderAgencyToFolioLocationsForm(commonProps);
-      const name = 'FOLIO location (default) ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-location required';
+      const name = 'FOLIO location (default) Select location required';
 
       expect(getByRole('button', { name })).toBeDisabled();
       document.getElementById(`option-libraryId-1-${loclibs[0].id}`).click();
@@ -220,7 +257,7 @@ describe('AgencyToFolioLocationsForm', () => {
       });
 
       it('should add the location field for local server', () => {
-        const name = 'FOLIO location (default) ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-location';
+        const name = 'FOLIO location (default) A copy of another location (umdub) required';
 
         expect(screen.getByRole('button', { name })).toBeVisible();
       });

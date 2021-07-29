@@ -52,6 +52,7 @@ const renderInnReachSettings = (props) => render(
   <InnReachSettings
     match={{ path }}
     mutator={DEFAULT_MUTATOR}
+    location={{ pathname: '/' }}
     {...props}
   />
 );

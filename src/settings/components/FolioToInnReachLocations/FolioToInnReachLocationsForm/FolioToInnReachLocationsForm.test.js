@@ -8,7 +8,7 @@ import { translationsProperties } from '../../../../../test/jest/helpers';
 import FolioToInnReachLocationsForm from './FolioToInnReachLocationsForm';
 import {
   FOLIO_TO_INN_REACH_LOCATION_FIELDS,
-  NO_VALUE_OPTION,
+  NO_VALUE_LIBRARY_OPTION,
 } from '../../../../constants';
 
 const {
@@ -29,8 +29,8 @@ const serverOptions = [
   }
 ];
 
-const serverLibrariesOptions = [
-  NO_VALUE_OPTION,
+const serverLibraryOptions = [
+  NO_VALUE_LIBRARY_OPTION,
   {
     id: '0939ebc4-cf37-4968-841e-912c0c02eacf',
     label: 'newLib (QWER)',
@@ -104,7 +104,7 @@ const renderFolioToInnReachLocationsForm = ({
       <FolioToInnReachLocationsForm
         selectedServer={selectedServer}
         mappingType={mappingType}
-        serverLibrariesOptions={serverLibrariesOptions}
+        serverLibraryOptions={serverLibraryOptions}
         innReachLocations={innReachLocations}
         isPristine={isPristine}
         serverOptions={serverOptions}
@@ -192,8 +192,8 @@ describe('FolioToInnReachLocationsForm', () => {
           ],
         },
       });
-      document.getElementById('option-stripes-selection-9-1-bbb').click();
-      document.getElementById('option-stripes-selection-10-2-test').click();
+      document.getElementById('option-tabularList[0].innReachLocations-0-2-bbb').click();
+      document.getElementById('option-tabularList[1].innReachLocations-1-3-test').click();
 
       await waitFor(() => {
         expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled();
@@ -220,7 +220,7 @@ describe('FolioToInnReachLocationsForm', () => {
         },
       });
 
-      document.getElementById('option-stripes-selection-13-1-bbb').click();
+      document.getElementById('option-tabularList[0].innReachLocations-0-2-bbb').click();
 
       await waitFor(() => {
         expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled();

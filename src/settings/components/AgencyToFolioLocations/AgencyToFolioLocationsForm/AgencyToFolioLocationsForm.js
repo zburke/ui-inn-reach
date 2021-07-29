@@ -64,14 +64,14 @@ const AgencyToFolioLocationsForm = ({
   handleSubmit,
   values,
   form,
+  serverLocationOptions,
+  localServerLocationOptions,
   onChangeServer,
   onChangeLocalServer,
   onChangePristineState,
   onChangeFormResetState,
   onChangeServerLocationOptions,
   onChangeLocalServerLocationOptions,
-  serverLocationOptions,
-  localServerLocationOptions,
 }) => {
   const submitted = useRef(false);
 
@@ -283,6 +283,7 @@ const AgencyToFolioLocationsForm = ({
           <>
             <Field
               id={LOCAL_SERVER_LIBRARY_ID}
+              data-testid={LOCAL_SERVER_LIBRARY_ID}
               name={LOCAL_SERVER_LIBRARY_ID}
               component={Selection}
               label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-library" />}
@@ -292,6 +293,7 @@ const AgencyToFolioLocationsForm = ({
             />
             <Field
               id={LOCAL_SERVER_LOCATION_ID}
+              data-testid={LOCAL_SERVER_LOCATION_ID}
               disabled={!values[LOCAL_SERVER_LIBRARY_ID]}
               name={LOCAL_SERVER_LOCATION_ID}
               component={Selection}

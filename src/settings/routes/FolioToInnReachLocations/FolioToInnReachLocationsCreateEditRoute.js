@@ -19,6 +19,7 @@ import {
 import {
   CALLOUT_ERROR_TYPE,
   FOLIO_TO_INN_REACH_LOCATION_FIELDS,
+  NO_VALUE_LIBRARY_OPTION,
   NO_VALUE_OPTION_VALUE,
 } from '../../../constants';
 import {
@@ -164,16 +165,13 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     if (selectedServerName === selectedServer.name) return;
 
     const optedServer = servers.find(server => server.name === selectedServerName);
-    const {
-      formattedLibraries,
-      libraryOptions,
-    } = getServerLibraries(optedServer.localAgencies, folioLibraries);
+    const formattedLibraries = getServerLibraries(optedServer.localAgencies, folioLibraries);
 
     reset();
     setSelectedServer(optedServer);
     mutator.selectedServerId.replace(optedServer.id);
     setServerLibraries(formattedLibraries);
-    setServerLibraryOptions(libraryOptions);
+    setServerLibraryOptions([NO_VALUE_LIBRARY_OPTION, ...formattedLibraries]);
   };
 
   const changeMappingType = (selectedMappingType) => {
