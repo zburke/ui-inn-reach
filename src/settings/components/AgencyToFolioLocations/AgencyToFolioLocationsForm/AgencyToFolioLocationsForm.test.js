@@ -211,6 +211,14 @@ describe('AgencyToFolioLocationsForm', () => {
     expect(container).toBeVisible();
   });
 
+  describe('handleChangeServer', () => {
+    it('should cause onChangeServer callback', () => {
+      renderAgencyToFolioLocationsForm(commonProps);
+      document.getElementById('option-centralServerId-0-f8723a94-25d5-4f19-9043-cc3c306d54a1').click();
+      expect(onChangeServer).toHaveBeenCalled();
+    });
+  });
+
   describe('handleChangeServerLibrary', () => {
     it('should call the getFolioLocationOptions function', () => {
       const utils = jest.requireActual('./utils');

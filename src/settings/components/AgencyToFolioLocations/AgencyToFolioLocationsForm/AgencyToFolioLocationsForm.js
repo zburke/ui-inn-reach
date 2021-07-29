@@ -96,6 +96,11 @@ const AgencyToFolioLocationsForm = ({
 
   const localServerOptions = useMemo(() => getLocalServerOptions(localServers), [localServers]);
 
+  const handleChangeServer = (serverName) => {
+    submitted.current = false;
+    onChangeServer(serverName);
+  };
+
   const handleChangeServerLibrary = (libraryId) => {
     if (values[LIBRARY_ID] === libraryId) return;
 
@@ -196,7 +201,8 @@ const AgencyToFolioLocationsForm = ({
   }, [isResetForm]);
 
   const getFooter = () => {
-    const enabled = (values[LIBRARY_ID] && values[LOCATION_ID] && isServerFieldsChanged) || isLocalServerFieldsChanged;
+    const enabled = (values[LIBRARY_ID] && values[LOCATION_ID] && isServerFieldsChanged) ||
+      isLocalServerFieldsChanged || (isServerFieldsChanged && values[LOCAL_CODE]);
 
     const saveButton = (
       <Button
@@ -226,7 +232,7 @@ const AgencyToFolioLocationsForm = ({
           dataOptions={serverOptions}
           placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.central-server' })}
           value={selectedServer.name}
-          onChange={onChangeServer}
+          onChange={handleChangeServer}
         />
         {isLocalServersPending && <Loading />}
         {selectedServer.id && !isLocalServersPending &&
