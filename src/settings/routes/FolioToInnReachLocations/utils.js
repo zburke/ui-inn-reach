@@ -194,19 +194,18 @@ export const getTabularListForLocations = ({
 
   return folioLocations.reduce((accum, { id, name, code, campusId }) => {
     if (campusId === selectedLibraryCampusId) {
-      let innReachLocationCode = '';
+      const option = {
+        [FOLIO_LOCATION]: `${name} (${code})`,
+      };
       const isCodeSelected = locMappingsMap.has(id);
 
       if (isCodeSelected) {
         const innReachLocationId = locMappingsMap.get(id).innReachLocationId;
 
-        innReachLocationCode = innReachLocationsMap.get(innReachLocationId);
+        option[INN_REACH_LOCATIONS] = innReachLocationsMap.get(innReachLocationId);
       }
 
-      accum.push({
-        [FOLIO_LOCATION]: `${name} (${code})`,
-        [INN_REACH_LOCATIONS]: innReachLocationCode,
-      });
+      accum.push(option);
     }
 
     return accum;
@@ -221,19 +220,18 @@ export const getLibrariesTabularList = ({
   const innReachLocationsMap = getInnReachLocationsMap(innReachLocations);
 
   return serverLibraries.map(({ id, label }) => {
-    let innReachLocationCode = '';
+    const option = {
+      [FOLIO_LIBRARY]: label,
+    };
     const isCodeSelected = libMappingsMap.has(id);
 
     if (isCodeSelected) {
       const innReachLocationId = libMappingsMap.get(id).innReachLocationId;
 
-      innReachLocationCode = innReachLocationsMap.get(innReachLocationId);
+      option[INN_REACH_LOCATIONS] = innReachLocationsMap.get(innReachLocationId);
     }
 
-    return {
-      [FOLIO_LIBRARY]: label,
-      [INN_REACH_LOCATIONS]: innReachLocationCode,
-    };
+    return option;
   });
 };
 

@@ -5,6 +5,9 @@ import React, {
 } from 'react';
 import stripesFinalForm from '@folio/stripes/final-form';
 import PropTypes from 'prop-types';
+import {
+  isEqual,
+} from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import {
   Button,
@@ -30,6 +33,7 @@ const {
   INN_REACH_LOCATIONS,
   FOLIO_LIBRARY,
   FOLIO_LOCATION,
+  TABULAR_LIST,
 } = FOLIO_TO_INN_REACH_LOCATION_FIELDS;
 
 const FolioToInnReachLocationsForm = ({
@@ -46,9 +50,9 @@ const FolioToInnReachLocationsForm = ({
   isShowTabularList,
   isResetForm,
   handleSubmit,
+  initialValues,
   values,
   form,
-  pristine,
   onChangeFormResetState,
   onChangeServer,
   onChangeMappingType,
@@ -92,6 +96,8 @@ const FolioToInnReachLocationsForm = ({
   }, [values]);
 
   const getFooter = () => {
+    const isPristine = isEqual(initialValues[TABULAR_LIST], values[TABULAR_LIST]);
+
     const saveButton = (
       <Button
         marginBottom0
@@ -99,7 +105,7 @@ const FolioToInnReachLocationsForm = ({
         id="clickable-save-instance"
         buttonStyle="primary mega"
         type="submit"
-        disabled={pristine || !isRequiredFieldsFilledIn}
+        disabled={isPristine || !isRequiredFieldsFilledIn}
         onClick={handleSubmit}
       >
         <FormattedMessage id="ui-inn-reach.settings.contribution-criteria.button.save" />
@@ -166,7 +172,6 @@ FolioToInnReachLocationsForm.propTypes = {
   locationsMappingType: PropTypes.string.isRequired,
   mappingType: PropTypes.string.isRequired,
   mappingTypesOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  pristine: PropTypes.bool.isRequired,
   selectedServer: PropTypes.object.isRequired,
   serverLibraryOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,

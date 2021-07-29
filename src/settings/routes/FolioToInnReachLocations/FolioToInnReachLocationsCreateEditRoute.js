@@ -177,11 +177,11 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   const changeMappingType = (selectedMappingType) => {
     if (selectedMappingType === mappingType) return;
 
+    setInitialValues({});
     resetLibraryStates();
     setMappingType(selectedMappingType);
 
     if (selectedMappingType === librariesMappingType) {
-      setInitialValues({});
       setIsMappingsPending(true);
       fetchLibraryMappings();
     }
