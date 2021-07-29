@@ -62,7 +62,7 @@ const ContributionCriteriaForm = ({
   const { formatMessage } = useIntl();
   const folioLocationOptions = useMemo(() => getFolioLocations(folioLocations), [folioLocations]);
   const statisticalCodeOptions = useMemo(() => {
-    return getStatisticalCodeOptions(statisticalCodes, statisticalCodeTypes, formatMessage, values);
+    return getStatisticalCodeOptions(formatMessage, values, statisticalCodes, statisticalCodeTypes);
   }, [statisticalCodes, statisticalCodeTypes, formatMessage, values]);
 
   useEffect(() => {

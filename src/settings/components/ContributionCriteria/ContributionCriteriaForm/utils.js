@@ -27,7 +27,7 @@ const getIsOptionDisabled = (values, stCode) => {
   ].includes(stCode.id);
 };
 
-export const getStatisticalCodeOptions = (statisticalCodes = [], statisticalCodeTypes = [], formatMessage, values) => {
+export const getStatisticalCodeOptions = (formatMessage, values, statisticalCodes = [], statisticalCodeTypes = []) => {
   return statisticalCodes.reduce((accum, stCode) => {
     const codeTypeName = statisticalCodeTypes.find(stCodeType => stCode.statisticalCodeTypeId === stCodeType.id)?.name;
     const label = `${codeTypeName}: ${stCode.code} - ${stCode.name}`;
