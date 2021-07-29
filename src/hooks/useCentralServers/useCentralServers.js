@@ -4,6 +4,9 @@ import React, {
   useState,
   useMemo,
 } from 'react';
+import {
+  getCentralServerOptions,
+} from '../../utils';
 
 const useCentralServers = (history, servers) => {
   const [selectedServer, setSelectedServer] = useState({});
@@ -13,11 +16,7 @@ const useCentralServers = (history, servers) => {
   const [isResetForm, setIsResetForm] = useState(false);
   const unblockRef = useRef();
 
-  const serverOptions = useMemo(() => servers.map(({ id, name }) => ({
-    id,
-    value: name,
-    label: name,
-  })), [servers]);
+  const serverOptions = useMemo(() => getCentralServerOptions(servers), [servers]);
 
   const changePristineState = (value) => {
     setIsPristine(value);

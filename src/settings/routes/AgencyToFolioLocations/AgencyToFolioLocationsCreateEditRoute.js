@@ -22,7 +22,11 @@ import {
 import {
   CALLOUT_ERROR_TYPE,
   AGENCY_TO_FOLIO_LOCATIONS_FIELDS,
+  CENTRAL_SERVERS_LIMITING,
 } from '../../../constants';
+import {
+  getFolioLocationOptions,
+} from '../../components/AgencyToFolioLocations/AgencyToFolioLocationsForm/utils';
 import {
   getFolioLibraryOptions,
   getFolioLocationsMap,
@@ -30,8 +34,10 @@ import {
   getLeftColumn,
   getLocalServerData,
   getLocalServers,
-  getServerOptions,
 } from './utils';
+import {
+  getCentralServerOptions,
+} from '../../../utils';
 
 const {
   LIBRARY_ID,
@@ -89,8 +95,10 @@ const AgencyToFolioLocationsCreateEditRoute = ({
   const [libraryOptions, setLibraryOptions] = useState([]);
   const [folioLocationsMap, setFolioLocationsMap] = useState(null);
   const [nextLocation, setNextLocation] = useState(null);
+  const [serverLocationOptions, setServerLocationOptions] = useState([]);
+  const [localServerLocationOptions, setLocalServerLocationOptions] = useState([]);
 
-  const serverOptions = useMemo(() => getServerOptions(servers), [servers]);
+  const serverOptions = useMemo(() => getCentralServerOptions(servers), [servers]);
 
   const fetchAgencyMappings = () => {
     mutator.agencyMappings.GET()
@@ -126,10 +134,18 @@ const AgencyToFolioLocationsCreateEditRoute = ({
     setIsResetForm(value);
   };
 
-  const changeServer = (selectedServerId) => {
-    if (selectedServerId === selectedServer.id) return;
+  const changeServerLocationOptions = (locOptions) => {
+    setServerLocationOptions(locOptions);
+  };
 
-    const optedServer = servers.find(server => server.id === selectedServerId);
+  const changeLocalServerLocationOptions = (locOptions) => {
+    setLocalServerLocationOptions(locOptions);
+  };
+
+  const changeServer = (selectedServerName) => {
+    if (selectedServerName === selectedServer.name) return;
+
+    const optedServer = servers.find(server => server.name === selectedServerName);
     const libOptions = getFolioLibraryOptions(folioLibraries, campuses, institutions);
 
     setSelectedServer(optedServer);
@@ -154,10 +170,26 @@ const AgencyToFolioLocationsCreateEditRoute = ({
         locationId,
       });
     } else if (locServerData) {
+      const {
+        localCode: localCodeValue,
+        localServerLibraryId,
+        localServerLocationId,
+        agencyCodeMappings,
+      } = getLocalInitialValues(localServerList, agencyMappings, locServerData);
+
+      if (localServerLibraryId) {
+        const locOptions = getFolioLocationOptions(folioLocationsMap, localServerLibraryId);
+
+        setLocalServerLocationOptions(locOptions);
+      }
+
       setInitialValues({
         libraryId,
         locationId,
-        ...getLocalInitialValues(localServerList, agencyMappings, localCode, locServerData),
+        localCode: localCodeValue,
+        localServerLibraryId,
+        localServerLocationId,
+        agencyCodeMappings,
       });
     } else {
       setInitialValues({
@@ -234,6 +266,10 @@ const AgencyToFolioLocationsCreateEditRoute = ({
       if (localCode) {
         addLocalInitialValues(localCode, libraryId, locationId);
       } else {
+        const locOptions = getFolioLocationOptions(folioLocationsMap, libraryId);
+
+        setServerLocationOptions(locOptions);
+
         setInitialValues({
           libraryId,
           locationId,
@@ -290,19 +326,23 @@ const AgencyToFolioLocationsCreateEditRoute = ({
         formatMessage={formatMessage}
         initialValues={initialValues}
         isResetForm={isResetForm}
+        serverLocationOptions={serverLocationOptions}
+        localServerLocationOptions={localServerLocationOptions}
         onSubmit={handleSubmit}
         onChangeServer={changeServer}
         onChangeLocalServer={addLocalInitialValues}
         onChangePristineState={changePristineState}
         onChangeFormResetState={changeFormResetState}
+        onChangeServerLocationOptions={changeServerLocationOptions}
+        onChangeLocalServerLocationOptions={changeLocalServerLocationOptions}
       />
       <ConfirmationModal
         id="cancel-editing-confirmation"
         open={openModal}
-        heading={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.create-edit.modal-heading.areYouSure" />}
-        message={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.create-edit.modal-message.unsavedChanges" />}
-        confirmLabel={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.create-edit.modal-confirmLabel.keepEditing" />}
-        cancelLabel={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.create-edit.modal-cancelLabel.closeWithoutSaving" />}
+        heading={<FormattedMessage id="ui-inn-reach.modal.heading.areYouSure" />}
+        message={<FormattedMessage id="ui-inn-reach.modal.message.unsavedChanges" />}
+        confirmLabel={<FormattedMessage id="ui-inn-reach.modal.confirmLabel.keepEditing" />}
+        cancelLabel={<FormattedMessage id="ui-inn-reach.modal.cancelLabel.closeWithoutSaving" />}
         onCancel={handleModalCancel}
         onConfirm={handleModalConfirm}
       />
@@ -314,7 +354,7 @@ AgencyToFolioLocationsCreateEditRoute.manifest = Object.freeze({
   selectedServerId: { initialValue: '' },
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers',
+    path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
     throwErrors: false,
   },
   institutions: {

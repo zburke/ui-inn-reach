@@ -21,6 +21,7 @@ const renderSettings = ({ sections, path }) => {
       <Settings
         sections={sections}
         path={path}
+        location={{ pathname: '/' }}
       />
     </Router>,
     translationsProperties,
@@ -42,7 +43,7 @@ const pages = [
   },
 ];
 
-const label = 'foo';
+const label = 'ui-inn-reach.settings.general';
 
 describe('Settings', () => {
   let settings;

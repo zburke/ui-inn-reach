@@ -1,6 +1,4 @@
-import React, {
-  useMemo,
-} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { Field } from 'react-final-form';
@@ -8,11 +6,14 @@ import { FieldArray } from 'react-final-form-arrays';
 
 import {
   Col,
+  Label,
   Row,
   Selection,
 } from '@folio/stripes-components';
 
-import { FOLIO_TO_INN_REACH_LOCATION_FIELDS } from '../../../../../../constants';
+import {
+  FOLIO_TO_INN_REACH_LOCATION_FIELDS,
+} from '../../../../../../constants';
 import css from './TabularList.css';
 
 const {
@@ -23,15 +24,10 @@ const {
 } = FOLIO_TO_INN_REACH_LOCATION_FIELDS;
 
 const TabularList = ({
-  innReachLocations,
+  innReachLocationOptions,
   leftColumnName,
 }) => {
   const { formatMessage } = useIntl();
-
-  const innReachLocationOptions = useMemo(() => innReachLocations.map(({ code }) => ({
-    value: code,
-    label: code,
-  })), [innReachLocations]);
 
   const validate = (value, allValues) => {
     const tabularList = allValues[TABULAR_LIST];
@@ -59,16 +55,20 @@ const TabularList = ({
           className={css.tabularHeaderCol}
           sm={6}
         >
-          {leftColumnName === FOLIO_LIBRARY
-            ? formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.libraries' })
-            : formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.locations' })
-          }
+          <Label>
+            {leftColumnName === FOLIO_LIBRARY
+              ? formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.libraries' })
+              : formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.locations' })
+            }
+          </Label>
         </Col>
         <Col
           className={css.tabularHeaderCol}
           sm={6}
         >
-          {formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations' })}
+          <Label required={leftColumnName === FOLIO_LIBRARY}>
+            {formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations' })}
+          </Label>
         </Col>
       </Row>
       <FieldArray name={TABULAR_LIST}>
@@ -92,6 +92,7 @@ const TabularList = ({
             >
               <Field
                 marginBottom0
+                id={`${name}.${INN_REACH_LOCATIONS}-${index}`}
                 name={`${name}.${INN_REACH_LOCATIONS}`}
                 aria-label={formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations' })}
                 component={Selection}
@@ -107,7 +108,7 @@ const TabularList = ({
 };
 
 TabularList.propTypes = {
-  innReachLocations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  innReachLocationOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   leftColumnName: PropTypes.string.isRequired,
 };
 

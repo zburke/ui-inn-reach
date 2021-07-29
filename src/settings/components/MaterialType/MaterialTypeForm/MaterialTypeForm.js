@@ -63,7 +63,7 @@ const MaterialTypeForm = ({
         marginBottom0
         data-testid="save-button"
         id="clickable-save-instance"
-        buttonStyle="primary small"
+        buttonStyle="primary mega"
         type="submit"
         disabled={isPristine}
         onClick={handleSubmit}

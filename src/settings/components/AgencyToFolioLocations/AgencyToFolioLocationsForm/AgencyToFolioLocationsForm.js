@@ -1,6 +1,5 @@
 import React, {
   useEffect,
-  useState,
   useRef,
   useMemo,
 } from 'react';
@@ -65,23 +64,27 @@ const AgencyToFolioLocationsForm = ({
   handleSubmit,
   values,
   form,
+  serverLocationOptions,
+  localServerLocationOptions,
   onChangeServer,
   onChangeLocalServer,
   onChangePristineState,
   onChangeFormResetState,
+  onChangeServerLocationOptions,
+  onChangeLocalServerLocationOptions,
 }) => {
-  const [serverLocationOptions, setServerLocationOptions] = useState([]);
-  const [localServerLocationOptions, setLocalServerLocationOptions] = useState([]);
   const submitted = useRef(false);
 
-  const isLibraryChanged = values[LIBRARY_ID] && (values[LIBRARY_ID] !== agencyMappings[LIBRARY_ID]);
-  const isLocationChanged = values[LOCATION_ID] && (values[LOCATION_ID] !== agencyMappings[LOCATION_ID]);
-  const isLocalServerLibraryChanged = values[LOCAL_SERVER_LIBRARY_ID] &&
-    (values[LOCAL_SERVER_LIBRARY_ID] !== initialValues[LOCAL_SERVER_LIBRARY_ID]);
-  const isLocalServerLocationChanged = values[LOCAL_SERVER_LOCATION_ID] &&
-    (values[LOCAL_SERVER_LOCATION_ID] !== initialValues[LOCAL_SERVER_LOCATION_ID]);
+  const isLibraryChanged = values[LIBRARY_ID] !== agencyMappings[LIBRARY_ID];
+  const isLocationChanged = values[LOCATION_ID] !== agencyMappings[LOCATION_ID];
+  const isLocalServerLibraryChanged = values[LOCAL_SERVER_LIBRARY_ID] !== initialValues[LOCAL_SERVER_LIBRARY_ID];
+  const isLocalServerLocationChanged = values[LOCAL_SERVER_LOCATION_ID] !== initialValues[LOCAL_SERVER_LOCATION_ID];
   const isAgencyCodeMappingsChanged = values[LOCAL_CODE] &&
     !isEqual(initialValues[AGENCY_CODE_MAPPINGS], values[AGENCY_CODE_MAPPINGS]);
+
+  const isServerFieldsChanged = isLibraryChanged || isLocationChanged;
+  const isLocalServerFieldsChanged = values[LOCAL_CODE] &&
+    (isLocalServerLibraryChanged || isLocalServerLocationChanged || isAgencyCodeMappingsChanged);
 
   const isPristine = !(
     isLibraryChanged ||
@@ -107,7 +110,7 @@ const AgencyToFolioLocationsForm = ({
 
     form.change(LIBRARY_ID, selectedLibraryId);
     submitted.current = false;
-    setServerLocationOptions(locOptions);
+    onChangeServerLocationOptions(locOptions);
 
     if (agencyMappings[LIBRARY_ID] === libraryId) {
       form.change(LOCATION_ID, agencyMappings[LOCATION_ID]);
@@ -159,7 +162,7 @@ const AgencyToFolioLocationsForm = ({
     }
 
     form.change(LOCAL_SERVER_LIBRARY_ID, selectedLocalServerLibrary);
-    setLocalServerLocationOptions(locOptions);
+    onChangeLocalServerLocationOptions(locOptions);
 
     if (locServerData?.[LOCAL_SERVER_LIBRARY_ID] === libraryId) {
       form.change(LOCAL_SERVER_LOCATION_ID, locServerData[LOCAL_SERVER_LOCATION_ID]);
@@ -193,12 +196,12 @@ const AgencyToFolioLocationsForm = ({
   }, [isResetForm]);
 
   const getFooter = () => {
-    const enabled = values[LOCAL_CODE] || (values[LIBRARY_ID] && values[LOCATION_ID]);
+    const enabled = (values[LIBRARY_ID] && values[LOCATION_ID] && isServerFieldsChanged) || isLocalServerFieldsChanged;
 
     const saveButton = (
       <Button
         marginBottom0
-        buttonStyle="primary small"
+        buttonStyle="primary mega"
         type="submit"
         disabled={!enabled}
         onClick={handleSave}
@@ -218,12 +221,11 @@ const AgencyToFolioLocationsForm = ({
     >
       <form className={css.form}>
         <Selection
-          required
           id={CENTRAL_SERVER_ID}
           label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.central-server" />}
           dataOptions={serverOptions}
           placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.central-server' })}
-          value={selectedServer.id}
+          value={selectedServer.name}
           onChange={onChangeServer}
         />
         {isLocalServersPending && <Loading />}
@@ -281,6 +283,7 @@ const AgencyToFolioLocationsForm = ({
           <>
             <Field
               id={LOCAL_SERVER_LIBRARY_ID}
+              data-testid={LOCAL_SERVER_LIBRARY_ID}
               name={LOCAL_SERVER_LIBRARY_ID}
               component={Selection}
               label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-library" />}
@@ -290,6 +293,7 @@ const AgencyToFolioLocationsForm = ({
             />
             <Field
               id={LOCAL_SERVER_LOCATION_ID}
+              data-testid={LOCAL_SERVER_LOCATION_ID}
               disabled={!values[LOCAL_SERVER_LIBRARY_ID]}
               name={LOCAL_SERVER_LOCATION_ID}
               component={Selection}
@@ -316,8 +320,8 @@ AgencyToFolioLocationsForm.propTypes = {
     locationId: PropTypes.string,
     localServers: PropTypes.arrayOf(PropTypes.shape({
       localCode: PropTypes.string,
-      localServerLibraryId: PropTypes.string,
-      localServerLocationId: PropTypes.string,
+      libraryId: PropTypes.string,
+      locationId: PropTypes.string,
       agencyCodeMappings: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
         agencyCode: PropTypes.string,
@@ -333,6 +337,7 @@ AgencyToFolioLocationsForm.propTypes = {
   isLocalServersPending: PropTypes.bool.isRequired,
   isResetForm: PropTypes.bool.isRequired,
   libraryOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  localServerLocationOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   localServers: PropTypes.shape({
     errors: PropTypes.array,
     localServerList: PropTypes.arrayOf(PropTypes.shape({
@@ -347,12 +352,15 @@ AgencyToFolioLocationsForm.propTypes = {
     status: PropTypes.string,
   }).isRequired,
   selectedServer: PropTypes.object.isRequired,
+  serverLocationOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   values: PropTypes.object.isRequired,
   onChangeFormResetState: PropTypes.func.isRequired,
   onChangeLocalServer: PropTypes.func.isRequired,
+  onChangeLocalServerLocationOptions: PropTypes.func.isRequired,
   onChangePristineState: PropTypes.func.isRequired,
   onChangeServer: PropTypes.func.isRequired,
+  onChangeServerLocationOptions: PropTypes.func.isRequired,
   folioLocationsMap: PropTypes.object,
 };
 

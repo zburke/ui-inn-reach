@@ -144,7 +144,7 @@ const CentralServersConfigurationEditRoute = ({
         heading: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.edit.modal-heading.updateLocalServerKeyConfirmation" />,
         message: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.edit.modal-message.updateLocalServerKeypair" />,
         cancelLabel: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.edit.modal-button.confirm" />,
-        confirmLabel: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-confirmLabel.keepEditing" />,
+        confirmLabel: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.edit.modal-button.keepEditing" />,
       });
 
       setFormData(actualFormData);

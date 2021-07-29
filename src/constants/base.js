@@ -21,3 +21,5 @@ export const UNPROCESSABLE_ENTITY_STATUS_CODE = 422;
 export const PAGE_AMOUNT = 100;
 
 export const NO_VALUE_OPTION_VALUE = '';
+
+export const CENTRAL_SERVERS_LIMITING = 9999;

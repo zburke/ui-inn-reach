@@ -18,6 +18,7 @@ import {
 } from '../../components';
 import {
   CALLOUT_ERROR_TYPE,
+  CENTRAL_SERVERS_LIMITING,
   DEFAULT_PANE_WIDTH,
 } from '../../../constants';
 import {
@@ -89,7 +90,7 @@ const CentralServersConfigurationListRoute = ({
 CentralServersConfigurationListRoute.manifest = Object.freeze({
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers',
+    path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
     fetch: false,
     accumulate: true,
     throwErrors: false,

@@ -81,10 +81,10 @@ const CentralServersConfigurationCreateEditContainer = ({
           open={openModal}
           buttonStyle={modalContent?.confirmLabel ? 'default' : 'primary'}
           cancelButtonStyle={modalContent?.cancelLabel ? 'primary' : 'default'}
-          heading={modalContent?.heading || <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-heading.areYouSure" />}
-          message={modalContent?.message || <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-message.unsavedChanges" />}
-          confirmLabel={modalContent?.confirmLabel || <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-confirmLabel.keepEditing" />}
-          cancelLabel={modalContent?.cancelLabel || <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.modal-cancelLabel.closeWithoutSaving" />}
+          heading={modalContent?.heading || <FormattedMessage id="ui-inn-reach.modal.heading.areYouSure" />}
+          message={modalContent?.message || <FormattedMessage id="ui-inn-reach.modal.message.unsavedChanges" />}
+          confirmLabel={modalContent?.confirmLabel || <FormattedMessage id="ui-inn-reach.modal.confirmLabel.keepEditing" />}
+          cancelLabel={modalContent?.cancelLabel || <FormattedMessage id="ui-inn-reach.modal.cancelLabel.closeWithoutSaving" />}
           onCancel={onModalCancel}
           onConfirm={onModalConfirm}
         />

@@ -1,7 +1,4 @@
 import React from 'react';
-import {
-  omit,
-} from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import {
   AGENCY_TO_FOLIO_LOCATIONS_FIELDS,
@@ -137,17 +134,31 @@ export const getLeftColumn = (localServerList, selectedLocalCode) => {
   }));
 };
 
-export const getLocalInitialValues = (localServerList, agencyMappings, selectedLocalCode, locServerData) => {
-  const agencyChanges = locServerData.agencyCodeMappings;
-  const agencyCodeMappings = agencyChanges
-    ? getAgencyCodeMappings(agencyChanges, localServerList, selectedLocalCode)
-    : getLeftColumn(localServerList, selectedLocalCode);
+export const getLocalInitialValues = (localServerList, agencyMappings, locServerData) => {
+  const {
+    localCode,
+    libraryId,
+    locationId,
+    agencyCodeMappings,
+  } = locServerData;
 
-  return {
-    ...omit(locServerData, AGENCY_CODE_MAPPINGS),
-    [LOCAL_CODE]: selectedLocalCode,
-    [AGENCY_CODE_MAPPINGS]: agencyCodeMappings,
+  const formattedAgencyCodeMappings = agencyCodeMappings
+    ? getAgencyCodeMappings(agencyCodeMappings, localServerList, localCode)
+    : getLeftColumn(localServerList, localCode);
+
+  const localInitialValues = {
+    localCode,
+    [AGENCY_CODE_MAPPINGS]: formattedAgencyCodeMappings,
   };
+
+  if (libraryId) {
+    localInitialValues[LOCAL_SERVER_LIBRARY_ID] = libraryId;
+  }
+  if (locationId) {
+    localInitialValues[LOCAL_SERVER_LOCATION_ID] = locationId;
+  }
+
+  return localInitialValues;
 };
 
 export const getLocalServerData = (agencyMappings, selectedLocalCode) => {
@@ -178,10 +189,10 @@ const getFormattedLocalServerData = (record) => {
   const formattedLocalServerData = { localCode };
 
   if (localServerLibraryId) {
-    formattedLocalServerData[LOCAL_SERVER_LIBRARY_ID] = localServerLibraryId;
+    formattedLocalServerData[LIBRARY_ID] = localServerLibraryId;
   }
   if (localServerLocationId) {
-    formattedLocalServerData[LOCAL_SERVER_LOCATION_ID] = localServerLocationId;
+    formattedLocalServerData[LOCATION_ID] = localServerLocationId;
   }
 
   formattedLocalServerData[AGENCY_CODE_MAPPINGS] = getFormattedAgencyCodeMappings(agencyCodeMappings);
@@ -209,12 +220,4 @@ export const getLocalServers = (record, agencyMappings) => {
   }
 
   return dataOfLocalServers;
-};
-
-export const getServerOptions = (servers) => {
-  return servers.map(({ id, name }) => ({
-    id,
-    label: name,
-    value: id,
-  }));
 };

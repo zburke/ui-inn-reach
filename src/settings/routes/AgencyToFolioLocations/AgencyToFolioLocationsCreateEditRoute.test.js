@@ -156,8 +156,8 @@ const finalRecord = {
   localServers: [
     {
       localCode: '5publ',
-      localServerLibraryId: '0a9af79b-321b-43b7-908f-f26fb6096e89',
-      localServerLocationId: 'd428ca1d-f33b-4d4c-a160-d9f41c657bb7',
+      libraryId: '0a9af79b-321b-43b7-908f-f26fb6096e89',
+      locationId: 'd428ca1d-f33b-4d4c-a160-d9f41c657bb7',
       agencyCodeMappings: [
         {
           agencyCode: '5east',
@@ -175,8 +175,8 @@ const agencyMappings = {
   localServers: [
     {
       localCode: '5publ',
-      localServerLibraryId: '0a9af79b-321b-43b7-908f-f26fb6096e89',
-      localServerLocationId: 'd428ca1d-f33b-4d4c-a160-d9f41c657bb7',
+      libraryId: '0a9af79b-321b-43b7-908f-f26fb6096e89',
+      locationId: 'd428ca1d-f33b-4d4c-a160-d9f41c657bb7',
       agencyCodeMappings: [
         {
           agencyCode: '5east',
@@ -313,7 +313,7 @@ describe('AgencyToFolioLocationsCreateEditRoute component', () => {
   describe('changeServer function', () => {
     beforeEach(async () => {
       renderAgencyToFolioLocationsCreateEditRoute({ history });
-      await act(async () => { await AgencyToFolioLocationsForm.mock.calls[1][0].onChangeServer(servers[0].id); });
+      await act(async () => { await AgencyToFolioLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
     });
 
     it('should change the selected server in redux', () => {
@@ -367,7 +367,7 @@ describe('AgencyToFolioLocationsCreateEditRoute component', () => {
 
     it('should add to initialValues all data of the tabular list', async () => {
       renderAgencyToFolioLocationsCreateEditRoute({ history });
-      await act(async () => { await AgencyToFolioLocationsForm.mock.calls[1][0].onChangeServer(servers[0].id); });
+      await act(async () => { await AgencyToFolioLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
       await act(async () => {
         await AgencyToFolioLocationsForm.mock.calls[5][0].onChangeLocalServer(
           agencyMappings.localServers[0].localCode,
@@ -380,8 +380,8 @@ describe('AgencyToFolioLocationsCreateEditRoute component', () => {
         libraryId: agencyMappings.libraryId,
         locationId: agencyMappings.locationId,
         localCode: agencyMappings.localServers[0].localCode,
-        localServerLibraryId: agencyMappings.localServers[0].localServerLibraryId,
-        localServerLocationId: agencyMappings.localServers[0].localServerLocationId,
+        localServerLibraryId: agencyMappings.localServers[0].libraryId,
+        localServerLocationId: agencyMappings.localServers[0].locationId,
         agencyCodeMappings: [
           {
             agency: '5east (Sierra Public East Library)',
@@ -398,7 +398,7 @@ describe('AgencyToFolioLocationsCreateEditRoute component', () => {
 
       newMutator.agencyMappings.GET = jest.fn(() => Promise.resolve({}));
       renderAgencyToFolioLocationsCreateEditRoute({ history, mutator: newMutator });
-      await act(async () => { await AgencyToFolioLocationsForm.mock.calls[1][0].onChangeServer(servers[0].id); });
+      await act(async () => { await AgencyToFolioLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
       await act(async () => {
         await AgencyToFolioLocationsForm.mock.calls[5][0].onChangeLocalServer(
           agencyMappings.localServers[0].localCode,
@@ -425,7 +425,7 @@ describe('AgencyToFolioLocationsCreateEditRoute component', () => {
 
     it('should send the payload without the local servers', async () => {
       renderAgencyToFolioLocationsCreateEditRoute({ history });
-      await act(async () => { await AgencyToFolioLocationsForm.mock.calls[1][0].onChangeServer(servers[0].id); });
+      await act(async () => { await AgencyToFolioLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
       await act(async () => { await AgencyToFolioLocationsForm.mock.calls[5][0].onSubmit(omit(record, 'localCode')); });
       expect(mutatorMock.agencyMappings.PUT).toHaveBeenCalledWith(finalRecord);
     });

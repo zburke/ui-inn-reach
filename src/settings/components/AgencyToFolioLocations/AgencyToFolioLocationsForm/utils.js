@@ -8,12 +8,18 @@ export const validateRequired = (value) => {
     : <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.validation.required" />;
 };
 
+export const NO_VALUE_LOCAL_SERVER_OPTION = {
+  label: <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.placeholder.local-server" />,
+  value: NO_VALUE_OPTION_VALUE,
+};
+
+export const NO_VALUE_LOCATION_OPTION = {
+  label: <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-location" />,
+  value: NO_VALUE_OPTION_VALUE,
+};
+
 export const getFolioLocationOptions = (folioLocationsMap, libraryId) => {
   const locationsBySelectedLib = folioLocationsMap.get(libraryId);
-  const noValueOption = {
-    label: <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-location" />,
-    value: NO_VALUE_OPTION_VALUE,
-  };
 
   return locationsBySelectedLib.reduce((accum, { id, name, code }) => {
     const option = {
@@ -22,23 +28,14 @@ export const getFolioLocationOptions = (folioLocationsMap, libraryId) => {
       value: id,
     };
 
-    if (!accum.length) {
-      accum.push(noValueOption);
-    }
-
     accum.push(option);
 
     return accum;
-  }, []);
+  }, [NO_VALUE_LOCATION_OPTION]);
 };
 
 export const getLocalServerOptions = ({ localServerList }) => {
   if (!localServerList) return [];
-
-  const noValueOption = {
-    label: <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.placeholder.local-server" />,
-    value: NO_VALUE_OPTION_VALUE,
-  };
 
   return localServerList.reduce((accum, { localCode, description }) => {
     const option = {
@@ -46,14 +43,10 @@ export const getLocalServerOptions = ({ localServerList }) => {
       value: localCode,
     };
 
-    if (!accum.length) {
-      accum.push(noValueOption);
-    }
-
     accum.push(option);
 
     return accum;
-  }, []);
+  }, [NO_VALUE_LOCAL_SERVER_OPTION]);
 };
 
 export const getSelectedOptionInfo = (selectedOptionValue) => {

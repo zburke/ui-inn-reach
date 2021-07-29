@@ -18,14 +18,17 @@ import {
 } from '../../../hooks';
 import {
   CALLOUT_ERROR_TYPE,
+  CENTRAL_SERVERS_LIMITING,
   FOLIO_TO_INN_REACH_LOCATION_FIELDS,
+  NO_VALUE_LIBRARY_OPTION,
+  NO_VALUE_OPTION_VALUE,
 } from '../../../constants';
 import {
   getInnReachLocationsMapCodeFirst,
   getLeftColumnLibraries,
   getLeftColumnLocations,
   getLibrariesTabularList,
-  getLibraryOptions,
+  getServerLibraries,
   getFinalLocationMappings,
   getLocationMappingsMap,
   getTabularListForLocations,
@@ -33,8 +36,10 @@ import {
   getFinalLibraryMappings,
   getTabularListMapForLibraries,
   getLibrariesMappingsMap,
-  getServerOptions,
 } from './utils';
+import {
+  getCentralServerOptions,
+} from '../../../utils';
 
 const {
   TABULAR_LIST,
@@ -77,14 +82,15 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   const [mappingType, setMappingType] = useState('');
   const [librarySelection, setLibrarySelection] = useState('');
   const [initialValues, setInitialValues] = useState({});
-  const [serverLibrariesOptions, setServerLibrariesOptions] = useState([]);
+  const [serverLibraries, setServerLibraries] = useState([]);
+  const [serverLibraryOptions, setServerLibraryOptions] = useState([]);
   const [libraryMappings, setLibraryMappings] = useState([]);
   const [locationMappings, setLocationMappings] = useState([]);
   const [isMappingsPending, setIsMappingsPending] = useState(false);
   const [locationMappingsMap, setLocationMappingsMap] = useState(null);
   const [librariesMappingsMap, setLibrariesMappingsMap] = useState(null);
 
-  const serverOptions = useMemo(() => getServerOptions(servers), [servers]);
+  const serverOptions = useMemo(() => getCentralServerOptions(servers), [servers]);
   const librariesMappingType = formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field-value.libraries' });
   const locationsMappingType = formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field-value.locations' });
   const mappingTypePlaceholder = formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.placeholder.select-type-to-map' });
@@ -134,7 +140,8 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   };
 
   const reset = () => {
-    setServerLibrariesOptions([]);
+    setServerLibraries([]);
+    setServerLibraryOptions([]);
     resetCentralServer();
     resetData();
     setMappingType('');
@@ -159,37 +166,42 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     if (selectedServerName === selectedServer.name) return;
 
     const optedServer = servers.find(server => server.name === selectedServerName);
-    const libraryOptions = getLibraryOptions(optedServer.localAgencies, folioLibraries);
+    const formattedLibraries = getServerLibraries(optedServer.localAgencies, folioLibraries);
 
     reset();
     setSelectedServer(optedServer);
     mutator.selectedServerId.replace(optedServer.id);
-    setServerLibrariesOptions(libraryOptions);
+    setServerLibraries(formattedLibraries);
+    setServerLibraryOptions([NO_VALUE_LIBRARY_OPTION, ...formattedLibraries]);
   };
 
   const changeMappingType = (selectedMappingType) => {
     if (selectedMappingType === mappingType) return;
 
+    setInitialValues({});
     resetLibraryStates();
     setMappingType(selectedMappingType);
 
     if (selectedMappingType === librariesMappingType) {
-      setInitialValues({});
       setIsMappingsPending(true);
       fetchLibraryMappings();
     }
   };
 
-  const handleChangeLibrary = (selectedLibraryName) => {
-    if (selectedLibraryName === librarySelection) return;
+  const handleChangeLibrary = (libraryName) => {
+    if (libraryName === librarySelection) return;
 
-    const libraryId = serverLibrariesOptions.find(library => library.value === selectedLibraryName)?.id;
+    const isNoValueOption = libraryName === NO_VALUE_OPTION_VALUE;
+    const libraryId = serverLibraryOptions.find(library => library.value === libraryName)?.id;
 
-    setLibrarySelection(selectedLibraryName);
+    setLibrarySelection(libraryName);
     mutator.selectedLibraryId.replace(libraryId);
-    setInitialValues({});
-    setIsMappingsPending(true);
-    fetchLocationMappings();
+
+    if (!isNoValueOption) {
+      setInitialValues({});
+      setIsMappingsPending(true);
+      fetchLocationMappings();
+    }
   };
 
   const handleSubmit = (record) => {
@@ -252,7 +264,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     if (!isMappingsPending && mappingType === librariesMappingType) {
       if (isEmpty(libraryMappings)) {
         setInitialValues({
-          [TABULAR_LIST]: getLeftColumnLibraries(serverLibrariesOptions),
+          [TABULAR_LIST]: getLeftColumnLibraries(serverLibraries),
         });
       } else {
         const libMappingsMap = getLibrariesMappingsMap(libraryMappings);
@@ -262,7 +274,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
         setInitialValues({
           [TABULAR_LIST]: getLibrariesTabularList({
             libMappingsMap,
-            serverLibrariesOptions,
+            serverLibraries,
             innReachLocations,
           }),
         });
@@ -311,7 +323,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     <FolioToInnReachLocationsForm
       selectedServer={selectedServer}
       mappingType={mappingType}
-      serverLibrariesOptions={serverLibrariesOptions}
+      serverLibraryOptions={serverLibraryOptions}
       innReachLocations={innReachLocations}
       serverOptions={serverOptions}
       isMappingsPending={isMappingsPending}
@@ -336,7 +348,7 @@ FolioToInnReachLocationsCreateEditRoute.manifest = Object.freeze({
   selectedLibraryId: { initialValue: '' },
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers',
+    path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
     throwErrors: false,
   },
   folioLibraries: {

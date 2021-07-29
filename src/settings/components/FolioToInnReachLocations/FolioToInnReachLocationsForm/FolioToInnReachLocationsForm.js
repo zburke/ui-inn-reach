@@ -1,9 +1,13 @@
 import React, {
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import stripesFinalForm from '@folio/stripes/final-form';
 import PropTypes from 'prop-types';
+import {
+  isEqual,
+} from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import {
   Button,
@@ -18,6 +22,9 @@ import {
   FOLIO_TO_INN_REACH_LOCATION_FIELDS,
 } from '../../../../constants';
 import { TabularList } from './components';
+import {
+  getInnReachLocationOptions,
+} from './utils';
 
 const {
   CENTRAL_SERVER,
@@ -26,6 +33,7 @@ const {
   INN_REACH_LOCATIONS,
   FOLIO_LIBRARY,
   FOLIO_LOCATION,
+  TABULAR_LIST,
 } = FOLIO_TO_INN_REACH_LOCATION_FIELDS;
 
 const FolioToInnReachLocationsForm = ({
@@ -33,7 +41,7 @@ const FolioToInnReachLocationsForm = ({
   mappingType,
   innReachLocations,
   serverOptions,
-  serverLibrariesOptions,
+  serverLibraryOptions,
   mappingTypesOptions,
   formatMessage,
   librariesMappingType,
@@ -42,15 +50,17 @@ const FolioToInnReachLocationsForm = ({
   isShowTabularList,
   isResetForm,
   handleSubmit,
+  initialValues,
   values,
   form,
-  pristine,
   onChangeFormResetState,
   onChangeServer,
   onChangeMappingType,
   onChangeLibrary,
 }) => {
   const [isRequiredFieldsFilledIn, setIsRequiredFieldsFilledIn] = useState(false);
+
+  const innReachLocationOptions = useMemo(() => getInnReachLocationOptions(innReachLocations), [innReachLocations]);
 
   const leftColumnName = mappingType === librariesMappingType
     ? FOLIO_LIBRARY
@@ -86,14 +96,16 @@ const FolioToInnReachLocationsForm = ({
   }, [values]);
 
   const getFooter = () => {
+    const isPristine = isEqual(initialValues[TABULAR_LIST], values[TABULAR_LIST]);
+
     const saveButton = (
       <Button
         marginBottom0
         data-testid="save-button"
         id="clickable-save-instance"
-        buttonStyle="primary small"
+        buttonStyle="primary mega"
         type="submit"
-        disabled={pristine || !isRequiredFieldsFilledIn}
+        disabled={isPristine || !isRequiredFieldsFilledIn}
         onClick={handleSubmit}
       >
         <FormattedMessage id="ui-inn-reach.settings.contribution-criteria.button.save" />
@@ -131,7 +143,7 @@ const FolioToInnReachLocationsForm = ({
         id={LIBRARY}
         label={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.library" />}
         placeholder={formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.placeholder.select-library' })}
-        dataOptions={serverLibrariesOptions}
+        dataOptions={serverLibraryOptions}
         onChange={onChangeLibrary}
       />
       }
@@ -139,7 +151,7 @@ const FolioToInnReachLocationsForm = ({
       <form>
         {isShowTabularList &&
           <TabularList
-            innReachLocations={innReachLocations}
+            innReachLocationOptions={innReachLocationOptions}
             leftColumnName={leftColumnName}
           />
         }
@@ -152,6 +164,7 @@ FolioToInnReachLocationsForm.propTypes = {
   form: PropTypes.object.isRequired,
   formatMessage: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired,
   innReachLocations: PropTypes.arrayOf(PropTypes.object).isRequired,
   isMappingsPending: PropTypes.bool.isRequired,
   isResetForm: PropTypes.bool.isRequired,
@@ -160,9 +173,8 @@ FolioToInnReachLocationsForm.propTypes = {
   locationsMappingType: PropTypes.string.isRequired,
   mappingType: PropTypes.string.isRequired,
   mappingTypesOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  pristine: PropTypes.bool.isRequired,
   selectedServer: PropTypes.object.isRequired,
-  serverLibrariesOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  serverLibraryOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   values: PropTypes.object.isRequired,
   onChangeFormResetState: PropTypes.func.isRequired,

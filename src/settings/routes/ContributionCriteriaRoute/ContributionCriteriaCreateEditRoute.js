@@ -5,7 +5,6 @@ import React, {
 import ReactRouterPropTypes from 'react-router-prop-types';
 import PropTypes from 'prop-types';
 import {
-  omit,
   isEmpty,
 } from 'lodash';
 import {
@@ -20,23 +19,18 @@ import { stripesConnect } from '@folio/stripes/core';
 
 import {
   CALLOUT_ERROR_TYPE,
-  CONTRIBUTION_CRITERIA,
-  METADATA,
+  CENTRAL_SERVERS_LIMITING,
 } from '../../../constants';
 import ContributionCriteriaForm from '../../components/ContributionCriteria/ContributionCriteriaForm';
 import {
   useCallout,
   useCentralServers,
 } from '../../../hooks';
-
-const {
-  CENTRAL_SERVER_ID,
-  LOCATIONS_IDS,
-} = CONTRIBUTION_CRITERIA;
-
-export const DEFAULT_VALUES = {
-  [LOCATIONS_IDS]: [],
-};
+import {
+  getFinalRecord,
+  getInitialValues,
+  DEFAULT_VALUES,
+} from './utils';
 
 const ContributionCriteriaCreateEditRoute = ({
   resources: {
@@ -73,7 +67,7 @@ const ContributionCriteriaCreateEditRoute = ({
     handleModalCancel,
   ] = useCentralServers(history, servers);
   const showCallout = useCallout();
-  const [contributionCriteria, setContributionCriteria] = useState({});
+  const [contributionCriteria, setContributionCriteria] = useState(null);
   const [initialValues, setInitialValues] = useState(DEFAULT_VALUES);
   const [isContributionCriteriaPending, setIsContributionCriteriaPending] = useState(false);
 
@@ -91,20 +85,13 @@ const ContributionCriteriaCreateEditRoute = ({
   const handleSubmit = (record) => {
     const { contributionCriteria: { POST, PUT } } = mutator;
     const saveMethod = isEmpty(contributionCriteria) ? POST : PUT;
-    const FOLIOLocations = record[LOCATIONS_IDS];
-    const finalRecord = {
-      ...omit(record, LOCATIONS_IDS, METADATA),
-    };
-
-    if (FOLIOLocations.length) {
-      finalRecord[LOCATIONS_IDS] = FOLIOLocations.map(({ value }) => value);
-    }
+    const finalRecord = getFinalRecord(record);
 
     saveMethod(finalRecord)
       .then(() => {
         const action = isEmpty(contributionCriteria) ? 'create' : 'update';
 
-        fetchContributionCriteria();
+        setContributionCriteria(finalRecord);
         showCallout({ message: <FormattedMessage id={`ui-inn-reach.settings.contribution-criteria.${action}.success`} /> });
       })
       .catch(() => {
@@ -129,20 +116,7 @@ const ContributionCriteriaCreateEditRoute = ({
 
   useEffect(() => {
     if (!isEmpty(contributionCriteria)) {
-      const locationIds = contributionCriteria[LOCATIONS_IDS];
-      const originalValues = {
-        ...DEFAULT_VALUES,
-        ...omit(contributionCriteria, LOCATIONS_IDS, CENTRAL_SERVER_ID),
-      };
-
-      if (locationIds) {
-        const formattedLocations = locationIds.map(id => ({
-          value: id,
-          label: folioLocations.find(location => location.id === id)?.name,
-        }));
-
-        originalValues[LOCATIONS_IDS] = formattedLocations;
-      }
+      const originalValues = getInitialValues(contributionCriteria, folioLocations);
 
       setInitialValues(originalValues);
     }
@@ -154,6 +128,7 @@ const ContributionCriteriaCreateEditRoute = ({
     <>
       <ContributionCriteriaForm
         selectedServer={selectedServer}
+        contributionCriteria={contributionCriteria}
         isContributionCriteriaPending={isContributionCriteriaPending}
         isPristine={isPristine}
         serverOptions={serverOptions}
@@ -170,10 +145,10 @@ const ContributionCriteriaCreateEditRoute = ({
       <ConfirmationModal
         id="cancel-editing-confirmation"
         open={openModal}
-        heading={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.create-edit.modal-heading.areYouSure" />}
-        message={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.create-edit.modal-message.unsavedChanges" />}
-        confirmLabel={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.create-edit.modal-confirmLabel.keepEditing" />}
-        cancelLabel={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.create-edit.modal-cancelLabel.closeWithoutSaving" />}
+        heading={<FormattedMessage id="ui-inn-reach.modal.heading.areYouSure" />}
+        message={<FormattedMessage id="ui-inn-reach.modal.message.unsavedChanges" />}
+        confirmLabel={<FormattedMessage id="ui-inn-reach.modal.confirmLabel.keepEditing" />}
+        cancelLabel={<FormattedMessage id="ui-inn-reach.modal.cancelLabel.closeWithoutSaving" />}
         onCancel={handleModalCancel}
         onConfirm={handleModalConfirm}
       />
@@ -184,7 +159,7 @@ const ContributionCriteriaCreateEditRoute = ({
 ContributionCriteriaCreateEditRoute.manifest = Object.freeze({
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers',
+    path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
     throwErrors: false,
   },
   folioLocations: {

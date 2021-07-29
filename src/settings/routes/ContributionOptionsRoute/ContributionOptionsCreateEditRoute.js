@@ -20,6 +20,7 @@ import { stripesConnect } from '@folio/stripes/core';
 
 import {
   CALLOUT_ERROR_TYPE,
+  CENTRAL_SERVERS_LIMITING,
   CONTRIBUTION_OPTIONS_FIELDS,
   STATUSES_LIST_OPTIONS,
 } from '../../../constants';
@@ -211,10 +212,10 @@ const ContributionOptionsCreateEditRoute = ({
       <ConfirmationModal
         id="cancel-editing-confirmation"
         open={openModal}
-        heading={<FormattedMessage id="ui-inn-reach.settings.contribution-options.create-edit.modal-heading.areYouSure" />}
-        message={<FormattedMessage id="ui-inn-reach.settings.contribution-options.create-edit.modal-message.unsavedChanges" />}
-        confirmLabel={<FormattedMessage id="ui-inn-reach.settings.contribution-options.create-edit.modal-confirmLabel.keepEditing" />}
-        cancelLabel={<FormattedMessage id="ui-inn-reach.settings.contribution-options.create-edit.modal-cancelLabel.closeWithoutSaving" />}
+        heading={<FormattedMessage id="ui-inn-reach.modal.heading.areYouSure" />}
+        message={<FormattedMessage id="ui-inn-reach.modal.message.unsavedChanges" />}
+        confirmLabel={<FormattedMessage id="ui-inn-reach.modal.confirmLabel.keepEditing" />}
+        cancelLabel={<FormattedMessage id="ui-inn-reach.modal.cancelLabel.closeWithoutSaving" />}
         onCancel={handleModalCancel}
         onConfirm={handleModalConfirm}
       />
@@ -242,7 +243,7 @@ const ContributionOptionsCreateEditRoute = ({
 ContributionOptionsCreateEditRoute.manifest = Object.freeze({
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers',
+    path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
     throwErrors: false,
   },
   folioLocations: {

@@ -20,6 +20,7 @@ import {
 } from '../contexts';
 import {
   CALLOUT_ERROR_TYPE,
+  CENTRAL_SERVERS_LIMITING,
   CIRCULATION_MAPPINGS,
   RECORD_CONTRIBUTION,
   SETTINGS_PANE_WIDTH,
@@ -38,6 +39,7 @@ const InnReachSettings = ({
     path,
   },
   mutator,
+  location,
 }) => {
   const showCallout = useCallout();
   const calloutRef = useRef(null);
@@ -81,6 +83,7 @@ const InnReachSettings = ({
         <Settings
           path={path}
           sections={sectionsToShow}
+          location={location}
         />
         {children}
       </CalloutContext.Provider>
@@ -92,7 +95,7 @@ const InnReachSettings = ({
 InnReachSettings.manifest = Object.freeze({
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers',
+    path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
     fetch: false,
     accumulate: true,
     throwErrors: false,
@@ -100,6 +103,7 @@ InnReachSettings.manifest = Object.freeze({
 });
 
 InnReachSettings.propTypes = {
+  location: PropTypes.object.isRequired,
   match: PropTypes.shape({
     path: PropTypes.string.isRequired,
   }).isRequired,

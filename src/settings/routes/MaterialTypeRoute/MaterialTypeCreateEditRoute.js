@@ -19,6 +19,7 @@ import { stripesConnect } from '@folio/stripes/core';
 
 import {
   CALLOUT_ERROR_TYPE,
+  CENTRAL_SERVERS_LIMITING,
   MATERIAL_TYPE_FIELDS,
   NO_VALUE_OPTION_VALUE,
 } from '../../../constants';
@@ -77,7 +78,7 @@ const MaterialTypeCreateEditRoute = ({
   const getFormatedInnReachItemTypeOptions = useMemo(() => {
     let options = [];
     const noValueOption = {
-      label: <FormattedMessage id="ui-inn-reach.settings.material-type-mapping.no-selection" />,
+      label: <FormattedMessage id="ui-inn-reach.no-selection" />,
       value: NO_VALUE_OPTION_VALUE,
     };
     const innReachOptions = innReachItemTypes.map(type => ({
@@ -164,10 +165,10 @@ const MaterialTypeCreateEditRoute = ({
       <ConfirmationModal
         id="cancel-editing-confirmation"
         open={openModal}
-        heading={<FormattedMessage id="ui-inn-reach.settings.material-type-mapping.create-edit.modal-heading.areYouSure" />}
-        message={<FormattedMessage id="ui-inn-reach.settings.material-type-mapping.create-edit.modal-message.unsavedChanges" />}
-        confirmLabel={<FormattedMessage id="ui-inn-reach.settings.material-type-mapping.create-edit.modal-confirmLabel.keepEditing" />}
-        cancelLabel={<FormattedMessage id="ui-inn-reach.settings.material-type-mapping.create-edit.modal-cancelLabel.closeWithoutSaving" />}
+        heading={<FormattedMessage id="ui-inn-reach.modal.heading.areYouSure" />}
+        message={<FormattedMessage id="ui-inn-reach.modal.message.unsavedChanges" />}
+        confirmLabel={<FormattedMessage id="ui-inn-reach.modal.confirmLabel.keepEditing" />}
+        cancelLabel={<FormattedMessage id="ui-inn-reach.modal.cancelLabel.closeWithoutSaving" />}
         onCancel={handleModalCancel}
         onConfirm={handleModalConfirm}
       />
@@ -192,7 +193,7 @@ const MaterialTypeCreateEditRoute = ({
 MaterialTypeCreateEditRoute.manifest = Object.freeze({
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers',
+    path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
     throwErrors: false,
   },
   materialTypes: {
