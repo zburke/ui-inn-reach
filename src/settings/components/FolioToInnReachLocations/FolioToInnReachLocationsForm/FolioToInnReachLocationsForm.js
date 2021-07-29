@@ -164,6 +164,7 @@ FolioToInnReachLocationsForm.propTypes = {
   form: PropTypes.object.isRequired,
   formatMessage: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired,
   innReachLocations: PropTypes.arrayOf(PropTypes.object).isRequired,
   isMappingsPending: PropTypes.bool.isRequired,
   isResetForm: PropTypes.bool.isRequired,

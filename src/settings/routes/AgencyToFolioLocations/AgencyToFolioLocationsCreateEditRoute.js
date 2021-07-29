@@ -22,6 +22,7 @@ import {
 import {
   CALLOUT_ERROR_TYPE,
   AGENCY_TO_FOLIO_LOCATIONS_FIELDS,
+  CENTRAL_SERVERS_LIMITING,
 } from '../../../constants';
 import {
   getFolioLocationOptions,
@@ -353,7 +354,7 @@ AgencyToFolioLocationsCreateEditRoute.manifest = Object.freeze({
   selectedServerId: { initialValue: '' },
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers?limit=1000',
+    path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
     throwErrors: false,
   },
   institutions: {

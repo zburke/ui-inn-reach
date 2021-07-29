@@ -20,6 +20,7 @@ import {
 } from '../contexts';
 import {
   CALLOUT_ERROR_TYPE,
+  CENTRAL_SERVERS_LIMITING,
   CIRCULATION_MAPPINGS,
   RECORD_CONTRIBUTION,
   SETTINGS_PANE_WIDTH,
@@ -94,7 +95,7 @@ const InnReachSettings = ({
 InnReachSettings.manifest = Object.freeze({
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers?limit=1000',
+    path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
     fetch: false,
     accumulate: true,
     throwErrors: false,

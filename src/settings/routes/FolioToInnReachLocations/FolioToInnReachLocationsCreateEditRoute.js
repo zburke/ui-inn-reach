@@ -18,6 +18,7 @@ import {
 } from '../../../hooks';
 import {
   CALLOUT_ERROR_TYPE,
+  CENTRAL_SERVERS_LIMITING,
   FOLIO_TO_INN_REACH_LOCATION_FIELDS,
   NO_VALUE_LIBRARY_OPTION,
   NO_VALUE_OPTION_VALUE,
@@ -347,7 +348,7 @@ FolioToInnReachLocationsCreateEditRoute.manifest = Object.freeze({
   selectedLibraryId: { initialValue: '' },
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers?limit=1000',
+    path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
     throwErrors: false,
   },
   folioLibraries: {

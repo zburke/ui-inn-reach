@@ -19,6 +19,7 @@ import { stripesConnect } from '@folio/stripes/core';
 
 import {
   CALLOUT_ERROR_TYPE,
+  CENTRAL_SERVERS_LIMITING,
   MATERIAL_TYPE_FIELDS,
   NO_VALUE_OPTION_VALUE,
 } from '../../../constants';
@@ -192,7 +193,7 @@ const MaterialTypeCreateEditRoute = ({
 MaterialTypeCreateEditRoute.manifest = Object.freeze({
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers?limit=1000',
+    path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
     throwErrors: false,
   },
   materialTypes: {

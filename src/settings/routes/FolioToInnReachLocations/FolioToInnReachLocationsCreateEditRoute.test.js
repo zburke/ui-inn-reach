@@ -122,7 +122,6 @@ const recordForLocationMappings = {
     },
     {
       folioLocation: 'FOLIOname1 (7sdfe)',
-      innReachLocations: '',
     },
   ],
 };
@@ -135,7 +134,6 @@ const recordForLibrariesMappings = {
     },
     {
       folioLibrary: 'test library (l)',
-      innReachLocations: ''
     },
   ],
 };

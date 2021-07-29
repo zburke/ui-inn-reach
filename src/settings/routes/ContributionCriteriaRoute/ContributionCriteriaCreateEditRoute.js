@@ -19,6 +19,7 @@ import { stripesConnect } from '@folio/stripes/core';
 
 import {
   CALLOUT_ERROR_TYPE,
+  CENTRAL_SERVERS_LIMITING,
 } from '../../../constants';
 import ContributionCriteriaForm from '../../components/ContributionCriteria/ContributionCriteriaForm';
 import {
@@ -158,7 +159,7 @@ const ContributionCriteriaCreateEditRoute = ({
 ContributionCriteriaCreateEditRoute.manifest = Object.freeze({
   centralServerRecords: {
     type: 'okapi',
-    path: 'inn-reach/central-servers?limit=1000',
+    path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
     throwErrors: false,
   },
   folioLocations: {
