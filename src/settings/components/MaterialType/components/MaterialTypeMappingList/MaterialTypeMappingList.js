@@ -25,6 +25,7 @@ const {
 
 const validate = (values) => {
   const errorArray = [];
+
   if (values) {
     values.forEach(({ centralItemType }) => {
       const errors = {};
