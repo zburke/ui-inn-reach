@@ -25,15 +25,16 @@ const {
 
 const validate = (values) => {
   const errorArray = [];
+  if (values) {
+    values.forEach(({ centralItemType }) => {
+      const errors = {};
 
-  values.forEach(({ centralItemType }) => {
-    const errors = {};
-
-    if (!centralItemType) {
-      errors.centralItemType = <FormattedMessage id="ui-inn-reach.settings.validate.required" />;
-    }
-    errorArray.push(errors);
-  });
+      if (!centralItemType) {
+        errors.centralItemType = <FormattedMessage id="ui-inn-reach.settings.validate.required" />;
+      }
+      errorArray.push(errors);
+    });
+  }
 
   return errorArray;
 };
