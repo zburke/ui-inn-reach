@@ -1,5 +1,5 @@
 .tabularHeaderCol {
-  padding: 10px 15px 5px;
+  padding: 10px 15px 0;
   border-bottom: 5px solid var(--primary);
   font-weight: var(--text-weight-bold);
 }
