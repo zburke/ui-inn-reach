@@ -32,6 +32,7 @@ const MaterialTypeForm = ({
   selectedServer,
   isPending,
   isPristine,
+  invalid,
   isServersPending,
   serverOptions,
   initialValues,
@@ -65,7 +66,7 @@ const MaterialTypeForm = ({
         id="clickable-save-instance"
         buttonStyle="primary mega"
         type="submit"
-        disabled={isPristine}
+        disabled={isPristine || invalid}
         onClick={handleSubmit}
       >
         <FormattedMessage id="ui-inn-reach.settings.contribution-criteria.button.save" />
@@ -111,6 +112,7 @@ MaterialTypeForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   innReachItemTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  invalid: PropTypes.bool.isRequired,
   isPending: PropTypes.bool.isRequired,
   isPristine: PropTypes.bool.isRequired,
   isResetForm: PropTypes.bool.isRequired,
@@ -126,6 +128,7 @@ MaterialTypeForm.propTypes = {
 export default stripesFinalForm({
   subscription: {
     values: true,
+    invalid: true,
   },
   initialValuesEqual: (a, b) => isEqual(a, b),
 })(MaterialTypeForm);
