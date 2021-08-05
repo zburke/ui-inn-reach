@@ -50,3 +50,13 @@ When your new UI app is ready and being built by CI, then adjust its Jenkinsfile
 
 TODO: Modify this README to replace these sections about getting started, link to your issue tracker, etc.
 
+## Additional information
+
+Other [modules](https://dev.folio.org/source-code/#client-side) are described,
+with further FOLIO Developer documentation at [dev.folio.org](https://dev.folio.org/)
+
+### Issue tracker
+
+See project [UIINREACH](https://issues.folio.org/browse/UIINREACH)
+at the [FOLIO issue tracker](https://dev.folio.org/guidelines/issue-tracker).
+
