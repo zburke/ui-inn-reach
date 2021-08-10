@@ -156,5 +156,6 @@
     "modal.confirmLabel.keepEditing": "Continuar editando",
     "modal.cancelLabel.closeWithoutSaving": "Fechar sem salvar",
     "settings.central-server-configuration.edit.modal-button.keepEditing": "Continuar editando",
-    "settings.folio-to-inn-reach-locations.placeholder.select-location": "Selecione a localização"
+    "settings.folio-to-inn-reach-locations.placeholder.select-location": "Selecione a localização",
+    "settings.validate.required": "Required"
 }

@@ -156,5 +156,6 @@
     "modal.confirmLabel.keepEditing": "استمر في التحرير",
     "modal.cancelLabel.closeWithoutSaving": "إغلاق بدون حفظ",
     "settings.central-server-configuration.edit.modal-button.keepEditing": "استمر في التحرير",
-    "settings.folio-to-inn-reach-locations.placeholder.select-location": "اختر الموقع"
+    "settings.folio-to-inn-reach-locations.placeholder.select-location": "اختر الموقع",
+    "settings.validate.required": "مطلوب"
 }
