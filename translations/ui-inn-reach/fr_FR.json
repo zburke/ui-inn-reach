@@ -153,8 +153,9 @@
     "no-selection": "No selection",
     "modal.heading.areYouSure": "Are you sure?",
     "modal.message.unsavedChanges": "There are unsaved changes",
-    "modal.confirmLabel.keepEditing": "Keep editing",
-    "modal.cancelLabel.closeWithoutSaving": "Close without saving",
-    "settings.central-server-configuration.edit.modal-button.keepEditing": "Keep editing",
-    "settings.folio-to-inn-reach-locations.placeholder.select-location": "Select location"
+    "modal.confirmLabel.keepEditing": "Continuer l'édition",
+    "modal.cancelLabel.closeWithoutSaving": "Fermer sans sauvegarder",
+    "settings.central-server-configuration.edit.modal-button.keepEditing": "Continuer l'édition",
+    "settings.folio-to-inn-reach-locations.placeholder.select-location": "Sélectionner un emplacement",
+    "settings.validate.required": "Required"
 }
