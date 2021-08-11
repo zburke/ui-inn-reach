@@ -5,7 +5,7 @@ import { Router } from 'react-router-dom';
 import { translationsProperties } from '../../../../../test/jest/helpers';
 
 import MaterialTypeForm from './MaterialTypeForm';
-import { MATERIAL_TYPE_FIELDS } from '../../../../constants';
+import { CENTRAL_SERVER_ID } from '../../../../constants';
 
 const centralItemTypes = [
   {
@@ -99,7 +99,7 @@ describe('MaterialTypeForm', () => {
     it('should call onChangeServer', () => {
       renderMappingTypeForm(commonProps);
 
-      document.getElementById(`option-${MATERIAL_TYPE_FIELDS.CENTRAL_SERVER_ID}-1-testName2`).click();
+      document.getElementById(`option-${CENTRAL_SERVER_ID}-1-testName2`).click();
       expect(onChangeServer).toHaveBeenCalled();
     });
   });

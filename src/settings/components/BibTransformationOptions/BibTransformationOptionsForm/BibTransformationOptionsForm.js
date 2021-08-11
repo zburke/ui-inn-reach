@@ -22,8 +22,10 @@ import {
 } from 'react-final-form';
 import {
   BIB_TRANSFORMATION_FIELDS,
+  CENTRAL_SERVER_ID,
   DEFAULT_INITIAL_VALUES,
   DEFAULT_PANE_WIDTH,
+  TEXTAREA_ROWS_NUMBER,
 } from '../../../../constants';
 import TabularList from './components/TabularList';
 import {
@@ -32,7 +34,6 @@ import {
 import css from './BibTransformationOptionsForm.css';
 
 const {
-  CENTRAL_SERVER_ID,
   CONFIG_IS_ACTIVE,
   MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS,
   RESOURCE_IDENTIFIER_TYPE_ID,
@@ -136,7 +137,7 @@ const BibTransformationOptionsForm = ({
               id={EXCLUDED_MARC_FIELDS}
               name={EXCLUDED_MARC_FIELDS}
               component={TextArea}
-              rows="1"
+              rows={TEXTAREA_ROWS_NUMBER}
               placeholder={formatMessage({ id: 'ui-inn-reach.settings.bib-transformation.placeholder.strip-fields-and-subfields' })}
               label={<FormattedMessage id="ui-inn-reach.settings.bib-transformation.field.strip-fields-and-subfields" />}
             />

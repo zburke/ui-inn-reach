@@ -98,7 +98,7 @@ const finalRecord = {
   excludedMARCFields: ['856$z', '945'],
 };
 
-const MARCTransformationOptions = {
+const marcTransformationOptions = {
   id: 'fd272329-3956-4890-bdc2-3aae220689f1',
   ...finalRecord,
 };
@@ -120,8 +120,8 @@ const mutatorMock = {
   selectedServerId: {
     replace: jest.fn(),
   },
-  MARCTransformationOptions: {
-    GET: jest.fn(() => Promise.resolve(MARCTransformationOptions)),
+  marcTransformationOptions: {
+    GET: jest.fn(() => Promise.resolve(marcTransformationOptions)),
     POST: jest.fn(() => Promise.resolve()),
     PUT: jest.fn(() => Promise.resolve()),
   },
@@ -176,7 +176,7 @@ describe('BibTransformationOptionsCreateEditRoute component', () => {
     it('should pass the correct initialValues', () => {
       const initialValues = cloneDeep(finalRecord);
 
-      initialValues.id = MARCTransformationOptions.id;
+      initialValues.id = marcTransformationOptions.id;
       initialValues.modifiedFieldsForContributedRecords = initialValues.modifiedFieldsForContributedRecords.map(item => ({
         ...item,
         ignorePrefixes: item.ignorePrefixes.join(', '),
@@ -190,14 +190,14 @@ describe('BibTransformationOptionsCreateEditRoute component', () => {
     it('should make a POST request', async () => {
       renderBibTransformationOptionsCreateEditRoute();
       await act(async () => { await BibTransformationOptionsForm.mock.calls[0][0].onSubmit(record); });
-      expect(mutatorMock.MARCTransformationOptions.POST).toHaveBeenCalledWith(finalRecord);
+      expect(mutatorMock.marcTransformationOptions.POST).toHaveBeenCalledWith(finalRecord);
     });
 
     it('should make a PUT request', async () => {
       renderBibTransformationOptionsCreateEditRoute();
       await act(async () => { await BibTransformationOptionsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
       await act(async () => { await BibTransformationOptionsForm.mock.calls[4][0].onSubmit(record); });
-      expect(mutatorMock.MARCTransformationOptions.PUT).toHaveBeenCalledWith(finalRecord);
+      expect(mutatorMock.marcTransformationOptions.PUT).toHaveBeenCalledWith(finalRecord);
     });
   });
 

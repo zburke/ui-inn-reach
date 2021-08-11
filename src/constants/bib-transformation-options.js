@@ -1,7 +1,6 @@
 export const BIB_TRANSFORMATION_ROUTE = 'bib-transformation';
 
 export const BIB_TRANSFORMATION_FIELDS = {
-  CENTRAL_SERVER_ID: 'centralServerId',
   CONFIG_IS_ACTIVE: 'configIsActive',
   TABULAR_LIST: 'tabularList',
   MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS: 'modifiedFieldsForContributedRecords',
@@ -25,3 +24,5 @@ export const DEFAULT_INITIAL_VALUES = {
     NEW_ROW_VALUES,
   ],
 };
+
+export const TEXTAREA_ROWS_NUMBER = 1;

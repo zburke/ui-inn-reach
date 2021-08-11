@@ -7,7 +7,7 @@ import { screen } from '@testing-library/react';
 import { translationsProperties } from '../../../../../test/jest/helpers';
 import { DEFAULT_VALUES } from '../../../routes/ContributionCriteriaRoute/utils';
 import ContributionCriteriaForm from './ContributionCriteriaForm';
-import { CONTRIBUTION_CRITERIA } from '../../../../constants';
+import { CENTRAL_SERVER_ID } from '../../../../constants';
 
 const folioLocations = [
   {
@@ -113,7 +113,7 @@ describe('ContributionCriteriaForm', () => {
     it('should call onChangeServer', () => {
       renderContributionCriteriaForm(commonProps);
 
-      document.getElementById(`option-${CONTRIBUTION_CRITERIA.CENTRAL_SERVER_ID}-1-testName2`).click();
+      document.getElementById(`option-${CENTRAL_SERVER_ID}-1-testName2`).click();
       expect(onChangeServer).toHaveBeenCalled();
     });
   });

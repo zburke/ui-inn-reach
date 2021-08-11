@@ -23,6 +23,7 @@ import {
 import {
   BIB_TRANSFORMATION_FIELDS,
   NEW_ROW_VALUES,
+  TEXTAREA_ROWS_NUMBER,
 } from '../../../../../../constants';
 import {
   validateIdentifierType,
@@ -153,7 +154,7 @@ const TabularList = ({
                   id={`${name}.${IGNORE_PREFIXES}-${index}`}
                   name={`${name}.${IGNORE_PREFIXES}`}
                   component={TextArea}
-                  rows="1"
+                  rows={TEXTAREA_ROWS_NUMBER}
                   type="text"
                   aria-label={formatMessage({ id: 'ui-inn-reach.settings.bib-transformation.field.ignore-prefixes' })}
                   placeholder={formatMessage({ id: 'ui-inn-reach.settings.bib-transformation.placeholder.ignore-prefixes' })}

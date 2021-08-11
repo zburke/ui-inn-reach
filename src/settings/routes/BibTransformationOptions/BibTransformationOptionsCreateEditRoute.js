@@ -57,7 +57,7 @@ const BibTransformationOptionsCreateEditRoute = ({
   const [selectedServer, setSelectedServer] = useState({});
   const [isConfigActive, setIsConfigActive] = useState(false);
   const [initialValues, setInitialValues] = useState(DEFAULT_INITIAL_VALUES);
-  const [MARCTransformationOptions, setMarcTransformationOptions] = useState({});
+  const [marcTransformationOptions, setMarcTransformationOptions] = useState({});
   const [isMarcTransformationOptionsPending, setIsMarcTransformationOptionsPending] = useState(false);
 
   const serverOptions = useMemo(() => getCentralServerOptions(servers), [servers]);
@@ -65,7 +65,7 @@ const BibTransformationOptionsCreateEditRoute = ({
   const fetchMarcTransformationOptions = () => {
     setIsMarcTransformationOptionsPending(true);
 
-    mutator.MARCTransformationOptions.GET()
+    mutator.marcTransformationOptions.GET()
       .then(response => setMarcTransformationOptions(response))
       .catch(() => setMarcTransformationOptions({}))
       .finally(() => setIsMarcTransformationOptionsPending(false));
@@ -88,9 +88,9 @@ const BibTransformationOptionsCreateEditRoute = ({
   };
 
   const handleSubmit = (record) => {
-    const { POST, PUT } = mutator.MARCTransformationOptions;
-    const saveMethod = isEmpty(MARCTransformationOptions) ? POST : PUT;
-    const action = isEmpty(MARCTransformationOptions) ? 'create' : 'update';
+    const { POST, PUT } = mutator.marcTransformationOptions;
+    const saveMethod = isEmpty(marcTransformationOptions) ? POST : PUT;
+    const action = isEmpty(marcTransformationOptions) ? 'create' : 'update';
     const payload = formatPayload(record);
 
     saveMethod(payload)
@@ -114,13 +114,13 @@ const BibTransformationOptionsCreateEditRoute = ({
   };
 
   useEffect(() => {
-    if (!isEmpty(MARCTransformationOptions)) {
-      const formattedMarcTransformations = formatMARCTransformations(MARCTransformationOptions);
+    if (!isEmpty(marcTransformationOptions)) {
+      const formattedMarcTransformations = formatMARCTransformations(marcTransformationOptions);
 
       setInitialValues(formattedMarcTransformations);
       setIsConfigActive(formattedMarcTransformations[CONFIG_IS_ACTIVE]);
     }
-  }, [MARCTransformationOptions]);
+  }, [marcTransformationOptions]);
 
   if (
     (isServersPending && !hasLoadedServers) ||
@@ -157,7 +157,7 @@ BibTransformationOptionsCreateEditRoute.manifest = Object.freeze({
     path: 'identifier-types?query=cql.allRecords=1%20sortby%20name&limit=2000',
     throwErrors: false,
   },
-  MARCTransformationOptions: {
+  marcTransformationOptions: {
     type: 'okapi',
     path: 'inn-reach/central-servers/%{selectedServerId}/marc-transformation-options',
     accumulate: true,
