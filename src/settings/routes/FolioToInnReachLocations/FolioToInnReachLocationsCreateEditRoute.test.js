@@ -277,7 +277,7 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
       renderFolioToInnReachLocationsCreateEditRoute({ history });
       act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Libraries'); });
-      expect(FolioToInnReachLocationsForm.mock.calls[4][0].initialValues).toEqual({
+      expect(FolioToInnReachLocationsForm.mock.calls[5][0].initialValues).toEqual({
         tabularList: [
           { folioLibrary: 'newLib (QWER)' },
           { folioLibrary: 'test library (l)' }
@@ -309,7 +309,7 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
       });
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[0][0].onChangeMappingType('Locations'); });
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeLibrary(loclibs[1].name); });
-      expect(FolioToInnReachLocationsForm.mock.calls[4][0].initialValues).toEqual({
+      expect(FolioToInnReachLocationsForm.mock.calls[5][0].initialValues).toEqual({
         tabularList: [
           { folioLocation: 'folioName5 (code5)' },
           { folioLocation: 'FOLIOname1 (7sdfe)' }
