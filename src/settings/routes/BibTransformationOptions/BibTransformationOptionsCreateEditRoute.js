@@ -9,7 +9,7 @@ import {
 import {
   LoadingPane,
 } from '@folio/stripes-components';
-import { stripesConnect } from '@folio/stripes-core';
+import { stripesConnect } from '@folio/stripes/core';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { BibTransformationOptionsForm } from '../../components/BibTransformationOptions';
 import {

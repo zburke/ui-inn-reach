@@ -47,12 +47,12 @@ const BibTransformationOptionsForm = ({
   handleSubmit,
   initialValues,
   values,
+  pristine,
   form,
   isMarcTransformationOptionsPending,
   isConfigActive,
   onChangeServer,
   onChangeConfigState,
-  pristine,
 }) => {
   const [canSave, setCanSave] = useState(false);
 
