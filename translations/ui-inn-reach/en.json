@@ -7,6 +7,10 @@
   "modal.confirmLabel.keepEditing": "Keep editing",
   "modal.cancelLabel.closeWithoutSaving": "Close without saving",
 
+  "action.add-new-field": "Added a new {label}. {fieldsLength} in total",
+  "action.remove-fields": "{label} {index} has been removed. {fieldsLength} in total",
+  "action.swap": "{label} {from} and {to} have been swapped",
+
   "settings.title": "INN-Reach",
   "settings.central-servers.list.title": "Central servers",
   "settings.central-servers.view.title": "View {name}",
@@ -20,6 +24,7 @@
   "settings.contribution-options": "Circulation status mapping",
   "settings.folio-to-inn-reach-locations": "FOLIO to INN-Reach locations",
   "settings.agency-to-folio-locations": "Agency to FOLIO location",
+  "settings.bib-transformation": "Bib transformation options",
   "settings.some-feature.message": "These are your settings for some app feature.",
 
   "settings.central-server-configuration.callout.connectionProblem.get": "Unable to get data due to a module error. Please try again. If a problem persists please contact your system administrator",
@@ -177,5 +182,30 @@
   "settings.agency-to-folio-locations.callout.connection-problem.get": "Unable to get data due to a module error. Please try again. If a problem persists please contact your system administrator",
   "settings.agency-to-folio-locations.callout.connection-problem.put": "There was a problem and your update was not saved: {message}, status code {code}",
   "settings.agency-to-folio-locations.create.success": "The INN-Reach Agency to FOLIO Location Mapping for {name} has been created successfully",
-  "settings.agency-to-folio-locations.update.success": "The INN-Reach Agency to FOLIO Location Mapping for {name} has been updated successfully"
+  "settings.agency-to-folio-locations.update.success": "The INN-Reach Agency to FOLIO Location Mapping for {name} has been updated successfully",
+
+  "settings.bib-transformation.title": "Bib transformation options",
+  "settings.bib-transformation.button.save": "Save",
+  "settings.bib-transformation.field.central-server": "Central server",
+  "settings.bib-transformation.field.modify-MARC": "Modify MARC 001 field for contributed records",
+  "settings.bib-transformation.field.identifier-type": "Identifier type",
+  "settings.bib-transformation.field.strip-prefix": "Strip prefix",
+  "settings.bib-transformation.field.ignore-prefixes": "Ignore prefixes",
+  "settings.bib-transformation.field.strip-fields-and-subfields": "Strip fields and subfields",
+  "settings.bib-transformation.placeholder.central-server": "Select central server",
+  "settings.bib-transformation.placeholder.ignore-prefixes": "Enter comma-separated prefix strings",
+  "settings.bib-transformation.placeholder.strip-fields-and-subfields": "Enter comma-separated MARC fields and/or subfields to exclude from transformed MARC records",
+  "settings.bib-transformation.placeholder.identifier-type": "Select identifier type",
+  "settings.bib-transformation.validation.comma-separated-prefix": "Enter comma-separated prefix strings",
+  "settings.bib-transformation.button.add": "Add a new row with fields after current one",
+  "settings.bib-transformation.button.remove": "Remove fields for row {num}",
+  "settings.bib-transformation.button.up": "Swap the current field with the previous one",
+  "settings.bib-transformation.button.down": "Swap the current field with the next",
+  "settings.bib-transformation.action.add-new-field": "row with fields for modifying the contributed records",
+  "settings.bib-transformation.action.remove-fields": "row",
+  "settings.bib-transformation.action.swap": "row",
+  "settings.bib-transformation.create.success": "Bib transformation options created successfully",
+  "settings.bib-transformation.update.success": "Bib transformation options updated successfully",
+  "settings.bib-transformation.callout.connection-problem.post": "There was a problem and your creation was not saved: {message}, status code {code}",
+  "settings.bib-transformation.callout.connection-problem.put": "There was a problem and your update was not saved: {message}, status code {code}"
 }

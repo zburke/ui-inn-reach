@@ -11,8 +11,11 @@ export const METADATA = 'metadata';
 export const CALLOUT_ERROR_TYPE = 'error';
 
 export const ICONS = {
+  ADD: 'plus-sign',
   EDIT: 'edit',
   DELETE: 'trash',
+  ARROW_UP: 'arrow-up',
+  ARROW_DOWN: 'arrow-down',
 };
 
 export const ENTITY_NOT_FOUND_STATUS_CODE = 404;
