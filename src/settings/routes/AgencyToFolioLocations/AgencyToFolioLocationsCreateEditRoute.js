@@ -103,7 +103,7 @@ const AgencyToFolioLocationsCreateEditRoute = ({
   const fetchAgencyMappings = () => {
     mutator.agencyMappings.GET()
       .then(response => setAgencyMappings(response))
-      .catch(() => null);
+      .catch(() => setAgencyMappings({}));
   };
 
   const fetchLocalServers = () => {
@@ -111,7 +111,7 @@ const AgencyToFolioLocationsCreateEditRoute = ({
 
     mutator.localServers.GET()
       .then(response => setLocalServers(response))
-      .catch(() => null)
+      .catch(() => setLocalServers({}))
       .finally(() => setIsLocalServersPending(false));
   };
 
@@ -119,6 +119,8 @@ const AgencyToFolioLocationsCreateEditRoute = ({
     setInitialValues({});
     setAgencyMappings({});
     setIsResetForm(true);
+    setServerLocationOptions([]);
+    setLocalServerLocationOptions([]);
   };
 
   const resetCentralServer = () => {
