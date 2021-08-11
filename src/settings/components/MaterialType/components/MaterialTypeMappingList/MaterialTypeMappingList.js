@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useIntl } from 'react-intl';
+import {
+  useIntl,
+  FormattedMessage,
+} from 'react-intl';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 
@@ -8,6 +11,7 @@ import {
   Col,
   Row,
   Selection,
+  Label,
 } from '@folio/stripes-components';
 
 import { MATERIAL_TYPE_FIELDS } from '../../../../../constants';
@@ -18,6 +22,23 @@ const {
   CENTRAL_ITEM_TYPE,
   MATERIAL_TYPE_LABEL,
 } = MATERIAL_TYPE_FIELDS;
+
+const validate = (values) => {
+  const errorArray = [];
+
+  if (values) {
+    values.forEach(({ centralItemType }) => {
+      const errors = {};
+
+      if (!centralItemType) {
+        errors.centralItemType = <FormattedMessage id="ui-inn-reach.settings.validate.required" />;
+      }
+      errorArray.push(errors);
+    });
+  }
+
+  return errorArray;
+};
 
 const MaterialTypeMappingList = ({
   innReachItemTypeOptions,
@@ -31,16 +52,23 @@ const MaterialTypeMappingList = ({
           className={css.tabularHeaderCol}
           sm={6}
         >
-          {formatMessage({ id: 'ui-inn-reach.settings.material-type-mapping.field.folio-material-types' })}
+          <Label>
+            {formatMessage({ id: 'ui-inn-reach.settings.material-type-mapping.field.folio-material-types' })}
+          </Label>
         </Col>
         <Col
           className={css.tabularHeaderCol}
           sm={6}
         >
-          {formatMessage({ id: 'ui-inn-reach.settings.material-type-mapping.field.item-type' })}
+          <Label required>
+            {formatMessage({ id: 'ui-inn-reach.settings.material-type-mapping.field.item-type' })}
+          </Label>
         </Col>
       </Row>
-      <FieldArray name={MATERIAL_TYPE_MAPPING_LIST}>
+      <FieldArray
+        name={MATERIAL_TYPE_MAPPING_LIST}
+        validate={validate}
+      >
         {({ fields }) => {
           return fields.map((name, index) => (
             <Row

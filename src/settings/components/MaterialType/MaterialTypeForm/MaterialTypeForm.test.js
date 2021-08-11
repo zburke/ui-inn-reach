@@ -45,6 +45,7 @@ const renderMappingTypeForm = ({
   isPending = false,
   isServersPending = false,
   initialValues = {},
+  invalid = false,
   isResetForm = false,
   onChangeFormResetState,
   onChangePristineState,
@@ -60,6 +61,7 @@ const renderMappingTypeForm = ({
         isPending={isPending}
         isPristine={isPristine}
         isServersPending={isServersPending}
+        invalid={invalid}
         serverOptions={serverOptions}
         innReachItemTypeOptions={centralItemTypes}
         initialValues={initialValues}

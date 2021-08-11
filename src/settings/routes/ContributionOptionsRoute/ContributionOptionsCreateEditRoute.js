@@ -124,6 +124,7 @@ const ContributionOptionsCreateEditRoute = ({
       .then(() => {
         const action = contributionOptions ? 'update' : 'create';
 
+        setIsNewRecord(false);
         setContributionOptions({ ...finalRecord });
         showCallout({ message: <FormattedMessage id={`ui-inn-reach.settings.contribution-options.${action}.success`} /> });
       })
