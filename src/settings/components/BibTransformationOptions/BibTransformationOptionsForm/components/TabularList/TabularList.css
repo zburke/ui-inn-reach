@@ -29,7 +29,6 @@ textarea {
   composes: tabularCol from '../../../../FolioToInnReachLocations/FolioToInnReachLocationsForm/components/TabularList/TabularList.css'; /* stylelint-disable-line value-keyword-case */
   display: block;
   padding: 10px;
-  text-align: center;
 
   & > [class*="textArea"] {
     width: 100%;
@@ -43,6 +42,7 @@ textarea {
 .customColSmWidth {
   flex-basis: 11.33333333%;
   max-width: 11.33333333%;
+  text-align: center;
 }
 
 .customColMdWidth {
@@ -56,8 +56,4 @@ textarea {
 
 .cursorNone {
   pointer-events: none;
-}
-
-.stripPrefix {
-  text-align: center;
 }

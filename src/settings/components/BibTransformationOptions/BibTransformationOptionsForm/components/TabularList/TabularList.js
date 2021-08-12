@@ -140,7 +140,7 @@ const TabularList = ({
                   validate={validateIdentifierType}
                 />
               </Col>
-              <Col className={classNames(css.tabularCol, css.customColSmWidth, css.stripPrefix)}>
+              <Col className={classNames(css.tabularCol, css.customColSmWidth)}>
                 <Field
                   id={`${name}.${STRIP_PREFIX}-${index}`}
                   name={`${name}.${STRIP_PREFIX}`}
