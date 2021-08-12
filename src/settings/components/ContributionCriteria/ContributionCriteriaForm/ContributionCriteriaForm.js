@@ -23,6 +23,7 @@ import {
 import stripesFinalForm from '@folio/stripes/final-form';
 
 import {
+  CENTRAL_SERVER_ID,
   CONTRIBUTION_CRITERIA,
   DEFAULT_PANE_WIDTH,
 } from '../../../../constants';
@@ -34,7 +35,6 @@ import {
 } from './utils';
 
 const {
-  CENTRAL_SERVER_ID,
   LOCATIONS_IDS,
   CONTRIBUTE_BUT_SUPPRESS_ID,
   DO_NOT_CONTRIBUTE_ID,

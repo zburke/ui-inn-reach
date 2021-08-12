@@ -6,7 +6,7 @@ import { translationsProperties } from '../../../../../test/jest/helpers';
 import { DEFAULT_VALUES } from '../../../routes/ContributionOptionsRoute/ContributionOptionsCreateEditRoute';
 import ContributionOptionsForm from './ContributionOptionsForm';
 import {
-  CONTRIBUTION_OPTIONS_FIELDS,
+  CENTRAL_SERVER_ID,
   STATUSES_LIST_OPTIONS,
 } from '../../../../constants';
 
@@ -121,7 +121,7 @@ describe('ContributionOptionsForm', () => {
     it('should call onChangeServer', () => {
       renderContributionOptionsForm(commonProps);
 
-      document.getElementById(`option-${CONTRIBUTION_OPTIONS_FIELDS.CENTRAL_SERVER_ID}-1-testName2`).click();
+      document.getElementById(`option-${CENTRAL_SERVER_ID}-1-testName2`).click();
       expect(onChangeServer).toHaveBeenCalled();
     });
   });

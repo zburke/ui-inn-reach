@@ -111,7 +111,10 @@ const CentralServersConfigurationCreateRoute = ({
 CentralServersConfigurationCreateRoute.manifest = Object.freeze({
   centralServerRecords: {
     type: 'okapi',
-    path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
+    path: 'inn-reach/central-servers',
+    GET: {
+      path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
+    },
     fetch: false,
     throwErrors: false,
   },

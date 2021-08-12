@@ -2,7 +2,6 @@ export const CONTRIBUTION_OPTIONS = 'Record contribution';
 export const CONTRIBUTION_OPTIONS_ROUTE = 'item-contribution-options';
 
 export const CONTRIBUTION_OPTIONS_FIELDS = {
-  CENTRAL_SERVER_ID: 'centralServerId',
   STATUSES: 'notAvailableItemStatuses',
   LOAN_TYPE_IDS: 'nonLendableLoanTypes',
   LOCATION_IDS: 'nonLendableLocations',

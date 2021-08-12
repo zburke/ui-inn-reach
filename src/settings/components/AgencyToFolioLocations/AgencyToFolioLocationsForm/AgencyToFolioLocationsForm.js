@@ -23,6 +23,7 @@ import {
 
 import {
   AGENCY_TO_FOLIO_LOCATIONS_FIELDS,
+  CENTRAL_SERVER_ID,
   DEFAULT_PANE_WIDTH,
 } from '../../../../constants';
 import {
@@ -41,7 +42,6 @@ import {
 import css from './AgencyToFolioLocationsForm.css';
 
 const {
-  CENTRAL_SERVER_ID,
   LIBRARY_ID,
   LOCATION_ID,
   LOCAL_CODE,

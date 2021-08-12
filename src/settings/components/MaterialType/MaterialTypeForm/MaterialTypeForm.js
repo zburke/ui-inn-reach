@@ -19,14 +19,10 @@ import {
 import stripesFinalForm from '@folio/stripes/final-form';
 
 import {
-  MATERIAL_TYPE_FIELDS,
   DEFAULT_PANE_WIDTH,
+  CENTRAL_SERVER_ID,
 } from '../../../../constants';
 import { MaterialTypeMappingList } from '../components';
-
-const {
-  CENTRAL_SERVER_ID,
-} = MATERIAL_TYPE_FIELDS;
 
 const MaterialTypeForm = ({
   selectedServer,

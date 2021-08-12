@@ -6,6 +6,7 @@ import {
 } from '../../../constants';
 
 const {
+  ID,
   AGENCY,
   AGENCY_CODE_MAPPINGS,
   LIBRARY_ID,
@@ -95,11 +96,12 @@ const getAgencyCodeMappingsMap = (agencyCodeMappings) => {
   const agencyCodeMappingsMap = new Map();
 
   agencyCodeMappings.forEach(({ id, agencyCode, libraryId, locationId }) => {
-    const fieldset = { id, libraryId };
+    const fieldset = {};
 
-    if (locationId) {
-      fieldset[LOCATION_ID] = locationId;
-    }
+    if (id) fieldset[ID] = id;
+    if (libraryId) fieldset[LIBRARY_ID] = libraryId;
+    if (locationId) fieldset[LOCATION_ID] = locationId;
+
     agencyCodeMappingsMap.set(agencyCode, fieldset);
   });
 
