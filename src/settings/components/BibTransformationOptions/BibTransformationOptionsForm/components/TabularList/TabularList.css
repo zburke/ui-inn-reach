@@ -29,6 +29,7 @@ textarea {
   composes: tabularCol from '../../../../FolioToInnReachLocations/FolioToInnReachLocationsForm/components/TabularList/TabularList.css'; /* stylelint-disable-line value-keyword-case */
   display: block;
   padding: 10px;
+  text-align: center;
 
   & > [class*="textArea"] {
     width: 100%;
