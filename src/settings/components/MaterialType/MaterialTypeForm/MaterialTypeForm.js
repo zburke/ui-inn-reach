@@ -39,7 +39,7 @@ const MaterialTypeForm = ({
   handleSubmit,
   values,
   form,
-  bannerMessage,
+  innReachItemTypesFailed,
   onChangePristineState,
   onChangeFormResetState,
   onChangeServer,
@@ -97,11 +97,11 @@ const MaterialTypeForm = ({
       {isPending && <Loading />}
       <MessageBanner
         type={BANNER_ERROR_TYPE}
-        show={!!bannerMessage}
+        show={innReachItemTypesFailed}
       >
-        {bannerMessage}
+        <FormattedMessage id="ui-inn-reach.banner.item-types" />
       </MessageBanner>
-      {selectedServer.id && !isPending && !bannerMessage &&
+      {selectedServer.id && !isPending && !innReachItemTypesFailed &&
         <form>
           <MaterialTypeMappingList
             innReachItemTypeOptions={innReachItemTypeOptions}
@@ -113,11 +113,11 @@ const MaterialTypeForm = ({
 };
 
 MaterialTypeForm.propTypes = {
-  bannerMessage: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   innReachItemTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  innReachItemTypesFailed: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   isPending: PropTypes.bool.isRequired,
   isPristine: PropTypes.bool.isRequired,

@@ -47,7 +47,7 @@ const renderMappingTypeForm = ({
   initialValues = {},
   invalid = false,
   isResetForm = false,
-  bannerMessage = '',
+  innReachItemTypesFailed = false,
   onChangeFormResetState,
   onChangePristineState,
   history = createMemoryHistory(),
@@ -67,7 +67,7 @@ const renderMappingTypeForm = ({
         innReachItemTypeOptions={centralItemTypes}
         initialValues={initialValues}
         isResetForm={isResetForm}
-        bannerMessage={bannerMessage}
+        innReachItemTypesFailed={innReachItemTypesFailed}
         onChangeFormResetState={onChangeFormResetState}
         onChangePristineState={onChangePristineState}
         onSubmit={handleSubmit}
@@ -116,19 +116,19 @@ describe('MaterialTypeForm', () => {
 
   describe('banner', () => {
     it('should be visible', () => {
-      const bannerMessage = 'some kind of error message';
-      const { getByText } = renderMappingTypeForm({
+      renderMappingTypeForm({
         ...commonProps,
-        bannerMessage,
+        innReachItemTypesFailed: true,
       });
+      const banner = document.querySelector('[data-test-message-banner]');
 
-      expect(getByText(bannerMessage)).toBeVisible();
+      expect(banner).toBeVisible();
     });
 
     it('should be invisible', () => {
       renderMappingTypeForm({
         ...commonProps,
-        bannerMessage: '',
+        innReachItemTypesFailed: false,
       });
       const banner = document.querySelector('[data-test-message-banner]');
 

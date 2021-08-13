@@ -10,7 +10,6 @@ import {
 } from 'lodash';
 import {
   FormattedMessage,
-  useIntl,
 } from 'react-intl';
 
 import {
@@ -70,13 +69,12 @@ const MaterialTypeCreateEditRoute = ({
   ] = useCentralServers(history, servers);
 
   const showCallout = useCallout();
-  const { formatMessage } = useIntl();
   const [materialTypeMappings, setMaterialTypeMappings] = useState([]);
   const [innReachItemTypes, setInnReachItemTypes] = useState([]);
   const [initialValues, setInitialValues] = useState({});
   const [isMaterialTypeMappingsPending, setIsMaterialTypeMappingsPending] = useState(false);
   const [isInnReachItemTypesPending, setIsInnReachItemTypesPending] = useState(false);
-  const [bannerMessage, setBannerMessage] = useState('');
+  const [innReachItemTypesFailed, setInnReachItemTypesFailed] = useState(false);
 
   const getFormatedInnReachItemTypeOptions = useMemo(() => {
     let options = [];
@@ -102,7 +100,7 @@ const MaterialTypeCreateEditRoute = ({
   })), [materialTypes]);
 
   const changeServer = (serverName) => {
-    setBannerMessage('');
+    setInnReachItemTypesFailed(false);
     handleServerChange(serverName);
   };
 
@@ -164,9 +162,7 @@ const MaterialTypeCreateEditRoute = ({
       mutator.innReachItemTypes.GET()
         .then(response => setInnReachItemTypes(response.itemTypeList))
         .catch(() => {
-          const message = formatMessage({ id: 'ui-inn-reach.banner.item-types' });
-
-          setBannerMessage(message);
+          setInnReachItemTypesFailed(true);
           setInnReachItemTypes([]);
         })
         .finally(() => setIsInnReachItemTypesPending(false));
@@ -194,7 +190,7 @@ const MaterialTypeCreateEditRoute = ({
         initialValues={initialValues}
         isResetForm={isResetForm}
         innReachItemTypeOptions={getFormatedInnReachItemTypeOptions}
-        bannerMessage={bannerMessage}
+        innReachItemTypesFailed={innReachItemTypesFailed}
         onSubmit={handleSubmit}
         onChangePristineState={changePristineState}
         onChangeFormResetState={changeFormResetState}

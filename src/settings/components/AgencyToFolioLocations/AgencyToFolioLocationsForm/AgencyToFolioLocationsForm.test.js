@@ -148,7 +148,7 @@ const renderAgencyToFolioLocationsForm = ({
   values = {},
   form,
   agencyMappings = {},
-  bannerMessage = '',
+  localServersFailed = false,
   onChangeServer,
   onChangeLocalServer,
   isLocalServersPending = false,
@@ -174,7 +174,7 @@ const renderAgencyToFolioLocationsForm = ({
         form={form}
         serverLocationOptions={serverLocationOptions}
         localServerLocationOptions={localServerLocationOptions}
-        bannerMessage={bannerMessage}
+        localServersFailed={localServersFailed}
         onSubmit={handleSubmit}
         onChangeServer={onChangeServer}
         onChangeLocalServer={onChangeLocalServer}
@@ -320,19 +320,19 @@ describe('AgencyToFolioLocationsForm', () => {
 
   describe('banner', () => {
     it('should be visible', () => {
-      const bannerMessage = 'some kind of error message';
-      const { getByText } = renderAgencyToFolioLocationsForm({
+      renderAgencyToFolioLocationsForm({
         ...commonProps,
-        bannerMessage,
+        localServersFailed: true,
       });
+      const banner = document.querySelector('[data-test-message-banner]');
 
-      expect(getByText(bannerMessage)).toBeVisible();
+      expect(banner).toBeVisible();
     });
 
     it('should be invisible', () => {
       renderAgencyToFolioLocationsForm({
         ...commonProps,
-        bannerMessage: '',
+        localServersFailed: false,
       });
       const banner = document.querySelector('[data-test-message-banner]');
 

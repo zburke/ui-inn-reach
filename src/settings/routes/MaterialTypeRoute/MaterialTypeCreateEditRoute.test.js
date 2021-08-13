@@ -209,13 +209,13 @@ describe('MaterialTypeCreateEditRoute component', () => {
         mutator: newMutatorMock,
       });
       await act(async () => { await MaterialTypeForm.mock.calls[1][0].onChangeServer(servers[0].name); });
-      expect(MaterialTypeForm.mock.calls[6][0].bannerMessage).not.toBe('');
+      expect(MaterialTypeForm.mock.calls[6][0].innReachItemTypesFailed).toBeTruthy();
     });
 
     it('should be invisible', async () => {
       renderMaterialTypesCreateEditRoute({ history });
       await act(async () => { await MaterialTypeForm.mock.calls[1][0].onChangeServer(servers[0].name); });
-      expect(MaterialTypeForm.mock.calls[5][0].bannerMessage).toBe('');
+      expect(MaterialTypeForm.mock.calls[5][0].innReachItemTypesFailed).toBeFalsy();
     });
   });
 });

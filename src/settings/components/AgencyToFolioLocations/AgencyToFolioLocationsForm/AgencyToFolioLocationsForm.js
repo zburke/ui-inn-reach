@@ -68,7 +68,7 @@ const AgencyToFolioLocationsForm = ({
   form,
   serverLocationOptions,
   localServerLocationOptions,
-  bannerMessage,
+  localServersFailed,
   onChangeServer,
   onChangeLocalServer,
   onChangePristineState,
@@ -88,6 +88,7 @@ const AgencyToFolioLocationsForm = ({
   const isServerFieldsChanged = isLibraryChanged || isLocationChanged;
   const isLocalServerFieldsChanged = values[LOCAL_CODE] &&
     (isLocalServerLibraryChanged || isLocalServerLocationChanged || isAgencyCodeMappingsChanged);
+  const isValidCentralServerConfig = ((values[LOCATION_ID] && !isLocalServersPending) || values[LOCAL_CODE]) && !localServersFailed;
 
   const isPristine = !(
     isLibraryChanged ||
@@ -279,11 +280,11 @@ const AgencyToFolioLocationsForm = ({
         }
         <MessageBanner
           type={BANNER_ERROR_TYPE}
-          show={!!bannerMessage}
+          show={localServersFailed}
         >
-          {bannerMessage}
+          <FormattedMessage id="ui-inn-reach.banner.local-servers" />
         </MessageBanner>
-        {((values[LOCATION_ID] && !isLocalServersPending) || values[LOCAL_CODE]) && !bannerMessage &&
+        {isValidCentralServerConfig &&
           <Field
             id={LOCAL_CODE}
             name={LOCAL_CODE}
@@ -345,7 +346,6 @@ AgencyToFolioLocationsForm.propTypes = {
       })),
     })),
   }).isRequired,
-  bannerMessage: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
   formatMessage: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -367,6 +367,7 @@ AgencyToFolioLocationsForm.propTypes = {
     reason: PropTypes.string,
     status: PropTypes.string,
   }).isRequired,
+  localServersFailed: PropTypes.bool.isRequired,
   selectedServer: PropTypes.object.isRequired,
   serverLocationOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
