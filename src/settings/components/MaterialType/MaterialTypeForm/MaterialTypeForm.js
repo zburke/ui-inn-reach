@@ -15,12 +15,14 @@ import {
   Row,
   Selection,
   Loading,
+  MessageBanner,
 } from '@folio/stripes-components';
 import stripesFinalForm from '@folio/stripes/final-form';
 
 import {
   DEFAULT_PANE_WIDTH,
   CENTRAL_SERVER_ID,
+  BANNER_ERROR_TYPE,
 } from '../../../../constants';
 import { MaterialTypeMappingList } from '../components';
 
@@ -37,6 +39,7 @@ const MaterialTypeForm = ({
   handleSubmit,
   values,
   form,
+  bannerMessage,
   onChangePristineState,
   onChangeFormResetState,
   onChangeServer,
@@ -92,7 +95,13 @@ const MaterialTypeForm = ({
         </Col>
       </Row>
       {isPending && <Loading />}
-      {selectedServer.id && !isPending &&
+      <MessageBanner
+        type={BANNER_ERROR_TYPE}
+        show={!!bannerMessage}
+      >
+        {bannerMessage}
+      </MessageBanner>
+      {selectedServer.id && !isPending && !bannerMessage &&
         <form>
           <MaterialTypeMappingList
             innReachItemTypeOptions={innReachItemTypeOptions}
@@ -104,6 +113,7 @@ const MaterialTypeForm = ({
 };
 
 MaterialTypeForm.propTypes = {
+  bannerMessage: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,

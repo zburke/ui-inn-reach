@@ -47,6 +47,7 @@ const renderMappingTypeForm = ({
   initialValues = {},
   invalid = false,
   isResetForm = false,
+  bannerMessage = '',
   onChangeFormResetState,
   onChangePristineState,
   history = createMemoryHistory(),
@@ -66,6 +67,7 @@ const renderMappingTypeForm = ({
         innReachItemTypeOptions={centralItemTypes}
         initialValues={initialValues}
         isResetForm={isResetForm}
+        bannerMessage={bannerMessage}
         onChangeFormResetState={onChangeFormResetState}
         onChangePristineState={onChangePristineState}
         onSubmit={handleSubmit}
@@ -110,5 +112,27 @@ describe('MaterialTypeForm', () => {
       isResetForm: true,
     });
     expect(onChangeFormResetState).toHaveBeenCalledWith(false);
+  });
+
+  describe('banner', () => {
+    it('should be visible', () => {
+      const bannerMessage = 'some kind of error message';
+      const { getByText } = renderMappingTypeForm({
+        ...commonProps,
+        bannerMessage,
+      });
+
+      expect(getByText(bannerMessage)).toBeVisible();
+    });
+
+    it('should be invisible', () => {
+      renderMappingTypeForm({
+        ...commonProps,
+        bannerMessage: '',
+      });
+      const banner = document.querySelector('[data-test-message-banner]');
+
+      expect(banner).toBeFalsy();
+    });
   });
 });

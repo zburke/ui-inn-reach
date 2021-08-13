@@ -10,6 +10,7 @@ import {
 } from 'lodash';
 import {
   FormattedMessage,
+  useIntl,
 } from 'react-intl';
 
 import {
@@ -69,11 +70,13 @@ const MaterialTypeCreateEditRoute = ({
   ] = useCentralServers(history, servers);
 
   const showCallout = useCallout();
+  const { formatMessage } = useIntl();
   const [materialTypeMappings, setMaterialTypeMappings] = useState([]);
   const [innReachItemTypes, setInnReachItemTypes] = useState([]);
   const [initialValues, setInitialValues] = useState({});
   const [isMaterialTypeMappingsPending, setIsMaterialTypeMappingsPending] = useState(false);
   const [isInnReachItemTypesPending, setIsInnReachItemTypesPending] = useState(false);
+  const [bannerMessage, setBannerMessage] = useState('');
 
   const getFormatedInnReachItemTypeOptions = useMemo(() => {
     let options = [];
@@ -97,6 +100,11 @@ const MaterialTypeCreateEditRoute = ({
     label: type.name,
     value: type.id,
   })), [materialTypes]);
+
+  const changeServer = (serverName) => {
+    setBannerMessage('');
+    handleServerChange(serverName);
+  };
 
   useEffect(() => {
     if (!isMaterialTypeMappingsPending && !isInnReachItemTypesPending) {
@@ -155,7 +163,12 @@ const MaterialTypeCreateEditRoute = ({
 
       mutator.innReachItemTypes.GET()
         .then(response => setInnReachItemTypes(response.itemTypeList))
-        .catch(() => setInnReachItemTypes([]))
+        .catch(() => {
+          const message = formatMessage({ id: 'ui-inn-reach.banner.item-types' });
+
+          setBannerMessage(message);
+          setInnReachItemTypes([]);
+        })
         .finally(() => setIsInnReachItemTypesPending(false));
     }
   }, [selectedServer.id]);
@@ -181,10 +194,11 @@ const MaterialTypeCreateEditRoute = ({
         initialValues={initialValues}
         isResetForm={isResetForm}
         innReachItemTypeOptions={getFormatedInnReachItemTypeOptions}
+        bannerMessage={bannerMessage}
         onSubmit={handleSubmit}
         onChangePristineState={changePristineState}
         onChangeFormResetState={changeFormResetState}
-        onChangeServer={handleServerChange}
+        onChangeServer={changeServer}
       />
     </>
   );

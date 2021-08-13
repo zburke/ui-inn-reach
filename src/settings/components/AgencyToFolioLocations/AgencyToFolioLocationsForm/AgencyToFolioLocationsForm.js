@@ -19,10 +19,12 @@ import {
   Pane,
   PaneFooter,
   Selection,
+  MessageBanner,
 } from '@folio/stripes-components';
 
 import {
   AGENCY_TO_FOLIO_LOCATIONS_FIELDS,
+  BANNER_ERROR_TYPE,
   CENTRAL_SERVER_ID,
   DEFAULT_PANE_WIDTH,
 } from '../../../../constants';
@@ -66,6 +68,7 @@ const AgencyToFolioLocationsForm = ({
   form,
   serverLocationOptions,
   localServerLocationOptions,
+  bannerMessage,
   onChangeServer,
   onChangeLocalServer,
   onChangePristineState,
@@ -274,7 +277,13 @@ const AgencyToFolioLocationsForm = ({
             </Field>
           </>
         }
-        {((values[LOCATION_ID] && !isLocalServersPending) || values[LOCAL_CODE]) &&
+        <MessageBanner
+          type={BANNER_ERROR_TYPE}
+          show={!!bannerMessage}
+        >
+          {bannerMessage}
+        </MessageBanner>
+        {((values[LOCATION_ID] && !isLocalServersPending) || values[LOCAL_CODE]) && !bannerMessage &&
           <Field
             id={LOCAL_CODE}
             name={LOCAL_CODE}
@@ -336,6 +345,7 @@ AgencyToFolioLocationsForm.propTypes = {
       })),
     })),
   }).isRequired,
+  bannerMessage: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
   formatMessage: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,

@@ -97,6 +97,7 @@ const AgencyToFolioLocationsCreateEditRoute = ({
   const [nextLocation, setNextLocation] = useState(null);
   const [serverLocationOptions, setServerLocationOptions] = useState([]);
   const [localServerLocationOptions, setLocalServerLocationOptions] = useState([]);
+  const [bannerMessage, setBannerMessage] = useState('');
 
   const serverOptions = useMemo(() => getCentralServerOptions(servers), [servers]);
 
@@ -111,7 +112,12 @@ const AgencyToFolioLocationsCreateEditRoute = ({
 
     mutator.localServers.GET()
       .then(response => setLocalServers(response))
-      .catch(() => setLocalServers({}))
+      .catch(() => {
+        const message = formatMessage({ id: 'ui-inn-reach.banner.local-servers' });
+
+        setBannerMessage(message);
+        setLocalServers({});
+      })
       .finally(() => setIsLocalServersPending(false));
   };
 
@@ -121,6 +127,7 @@ const AgencyToFolioLocationsCreateEditRoute = ({
     setIsResetForm(true);
     setServerLocationOptions([]);
     setLocalServerLocationOptions([]);
+    setBannerMessage('');
   };
 
   const resetCentralServer = () => {
@@ -330,6 +337,7 @@ const AgencyToFolioLocationsCreateEditRoute = ({
         isResetForm={isResetForm}
         serverLocationOptions={serverLocationOptions}
         localServerLocationOptions={localServerLocationOptions}
+        bannerMessage={bannerMessage}
         onSubmit={handleSubmit}
         onChangeServer={changeServer}
         onChangeLocalServer={addLocalInitialValues}

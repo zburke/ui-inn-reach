@@ -11,6 +11,9 @@
   "action.remove-fields": "{label} {index} has been removed. {fieldsLength} in total",
   "action.swap": "{label} {from} and {to} have been swapped",
 
+  "banner.local-servers": "Unable to retrieve local server settings from central server. Please verify the configuration of the selected central server.",
+  "banner.item-types": "Unable to retrieve INN-Reach item type settings from central server. Please verify the configuration of the selected central server.",
+
   "settings.title": "INN-Reach",
   "settings.central-servers.list.title": "Central servers",
   "settings.central-servers.view.title": "View {name}",
