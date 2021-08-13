@@ -19,10 +19,12 @@ import {
   Pane,
   PaneFooter,
   Selection,
+  MessageBanner,
 } from '@folio/stripes-components';
 
 import {
   AGENCY_TO_FOLIO_LOCATIONS_FIELDS,
+  BANNER_ERROR_TYPE,
   CENTRAL_SERVER_ID,
   DEFAULT_PANE_WIDTH,
 } from '../../../../constants';
@@ -66,6 +68,7 @@ const AgencyToFolioLocationsForm = ({
   form,
   serverLocationOptions,
   localServerLocationOptions,
+  localServersFailed,
   onChangeServer,
   onChangeLocalServer,
   onChangePristineState,
@@ -85,6 +88,7 @@ const AgencyToFolioLocationsForm = ({
   const isServerFieldsChanged = isLibraryChanged || isLocationChanged;
   const isLocalServerFieldsChanged = values[LOCAL_CODE] &&
     (isLocalServerLibraryChanged || isLocalServerLocationChanged || isAgencyCodeMappingsChanged);
+  const isValidCentralServerConfig = ((values[LOCATION_ID] && !isLocalServersPending) || values[LOCAL_CODE]) && !localServersFailed;
 
   const isPristine = !(
     isLibraryChanged ||
@@ -274,7 +278,13 @@ const AgencyToFolioLocationsForm = ({
             </Field>
           </>
         }
-        {((values[LOCATION_ID] && !isLocalServersPending) || values[LOCAL_CODE]) &&
+        <MessageBanner
+          type={BANNER_ERROR_TYPE}
+          show={localServersFailed}
+        >
+          <FormattedMessage id="ui-inn-reach.banner.local-servers" />
+        </MessageBanner>
+        {isValidCentralServerConfig &&
           <Field
             id={LOCAL_CODE}
             name={LOCAL_CODE}
@@ -357,6 +367,7 @@ AgencyToFolioLocationsForm.propTypes = {
     reason: PropTypes.string,
     status: PropTypes.string,
   }).isRequired,
+  localServersFailed: PropTypes.bool.isRequired,
   selectedServer: PropTypes.object.isRequired,
   serverLocationOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,

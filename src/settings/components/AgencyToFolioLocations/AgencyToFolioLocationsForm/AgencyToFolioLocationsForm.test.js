@@ -148,6 +148,7 @@ const renderAgencyToFolioLocationsForm = ({
   values = {},
   form,
   agencyMappings = {},
+  localServersFailed = false,
   onChangeServer,
   onChangeLocalServer,
   isLocalServersPending = false,
@@ -173,6 +174,7 @@ const renderAgencyToFolioLocationsForm = ({
         form={form}
         serverLocationOptions={serverLocationOptions}
         localServerLocationOptions={localServerLocationOptions}
+        localServersFailed={localServersFailed}
         onSubmit={handleSubmit}
         onChangeServer={onChangeServer}
         onChangeLocalServer={onChangeLocalServer}
@@ -313,6 +315,28 @@ describe('AgencyToFolioLocationsForm', () => {
       document.getElementById('agencyCodeMappings[0].libraryId-0').click();
       document.getElementById(`option-agencyCodeMappings[0].libraryId-0-1-${loclibs[0].id}`).click();
       expect(screen.getByRole('button', { name })).toBeEnabled();
+    });
+  });
+
+  describe('banner', () => {
+    it('should be visible', () => {
+      renderAgencyToFolioLocationsForm({
+        ...commonProps,
+        localServersFailed: true,
+      });
+      const banner = document.querySelector('[data-test-message-banner]');
+
+      expect(banner).toBeVisible();
+    });
+
+    it('should be invisible', () => {
+      renderAgencyToFolioLocationsForm({
+        ...commonProps,
+        localServersFailed: false,
+      });
+      const banner = document.querySelector('[data-test-message-banner]');
+
+      expect(banner).toBeFalsy();
     });
   });
 });

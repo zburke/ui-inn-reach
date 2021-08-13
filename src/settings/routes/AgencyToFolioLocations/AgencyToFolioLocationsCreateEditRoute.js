@@ -97,6 +97,7 @@ const AgencyToFolioLocationsCreateEditRoute = ({
   const [nextLocation, setNextLocation] = useState(null);
   const [serverLocationOptions, setServerLocationOptions] = useState([]);
   const [localServerLocationOptions, setLocalServerLocationOptions] = useState([]);
+  const [localServersFailed, setLocalServersFailed] = useState(false);
 
   const serverOptions = useMemo(() => getCentralServerOptions(servers), [servers]);
 
@@ -111,7 +112,10 @@ const AgencyToFolioLocationsCreateEditRoute = ({
 
     mutator.localServers.GET()
       .then(response => setLocalServers(response))
-      .catch(() => setLocalServers({}))
+      .catch(() => {
+        setLocalServersFailed(true);
+        setLocalServers({});
+      })
       .finally(() => setIsLocalServersPending(false));
   };
 
@@ -121,6 +125,7 @@ const AgencyToFolioLocationsCreateEditRoute = ({
     setIsResetForm(true);
     setServerLocationOptions([]);
     setLocalServerLocationOptions([]);
+    setLocalServersFailed(false);
   };
 
   const resetCentralServer = () => {
@@ -330,6 +335,7 @@ const AgencyToFolioLocationsCreateEditRoute = ({
         isResetForm={isResetForm}
         serverLocationOptions={serverLocationOptions}
         localServerLocationOptions={localServerLocationOptions}
+        localServersFailed={localServersFailed}
         onSubmit={handleSubmit}
         onChangeServer={changeServer}
         onChangeLocalServer={addLocalInitialValues}

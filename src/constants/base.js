@@ -9,6 +9,7 @@ export const FILL_PANE_WIDTH = 'fill';
 export const METADATA = 'metadata';
 
 export const CALLOUT_ERROR_TYPE = 'error';
+export const BANNER_ERROR_TYPE = 'error';
 
 export const ICONS = {
   ADD: 'plus-sign',
