@@ -21,34 +21,10 @@ const servers = [
   {
     id: '1',
     name: 'testServerName1',
-    localAgencies: [
-      {
-        code: 'er3rr',
-        folioLibraryIds: ['0939ebc4-cf37-4968-841e-912c0c02eacf', '9e3ccd90-8d64-4c52-8ee8-f09f5d4ebb56'],
-        id: 'effea123-e807-43b4-9e93-47f3132734e7',
-      },
-      {
-        code: '4ffeg',
-        folioLibraryIds: ['0939ebc4-cf37-4968-841e-912c0c02eacf', '9e3ccd90-8d64-4c52-8ee8-f09f5d4ebb56'],
-        id: '5ffa6f06-8f09-4f32-991d-ed78b70f3e1e',
-      }
-    ],
   },
   {
     id: '2',
     name: 'testServerName2',
-    localAgencies: [
-      {
-        code: 'er3rr',
-        folioLibraryIds: ['0939ebc4-cf37-4968-841e-912c0c02eacf', '9e3ccd90-8d64-4c52-8ee8-f09f5d4ebb56'],
-        id: 'effea123-e807-43b4-9e93-47f3132734e7',
-      },
-      {
-        code: '4ffeg',
-        folioLibraryIds: ['0939ebc4-cf37-4968-841e-912c0c02eacf', '9e3ccd90-8d64-4c52-8ee8-f09f5d4ebb56'],
-        id: '5ffa6f06-8f09-4f32-991d-ed78b70f3e1e',
-      }
-    ],
   },
 ];
 
