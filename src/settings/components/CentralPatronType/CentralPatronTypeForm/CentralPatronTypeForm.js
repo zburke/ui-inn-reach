@@ -35,6 +35,7 @@ const CentralPatronTypeForm = ({
   onChangeServer,
 }) => {
   const { formatMessage } = useIntl();
+  const showTabularList = selectedServer.id && !isPatronTypeMappingsPending && !isPatronTypesPending && !patronTypesFailed;
 
   const getFooter = () => {
     const saveButton = (
@@ -77,10 +78,8 @@ const CentralPatronTypeForm = ({
       >
         <FormattedMessage id="ui-inn-reach.banner.patron-types" />
       </MessageBanner>
-      {selectedServer.id && !isPatronTypeMappingsPending && !isPatronTypesPending && !patronTypesFailed &&
-      <form>
+      {showTabularList &&
         <TabularList patronTypeOptions={patronTypeOptions} />
-      </form>
       }
     </Pane>
   );

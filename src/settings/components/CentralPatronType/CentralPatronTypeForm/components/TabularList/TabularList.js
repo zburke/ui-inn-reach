@@ -33,64 +33,66 @@ const TabularList = ({
   const { formatMessage } = useIntl();
 
   return (
-    <Col sm={12}>
-      <Row>
-        <Col
-          className={css.tabularHeaderCol}
-          sm={6}
+    <form>
+      <Col sm={12}>
+        <Row>
+          <Col
+            className={css.tabularHeaderCol}
+            sm={6}
+          >
+            <Label>
+              {formatMessage({ id: 'ui-inn-reach.settings.central-patron-type.field.folio-patron-groups' })}
+            </Label>
+          </Col>
+          <Col
+            className={css.tabularHeaderCol}
+            sm={6}
+          >
+            <Label required>
+              {formatMessage({ id: 'ui-inn-reach.settings.central-patron-type.field.patron-type' })}
+            </Label>
+          </Col>
+        </Row>
+        <FieldArray
+          isEqual={isEqual}
+          name={PATRON_TYPE_MAPPINGS}
         >
-          <Label>
-            {formatMessage({ id: 'ui-inn-reach.settings.central-patron-type.field.folio-patron-groups' })}
-          </Label>
-        </Col>
-        <Col
-          className={css.tabularHeaderCol}
-          sm={6}
-        >
-          <Label required>
-            {formatMessage({ id: 'ui-inn-reach.settings.central-patron-type.field.patron-type' })}
-          </Label>
-        </Col>
-      </Row>
-      <FieldArray
-        isEqual={isEqual}
-        name={PATRON_TYPE_MAPPINGS}
-      >
-        {({ fields }) => {
-          return fields.map((name, index) => (
-            <Row
-              key={index}
-              className={css.tabularRow}
-            >
-              <Col
-                sm={6}
-                className={css.tabularCol}
+          {({ fields }) => {
+            return fields.map((name, index) => (
+              <Row
+                key={index}
+                className={css.tabularRow}
               >
-                <Field
-                  id={`${name}.${PATRON_GROUP_ID}-${index}`}
-                  name={`${name}.${PATRON_GROUP_LABEL}`}
-                  component={({ input }) => input.value}
-                />
-              </Col>
-              <Col
-                sm={6}
-                className={css.tabularCol}
-              >
-                <Field
-                  marginBottom0
-                  id={`${name}.${PATRON_TYPE}-${index}`}
-                  name={`${name}.${PATRON_TYPE}`}
-                  aria-label={formatMessage({ id: 'ui-inn-reach.settings.central-patron-type.field.patron-type' })}
-                  component={Selection}
-                  dataOptions={patronTypeOptions}
-                  validate={validatePatronType}
-                />
-              </Col>
-            </Row>
-          ));
-        }}
-      </FieldArray>
-    </Col>
+                <Col
+                  sm={6}
+                  className={css.tabularCol}
+                >
+                  <Field
+                    id={`${name}.${PATRON_GROUP_ID}-${index}`}
+                    name={`${name}.${PATRON_GROUP_LABEL}`}
+                    component={({ input }) => input.value}
+                  />
+                </Col>
+                <Col
+                  sm={6}
+                  className={css.tabularCol}
+                >
+                  <Field
+                    marginBottom0
+                    id={`${name}.${PATRON_TYPE}-${index}`}
+                    name={`${name}.${PATRON_TYPE}`}
+                    aria-label={formatMessage({ id: 'ui-inn-reach.settings.central-patron-type.field.patron-type' })}
+                    component={Selection}
+                    dataOptions={patronTypeOptions}
+                    validate={validatePatronType}
+                  />
+                </Col>
+              </Row>
+            ));
+          }}
+        </FieldArray>
+      </Col>
+    </form>
   );
 };
 
