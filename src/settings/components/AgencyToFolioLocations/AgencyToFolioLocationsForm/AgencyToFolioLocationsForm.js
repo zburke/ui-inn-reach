@@ -228,9 +228,9 @@ const AgencyToFolioLocationsForm = ({
       <form className={css.form}>
         <Selection
           id={CENTRAL_SERVER_ID}
-          label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.central-server" />}
+          label={<FormattedMessage id="ui-inn-reach.settings.field.central-server" />}
           dataOptions={serverOptions}
-          placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.central-server' })}
+          placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.central-server' })}
           value={selectedServer.name}
           onChange={handleChangeServer}
         />

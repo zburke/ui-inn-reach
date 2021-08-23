@@ -5,3 +5,4 @@ export * from './folio-to-innreach-locations';
 export * from './contribution-options';
 export * from './material-type';
 export * from './agency-to-folio-locations';
+export * from './manage-contribution';
