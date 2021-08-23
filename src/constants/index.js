@@ -6,3 +6,4 @@ export * from './contribution-options';
 export * from './material-type';
 export * from './agency-to-folio-locations';
 export * from './bib-transformation-options';
+export * from './central-patron-type';
