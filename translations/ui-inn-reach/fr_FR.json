@@ -187,5 +187,18 @@
     "settings.bib-transformation.callout.connection-problem.post": "Un problème est survenu et votre création n'a pas été enregistrée : {message} , code {code}",
     "settings.bib-transformation.callout.connection-problem.put": "Un problème est survenu et votre mise à jour n'a pas été enregistrée : {message} , code {code}",
     "banner.local-servers": "Unable to retrieve local server settings from central server. Please verify the configuration of the selected central server.",
-    "banner.item-types": "Unable to retrieve INN-Reach item type settings from central server. Please verify the configuration of the selected central server."
+    "banner.item-types": "Unable to retrieve INN-Reach item type settings from central server. Please verify the configuration of the selected central server.",
+    "banner.patron-types": "Unable to retrieve central patron type values. Please verify the configuration of the selected central server.",
+    "settings.central-patron-type": "Central patron type",
+    "settings.central-patron-type.title": "Central patron type",
+    "settings.central-patron-type.button.save": "Sauvegarder",
+    "settings.central-patron-type.field.central-server": "Serveur central",
+    "settings.central-patron-type.field.folio-patron-groups": "FOLIO patron groups",
+    "settings.central-patron-type.field.patron-type": "Patron type (Description)",
+    "settings.central-patron-type.placeholder.central-server": "Sélectionnez le serveur central",
+    "settings.central-patron-type.placeholder.patron-type": "Select patron type",
+    "settings.central-patron-type.create.success": "Central patron type settings created successfully",
+    "settings.central-patron-type.update.success": "Central patron type settings updated successfully",
+    "settings.central-patron-type.callout.connectionProblem.post": "Impossible de créer des données en raison d'une erreur de module. Veuillez réessayer. Si le problème persiste, veuillez contacter votre administrateur système",
+    "settings.central-patron-type.callout.connectionProblem.put": "Impossible de mettre à jour les données en raison d'une erreur de module. Veuillez réessayer. Si le problème persiste, veuillez contacter votre administrateur système"
 }

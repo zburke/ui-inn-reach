@@ -187,5 +187,18 @@
     "settings.bib-transformation.callout.connection-problem.post": "حدثت مشكلة ولم يتم حفظ الإنشاء الخاص بك: {message}، رمز الحالة {code}",
     "settings.bib-transformation.callout.connection-problem.put": "حدثت مشكلة ولم يتم حفظ التحديث الخاص بك: {message}، رمز الحالة {code}",
     "banner.local-servers": "تعذر استرداد إعدادات الخادم المحلي من الخادم المركزي. يرجى التحقق من تهيئة الخادم المركزي المحدد.",
-    "banner.item-types": "تعذر استرداد إعدادات نوع مادة INN-Reach من الخادم المركزي. يرجى التحقق من تهيئة الخادم المركزي المحدد."
+    "banner.item-types": "تعذر استرداد إعدادات نوع مادة INN-Reach من الخادم المركزي. يرجى التحقق من تهيئة الخادم المركزي المحدد.",
+    "banner.patron-types": "Unable to retrieve central patron type values. Please verify the configuration of the selected central server.",
+    "settings.central-patron-type": "Central patron type",
+    "settings.central-patron-type.title": "Central patron type",
+    "settings.central-patron-type.button.save": "Save",
+    "settings.central-patron-type.field.central-server": "Central server",
+    "settings.central-patron-type.field.folio-patron-groups": "FOLIO patron groups",
+    "settings.central-patron-type.field.patron-type": "Patron type (Description)",
+    "settings.central-patron-type.placeholder.central-server": "Select central server",
+    "settings.central-patron-type.placeholder.patron-type": "Select patron type",
+    "settings.central-patron-type.create.success": "Central patron type settings created successfully",
+    "settings.central-patron-type.update.success": "Central patron type settings updated successfully",
+    "settings.central-patron-type.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
+    "settings.central-patron-type.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator"
 }
