@@ -6,3 +6,4 @@ export { default as FolioToInnReachLocationsRoute } from './FolioToInnReachLocat
 export { default as ContributionOptionsRoute } from './ContributionOptionsRoute';
 export { default as AgencyToFolioLocationsRoute } from './AgencyToFolioLocations';
 export { default as BibTransformationOptionsRoute } from './BibTransformationOptions';
+export { default as CentralItemTypeRoute } from './CentralItemTypeRoute';

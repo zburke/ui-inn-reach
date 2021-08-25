@@ -12,7 +12,8 @@
   "action.swap": "{label} {from} and {to} have been swapped",
 
   "banner.local-servers": "Unable to retrieve local server settings from central server. Please verify the configuration of the selected central server.",
-  "banner.item-types": "Unable to retrieve INN-Reach item type settings from central server. Please verify the configuration of the selected central server.",
+  "banner.item-types": "Unable to retrieve central item type configuration. Please verify the configuration of the selected central server.",
+  "banner.patron-types": "Unable to retrieve central patron type values. Please verify the configuration of the selected central server.",
 
   "settings.title": "INN-Reach",
   "settings.central-servers.list.title": "Central servers",
@@ -28,6 +29,8 @@
   "settings.folio-to-inn-reach-locations": "FOLIO to INN-Reach locations",
   "settings.agency-to-folio-locations": "Agency to FOLIO location",
   "settings.bib-transformation": "Bib transformation options",
+  "settings.central-patron-type": "Central patron type",
+  "settings.central-item-type": "Central item type",
   "settings.some-feature.message": "These are your settings for some app feature.",
 
   "settings.validate.required": "Required",
@@ -212,5 +215,29 @@
   "settings.bib-transformation.create.success": "Bib transformation options created successfully",
   "settings.bib-transformation.update.success": "Bib transformation options updated successfully",
   "settings.bib-transformation.callout.connection-problem.post": "There was a problem and your creation was not saved: {message}, status code {code}",
-  "settings.bib-transformation.callout.connection-problem.put": "There was a problem and your update was not saved: {message}, status code {code}"
+  "settings.bib-transformation.callout.connection-problem.put": "There was a problem and your update was not saved: {message}, status code {code}",
+
+  "settings.central-patron-type.title": "Central patron type",
+  "settings.central-patron-type.button.save": "Save",
+  "settings.central-patron-type.field.central-server": "Central server",
+  "settings.central-patron-type.field.folio-patron-groups": "FOLIO patron groups",
+  "settings.central-patron-type.field.patron-type": "Patron type (Description)",
+  "settings.central-patron-type.placeholder.central-server": "Select central server",
+  "settings.central-patron-type.placeholder.patron-type": "Select patron type",
+  "settings.central-patron-type.create.success": "Central patron type settings created successfully",
+  "settings.central-patron-type.update.success": "Central patron type settings updated successfully",
+  "settings.central-patron-type.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
+  "settings.central-patron-type.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator",
+
+  "settings.central-item-type.title": "Central item type",
+  "settings.central-item-type.button.save": "Save",
+  "settings.central-item-type.field.central-server": "Central server",
+  "settings.central-item-type.field.item-type": "Item type (description)",
+  "settings.central-item-type.field.folio-material-type": "FOLIO material type",
+  "settings.central-item-type.placeholder.central-server": "Select central server",
+  "settings.central-item-type.placeholder.material-type": "Select material type",
+  "settings.central-item-type.create.success": "Central item type settings created successfully",
+  "settings.central-item-type.update.success": "Central item type settings updated successfully",
+  "settings.central-item-type.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
+  "settings.central-item-type.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator"
 }
