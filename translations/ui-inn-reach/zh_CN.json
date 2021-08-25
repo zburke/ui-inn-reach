@@ -99,7 +99,7 @@
     "settings.folio-to-inn-reach-locations.create-edit.create.success": "FOLIO 到 INN-Reach 位置设置已成功创建",
     "settings.folio-to-inn-reach-locations.create-edit.update.success": "FOLIO 到 INN-Reach 位置设置已成功更新",
     "settings.contribution-options": "单件贡献选项",
-    "settings.contribution-options.status.awaiting-delivery": "等待交付",
+    "settings.contribution-options.status.awaiting-delivery": "等待传递",
     "settings.contribution-options.status.claimed-returned": "声称已还",
     "settings.contribution-options.status.lost-and-paid": "遗失已赔付",
     "settings.contribution-options.status.long-missing": "遗失已久",
@@ -187,5 +187,18 @@
     "settings.bib-transformation.callout.connection-problem.post": "There was a problem and your creation was not saved: {message}, status code {code}",
     "settings.bib-transformation.callout.connection-problem.put": "There was a problem and your update was not saved: {message}, status code {code}",
     "banner.local-servers": "Unable to retrieve local server settings from central server. Please verify the configuration of the selected central server.",
-    "banner.item-types": "Unable to retrieve INN-Reach item type settings from central server. Please verify the configuration of the selected central server."
+    "banner.item-types": "Unable to retrieve INN-Reach item type settings from central server. Please verify the configuration of the selected central server.",
+    "banner.patron-types": "Unable to retrieve central patron type values. Please verify the configuration of the selected central server.",
+    "settings.central-patron-type": "Central patron type",
+    "settings.central-patron-type.title": "Central patron type",
+    "settings.central-patron-type.button.save": "Save",
+    "settings.central-patron-type.field.central-server": "Central server",
+    "settings.central-patron-type.field.folio-patron-groups": "FOLIO patron groups",
+    "settings.central-patron-type.field.patron-type": "Patron type (Description)",
+    "settings.central-patron-type.placeholder.central-server": "Select central server",
+    "settings.central-patron-type.placeholder.patron-type": "Select patron type",
+    "settings.central-patron-type.create.success": "Central patron type settings created successfully",
+    "settings.central-patron-type.update.success": "Central patron type settings updated successfully",
+    "settings.central-patron-type.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
+    "settings.central-patron-type.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator"
 }

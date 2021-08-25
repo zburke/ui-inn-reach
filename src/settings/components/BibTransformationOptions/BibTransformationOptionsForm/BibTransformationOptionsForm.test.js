@@ -72,7 +72,7 @@ const renderBibTransformationOptionsForm = ({
   );
 };
 
-describe('AgencyToFolioLocationsForm', () => {
+describe('BibTransformationOptionsForm', () => {
   const handleSubmit = jest.fn();
   const onChangeServer = jest.fn();
   const onChangeConfigState = jest.fn();
