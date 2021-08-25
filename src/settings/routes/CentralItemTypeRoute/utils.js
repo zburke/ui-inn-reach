@@ -4,7 +4,7 @@ import {
 } from 'lodash';
 import {
   CENTRAL_ITEM_TYPE_FIELDS,
-  NO_VALUE_OPTION,
+  ITEM_TYPE_NO_VALUE_OPTION,
 } from '../../../constants';
 
 const {
@@ -32,7 +32,7 @@ export const getFolioMaterialTypeOptions = (materialTypes) => {
     accum.push(option);
 
     return accum;
-  }, [NO_VALUE_OPTION]);
+  }, [ITEM_TYPE_NO_VALUE_OPTION]);
 };
 
 export const getItemTypeMappingsMap = (itemTypeMappings) => {

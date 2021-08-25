@@ -4,7 +4,7 @@ import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import { translationsProperties } from '../../../../../test/jest/helpers';
 import CentralItemTypeForm from './CentralItemTypeForm';
-import { NO_VALUE_OPTION } from '../../../../constants';
+import { ITEM_TYPE_NO_VALUE_OPTION } from '../../../../constants';
 
 const serverOptions = [
   {
@@ -25,7 +25,7 @@ const selectedServerMock = {
 };
 
 const materialTypeOptions = [
-  NO_VALUE_OPTION,
+  ITEM_TYPE_NO_VALUE_OPTION,
   {
     label: 'test mtype 1',
     value: 'ada9aecf-cebb-496a-a60b-a6bfbc695bf9',

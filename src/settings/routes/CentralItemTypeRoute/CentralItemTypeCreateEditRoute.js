@@ -23,7 +23,7 @@ import {
 import {
   useCallout,
 } from '../../../hooks';
-import CentralItemTypeForm from "../../components/CentralItemType/CentralItemTypeForm";
+import CentralItemTypeForm from '../../components/CentralItemType/CentralItemTypeForm';
 import {
   formatItemTypeMappings,
   getInnReachItemTypeOptions,

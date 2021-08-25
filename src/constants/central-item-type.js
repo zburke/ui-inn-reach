@@ -12,7 +12,7 @@ export const CENTRAL_ITEM_TYPE_FIELDS = {
   MATERIAL_TYPE_ID: 'materialTypeId',
 };
 
-export const NO_VALUE_OPTION = {
+export const ITEM_TYPE_NO_VALUE_OPTION = {
   label: <FormattedMessage id="ui-inn-reach.settings.central-item-type.placeholder.material-type" />,
   value: NO_VALUE_OPTION_VALUE,
 };

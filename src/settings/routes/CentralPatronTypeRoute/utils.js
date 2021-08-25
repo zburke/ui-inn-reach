@@ -4,7 +4,7 @@ import {
 } from 'lodash';
 import {
   CENTRAL_PATRON_TYPE_FIELDS,
-  NO_VALUE_OPTION,
+  PATRON_TYPE_NO_VALUE_OPTION,
 } from '../../../constants';
 
 const {
@@ -32,7 +32,7 @@ export const getPatronTypeOptions = (patronTypes) => {
     accum.push(option);
 
     return accum;
-  }, [NO_VALUE_OPTION]);
+  }, [PATRON_TYPE_NO_VALUE_OPTION]);
 };
 
 export const getPatronTypeMappingsMap = (patronTypeMappings) => {
