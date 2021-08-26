@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NO_VALUE_OPTION_VALUE } from './base';
 
-export const CENTRAL_ITEM_TYPE_ROUTE = 'central-patron-type';
+export const CENTRAL_ITEM_TYPE_ROUTE = 'central-item-type';
 
 export const CENTRAL_ITEM_TYPE_FIELDS = {
   ID: 'id',
