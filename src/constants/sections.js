@@ -10,6 +10,7 @@ import {
   AgencyToFolioLocationsRoute,
   BibTransformationOptionsRoute,
   CentralPatronTypeRoute,
+  CentralItemTypeRoute,
 } from '../settings/routes';
 import {
   MATERIAL_TYPE_ROUTE,
@@ -34,6 +35,9 @@ import {
 import {
   CENTRAL_PATRON_TYPE_ROUTE,
 } from './central-patron-type';
+import {
+  CENTRAL_ITEM_TYPE_ROUTE,
+} from './central-item-type';
 
 export const sections = [
   {
@@ -90,6 +94,11 @@ export const sections = [
         route: AGENCY_TO_FOLIO_LOCATIONS_ROUTE,
         label: <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations" />,
         component: AgencyToFolioLocationsRoute,
+      },
+      {
+        route: CENTRAL_ITEM_TYPE_ROUTE,
+        label: <FormattedMessage id="ui-inn-reach.settings.central-item-type" />,
+        component: CentralItemTypeRoute,
       },
       {
         route: CENTRAL_PATRON_TYPE_ROUTE,

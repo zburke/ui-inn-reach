@@ -3,8 +3,8 @@ import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jes
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import { translationsProperties } from '../../../../../test/jest/helpers';
-import CentralPatronTypeForm from './CentralPatronTypeForm';
-import { PATRON_TYPE_NO_VALUE_OPTION } from '../../../../constants';
+import CentralItemTypeForm from './CentralItemTypeForm';
+import { ITEM_TYPE_NO_VALUE_OPTION } from '../../../../constants';
 
 const serverOptions = [
   {
@@ -24,28 +24,28 @@ const selectedServerMock = {
   name: serverOptions[1].label,
 };
 
-const patronTypeOptions = [
-  PATRON_TYPE_NO_VALUE_OPTION,
+const materialTypeOptions = [
+  ITEM_TYPE_NO_VALUE_OPTION,
   {
-    label: '200 (Patron)',
-    value: '200',
+    label: 'test mtype 1',
+    value: 'ada9aecf-cebb-496a-a60b-a6bfbc695bf9',
   },
   {
-    label: '201 (Staff)',
-    value: '201',
+    label: 'test mtype 2',
+    value: '9d405941-7294-4e71-b5ed-9216bc5a739d',
   },
 ];
 
 const defaultInitialValues = {
-  patronTypeMappings: [
+  itemTypeMappings: [
     {
-      patronGroupId: '55ca980e-2535-4945-a4f3-d8bd88f9a386',
-      patronGroupLabel: 'Staff Member',
+      itemTypeLabel: '200 (Book)',
+      itemType: 200
     },
     {
-      patronGroupId: '21a7f3ce-d40d-4fc3-bf25-f1b0bbcb236f',
-      patronGroupLabel: 'test desc',
-    }
+      itemTypeLabel: '201 (Av)',
+      itemType: 201
+    },
   ],
 };
 
@@ -53,21 +53,21 @@ const renderCentralPatronTypeForm = ({
   selectedServer = selectedServerMock,
   handleSubmit,
   initialValues = defaultInitialValues,
-  isPatronTypeMappingsPending = false,
-  isPatronTypesPending = false,
-  patronTypesFailed = false,
+  isItemTypeMappingsPending = false,
+  isInnReachItemTypesPending = false,
+  innReachItemTypesFailed = false,
   onChangeServer,
 } = {}) => {
   return renderWithIntl(
     <Router history={createMemoryHistory()}>
-      <CentralPatronTypeForm
+      <CentralItemTypeForm
         selectedServer={selectedServer}
         serverOptions={serverOptions}
-        patronTypeOptions={patronTypeOptions}
+        folioMaterialTypeOptions={materialTypeOptions}
         initialValues={initialValues}
-        isPatronTypeMappingsPending={isPatronTypeMappingsPending}
-        isPatronTypesPending={isPatronTypesPending}
-        patronTypesFailed={patronTypesFailed}
+        isItemTypeMappingsPending={isItemTypeMappingsPending}
+        isInnReachItemTypesPending={isInnReachItemTypesPending}
+        innReachItemTypesFailed={innReachItemTypesFailed}
         onSubmit={handleSubmit}
         onChangeServer={onChangeServer}
       />
@@ -76,7 +76,7 @@ const renderCentralPatronTypeForm = ({
   );
 };
 
-describe('CentralPatronTypeForm', () => {
+describe('CentralItemTypeForm', () => {
   const handleSubmit = jest.fn();
   const onChangeServer = jest.fn();
 
@@ -104,9 +104,9 @@ describe('CentralPatronTypeForm', () => {
       const { getByRole } = renderCentralPatronTypeForm(commonProps);
 
       expect(getByRole('button', { name: 'Save' })).toBeDisabled();
-      document.getElementById('option-patronTypeMappings[0].patronType-0-1-200').click();
+      document.getElementById('option-itemTypeMappings[0].materialTypeId-0-1-ada9aecf-cebb-496a-a60b-a6bfbc695bf9').click();
       expect(getByRole('button', { name: 'Save' })).toBeDisabled();
-      document.getElementById('option-patronTypeMappings[1].patronType-1-1-200').click();
+      document.getElementById('option-itemTypeMappings[1].materialTypeId-1-1-ada9aecf-cebb-496a-a60b-a6bfbc695bf9').click();
       expect(getByRole('button', { name: 'Save' })).toBeEnabled();
     });
   });
