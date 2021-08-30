@@ -19,10 +19,13 @@ import {
   Pane,
   PaneFooter,
   Selection,
+  MessageBanner,
 } from '@folio/stripes-components';
 
 import {
   AGENCY_TO_FOLIO_LOCATIONS_FIELDS,
+  BANNER_ERROR_TYPE,
+  CENTRAL_SERVER_ID,
   DEFAULT_PANE_WIDTH,
 } from '../../../../constants';
 import {
@@ -41,7 +44,6 @@ import {
 import css from './AgencyToFolioLocationsForm.css';
 
 const {
-  CENTRAL_SERVER_ID,
   LIBRARY_ID,
   LOCATION_ID,
   LOCAL_CODE,
@@ -66,6 +68,7 @@ const AgencyToFolioLocationsForm = ({
   form,
   serverLocationOptions,
   localServerLocationOptions,
+  localServersFailed,
   onChangeServer,
   onChangeLocalServer,
   onChangePristineState,
@@ -85,6 +88,7 @@ const AgencyToFolioLocationsForm = ({
   const isServerFieldsChanged = isLibraryChanged || isLocationChanged;
   const isLocalServerFieldsChanged = values[LOCAL_CODE] &&
     (isLocalServerLibraryChanged || isLocalServerLocationChanged || isAgencyCodeMappingsChanged);
+  const isValidCentralServerConfig = ((values[LOCATION_ID] && !isLocalServersPending) || values[LOCAL_CODE]) && !localServersFailed;
 
   const isPristine = !(
     isLibraryChanged ||
@@ -228,9 +232,9 @@ const AgencyToFolioLocationsForm = ({
       <form className={css.form}>
         <Selection
           id={CENTRAL_SERVER_ID}
-          label={<FormattedMessage id="ui-inn-reach.settings.field.central-server" />}
+          label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
           dataOptions={serverOptions}
-          placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.central-server' })}
+          placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
           value={selectedServer.name}
           onChange={handleChangeServer}
         />
@@ -274,7 +278,13 @@ const AgencyToFolioLocationsForm = ({
             </Field>
           </>
         }
-        {((values[LOCATION_ID] && !isLocalServersPending) || values[LOCAL_CODE]) &&
+        <MessageBanner
+          type={BANNER_ERROR_TYPE}
+          show={localServersFailed}
+        >
+          <FormattedMessage id="ui-inn-reach.banner.local-servers" />
+        </MessageBanner>
+        {isValidCentralServerConfig &&
           <Field
             id={LOCAL_CODE}
             name={LOCAL_CODE}
@@ -357,6 +367,7 @@ AgencyToFolioLocationsForm.propTypes = {
     reason: PropTypes.string,
     status: PropTypes.string,
   }).isRequired,
+  localServersFailed: PropTypes.bool.isRequired,
   selectedServer: PropTypes.object.isRequired,
   serverLocationOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,

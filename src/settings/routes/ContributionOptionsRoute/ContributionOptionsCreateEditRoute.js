@@ -20,6 +20,7 @@ import { stripesConnect } from '@folio/stripes/core';
 
 import {
   CALLOUT_ERROR_TYPE,
+  CENTRAL_SERVER_ID,
   CENTRAL_SERVERS_LIMITING,
   CONTRIBUTION_OPTIONS_FIELDS,
   STATUSES_LIST_OPTIONS,
@@ -31,7 +32,6 @@ import {
 } from '../../../hooks';
 
 const {
-  CENTRAL_SERVER_ID,
   STATUSES,
   LOAN_TYPE_IDS,
   LOCATION_IDS,
@@ -72,7 +72,7 @@ const ContributionOptionsCreateEditRoute = ({
   const materialTypes = materialTypesData[0]?.mtypes || [];
   const loanTypes = loanTypesData[0]?.loantypes || [];
 
-  const [
+  const {
     selectedServer,
     openModal,
     isResetForm,
@@ -83,7 +83,7 @@ const ContributionOptionsCreateEditRoute = ({
     handleServerChange,
     handleModalConfirm,
     handleModalCancel,
-  ] = useCentralServers(history, servers);
+  } = useCentralServers(history, servers);
   const showCallout = useCallout();
   const [contributionOptions, setContributionOptions] = useState({});
   const [isNewRecord, setIsNewRecord] = useState(false);

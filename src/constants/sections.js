@@ -9,6 +9,7 @@ import {
   ContributionOptionsRoute,
   AgencyToFolioLocationsRoute,
   ManageContributionRoute,
+  BibTransformationOptionsRoute,
 } from '../settings/routes';
 import {
   MATERIAL_TYPE_ROUTE,
@@ -30,6 +31,9 @@ import {
 import {
   MANAGE_CONTRIBUTION_ROUTE,
 } from './manage-contribution';
+import {
+  BIB_TRANSFORMATION_ROUTE,
+} from './bib-transformation-options';
 
 export const sections = [
   {
@@ -72,8 +76,13 @@ export const sections = [
         component: ContributionOptionsRoute,
       },
       {
+        route: BIB_TRANSFORMATION_ROUTE,
+        label: <FormattedMessage id="ui-inn-reach.settings.bib-transformation" />,
+        component: BibTransformationOptionsRoute,
+      },
+      {
         route: MANAGE_CONTRIBUTION_ROUTE,
-        label: <FormattedMessage id="ui-inn-reach.settings.manage-contribution" />,
+        label: <FormattedMessage id="ui-inn-reach.settings.manage-contribution.title" />,
         component: ManageContributionRoute,
       },
     ],

@@ -1,25 +1,18 @@
 import React, {
-  useEffect,
-  useMemo,
+  useRef,
 } from 'react';
-import {
-  isEqual,
-} from 'lodash';
-import { Field } from 'react-final-form';
+
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {
   Button,
   ButtonGroup,
-  Col,
-  MultiSelection,
   Pane,
   PaneFooter,
-  Row,
-  Select,
   Selection,
   Loading,
+  Tooltip,
 } from '@folio/stripes-components';
 
 import {
@@ -27,31 +20,19 @@ import {
   CONTRIBUTION_STATUSES,
   DEFAULT_PANE_WIDTH,
   CENTRAL_SERVER_ID,
+  ITEM_TYPE_MAPPING_STATUSES,
+  LOCATIONS_MAPPING_STATUSES,
 } from '../../../constants';
 import {
   CurrentContribution,
   ContributionHistory,
 } from './components';
+import css from './ManageContributionView.css';
 
 const {
   STATUS,
   ITEM_TYPE_MAPPING_STATUS,
   LOCATIONS_MAPPING_STATUS,
-  CONTRIBUTION_STARTED,
-  CONTRIBUTION_STARTED_BY,
-  CONTRIBUTION_PAUSED,
-  CONTRIBUTION_PAUSED_BY,
-  CONTRIBUTION_RESUMED,
-  CONTRIBUTION_RESUMED_BY,
-  CONTRIBUTION_CANCELLED,
-  CONTRIBUTION_CANCELLED_BY,
-  CONTRIBUTION_COMPLETE,
-  TOTAL_FOLIO_INSTANCE_RECORDS,
-  RECORDS_EVALUATED,
-  CONTRIBUTED,
-  UPDATED,
-  DE_CONTRIBUTED,
-  ERRORS,
 } = MANAGE_CONTRIBUTION_FIELDS;
 
 const {
@@ -61,6 +42,7 @@ const {
 const ManageContributionView = ({
   currentContribution,
   currentContributionHistory,
+  currentContributionHistoryCount,
   isСurrentContributionPending,
   isСurrentContributionHistoryPending,
   showContributionHistory,
@@ -70,27 +52,47 @@ const ManageContributionView = ({
   selectedServer,
   onChangeServer,
   onInitiateContribution,
+  onNeedMoreContributionHistoryData,
 }) => {
   const { formatMessage } = useIntl();
-
+  const initiateContributionRef = useRef(null);
   const canInitiateContribution = currentContribution[STATUS]
-    && currentContribution[STATUS] === CONTRIBUTION_STATUSES[NOT_STARTED];
-
+    && currentContribution[STATUS] === NOT_STARTED &&
+    currentContribution[ITEM_TYPE_MAPPING_STATUS] === ITEM_TYPE_MAPPING_STATUSES.VALID &&
+    currentContribution[LOCATIONS_MAPPING_STATUS] === LOCATIONS_MAPPING_STATUSES.VALID;
+  const ariaLabelledby = !canInitiateContribution ? { 'aria-labelledby': 'tooltip-text' } : {};
   const getFooter = () => {
-
     const initiateCintributionBtn = (
-      <Button
-        marginBottom0
-        data-testid="initiate-contribution"
-        id="clickable-initiate-contribution"
-        buttonStyle="primary mega"
-        disabled={!canInitiateContribution}
-        onClick={onInitiateContribution}
-      >
-        <FormattedMessage id="ui-inn-reach.settings.manage-contribution.button.initiate-contribution" />
-      </Button>
+      <>
+        <div
+          ref={initiateContributionRef}
+          className={css.tooltipWrapper}
+          {...ariaLabelledby}
+        >
+          <Button
+            marginBottom0
+            data-testid="initiate-contribution"
+            id="clickable-initiate-contribution"
+            buttonStyle="primary mega"
+            disabled={!canInitiateContribution}
+            onClick={onInitiateContribution}
+          >
+            <FormattedMessage id="ui-inn-reach.settings.manage-contribution.button.initiate-contribution" />
+          </Button>
+        </div>
+        {!canInitiateContribution &&
+          <Tooltip
+            id="save-button-tooltip"
+            name="tooltip-text"
+            text={<FormattedMessage id="ui-inn-reach.settings.manage-contribution.tooltip.check-mappings" />}
+            triggerRef={initiateContributionRef}
+          />
+        }
+
+      </>
     );
-    return showContributionHistory && currentContribution[STATUS] !== CONTRIBUTION_STATUSES[NOT_STARTED]
+
+    return !selectedServer.id || showContributionHistory || currentContribution[STATUS] !== NOT_STARTED
       ? null
       : <PaneFooter renderEnd={initiateCintributionBtn} />;
   };
@@ -101,43 +103,48 @@ const ManageContributionView = ({
       footer={getFooter()}
       paneTitle={<FormattedMessage id='ui-inn-reach.settings.manage-contribution.title' />}
     >
-
-      <Selection
-        id={CENTRAL_SERVER_ID}
-        label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
-        dataOptions={serverOptions}
-        placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
-        value={selectedServer.name}
-        onChange={onChangeServer}
-      />
-      <ButtonGroup
-        fullWidth
-      >
-        <Button
-          onClick={selectCurrentContibution}
-          buttonStyle={`${!showContributionHistory ? 'primary' : 'default'}`}
-        >
-          <FormattedMessage id="ui-orders.navigation.orders" />
-        </Button>
-        <Button
-          onClick={selectContibutionHistory}
-          buttonStyle={`${showContributionHistory ? 'primary' : 'default'}`}
-        >
-          <FormattedMessage id="ui-orders.navigation.orderLines" />
-        </Button>
-      </ButtonGroup>
-
-      {isСurrentContributionPending || isСurrentContributionHistoryPending && <Loading />}
-      {selectedServer.id && !showContributionHistory && !isСurrentContributionPending && currentContribution &&
-        <CurrentContribution
-          currentContribution={currentContribution}
+      <>
+        <Selection
+          id={CENTRAL_SERVER_ID}
+          label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
+          dataOptions={serverOptions}
+          placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
+          value={selectedServer.name}
+          onChange={onChangeServer}
         />
-      }
-      {selectedServer.id && showContributionHistory && !isСurrentContributionHistoryPending && currentContributionHistory &&
-        <ContributionHistory
-          currentContributionHistory={currentContributionHistory}
-        />
-      }
+        { selectedServer.id &&
+          <ButtonGroup
+            fullWidth
+          >
+            <Button
+              buttonStyle={`${!showContributionHistory ? 'primary' : 'default'}`}
+              onClick={selectCurrentContibution}
+            >
+              <FormattedMessage id="ui-inn-reach.settings.manage-contribution.navigation.current" />
+            </Button>
+            <Button
+              buttonStyle={`${showContributionHistory ? 'primary' : 'default'}`}
+              onClick={selectContibutionHistory}
+            >
+              <FormattedMessage id="ui-inn-reach.settings.manage-contribution.navigation.history" />
+            </Button>
+          </ButtonGroup>
+        }
+        {(isСurrentContributionPending || isСurrentContributionHistoryPending) && <Loading />}
+        {selectedServer.id && !showContributionHistory && !isСurrentContributionPending && currentContribution &&
+          <CurrentContribution
+            currentContribution={currentContribution}
+          />
+        }
+        {selectedServer.id && showContributionHistory && !isСurrentContributionHistoryPending && currentContributionHistory &&
+          <ContributionHistory
+            currentContributionHistory={currentContributionHistory}
+            currentContributionHistoryCount={currentContributionHistoryCount}
+            isСurrentContributionHistoryPending={isСurrentContributionHistoryPending}
+            onNeedMoreContributionHistoryData={onNeedMoreContributionHistoryData}
+          />
+        }
+      </>
     </Pane>
   );
 };
@@ -145,15 +152,17 @@ const ManageContributionView = ({
 ManageContributionView.propTypes = {
   currentContribution: PropTypes.object.isRequired,
   currentContributionHistory: PropTypes.object.isRequired,
-  isСurrentContributionPending: PropTypes.bool.isRequired,
+  currentContributionHistoryCount: PropTypes.number.isRequired,
   isСurrentContributionHistoryPending: PropTypes.bool.isRequired,
-  showContributionHistory: PropTypes.bool.isRequired,
-  serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isСurrentContributionPending: PropTypes.bool.isRequired,
   selectContibutionHistory: PropTypes.func.isRequired,
   selectCurrentContibution: PropTypes.func.isRequired,
   selectedServer: PropTypes.object.isRequired,
+  serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  showContributionHistory: PropTypes.bool.isRequired,
   onChangeServer: PropTypes.func.isRequired,
   onInitiateContribution: PropTypes.func.isRequired,
+  onNeedMoreContributionHistoryData: PropTypes.func.isRequired,
 };
 
 export default ManageContributionView;

@@ -5,7 +5,7 @@ import { Router } from 'react-router-dom';
 import { translationsProperties } from '../../../../../test/jest/helpers';
 
 import MaterialTypeForm from './MaterialTypeForm';
-import { MATERIAL_TYPE_FIELDS } from '../../../../constants';
+import { CENTRAL_SERVER_ID } from '../../../../constants';
 
 const centralItemTypes = [
   {
@@ -47,6 +47,7 @@ const renderMappingTypeForm = ({
   initialValues = {},
   invalid = false,
   isResetForm = false,
+  innReachItemTypesFailed = false,
   onChangeFormResetState,
   onChangePristineState,
   history = createMemoryHistory(),
@@ -66,6 +67,7 @@ const renderMappingTypeForm = ({
         innReachItemTypeOptions={centralItemTypes}
         initialValues={initialValues}
         isResetForm={isResetForm}
+        innReachItemTypesFailed={innReachItemTypesFailed}
         onChangeFormResetState={onChangeFormResetState}
         onChangePristineState={onChangePristineState}
         onSubmit={handleSubmit}
@@ -99,7 +101,7 @@ describe('MaterialTypeForm', () => {
     it('should call onChangeServer', () => {
       renderMappingTypeForm(commonProps);
 
-      document.getElementById(`option-${MATERIAL_TYPE_FIELDS.CENTRAL_SERVER_ID}-1-testName2`).click();
+      document.getElementById(`option-${CENTRAL_SERVER_ID}-1-testName2`).click();
       expect(onChangeServer).toHaveBeenCalled();
     });
   });
@@ -110,5 +112,27 @@ describe('MaterialTypeForm', () => {
       isResetForm: true,
     });
     expect(onChangeFormResetState).toHaveBeenCalledWith(false);
+  });
+
+  describe('banner', () => {
+    it('should be visible', () => {
+      renderMappingTypeForm({
+        ...commonProps,
+        innReachItemTypesFailed: true,
+      });
+      const banner = document.querySelector('[data-test-message-banner]');
+
+      expect(banner).toBeVisible();
+    });
+
+    it('should be invisible', () => {
+      renderMappingTypeForm({
+        ...commonProps,
+        innReachItemTypesFailed: false,
+      });
+      const banner = document.querySelector('[data-test-message-banner]');
+
+      expect(banner).toBeFalsy();
+    });
   });
 });

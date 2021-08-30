@@ -9,10 +9,14 @@ export const FILL_PANE_WIDTH = 'fill';
 export const METADATA = 'metadata';
 
 export const CALLOUT_ERROR_TYPE = 'error';
+export const BANNER_ERROR_TYPE = 'error';
 
 export const ICONS = {
+  ADD: 'plus-sign',
   EDIT: 'edit',
   DELETE: 'trash',
+  ARROW_UP: 'arrow-up',
+  ARROW_DOWN: 'arrow-down',
 };
 
 export const ENTITY_NOT_FOUND_STATUS_CODE = 404;
@@ -23,3 +27,5 @@ export const PAGE_AMOUNT = 100;
 export const NO_VALUE_OPTION_VALUE = '';
 
 export const CENTRAL_SERVERS_LIMITING = 9999;
+
+export const CENTRAL_SERVER_ID = 'centralServerId';

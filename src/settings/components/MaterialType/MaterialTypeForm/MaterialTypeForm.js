@@ -15,18 +15,16 @@ import {
   Row,
   Selection,
   Loading,
+  MessageBanner,
 } from '@folio/stripes-components';
 import stripesFinalForm from '@folio/stripes/final-form';
 
 import {
-  MATERIAL_TYPE_FIELDS,
   DEFAULT_PANE_WIDTH,
+  CENTRAL_SERVER_ID,
+  BANNER_ERROR_TYPE,
 } from '../../../../constants';
 import { MaterialTypeMappingList } from '../components';
-
-const {
-  CENTRAL_SERVER_ID,
-} = MATERIAL_TYPE_FIELDS;
 
 const MaterialTypeForm = ({
   selectedServer,
@@ -41,6 +39,7 @@ const MaterialTypeForm = ({
   handleSubmit,
   values,
   form,
+  innReachItemTypesFailed,
   onChangePristineState,
   onChangeFormResetState,
   onChangeServer,
@@ -96,7 +95,13 @@ const MaterialTypeForm = ({
         </Col>
       </Row>
       {isPending && <Loading />}
-      {selectedServer.id && !isPending &&
+      <MessageBanner
+        type={BANNER_ERROR_TYPE}
+        show={innReachItemTypesFailed}
+      >
+        <FormattedMessage id="ui-inn-reach.banner.item-types" />
+      </MessageBanner>
+      {selectedServer.id && !isPending && !innReachItemTypesFailed &&
         <form>
           <MaterialTypeMappingList
             innReachItemTypeOptions={innReachItemTypeOptions}
@@ -112,6 +117,7 @@ MaterialTypeForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   innReachItemTypeOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  innReachItemTypesFailed: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   isPending: PropTypes.bool.isRequired,
   isPristine: PropTypes.bool.isRequired,

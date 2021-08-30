@@ -23,12 +23,12 @@ import {
 import stripesFinalForm from '@folio/stripes/final-form';
 
 import {
+  CENTRAL_SERVER_ID,
   CONTRIBUTION_OPTIONS_FIELDS,
   DEFAULT_PANE_WIDTH,
 } from '../../../../constants';
 
 const {
-  CENTRAL_SERVER_ID,
   LOAN_TYPE_IDS,
   LOCATION_IDS,
   STATUSES,

@@ -5,4 +5,5 @@ export { default as MaterialTypeRoute } from './MaterialTypeRoute';
 export { default as FolioToInnReachLocationsRoute } from './FolioToInnReachLocations';
 export { default as ContributionOptionsRoute } from './ContributionOptionsRoute';
 export { default as AgencyToFolioLocationsRoute } from './AgencyToFolioLocations';
-export {default as ManageContributionRoute} from './ManageContributionRoute';
+export { default as ManageContributionRoute } from './ManageContributionRoute';
+export { default as BibTransformationOptionsRoute } from './BibTransformationOptions';

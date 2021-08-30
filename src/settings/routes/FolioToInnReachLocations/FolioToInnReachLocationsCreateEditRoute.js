@@ -142,6 +142,8 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   const reset = () => {
     setServerLibraries([]);
     setServerLibraryOptions([]);
+    setLibrariesMappingsMap(null);
+    setLocationMappingsMap(null);
     resetCentralServer();
     resetData();
     setMappingType('');
@@ -151,14 +153,14 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   const fetchLibraryMappings = () => {
     mutator.libraryMappings.GET()
       .then(response => setLibraryMappings(response.libraryMappings))
-      .catch(() => null)
+      .catch(() => setLibraryMappings([]))
       .finally(() => setIsMappingsPending(false));
   };
 
   const fetchLocationMappings = () => {
     mutator.locationMappings.GET()
       .then(response => setLocationMappings(response.locationMappings))
-      .catch(() => null)
+      .catch(() => setLocationMappings([]))
       .finally(() => setIsMappingsPending(false));
   };
 

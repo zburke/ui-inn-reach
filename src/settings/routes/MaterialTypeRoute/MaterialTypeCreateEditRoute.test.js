@@ -1,7 +1,8 @@
 import React from 'react';
+import { cloneDeep } from 'lodash';
 
 import { createMemoryHistory } from 'history';
-import { waitFor, screen } from '@testing-library/react';
+import { waitFor, screen, act } from '@testing-library/react';
 
 import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jest/helpers';
 import { ConfirmationModal } from '@folio/stripes-components';
@@ -17,7 +18,7 @@ jest.mock('../../components/MaterialType/MaterialTypeForm', () => {
 
 jest.mock('../../../hooks', () => ({
   ...jest.requireActual('../../../hooks'),
-  useCentralServers: jest.fn().mockReturnValue([]),
+  useCentralServers: jest.fn().mockReturnValue({}),
 }));
 
 jest.mock('@folio/stripes-components', () => ({
@@ -101,6 +102,15 @@ const resourcesMock = {
   }
 };
 
+const innReachItemTypes = {
+  itemTypeList: [
+    {
+      centralItemType: 200,
+      description: 'Book',
+    }
+  ],
+};
+
 const putMock = jest.fn(() => Promise.resolve());
 const getMock = jest.fn(() => Promise.resolve());
 const replaceMock = jest.fn();
@@ -114,7 +124,7 @@ const mutatorMock = {
     PUT: putMock,
   },
   innReachItemTypes: {
-    GET: getMock,
+    GET: jest.fn(() => Promise.resolve(innReachItemTypes)),
   },
 };
 
@@ -149,7 +159,7 @@ describe('MaterialTypeCreateEditRoute component', () => {
     ConfirmationModal.mockClear();
     MaterialTypeForm.mockClear();
     history = createMemoryHistory();
-    useCentralServers.mockClear().mockReturnValue([
+    useCentralServers.mockClear().mockReturnValue({
       selectedServer,
       openModal,
       isResetForm,
@@ -160,7 +170,7 @@ describe('MaterialTypeCreateEditRoute component', () => {
       handleServerChange,
       handleModalConfirm,
       handleModalCancel,
-    ]);
+    });
   });
 
   it('should be rendered', async () => {
@@ -186,6 +196,26 @@ describe('MaterialTypeCreateEditRoute component', () => {
         renderMaterialTypesCreateEditRoute({ history });
       });
       expect(screen.getByText('MaterialTypeForm')).toBeVisible();
+    });
+  });
+
+  describe('banner', () => {
+    it('should be visible', async () => {
+      const newMutatorMock = cloneDeep(mutatorMock);
+
+      newMutatorMock.innReachItemTypes.GET = jest.fn(() => Promise.reject());
+      renderMaterialTypesCreateEditRoute({
+        history,
+        mutator: newMutatorMock,
+      });
+      await act(async () => { await MaterialTypeForm.mock.calls[1][0].onChangeServer(servers[0].name); });
+      expect(MaterialTypeForm.mock.calls[6][0].innReachItemTypesFailed).toBeTruthy();
+    });
+
+    it('should be invisible', async () => {
+      renderMaterialTypesCreateEditRoute({ history });
+      await act(async () => { await MaterialTypeForm.mock.calls[1][0].onChangeServer(servers[0].name); });
+      expect(MaterialTypeForm.mock.calls[5][0].innReachItemTypesFailed).toBeFalsy();
     });
   });
 });

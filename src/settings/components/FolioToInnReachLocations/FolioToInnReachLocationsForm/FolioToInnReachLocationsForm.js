@@ -18,6 +18,7 @@ import {
   Selection,
 } from '@folio/stripes-components';
 import {
+  CENTRAL_SERVER_ID,
   DEFAULT_PANE_WIDTH,
   FOLIO_TO_INN_REACH_LOCATION_FIELDS,
 } from '../../../../constants';
@@ -27,7 +28,6 @@ import {
 } from './utils';
 
 const {
-  CENTRAL_SERVER,
   MAPPING_TYPE,
   LIBRARY,
   INN_REACH_LOCATIONS,
@@ -122,7 +122,7 @@ const FolioToInnReachLocationsForm = ({
       paneTitle={<FormattedMessage id='ui-inn-reach.settings.folio-to-inn-reach-locations.title' />}
     >
       <Selection
-        id={CENTRAL_SERVER}
+        id={CENTRAL_SERVER_ID}
         label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
         dataOptions={serverOptions}
         placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}

@@ -55,7 +55,7 @@ const MaterialTypeCreateEditRoute = ({
   const servers = centralServers[0]?.centralServers || [];
   const materialTypes = materialTypesData[0]?.mtypes || [];
 
-  const [
+  const {
     selectedServer,
     openModal,
     isResetForm,
@@ -66,7 +66,7 @@ const MaterialTypeCreateEditRoute = ({
     handleServerChange,
     handleModalConfirm,
     handleModalCancel,
-  ] = useCentralServers(history, servers);
+  } = useCentralServers(history, servers);
 
   const showCallout = useCallout();
   const [materialTypeMappings, setMaterialTypeMappings] = useState([]);
@@ -74,6 +74,7 @@ const MaterialTypeCreateEditRoute = ({
   const [initialValues, setInitialValues] = useState({});
   const [isMaterialTypeMappingsPending, setIsMaterialTypeMappingsPending] = useState(false);
   const [isInnReachItemTypesPending, setIsInnReachItemTypesPending] = useState(false);
+  const [innReachItemTypesFailed, setInnReachItemTypesFailed] = useState(false);
 
   const getFormatedInnReachItemTypeOptions = useMemo(() => {
     let options = [];
@@ -97,6 +98,11 @@ const MaterialTypeCreateEditRoute = ({
     label: type.name,
     value: type.id,
   })), [materialTypes]);
+
+  const changeServer = (serverName) => {
+    setInnReachItemTypesFailed(false);
+    handleServerChange(serverName);
+  };
 
   useEffect(() => {
     if (!isMaterialTypeMappingsPending && !isInnReachItemTypesPending) {
@@ -155,7 +161,10 @@ const MaterialTypeCreateEditRoute = ({
 
       mutator.innReachItemTypes.GET()
         .then(response => setInnReachItemTypes(response.itemTypeList))
-        .catch(() => setInnReachItemTypes([]))
+        .catch(() => {
+          setInnReachItemTypesFailed(true);
+          setInnReachItemTypes([]);
+        })
         .finally(() => setIsInnReachItemTypesPending(false));
     }
   }, [selectedServer.id]);
@@ -181,10 +190,11 @@ const MaterialTypeCreateEditRoute = ({
         initialValues={initialValues}
         isResetForm={isResetForm}
         innReachItemTypeOptions={getFormatedInnReachItemTypeOptions}
+        innReachItemTypesFailed={innReachItemTypesFailed}
         onSubmit={handleSubmit}
         onChangePristineState={changePristineState}
         onChangeFormResetState={changeFormResetState}
-        onChangeServer={handleServerChange}
+        onChangeServer={changeServer}
       />
     </>
   );

@@ -1,0 +1,59 @@
+textarea {
+  margin-bottom: 0 !important;
+}
+
+.tabularContainer {
+  margin-bottom: 1rem;
+}
+
+.tabularHeaderCol {
+  composes: tabularHeaderCol from '../../../../FolioToInnReachLocations/FolioToInnReachLocationsForm/components/TabularList/TabularList.css'; /* stylelint-disable-line value-keyword-case */
+  display: flex;
+  align-items: flex-end;
+  padding: 10px 10px 0;
+}
+
+.tabularRow:nth-child(2n + 1) {
+  background: var(--color-fill-table-row-odd);
+}
+
+.tabularRow:nth-child(2n) {
+  background: var(--color-fill-table-row-even);
+}
+
+.tabularRow div[class^="feedbackError"] {
+  margin-bottom: 5px;
+}
+
+.tabularCol {
+  composes: tabularCol from '../../../../FolioToInnReachLocations/FolioToInnReachLocationsForm/components/TabularList/TabularList.css'; /* stylelint-disable-line value-keyword-case */
+  display: block;
+  padding: 10px;
+
+  & > [class*="textArea"] {
+    width: 100%;
+  }
+}
+
+.tabularCol:first-child {
+  border-left: none;
+}
+
+.customColSmWidth {
+  flex-basis: 11.33333333%;
+  max-width: 11.33333333%;
+  text-align: center;
+}
+
+.customColMdWidth {
+  flex-basis: 44%;
+  max-width: 44%;
+}
+
+.selectControl option:disabled {
+  background-color: var(--color-fill-disabled) !important;
+}
+
+.cursorNone {
+  pointer-events: none;
+}

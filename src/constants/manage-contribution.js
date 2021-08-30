@@ -1,5 +1,9 @@
 export const MANAGE_CONTRIBUTION_ROUTE = 'manage-contribution';
 
+export const MANAGE_CONTRIBUTION_HISTORY_METADATA = {
+  UPDATED_DATE: 'updatedDate',
+};
+
 export const MANAGE_CONTRIBUTION_FIELDS = {
   ID: 'id',
   STATUS: 'status',
@@ -20,38 +24,39 @@ export const MANAGE_CONTRIBUTION_FIELDS = {
   UPDATED: 'recordsUpdated',
   DE_CONTRIBUTED: 'recordsDecontributed',
   ERRORS: 'errors',
-  
-  CONTRIBUTION_HISTORY: 'contributionHistory',
+  METADATA: 'metadata',
 };
 
 export const CONTRIBUTION_STATUSES = {
   NOT_STARTED: 'Not started',
-  IN_PROGRESS: 'In progress',
+  IN_PROGRESS: 'In Progress',
   PAUSED: 'Paused',
   COMPLETE: 'Complete',
-}
+};
 
 export const CONTRIBUTION_STATUS_LABELS = {
   [CONTRIBUTION_STATUSES.NOT_STARTED]: 'ui-inn-reach.settings.manage-contribution.contribution-status.not-started',
-  [CONTRIBUTION_STATUSES.IN_PROGRSS]: 'ui-inn-reach.settings.manage-contribution.contribution-status.in-progress',
+  [CONTRIBUTION_STATUSES.IN_PROGRESS]: 'ui-inn-reach.settings.manage-contribution.contribution-status.in-progress',
   [CONTRIBUTION_STATUSES.PAUSED]: 'ui-inn-reach.settings.manage-contribution.contribution-status.paused',
   [CONTRIBUTION_STATUSES.COMPLETE]: 'ui-inn-reach.settings.manage-contribution.contribution-status.complete',
-}
+};
+
 export const ITEM_TYPE_MAPPING_STATUSES = {
   VALID: 'Valid',
   INVALID: 'Invalid',
-}
+};
 
 export const ITEM_TYPE_MAPPING_STATUS_LABELS = {
   [ITEM_TYPE_MAPPING_STATUSES.VALID]: 'ui-inn-reach.settings.manage-contribution.item-mapping-type-status.valid',
-  [CONTRIBUTION_STATUSES.INVALID]: 'ui-inn-reach.settings.manage-contribution.item-mapping-type-status.invalid',
-}
+  [ITEM_TYPE_MAPPING_STATUSES.INVALID]: 'ui-inn-reach.settings.manage-contribution.item-mapping-type-status.invalid',
+};
+
 export const LOCATIONS_MAPPING_STATUSES = {
   VALID: 'Valid',
   INVALID: 'Invalid',
-}
+};
 
 export const LOCATIONS_MAPPING_STATUS_LABELS = {
   [LOCATIONS_MAPPING_STATUSES.VALID]: 'ui-inn-reach.settings.manage-contribution.location-mapping-status.valid',
   [LOCATIONS_MAPPING_STATUSES.INVALID]: 'ui-inn-reach.settings.manage-contribution.location-mapping-status.invalid',
-}
+};

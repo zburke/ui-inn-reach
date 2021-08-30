@@ -430,4 +430,24 @@ describe('AgencyToFolioLocationsCreateEditRoute component', () => {
       expect(mutatorMock.agencyMappings.PUT).toHaveBeenCalledWith(finalRecord);
     });
   });
+
+  describe('banner', () => {
+    it('should be visible', async () => {
+      const newMutatorMock = cloneDeep(mutatorMock);
+
+      newMutatorMock.localServers.GET = jest.fn(() => Promise.reject());
+      renderAgencyToFolioLocationsCreateEditRoute({
+        history,
+        mutator: newMutatorMock,
+      });
+      await act(async () => { await AgencyToFolioLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
+      expect(AgencyToFolioLocationsForm.mock.calls[6][0].localServersFailed).toBeTruthy();
+    });
+
+    it('should be invisible', async () => {
+      renderAgencyToFolioLocationsCreateEditRoute({ history });
+      await act(async () => { await AgencyToFolioLocationsForm.mock.calls[1][0].onChangeServer(servers[0].name); });
+      expect(AgencyToFolioLocationsForm.mock.calls[5][0].localServersFailed).toBeFalsy();
+    });
+  });
 });

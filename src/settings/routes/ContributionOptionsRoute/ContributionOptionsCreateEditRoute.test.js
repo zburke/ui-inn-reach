@@ -14,12 +14,12 @@ import ContributionOptionsCreateEditRoute from './ContributionOptionsCreateEditR
 import ContributionOptionsForm from '../../components/ContributionOptions/ContributionOptionsForm';
 import { useCentralServers } from '../../../hooks';
 import {
+  CENTRAL_SERVER_ID,
   CONTRIBUTION_OPTIONS_FIELDS,
   STATUSES_LIST,
 } from '../../../constants';
 
 const {
-  CENTRAL_SERVER_ID,
   LOCATION_IDS,
   MATERIAL_TYPE_IDS,
   LOAN_TYPE_IDS,
@@ -32,7 +32,7 @@ jest.mock('../../components/ContributionOptions/ContributionOptionsForm', () => 
 
 jest.mock('../../../hooks', () => ({
   ...jest.requireActual('../../../hooks'),
-  useCentralServers: jest.fn().mockReturnValue([]),
+  useCentralServers: jest.fn().mockReturnValue({}),
 }));
 
 jest.mock('@folio/stripes-components', () => ({
@@ -186,7 +186,7 @@ describe('ContributionOptionsCreateEditRoute component', () => {
     ConfirmationModal.mockClear();
     ContributionOptionsForm.mockClear();
     history = createMemoryHistory();
-    useCentralServers.mockClear().mockReturnValue([
+    useCentralServers.mockClear().mockReturnValue({
       selectedServer,
       openModal,
       isResetForm,
@@ -197,7 +197,7 @@ describe('ContributionOptionsCreateEditRoute component', () => {
       handleServerChange,
       handleModalConfirm,
       handleModalCancel,
-    ]);
+    });
   });
 
   it('should be rendered', async () => {
