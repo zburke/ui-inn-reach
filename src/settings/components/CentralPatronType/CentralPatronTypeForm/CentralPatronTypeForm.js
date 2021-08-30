@@ -63,9 +63,9 @@ const CentralPatronTypeForm = ({
         <Col sm={12}>
           <Selection
             id={CENTRAL_SERVER_ID}
-            label={<FormattedMessage id="ui-inn-reach.settings.central-patron-type.field.central-server" />}
+            label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
             dataOptions={serverOptions}
-            placeholder={formatMessage({ id: 'ui-inn-reach.settings.central-patron-type.placeholder.central-server' })}
+            placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
             value={selectedServer.name}
             onChange={onChangeServer}
           />

@@ -5,6 +5,7 @@ export * from './folio-to-innreach-locations';
 export * from './contribution-options';
 export * from './material-type';
 export * from './agency-to-folio-locations';
+export * from './manage-contribution';
 export * from './bib-transformation-options';
 export * from './central-patron-type';
 export * from './central-item-type';

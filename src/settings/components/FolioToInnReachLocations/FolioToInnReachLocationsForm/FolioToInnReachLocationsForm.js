@@ -123,9 +123,9 @@ const FolioToInnReachLocationsForm = ({
     >
       <Selection
         id={CENTRAL_SERVER_ID}
-        label={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.field.centralServer" />}
+        label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
         dataOptions={serverOptions}
-        placeholder={formatMessage({ id: 'ui-inn-reach.settings.contribution-criteria.placeholder.centralServer' })}
+        placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
         value={selectedServer.name}
         onChange={onChangeServer}
       />

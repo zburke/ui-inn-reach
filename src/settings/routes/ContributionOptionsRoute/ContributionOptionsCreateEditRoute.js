@@ -72,7 +72,7 @@ const ContributionOptionsCreateEditRoute = ({
   const materialTypes = materialTypesData[0]?.mtypes || [];
   const loanTypes = loanTypesData[0]?.loantypes || [];
 
-  const [
+  const {
     selectedServer,
     openModal,
     isResetForm,
@@ -83,7 +83,7 @@ const ContributionOptionsCreateEditRoute = ({
     handleServerChange,
     handleModalConfirm,
     handleModalCancel,
-  ] = useCentralServers(history, servers);
+  } = useCentralServers(history, servers);
   const showCallout = useCallout();
   const [contributionOptions, setContributionOptions] = useState({});
   const [isNewRecord, setIsNewRecord] = useState(false);

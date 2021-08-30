@@ -29,47 +29,47 @@ describe('useCentralServers hook', () => {
   });
 
   it('should return isPristine state as false', () => {
-    const changePristineState = result.current[5];
+    const { changePristineState } = result.current;
 
     act(() => {
       changePristineState(false);
     });
-    const isPristine = result.current[3];
+    const { isPristine } = result.current;
 
     expect(isPristine).toBeFalsy();
   });
 
   it('should return isResetForm state as true', () => {
-    const changeFormResetState = result.current[6];
+    const { changeFormResetState } = result.current;
 
     act(() => {
       changeFormResetState(true);
     });
-    const isResetForm = result.current[2];
+    const { isResetForm } = result.current;
 
     expect(isResetForm).toBeTruthy();
   });
 
   it('should return selected server state data', () => {
-    const handleServerChange = result.current[7];
+    const { handleServerChange } = result.current;
 
     act(() => {
       handleServerChange(servers[1].name);
     });
-    const selectedServer = result.current[0];
+    const { selectedServer } = result.current;
 
     expect(selectedServer).toMatchObject(servers[1]);
   });
 
   it('should return correct serverOptions', () => {
-    const serverOptions = result.current[4];
+    const { serverOptions } = result.current;
 
     expect(serverOptions).toMatchObject(serverOptionsMock);
   });
 
   describe('handleModalConfirm', () => {
     it('should close the modal', () => {
-      const handleModalConfirm = result.current[8];
+      const { handleModalConfirm } = result.current;
 
       act(() => {
         handleModalConfirm();
@@ -82,7 +82,7 @@ describe('useCentralServers hook', () => {
 
   describe('handleModalCancel', () => {
     beforeEach(() => {
-      const handleModalCancel = result.current[9];
+      const { handleModalCancel } = result.current;
 
       act(() => {
         handleModalCancel();
@@ -90,37 +90,37 @@ describe('useCentralServers hook', () => {
     });
 
     it('should reset the selected server', () => {
-      const handleServerChange = result.current[7];
+      const { handleServerChange } = result.current;
 
       act(() => {
         handleServerChange(servers[1].name);
       });
 
-      const handleModalCancel = result.current[9];
+      const { handleModalCancel } = result.current;
 
       act(() => {
         handleModalCancel();
       });
-      const selectedServer = result.current[0];
+      const { selectedServer } = result.current;
 
       expect(selectedServer).toEqual({});
     });
 
     it('should close modal', () => {
-      const openModal = result.current[1];
+      const { openModal } = result.current;
 
       expect(openModal).toBeFalsy();
     });
 
     it('should change isResetForm state to true', () => {
-      const isResetForm = result.current[2];
+      const { isResetForm } = result.current;
 
       expect(isResetForm).toBeTruthy();
     });
 
     it('should navigate to another location', () => {
       const historyPushSpy = jest.spyOn(history, 'push');
-      const handleModalCancel = result.current[9];
+      const { handleModalCancel } = result.current;
 
       act(() => {
         handleModalCancel();
@@ -132,24 +132,24 @@ describe('useCentralServers hook', () => {
 
   describe('unblock function', () => {
     it('should open a modal', async () => {
-      const handleServerChange = result.current[7];
+      const { handleServerChange } = result.current;
 
       act(() => { handleServerChange(servers[1].name); });
-      const selectedServer1 = result.current[0];
+      const { selectedServer: selectedServer1 } = result.current;
 
       expect(selectedServer1).toEqual(servers[1]);
       act(() => { history.push('/'); });
-      const selectedServer2 = result.current[0];
+      const { selectedServer: selectedServer2 } = result.current;
 
       expect(selectedServer2).toEqual({});
     });
 
     it('should reset the selected server', () => {
-      const changePristineState = result.current[5];
+      const { changePristineState } = result.current;
 
       act(() => { changePristineState(false); });
       act(() => { history.push('/'); });
-      const openModal = result.current[1];
+      const { openModal } = result.current;
 
       expect(openModal).toBeTruthy();
     });

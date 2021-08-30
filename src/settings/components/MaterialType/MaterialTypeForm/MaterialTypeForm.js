@@ -85,9 +85,9 @@ const MaterialTypeForm = ({
         <Col sm={12}>
           <Selection
             id={CENTRAL_SERVER_ID}
-            label={<FormattedMessage id="ui-inn-reach.settings.material-type-mapping.field.centralServer" />}
+            label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
             dataOptions={serverOptions}
-            placeholder={formatMessage({ id: 'ui-inn-reach.settings.material-type-mapping.placeholder.centralServer' })}
+            placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
             value={selectedServer.name}
             loading={isServersPending}
             onChange={onChangeServer}

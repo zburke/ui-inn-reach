@@ -8,6 +8,7 @@ import {
   FolioToInnReachLocationsRoute,
   ContributionOptionsRoute,
   AgencyToFolioLocationsRoute,
+  ManageContributionRoute,
   BibTransformationOptionsRoute,
   CentralPatronTypeRoute,
   CentralItemTypeRoute,
@@ -29,6 +30,9 @@ import {
   AGENCY_TO_FOLIO_LOCATIONS_ROUTE,
   CIRCULATION_MAPPINGS,
 } from './agency-to-folio-locations';
+import {
+  MANAGE_CONTRIBUTION_ROUTE,
+} from './manage-contribution';
 import {
   BIB_TRANSFORMATION_ROUTE,
 } from './bib-transformation-options';
@@ -83,6 +87,11 @@ export const sections = [
         route: BIB_TRANSFORMATION_ROUTE,
         label: <FormattedMessage id="ui-inn-reach.settings.bib-transformation" />,
         component: BibTransformationOptionsRoute,
+      },
+      {
+        route: MANAGE_CONTRIBUTION_ROUTE,
+        label: <FormattedMessage id="ui-inn-reach.settings.manage-contribution.title" />,
+        component: ManageContributionRoute,
       },
     ],
   },
