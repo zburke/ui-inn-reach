@@ -7,3 +7,5 @@ export { default as ContributionOptionsRoute } from './ContributionOptionsRoute'
 export { default as AgencyToFolioLocationsRoute } from './AgencyToFolioLocations';
 export { default as ManageContributionRoute } from './ManageContributionRoute';
 export { default as BibTransformationOptionsRoute } from './BibTransformationOptions';
+export { default as CentralPatronTypeRoute } from './CentralPatronTypeRoute';
+export { default as CentralItemTypeRoute } from './CentralItemTypeRoute';

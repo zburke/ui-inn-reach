@@ -82,9 +82,9 @@ const MaterialTypeCreateEditRoute = ({
       label: <FormattedMessage id="ui-inn-reach.no-selection" />,
       value: NO_VALUE_OPTION_VALUE,
     };
-    const innReachOptions = innReachItemTypes.map(type => ({
-      label: type.description,
-      value: type.centralItemType,
+    const innReachOptions = innReachItemTypes.map(({ centralItemType, description }) => ({
+      label: `${centralItemType} (${description})`,
+      value: `${centralItemType}`,
     }));
 
     if (innReachItemTypes.length) {

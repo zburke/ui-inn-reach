@@ -24,6 +24,8 @@
   "settings.folio-to-inn-reach-locations": "FOLIO to INN-Reach locations",
   "settings.agency-to-folio-locations": "Agency to FOLIO location",
   "settings.bib-transformation": "Bib transformation options",
+  "settings.central-patron-type": "Central patron type",
+  "settings.central-item-type": "Central item type",
   "settings.some-feature.message": "These are your settings for some app feature.",
   "settings.validate.required": "Required",
   "settings.field.centralServer": "Central server",
@@ -226,5 +228,25 @@
   "settings.manage-contribution.history.field.decontributed": "De-contributed",
   "settings.manage-contribution.history.field.error": "Error",
   "settings.manage-contribution.updatedDatePattern": "{date} {time}",
-  "settings.manage-contribution.tooltip.check-mappings": "Valid mappings are required to initiate contribution"
+  "settings.manage-contribution.tooltip.check-mappings": "Valid mappings are required to initiate contribution",
+
+  "settings.central-item-type.title": "Central item type",
+  "settings.central-item-type.button.save": "Save",
+  "settings.central-item-type.field.item-type": "Item type (description)",
+  "settings.central-item-type.field.folio-material-type": "FOLIO material type",
+  "settings.central-item-type.placeholder.material-type": "Select material type",
+  "settings.central-item-type.create.success": "Central item type settings created successfully",
+  "settings.central-item-type.update.success": "Central item type settings updated successfully",
+  "settings.central-item-type.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
+  "settings.central-item-type.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator",
+
+  "settings.central-patron-type.title": "Central patron type",
+  "settings.central-patron-type.button.save": "Save",
+  "settings.central-patron-type.field.folio-patron-groups": "FOLIO patron groups",
+  "settings.central-patron-type.field.patron-type": "Patron type (Description)",
+  "settings.central-patron-type.placeholder.patron-type": "Select patron type",
+  "settings.central-patron-type.create.success": "Central patron type settings created successfully",
+  "settings.central-patron-type.update.success": "Central patron type settings updated successfully",
+  "settings.central-patron-type.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
+  "settings.central-patron-type.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator"
 }

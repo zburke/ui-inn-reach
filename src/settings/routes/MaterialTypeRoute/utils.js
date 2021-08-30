@@ -18,7 +18,7 @@ export const getInnReachMaterialTypeMapingsMap = (mappings) => {
     centralItemType,
     materialTypeId,
   }) => {
-    materialTypeMappingsMap.set(materialTypeId, { id, centralItemType });
+    materialTypeMappingsMap.set(materialTypeId, { id, centralItemType: `${centralItemType}` });
   });
 
   return materialTypeMappingsMap;
@@ -68,7 +68,7 @@ export const formatPayload = ({
     if (centralItemType) {
       const mapping = {
         materialTypeId,
-        centralItemType
+        centralItemType: parseInt(centralItemType, 10),
       };
 
       if (id) mapping.id = id;
