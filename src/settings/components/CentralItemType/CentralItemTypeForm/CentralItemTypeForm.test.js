@@ -40,11 +40,11 @@ const defaultInitialValues = {
   itemTypeMappings: [
     {
       itemTypeLabel: '200 (Book)',
-      itemType: 200
+      centralItemType: 200
     },
     {
       itemTypeLabel: '201 (Av)',
-      itemType: 201
+      centralItemType: 201
     },
   ],
 };
