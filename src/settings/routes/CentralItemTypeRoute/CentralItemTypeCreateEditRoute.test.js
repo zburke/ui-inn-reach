@@ -60,7 +60,7 @@ const itemTypeMappings = {
     {
       id: '508657aa-927a-4515-91d8-a4e7a759b3db',
       materialTypeId: 'ada9aecf-cebb-496a-a60b-a6bfbc695bf9',
-      itemType: 200
+      centralItemType: 200
     },
   ],
 };
@@ -71,7 +71,7 @@ const record = {
       id: '508657aa-927a-4515-91d8-a4e7a759b3db',
       materialTypeId: 'ada9aecf-cebb-496a-a60b-a6bfbc695bf9',
       itemTypeLabel: '200 (Book)',
-      itemType: 200,
+      centralItemType: 200,
     },
   ],
 };
@@ -81,7 +81,7 @@ const payload = {
     {
       id: '508657aa-927a-4515-91d8-a4e7a759b3db',
       materialTypeId: 'ada9aecf-cebb-496a-a60b-a6bfbc695bf9',
-      itemType: 200,
+      centralItemType: 200,
     },
   ],
 };
@@ -164,7 +164,7 @@ describe('renderCentralItemTypeCreateEditRoute component', () => {
           {
             id: '508657aa-927a-4515-91d8-a4e7a759b3db',
             materialTypeId: 'ada9aecf-cebb-496a-a60b-a6bfbc695bf9',
-            itemType: 200,
+            centralItemType: 200,
             itemTypeLabel: '200 (Book)',
           },
         ],

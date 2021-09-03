@@ -23,7 +23,7 @@ import css from '../../../../MaterialType/components/MaterialTypeMappingList/Mat
 const {
   ITEM_TYPE_MAPPINGS,
   ITEM_TYPE_LABEL,
-  ITEM_TYPE,
+  CENTRAL_ITEM_TYPE,
   MATERIAL_TYPE_ID,
 } = CENTRAL_ITEM_TYPE_FIELDS;
 
@@ -68,7 +68,7 @@ const TabularList = ({
                   className={css.tabularCol}
                 >
                   <Field
-                    id={`${name}.${ITEM_TYPE}-${index}`}
+                    id={`${name}.${CENTRAL_ITEM_TYPE}-${index}`}
                     name={`${name}.${ITEM_TYPE_LABEL}`}
                     component={({ input }) => input.value}
                   />

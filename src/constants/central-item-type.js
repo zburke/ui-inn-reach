@@ -7,7 +7,7 @@ export const CENTRAL_ITEM_TYPE_ROUTE = 'central-item-type';
 export const CENTRAL_ITEM_TYPE_FIELDS = {
   ID: 'id',
   ITEM_TYPE_MAPPINGS: 'itemTypeMappings',
-  ITEM_TYPE: 'itemType',
+  CENTRAL_ITEM_TYPE: 'centralItemType',
   ITEM_TYPE_LABEL: 'itemTypeLabel',
   MATERIAL_TYPE_ID: 'materialTypeId',
 };

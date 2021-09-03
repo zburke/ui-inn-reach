@@ -10,14 +10,14 @@ import {
 const {
   ID,
   ITEM_TYPE_MAPPINGS,
-  ITEM_TYPE,
+  CENTRAL_ITEM_TYPE,
   ITEM_TYPE_LABEL,
   MATERIAL_TYPE_ID,
 } = CENTRAL_ITEM_TYPE_FIELDS;
 
 export const getInnReachItemTypeOptions = (innReachItemTypes) => {
   return innReachItemTypes.map(({ centralItemType, description }) => ({
-    [ITEM_TYPE]: centralItemType,
+    [CENTRAL_ITEM_TYPE]: centralItemType,
     [ITEM_TYPE_LABEL]: `${centralItemType} (${description})`,
   }));
 };
@@ -36,8 +36,8 @@ export const getFolioMaterialTypeOptions = (materialTypes) => {
 };
 
 export const getItemTypeMappingsMap = (itemTypeMappings) => {
-  return itemTypeMappings.reduce((accum, { id, itemType, materialTypeId }) => {
-    accum.set(itemType, { id, materialTypeId });
+  return itemTypeMappings.reduce((accum, { id, centralItemType, materialTypeId }) => {
+    accum.set(centralItemType, { id, materialTypeId });
 
     return accum;
   }, new Map());
@@ -50,7 +50,7 @@ export const formatItemTypeMappings = (innReachItemTypes, itemTypeMappingsMap) =
     if (isItemTypeSelected) {
       const mapping = {
         [MATERIAL_TYPE_ID]: itemTypeMappingsMap.get(centralItemType).materialTypeId,
-        [ITEM_TYPE]: centralItemType,
+        [CENTRAL_ITEM_TYPE]: centralItemType,
         [ITEM_TYPE_LABEL]: `${centralItemType} (${description})`,
       };
 
