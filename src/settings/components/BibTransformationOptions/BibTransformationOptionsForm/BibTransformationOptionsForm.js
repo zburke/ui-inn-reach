@@ -111,9 +111,9 @@ const BibTransformationOptionsForm = ({
       <form>
         <Selection
           id={CENTRAL_SERVER_ID}
-          label={<FormattedMessage id="ui-inn-reach.settings.bib-transformation.field.central-server" />}
+          label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
           dataOptions={serverOptions}
-          placeholder={formatMessage({ id: 'ui-inn-reach.settings.bib-transformation.placeholder.central-server' })}
+          placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
           value={selectedServer.name}
           onChange={onChangeServer}
         />

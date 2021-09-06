@@ -64,7 +64,7 @@ const useCentralServers = (history, servers) => {
     return () => unblockRef.current();
   }, [isPristine, history]);
 
-  return [
+  return {
     selectedServer,
     openModal,
     isResetForm,
@@ -75,7 +75,7 @@ const useCentralServers = (history, servers) => {
     handleServerChange,
     handleModalConfirm,
     handleModalCancel,
-  ];
+  };
 };
 
 export default useCentralServers;

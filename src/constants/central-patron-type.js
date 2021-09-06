@@ -12,7 +12,7 @@ export const CENTRAL_PATRON_TYPE_FIELDS = {
   PATRON_TYPE: 'patronType',
 };
 
-export const NO_VALUE_OPTION = {
+export const PATRON_TYPE_NO_VALUE_OPTION = {
   label: <FormattedMessage id="ui-inn-reach.settings.central-patron-type.placeholder.patron-type" />,
   value: NO_VALUE_OPTION_VALUE,
 };

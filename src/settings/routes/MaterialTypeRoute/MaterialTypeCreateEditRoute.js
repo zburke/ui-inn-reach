@@ -55,7 +55,7 @@ const MaterialTypeCreateEditRoute = ({
   const servers = centralServers[0]?.centralServers || [];
   const materialTypes = materialTypesData[0]?.mtypes || [];
 
-  const [
+  const {
     selectedServer,
     openModal,
     isResetForm,
@@ -66,7 +66,7 @@ const MaterialTypeCreateEditRoute = ({
     handleServerChange,
     handleModalConfirm,
     handleModalCancel,
-  ] = useCentralServers(history, servers);
+  } = useCentralServers(history, servers);
 
   const showCallout = useCallout();
   const [materialTypeMappings, setMaterialTypeMappings] = useState([]);

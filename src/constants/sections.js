@@ -8,8 +8,10 @@ import {
   FolioToInnReachLocationsRoute,
   ContributionOptionsRoute,
   AgencyToFolioLocationsRoute,
+  ManageContributionRoute,
   BibTransformationOptionsRoute,
   CentralPatronTypeRoute,
+  CentralItemTypeRoute,
   FolioCirculationUserRoute,
 } from '../settings/routes';
 import {
@@ -30,11 +32,17 @@ import {
   CIRCULATION_MAPPINGS,
 } from './agency-to-folio-locations';
 import {
+  MANAGE_CONTRIBUTION_ROUTE,
+} from './manage-contribution';
+import {
   BIB_TRANSFORMATION_ROUTE,
 } from './bib-transformation-options';
 import {
   CENTRAL_PATRON_TYPE_ROUTE,
 } from './central-patron-type';
+import {
+  CENTRAL_ITEM_TYPE_ROUTE,
+} from './central-item-type';
 import {
   FOLIO_CIRCULATION_USER_ROUTE,
 } from './folio-circulation-user';
@@ -84,6 +92,11 @@ export const sections = [
         label: <FormattedMessage id="ui-inn-reach.settings.bib-transformation" />,
         component: BibTransformationOptionsRoute,
       },
+      {
+        route: MANAGE_CONTRIBUTION_ROUTE,
+        label: <FormattedMessage id="ui-inn-reach.settings.manage-contribution.title" />,
+        component: ManageContributionRoute,
+      },
     ],
   },
   {
@@ -94,6 +107,11 @@ export const sections = [
         route: AGENCY_TO_FOLIO_LOCATIONS_ROUTE,
         label: <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations" />,
         component: AgencyToFolioLocationsRoute,
+      },
+      {
+        route: CENTRAL_ITEM_TYPE_ROUTE,
+        label: <FormattedMessage id="ui-inn-reach.settings.central-item-type" />,
+        component: CentralItemTypeRoute,
       },
       {
         route: CENTRAL_PATRON_TYPE_ROUTE,

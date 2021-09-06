@@ -18,7 +18,7 @@ jest.mock('../../components/MaterialType/MaterialTypeForm', () => {
 
 jest.mock('../../../hooks', () => ({
   ...jest.requireActual('../../../hooks'),
-  useCentralServers: jest.fn().mockReturnValue([]),
+  useCentralServers: jest.fn().mockReturnValue({}),
 }));
 
 jest.mock('@folio/stripes-components', () => ({
@@ -159,7 +159,7 @@ describe('MaterialTypeCreateEditRoute component', () => {
     ConfirmationModal.mockClear();
     MaterialTypeForm.mockClear();
     history = createMemoryHistory();
-    useCentralServers.mockClear().mockReturnValue([
+    useCentralServers.mockClear().mockReturnValue({
       selectedServer,
       openModal,
       isResetForm,
@@ -170,7 +170,7 @@ describe('MaterialTypeCreateEditRoute component', () => {
       handleServerChange,
       handleModalConfirm,
       handleModalCancel,
-    ]);
+    });
   });
 
   it('should be rendered', async () => {

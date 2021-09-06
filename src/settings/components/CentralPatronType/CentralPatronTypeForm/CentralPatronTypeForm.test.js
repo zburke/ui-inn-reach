@@ -4,7 +4,7 @@ import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import { translationsProperties } from '../../../../../test/jest/helpers';
 import CentralPatronTypeForm from './CentralPatronTypeForm';
-import { NO_VALUE_OPTION } from '../../../../constants';
+import { PATRON_TYPE_NO_VALUE_OPTION } from '../../../../constants';
 
 const serverOptions = [
   {
@@ -25,7 +25,7 @@ const selectedServerMock = {
 };
 
 const patronTypeOptions = [
-  NO_VALUE_OPTION,
+  PATRON_TYPE_NO_VALUE_OPTION,
   {
     label: '200 (Patron)',
     value: '200',

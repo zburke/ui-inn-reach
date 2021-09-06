@@ -25,7 +25,7 @@ jest.mock('../../components/ContributionCriteria/ContributionCriteriaForm', () =
 
 jest.mock('../../../hooks', () => ({
   ...jest.requireActual('../../../hooks'),
-  useCentralServers: jest.fn().mockReturnValue([]),
+  useCentralServers: jest.fn().mockReturnValue({}),
 }));
 
 jest.mock('@folio/stripes-components', () => ({
@@ -164,7 +164,7 @@ describe('ContributionCriteriaCreateEditRoute component', () => {
     ConfirmationModal.mockClear();
     ContributionCriteriaForm.mockClear();
     history = createMemoryHistory();
-    useCentralServers.mockClear().mockReturnValue([
+    useCentralServers.mockClear().mockReturnValue({
       selectedServer,
       openModal,
       isResetForm,
@@ -175,7 +175,7 @@ describe('ContributionCriteriaCreateEditRoute component', () => {
       handleServerChange,
       handleModalConfirm,
       handleModalCancel,
-    ]);
+    });
   });
 
   it('should be rendered', async () => {
