@@ -27,5 +27,6 @@ export const PAGE_AMOUNT = 100;
 export const NO_VALUE_OPTION_VALUE = '';
 
 export const CENTRAL_SERVERS_LIMITING = 9999;
+export const USERS_LIMIT = 9999;
 
 export const CENTRAL_SERVER_ID = 'centralServerId';
