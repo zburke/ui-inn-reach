@@ -36,7 +36,7 @@ import {
 } from './utils';
 
 const {
-  BARCODE_MAPPINGS,
+  CENTRAL_PATRON_TYPE_MAPPINGS,
 } = FOLIO_CIRCULATION_USER_FIELDS;
 
 const FolioCirculationUserCreateEditRoute = ({
@@ -63,20 +63,20 @@ const FolioCirculationUserCreateEditRoute = ({
   const [selectedServer, setSelectedServer] = useState({});
   const [innReachPatronTypes, setInnReachPatronTypes] = useState([]);
   const [isInnReachPatronTypesPending, setIsInnReachPatronTypesPending] = useState(false);
-  const [barcodeMappings, setBarcodeMappings] = useState([]);
-  const [isBarcodeMappingsPending, setIsBarcodeMappingsPending] = useState(false);
+  const [centralPatronTypeMappings, setCentralPatronTypeMappings] = useState([]);
+  const [isCentralPatronTypeMappingsPending, setIsCentralPatronTypeMappingsPending] = useState(false);
   const [initialValues, setInitialValues] = useState({});
   const [innReachPatronTypesFailed, setInnReachPatronTypesFailed] = useState(false);
 
   const serverOptions = useMemo(() => getCentralServerOptions(servers), [servers]);
 
   const fetchBarcodeMappings = () => {
-    setIsBarcodeMappingsPending(true);
+    setIsCentralPatronTypeMappingsPending(true);
 
-    mutator.barcodeMappings.GET()
-      .then(response => setBarcodeMappings(response.barcodeMappings))
-      .catch(() => setBarcodeMappings([]))
-      .finally(() => setIsBarcodeMappingsPending(false));
+    mutator.centralPatronTypeMappings.GET()
+      .then(response => setCentralPatronTypeMappings(response.centralPatronTypeMappings))
+      .catch(() => setCentralPatronTypeMappings([]))
+      .finally(() => setIsCentralPatronTypeMappingsPending(false));
   };
 
   const fetchInnReachPatronTypes = () => {
@@ -111,15 +111,15 @@ const FolioCirculationUserCreateEditRoute = ({
   const handleSubmit = (record) => {
     const payload = formatPayload(record);
 
-    mutator.barcodeMappings.PUT(payload)
+    mutator.centralPatronTypeMappings.PUT(payload)
       .then(() => {
-        const action = isEmpty(barcodeMappings) ? 'create' : 'update';
+        const action = isEmpty(centralPatronTypeMappings) ? 'create' : 'update';
 
-        setBarcodeMappings(payload[BARCODE_MAPPINGS]);
+        setCentralPatronTypeMappings(payload[CENTRAL_PATRON_TYPE_MAPPINGS]);
         showCallout({ message: <FormattedMessage id={`ui-inn-reach.settings.folio-circulation-user.${action}.success`} /> });
       })
       .catch(() => {
-        const action = isEmpty(barcodeMappings) ? 'post' : 'put';
+        const action = isEmpty(centralPatronTypeMappings) ? 'post' : 'put';
 
         showCallout({
           type: CALLOUT_ERROR_TYPE,
@@ -129,20 +129,20 @@ const FolioCirculationUserCreateEditRoute = ({
   };
 
   useEffect(() => {
-    if (!isBarcodeMappingsPending && !isInnReachPatronTypesPending) {
-      if (isEmpty(barcodeMappings)) {
+    if (!isCentralPatronTypeMappingsPending && !isInnReachPatronTypesPending) {
+      if (isEmpty(centralPatronTypeMappings)) {
         setInitialValues({
-          [BARCODE_MAPPINGS]: getInnReachPatronTypeOptions(innReachPatronTypes),
+          [CENTRAL_PATRON_TYPE_MAPPINGS]: getInnReachPatronTypeOptions(innReachPatronTypes),
         });
       } else {
-        const barcodeMappingsMap = getBarcodeMappingsMap(barcodeMappings);
+        const barcodeMappingsMap = getBarcodeMappingsMap(centralPatronTypeMappings);
 
         setInitialValues({
-          [BARCODE_MAPPINGS]: formatBarcodeMappings(innReachPatronTypes, barcodeMappingsMap),
+          [CENTRAL_PATRON_TYPE_MAPPINGS]: formatBarcodeMappings(innReachPatronTypes, barcodeMappingsMap),
         });
       }
     }
-  }, [barcodeMappings, isBarcodeMappingsPending, isInnReachPatronTypesPending, innReachPatronTypes]);
+  }, [centralPatronTypeMappings, isCentralPatronTypeMappingsPending, isInnReachPatronTypesPending, innReachPatronTypes]);
 
   if (
     (isServersPending && !hasLoadedServers) ||
@@ -155,7 +155,7 @@ const FolioCirculationUserCreateEditRoute = ({
     <FolioCirculationUserForm
       selectedServer={selectedServer}
       serverOptions={serverOptions}
-      isBarcodeMappingsPending={isBarcodeMappingsPending}
+      isCentralPatronTypeMappingsPending={isCentralPatronTypeMappingsPending}
       isInnReachPatronTypesPending={isInnReachPatronTypesPending}
       existingBarcodesSet={existingBarcodesSet}
       initialValues={initialValues}
@@ -178,9 +178,9 @@ FolioCirculationUserCreateEditRoute.manifest = Object.freeze({
     path: `users?limit=${USERS_LIMIT}`,
     throwErrors: false,
   },
-  barcodeMappings: {
+  centralPatronTypeMappings: {
     type: 'okapi',
-    path: 'inn-reach/central-servers/%{selectedServerId}/barcode-mappings',
+    path: 'inn-reach/central-servers/%{selectedServerId}/centralPatronTypeMappings',
     accumulate: true,
     fetch: false,
     throwErrors: false,
@@ -212,7 +212,7 @@ FolioCirculationUserCreateEditRoute.propTypes = {
     selectedServerId: PropTypes.shape({
       replace: PropTypes.func.isRequired,
     }).isRequired,
-    barcodeMappings: PropTypes.shape({
+    centralPatronTypeMappings: PropTypes.shape({
       GET: PropTypes.func,
       PUT: PropTypes.func,
     }).isRequired,

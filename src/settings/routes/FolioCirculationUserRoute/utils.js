@@ -8,7 +8,7 @@ import {
 
 const {
   ID,
-  BARCODE_MAPPINGS,
+  CENTRAL_PATRON_TYPE_MAPPINGS,
   CENTRAL_PATRON_TYPE,
   CENTRAL_PATRON_TYPE_LABEL,
   BARCODE,
@@ -29,8 +29,8 @@ export const getInnReachPatronTypeOptions = (innReachPatronTypes) => {
   }));
 };
 
-export const getBarcodeMappingsMap = (barcodeMappings) => {
-  return barcodeMappings.reduce((accum, {
+export const getBarcodeMappingsMap = (centralPatronTypeMappings) => {
+  return centralPatronTypeMappings.reduce((accum, {
     [ID]: id,
     [CENTRAL_PATRON_TYPE]: centralPatronType,
     [BARCODE]: barcode,
@@ -64,11 +64,11 @@ export const formatBarcodeMappings = (innReachPatronTypes, barcodeMappingsMap) =
 };
 
 export const formatPayload = (record) => {
-  const finalMappings = record[BARCODE_MAPPINGS].map(mapping => (
+  const finalMappings = record[CENTRAL_PATRON_TYPE_MAPPINGS].map(mapping => (
     omit(mapping, [CENTRAL_PATRON_TYPE_LABEL])
   ));
 
   return {
-    [BARCODE_MAPPINGS]: finalMappings,
+    [CENTRAL_PATRON_TYPE_MAPPINGS]: finalMappings,
   };
 };

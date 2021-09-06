@@ -24,7 +24,7 @@ import {
 import css from './TabularList.css';
 
 const {
-  BARCODE_MAPPINGS,
+  CENTRAL_PATRON_TYPE_MAPPINGS,
   CENTRAL_PATRON_TYPE,
   CENTRAL_PATRON_TYPE_LABEL,
   BARCODE,
@@ -60,7 +60,7 @@ const TabularList = ({
         </Row>
         <FieldArray
           isEqual={isEqual}
-          name={BARCODE_MAPPINGS}
+          name={CENTRAL_PATRON_TYPE_MAPPINGS}
         >
           {({ fields }) => {
             return fields.map((name, index) => (

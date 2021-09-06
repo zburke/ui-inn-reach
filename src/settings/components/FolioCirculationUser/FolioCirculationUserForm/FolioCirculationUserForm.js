@@ -24,14 +24,14 @@ import {
 import TabularList from './components/TabularList';
 
 const {
-  BARCODE_MAPPINGS,
+  CENTRAL_PATRON_TYPE_MAPPINGS,
   BARCODE,
 } = FOLIO_CIRCULATION_USER_FIELDS;
 
 const FolioCirculationUserForm = ({
   selectedServer,
   serverOptions,
-  isBarcodeMappingsPending,
+  isCentralPatronTypeMappingsPending,
   isInnReachPatronTypesPending,
   innReachPatronTypesFailed,
   existingBarcodesSet,
@@ -44,11 +44,11 @@ const FolioCirculationUserForm = ({
 }) => {
   const { formatMessage } = useIntl();
   const showTabularList = (
-    selectedServer.id && !isBarcodeMappingsPending && !isInnReachPatronTypesPending && !innReachPatronTypesFailed
+    selectedServer.id && !isCentralPatronTypeMappingsPending && !isInnReachPatronTypesPending && !innReachPatronTypesFailed
   );
 
   const getFooter = () => {
-    const isAllFieldsFilledIn = values[BARCODE_MAPPINGS]?.every(field => field[BARCODE]);
+    const isAllFieldsFilledIn = values[CENTRAL_PATRON_TYPE_MAPPINGS]?.every(field => field[BARCODE]);
 
     const saveButton = (
       <Button
@@ -83,7 +83,7 @@ const FolioCirculationUserForm = ({
           />
         </Col>
       </Row>
-      {isBarcodeMappingsPending && <Loading />}
+      {isCentralPatronTypeMappingsPending && <Loading />}
       <MessageBanner
         type={BANNER_ERROR_TYPE}
         show={innReachPatronTypesFailed}
@@ -107,7 +107,7 @@ FolioCirculationUserForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   innReachPatronTypesFailed: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
-  isBarcodeMappingsPending: PropTypes.bool.isRequired,
+  isCentralPatronTypeMappingsPending: PropTypes.bool.isRequired,
   isInnReachPatronTypesPending: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
   selectedServer: PropTypes.object.isRequired,

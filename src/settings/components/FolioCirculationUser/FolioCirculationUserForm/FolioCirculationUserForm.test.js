@@ -26,7 +26,7 @@ const selectedServerMock = {
 };
 
 const defaultInitialValues = {
-  barcodeMappings: [
+  centralPatronTypeMappings: [
     {
       id: '508657aa-927a-4515-91d8-a4e7a759b3db',
       centralPatronType: 200,
@@ -44,7 +44,7 @@ const renderFolioCirculationUserForm = ({
   selectedServer = selectedServerMock,
   handleSubmit,
   initialValues = defaultInitialValues,
-  isBarcodeMappingsPending = false,
+  isCentralPatronTypeMappingsPending = false,
   isInnReachPatronTypesPending = false,
   innReachPatronTypesFailed = false,
   onChangeServer,
@@ -54,7 +54,7 @@ const renderFolioCirculationUserForm = ({
       <FolioCirculationUserForm
         selectedServer={selectedServer}
         serverOptions={serverOptions}
-        isBarcodeMappingsPending={isBarcodeMappingsPending}
+        isCentralPatronTypeMappingsPending={isCentralPatronTypeMappingsPending}
         isInnReachPatronTypesPending={isInnReachPatronTypesPending}
         existingBarcodesSet={existingBarcodesSet}
         initialValues={initialValues}
@@ -96,8 +96,8 @@ describe('FolioCirculationUserForm', () => {
 
     beforeEach(() => {
       renderFolioCirculationUserForm(commonProps);
-      barcodeField1 = document.getElementById('barcodeMappings[0].barcode-0');
-      barcodeField2 = document.getElementById('barcodeMappings[1].barcode-1');
+      barcodeField1 = document.getElementById('centralPatronTypeMappings[0].barcode-0');
+      barcodeField2 = document.getElementById('centralPatronTypeMappings[1].barcode-1');
       userEvent.type(barcodeField1, '1630029773640558945');
     });
 

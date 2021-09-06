@@ -54,8 +54,8 @@ const innReachPatronTypes = {
   ],
 };
 
-const barcodeMappings = {
-  barcodeMappings: [
+const centralPatronTypeMappings = {
+  centralPatronTypeMappings: [
     {
       id: '508657aa-927a-4515-91d8-a4e7a759b3db',
       centralPatronType: 200,
@@ -70,7 +70,7 @@ const barcodeMappings = {
 };
 
 const record = {
-  barcodeMappings: [
+  centralPatronTypeMappings: [
     {
       barcode: '1630029773640558945',
       centralPatronType: 200,
@@ -85,7 +85,7 @@ const record = {
 };
 
 const payload = {
-  barcodeMappings: [
+  centralPatronTypeMappings: [
     {
       barcode: '1630029773640558945',
       centralPatronType: 200,
@@ -114,8 +114,8 @@ const mutatorMock = {
   selectedServerId: {
     replace: jest.fn(),
   },
-  barcodeMappings: {
-    GET: jest.fn(() => Promise.resolve(barcodeMappings)),
+  centralPatronTypeMappings: {
+    GET: jest.fn(() => Promise.resolve(centralPatronTypeMappings)),
     PUT: jest.fn(() => Promise.resolve()),
   },
   innReachPatronTypes: {
@@ -171,7 +171,7 @@ describe('renderFolioCirculationUserCreateEditRoute component', () => {
 
     it('should pass the correct initialValues', () => {
       expect(FolioCirculationUserForm.mock.calls[7][0].initialValues).toEqual({
-        barcodeMappings: [
+        centralPatronTypeMappings: [
           {
             id: '508657aa-927a-4515-91d8-a4e7a759b3db',
             barcode: '1630029773640558945',
@@ -194,7 +194,7 @@ describe('renderFolioCirculationUserCreateEditRoute component', () => {
       renderFolioCirculationUserCreateEditRoute();
       await act(async () => { await FolioCirculationUserForm.mock.calls[1][0].onChangeServer(servers[0].name); });
       await act(async () => { await FolioCirculationUserForm.mock.calls[7][0].onSubmit(record); });
-      expect(mutatorMock.barcodeMappings.PUT).toHaveBeenCalledWith(payload);
+      expect(mutatorMock.centralPatronTypeMappings.PUT).toHaveBeenCalledWith(payload);
     });
   });
 

@@ -5,12 +5,12 @@ import {
 } from '../../../../../../constants';
 
 const {
-  BARCODE_MAPPINGS,
+  CENTRAL_PATRON_TYPE_MAPPINGS,
   BARCODE,
 } = FOLIO_CIRCULATION_USER_FIELDS;
 
 export const validateBarcode = (invalid, existingBarcodesSet) => (value, allValues) => {
-  const isAllFieldsFilledIn = allValues[BARCODE_MAPPINGS].every(field => field[BARCODE]);
+  const isAllFieldsFilledIn = allValues[CENTRAL_PATRON_TYPE_MAPPINGS].every(field => field[BARCODE]);
 
   if (isAllFieldsFilledIn && !existingBarcodesSet.has(value)) {
     return <FormattedMessage id="ui-inn-reach.not-valid" />;
