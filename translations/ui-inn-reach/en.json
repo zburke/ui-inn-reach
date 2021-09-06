@@ -63,6 +63,8 @@
   "settings.central-server-configuration.create-edit.field.localServerKey": "Local server key",
   "settings.central-server-configuration.create-edit.field.localServerSecret": "Local server secret",
   "settings.central-server-configuration.create-edit.button.generateKeypair": "Generate keypair",
+  "settings.central-server-configuration.create-edit.button.show-secrets": "Show secrets",
+  "settings.central-server-configuration.create-edit.button.hide-secrets": "Hide secrets",
   "settings.central-server-configuration.create-edit.button.cancel": "Cancel",
   "settings.central-server-configuration.create-edit.button.save&close": "Save & close",
   "settings.central-server-configuration.create-edit.validation.required": "Required",
@@ -196,7 +198,7 @@
   "settings.bib-transformation.update.success": "Bib transformation options updated successfully",
   "settings.bib-transformation.callout.connection-problem.post": "There was a problem and your creation was not saved: {message}, status code {code}",
   "settings.bib-transformation.callout.connection-problem.put": "There was a problem and your update was not saved: {message}, status code {code}",
-  
+
   "settings.manage-contribution": "Manage Contribution",
   "settings.manage-contribution.title": "Manage Contribution",
   "settings.manage-contribution.tab.current": "Current contribution",
