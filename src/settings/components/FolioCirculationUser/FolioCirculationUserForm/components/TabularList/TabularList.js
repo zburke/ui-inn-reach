@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {
   isEqual,
 } from 'lodash';
@@ -32,7 +32,6 @@ const {
 
 const TabularList = ({
   form,
-  invalid,
   existingBarcodesSet,
 }) => {
   const { formatMessage } = useIntl();
@@ -83,13 +82,19 @@ const TabularList = ({
                   className={css.tabularCol}
                 >
                   <Field
-                    marginBottom0
-                    id={`${name}.${BARCODE}-${index}`}
                     name={`${name}.${BARCODE}`}
-                    aria-label={formatMessage({ id: 'ui-inn-reach.settings.folio-circulation-user.field.barcode' })}
-                    validate={validateBarcode(invalid, existingBarcodesSet)}
-                    component={TextField}
-                  />
+                    validate={validateBarcode(existingBarcodesSet)}
+                  >
+                    {({ input, meta }) => (
+                      <TextField
+                        {...input}
+                        marginBottom0
+                        id={`${name}.${BARCODE}-${index}`}
+                        aria-label={formatMessage({ id: 'ui-inn-reach.settings.folio-circulation-user.field.barcode' })}
+                        error={meta.submitFailed ? meta.error : undefined}
+                      />
+                    )}
+                  </Field>
                   <Pluggable
                     marginTop0
                     marginBottom0
@@ -112,7 +117,6 @@ const TabularList = ({
 TabularList.propTypes = {
   existingBarcodesSet: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
-  invalid: PropTypes.bool.isRequired,
 };
 
 export default TabularList;

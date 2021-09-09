@@ -37,7 +37,6 @@ const FolioCirculationUserForm = ({
   existingBarcodesSet,
   handleSubmit,
   pristine,
-  invalid,
   values,
   form,
   onChangeServer,
@@ -55,7 +54,7 @@ const FolioCirculationUserForm = ({
         marginBottom0
         buttonStyle="primary mega"
         type="submit"
-        disabled={pristine || !isAllFieldsFilledIn || invalid}
+        disabled={pristine || !isAllFieldsFilledIn}
         onClick={handleSubmit}
       >
         <FormattedMessage id="ui-inn-reach.settings.folio-circulation-user.button.save" />
@@ -93,7 +92,6 @@ const FolioCirculationUserForm = ({
       {showTabularList &&
         <TabularList
           form={form}
-          invalid={invalid}
           existingBarcodesSet={existingBarcodesSet}
         />
       }
@@ -106,7 +104,6 @@ FolioCirculationUserForm.propTypes = {
   form: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   innReachPatronTypesFailed: PropTypes.bool.isRequired,
-  invalid: PropTypes.bool.isRequired,
   isCentralPatronTypeMappingsPending: PropTypes.bool.isRequired,
   isInnReachPatronTypesPending: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
@@ -122,6 +119,5 @@ export default stripesFinalForm({
   subscription: {
     values: true,
     pristine: true,
-    invalid: true,
   },
 })(FolioCirculationUserForm);

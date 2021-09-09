@@ -9,7 +9,7 @@ const {
   BARCODE,
 } = FOLIO_CIRCULATION_USER_FIELDS;
 
-export const validateBarcode = (invalid, existingBarcodesSet) => (value, allValues) => {
+export const validateBarcode = (existingBarcodesSet) => (value, allValues) => {
   const isAllFieldsFilledIn = allValues[CENTRAL_PATRON_TYPE_MAPPINGS].every(field => field[BARCODE]);
 
   if (isAllFieldsFilledIn && !existingBarcodesSet.has(value)) {
