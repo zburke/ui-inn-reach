@@ -101,13 +101,12 @@ describe('FolioCirculationUserForm', () => {
       userEvent.type(barcodeField1, '1630029773640558945');
     });
 
-    it('should be enabled', () => {
+    it('should be enabled when all barcode fields are filled', () => {
       userEvent.type(barcodeField2, '111111');
       expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled();
     });
 
-    it('should not be enabled', () => {
-      userEvent.type(barcodeField2, '22222');
+    it('should not be enabled when not all required fields are filled in', () => {
       expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled();
     });
   });
