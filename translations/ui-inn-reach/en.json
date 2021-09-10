@@ -1,6 +1,8 @@
 {
   "meta.title": "INN-Reach",
   "no-selection": "No selection",
+  "patron-lookup": "Patron look-up",
+  "not-valid": "Not valid",
 
   "modal.heading.areYouSure": "Are you sure?",
   "modal.message.unsavedChanges": "There are unsaved changes",
@@ -30,6 +32,7 @@
   "settings.bib-transformation": "Bib transformation options",
   "settings.central-patron-type": "Central patron type",
   "settings.central-item-type": "Central item type",
+  "settings.folio-circulation-user": "FOLIO circulation user for INN-Reach patron type",
   "settings.some-feature.message": "These are your settings for some app feature.",
 
   "settings.validate.required": "Required",
@@ -196,7 +199,7 @@
   "settings.bib-transformation.update.success": "Bib transformation options updated successfully",
   "settings.bib-transformation.callout.connection-problem.post": "There was a problem and your creation was not saved: {message}, status code {code}",
   "settings.bib-transformation.callout.connection-problem.put": "There was a problem and your update was not saved: {message}, status code {code}",
-  
+
   "settings.manage-contribution": "Manage Contribution",
   "settings.manage-contribution.title": "Manage Contribution",
   "settings.manage-contribution.tab.current": "Current contribution",
@@ -265,5 +268,16 @@
   "settings.central-patron-type.create.success": "Central patron type settings created successfully",
   "settings.central-patron-type.update.success": "Central patron type settings updated successfully",
   "settings.central-patron-type.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
-  "settings.central-patron-type.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator"
+  "settings.central-patron-type.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator",
+
+  "settings.folio-circulation-user.title": "FOLIO circulation user for INN-Reach patron type",
+  "settings.folio-circulation-user.button.save": "Save",
+  "settings.folio-circulation-user.field.central-server": "Central server",
+  "settings.folio-circulation-user.field.patron-type": "INN-Reach central patron type",
+  "settings.folio-circulation-user.field.barcode": "User barcode representing patron type",
+  "settings.folio-circulation-user.placeholder.central-server": "Select central server",
+  "settings.folio-circulation-user.create.success": "Central patron type settings created successfully",
+  "settings.folio-circulation-user.update.success": "Central patron type settings updated successfully",
+  "settings.folio-circulation-user.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
+  "settings.folio-circulation-user.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator"
 }

@@ -156,7 +156,6 @@ const CentralPatronTypeCreateEditRoute = ({
       selectedServer={selectedServer}
       serverOptions={serverOptions}
       patronTypeOptions={patronTypeOptions}
-      patronTypeMappings={patronTypeMappings}
       isPatronTypeMappingsPending={isPatronTypeMappingsPending}
       isPatronTypesPending={isPatronTypesPending}
       initialValues={initialValues}

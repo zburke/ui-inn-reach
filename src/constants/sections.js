@@ -12,6 +12,7 @@ import {
   BibTransformationOptionsRoute,
   CentralPatronTypeRoute,
   CentralItemTypeRoute,
+  FolioCirculationUserRoute,
 } from '../settings/routes';
 import {
   MATERIAL_TYPE_ROUTE,
@@ -42,6 +43,9 @@ import {
 import {
   CENTRAL_ITEM_TYPE_ROUTE,
 } from './central-item-type';
+import {
+  FOLIO_CIRCULATION_USER_ROUTE,
+} from './folio-circulation-user';
 
 export const sections = [
   {
@@ -113,6 +117,11 @@ export const sections = [
         route: CENTRAL_PATRON_TYPE_ROUTE,
         label: <FormattedMessage id="ui-inn-reach.settings.central-patron-type" />,
         component: CentralPatronTypeRoute,
+      },
+      {
+        route: FOLIO_CIRCULATION_USER_ROUTE,
+        label: <FormattedMessage id="ui-inn-reach.settings.folio-circulation-user" />,
+        component: FolioCirculationUserRoute,
       },
     ],
   },

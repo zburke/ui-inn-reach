@@ -1,0 +1,30 @@
+.tabularHeaderCol {
+  composes: tabularHeaderCol from '../../../../FolioToInnReachLocations/FolioToInnReachLocationsForm/components/TabularList/TabularList.css'; /* stylelint-disable-line value-keyword-case */
+  padding-bottom: 5px;
+}
+
+.tabularRow:nth-child(2n + 1) {
+  background: var(--color-fill-table-row-odd);
+}
+
+.tabularRow:nth-child(2n) {
+  background: var(--color-fill-table-row-even);
+}
+
+.tabularRow div[class^="feedbackError"] {
+  margin-bottom: 5px;
+}
+
+.tabularCol {
+  composes: tabularCol from '../../../../FolioToInnReachLocations/FolioToInnReachLocationsForm/components/TabularList/TabularList.css'; /* stylelint-disable-line value-keyword-case */
+  display: initial;
+  padding: 10px 15px 5px;
+}
+
+.tabularCol:first-child {
+  border-left: none;
+}
+
+.topFieldWrapper {
+  margin-bottom: 10px;
+}
