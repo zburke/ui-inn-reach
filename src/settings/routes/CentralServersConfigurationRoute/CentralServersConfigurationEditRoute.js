@@ -183,6 +183,7 @@ const CentralServersConfigurationEditRoute = ({
 
   return (
     <CentralServersConfigurationCreateEditContainer
+      isEditMode
       history={history}
       initialValues={initialValues}
       showPrevLocalServerValue={showPrevLocalServerValue}

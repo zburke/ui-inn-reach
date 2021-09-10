@@ -31,6 +31,7 @@ const CentralServersConfigurationCreateEditContainer = ({
   onFormCancel,
   onSubmit,
   openModal,
+  isEditMode,
   modalContent,
   onShowPreviousLocalServerValue,
   onModalCancel,
@@ -70,6 +71,7 @@ const CentralServersConfigurationCreateEditContainer = ({
       >
         <CentralServersConfigurationForm
           initialValues={fieldsInitialValues}
+          isEditMode={isEditMode}
           showPrevLocalServerValue={showPrevLocalServerValue}
           onShowPreviousLocalServerValue={onShowPreviousLocalServerValue}
           onCancel={onFormCancel}
@@ -102,6 +104,7 @@ CentralServersConfigurationCreateEditContainer.propTypes = {
   onModalConfirm: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object,
+  isEditMode: PropTypes.bool,
   modalContent: PropTypes.object,
   showPrevLocalServerValue: PropTypes.bool,
   onChangeModalState: PropTypes.func,
@@ -111,6 +114,7 @@ CentralServersConfigurationCreateEditContainer.propTypes = {
 CentralServersConfigurationCreateEditContainer.defaultProps = {
   initialValues: {},
   modalContent: {},
+  isEditMode: false,
 };
 
 export default CentralServersConfigurationCreateEditContainer;
