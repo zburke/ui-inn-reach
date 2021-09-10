@@ -3,7 +3,7 @@ import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jes
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import { translationsProperties } from '../../../../../test/jest/helpers';
 import FolioCirculationUserForm from './FolioCirculationUserForm';
 
@@ -38,7 +38,24 @@ const defaultInitialValues = {
   ],
 };
 
-const existingBarcodesSet = new Set(['1630029773640558945', '111111']);
+const users = [
+  {
+    id: '22aac6ba-6fa1-418a-a5fa-476e9c0aec1d',
+    username: 'John_Doe',
+    barcode: '1630029773640558945',
+  },
+  {
+    id: 'e80de070-5e84-4793-a4b0-6ee29dae07d3',
+    username: 'Observer',
+    barcode: '111111',
+  },
+];
+
+const parentMutatorMock = {
+  users: {
+    GET: jest.fn(() => Promise.resolve({ users })),
+  },
+};
 
 const renderFolioCirculationUserForm = ({
   selectedServer = selectedServerMock,
@@ -47,6 +64,7 @@ const renderFolioCirculationUserForm = ({
   isCentralPatronTypeMappingsPending = false,
   isInnReachPatronTypesPending = false,
   innReachPatronTypesFailed = false,
+  parentMutator = parentMutatorMock,
   onChangeServer,
 } = {}) => {
   return renderWithIntl(
@@ -56,7 +74,7 @@ const renderFolioCirculationUserForm = ({
         serverOptions={serverOptions}
         isCentralPatronTypeMappingsPending={isCentralPatronTypeMappingsPending}
         isInnReachPatronTypesPending={isInnReachPatronTypesPending}
-        existingBarcodesSet={existingBarcodesSet}
+        parentMutator={parentMutator}
         initialValues={initialValues}
         innReachPatronTypesFailed={innReachPatronTypesFailed}
         onSubmit={handleSubmit}
@@ -95,10 +113,12 @@ describe('FolioCirculationUserForm', () => {
     let barcodeField2;
 
     beforeEach(() => {
-      renderFolioCirculationUserForm(commonProps);
-      barcodeField1 = document.getElementById('centralPatronTypeMappings[0].barcode-0');
-      barcodeField2 = document.getElementById('centralPatronTypeMappings[1].barcode-1');
-      userEvent.type(barcodeField1, '1630029773640558945');
+      act(() => {
+        renderFolioCirculationUserForm(commonProps);
+        barcodeField1 = document.getElementById('centralPatronTypeMappings[0].barcode-0');
+        barcodeField2 = document.getElementById('centralPatronTypeMappings[1].barcode-1');
+        userEvent.type(barcodeField1, '1630029773640558945');
+      });
     });
 
     it('should be enabled when all barcode fields are filled', () => {

@@ -14,14 +14,6 @@ const {
   BARCODE,
 } = FOLIO_CIRCULATION_USER_FIELDS;
 
-export const getExistingBarcodesSet = (users) => {
-  return users.reduce((accum, { barcode }) => {
-    if (barcode) accum.add(barcode);
-
-    return accum;
-  }, new Set());
-};
-
 export const getInnReachPatronTypeOptions = (innReachPatronTypes) => {
   return innReachPatronTypes.map(({ centralPatronType, description }) => ({
     [CENTRAL_PATRON_TYPE]: centralPatronType,

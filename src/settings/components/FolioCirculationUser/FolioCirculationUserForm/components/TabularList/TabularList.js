@@ -16,6 +16,9 @@ import {
   Pluggable,
 } from '@folio/stripes/core';
 import {
+  DebouncingValidatingField,
+} from '../../../../common';
+import {
   FOLIO_CIRCULATION_USER_FIELDS,
 } from '../../../../../../constants';
 import {
@@ -32,9 +35,17 @@ const {
 
 const TabularList = ({
   form,
-  existingBarcodesSet,
+  parentMutator,
 }) => {
   const { formatMessage } = useIntl();
+
+  const validateBarcodeValue = (value, allValues) => {
+    const isAllFieldsFilledIn = allValues[CENTRAL_PATRON_TYPE_MAPPINGS].every(field => field[BARCODE]);
+
+    return isAllFieldsFilledIn
+      ? validateBarcode(value, allValues, parentMutator)
+      : undefined;
+  };
 
   return (
     <form>
@@ -81,9 +92,9 @@ const TabularList = ({
                   sm={6}
                   className={css.tabularCol}
                 >
-                  <Field
+                  <DebouncingValidatingField
                     name={`${name}.${BARCODE}`}
-                    validate={validateBarcode(existingBarcodesSet)}
+                    validate={validateBarcodeValue}
                   >
                     {({ input, meta }) => (
                       <TextField
@@ -94,7 +105,7 @@ const TabularList = ({
                         error={meta.submitFailed ? meta.error : undefined}
                       />
                     )}
-                  </Field>
+                  </DebouncingValidatingField>
                   <Pluggable
                     marginTop0
                     marginBottom0
@@ -115,8 +126,8 @@ const TabularList = ({
 };
 
 TabularList.propTypes = {
-  existingBarcodesSet: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
+  parentMutator: PropTypes.object.isRequired,
 };
 
 export default TabularList;

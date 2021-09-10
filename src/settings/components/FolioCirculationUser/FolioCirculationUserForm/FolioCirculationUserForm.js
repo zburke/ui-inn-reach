@@ -34,8 +34,8 @@ const FolioCirculationUserForm = ({
   isCentralPatronTypeMappingsPending,
   isInnReachPatronTypesPending,
   innReachPatronTypesFailed,
-  existingBarcodesSet,
   handleSubmit,
+  parentMutator,
   pristine,
   values,
   form,
@@ -92,7 +92,7 @@ const FolioCirculationUserForm = ({
       {showTabularList &&
         <TabularList
           form={form}
-          existingBarcodesSet={existingBarcodesSet}
+          parentMutator={parentMutator}
         />
       }
     </Pane>
@@ -100,12 +100,12 @@ const FolioCirculationUserForm = ({
 };
 
 FolioCirculationUserForm.propTypes = {
-  existingBarcodesSet: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   innReachPatronTypesFailed: PropTypes.bool.isRequired,
   isCentralPatronTypeMappingsPending: PropTypes.bool.isRequired,
   isInnReachPatronTypesPending: PropTypes.bool.isRequired,
+  parentMutator: PropTypes.object.isRequired,
   pristine: PropTypes.bool.isRequired,
   selectedServer: PropTypes.object.isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,

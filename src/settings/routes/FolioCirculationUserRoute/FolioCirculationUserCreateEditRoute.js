@@ -16,7 +16,6 @@ import {
   CALLOUT_ERROR_TYPE,
   FOLIO_CIRCULATION_USER_FIELDS,
   CENTRAL_SERVERS_LIMITING,
-  USERS_LIMIT,
 } from '../../../constants';
 import {
   getCentralServerOptions,
@@ -31,7 +30,6 @@ import {
   getInnReachPatronTypeOptions,
   getBarcodeMappingsMap,
   formatBarcodeMappings,
-  getExistingBarcodesSet,
   formatPayload,
 } from './utils';
 
@@ -46,17 +44,10 @@ const FolioCirculationUserCreateEditRoute = ({
       isPending: isServersPending,
       hasLoaded: hasLoadedServers,
     },
-    users: {
-      records: usersList,
-      isPending: isUsersPending,
-      hasLoaded: hasLoadedUsers,
-    },
   },
   mutator,
 }) => {
   const servers = centralServers[0]?.centralServers || [];
-  const users = usersList[0]?.users || [];
-  const existingBarcodesSet = useMemo(() => getExistingBarcodesSet(users), [users]);
 
   const showCallout = useCallout();
 
@@ -144,12 +135,7 @@ const FolioCirculationUserCreateEditRoute = ({
     }
   }, [centralPatronTypeMappings, isCentralPatronTypeMappingsPending, isInnReachPatronTypesPending, innReachPatronTypes]);
 
-  if (
-    (isServersPending && !hasLoadedServers) ||
-    (isUsersPending && !hasLoadedUsers)
-  ) {
-    return <LoadingPane />;
-  }
+  if (isServersPending && !hasLoadedServers) return <LoadingPane />;
 
   return (
     <FolioCirculationUserForm
@@ -157,8 +143,8 @@ const FolioCirculationUserCreateEditRoute = ({
       serverOptions={serverOptions}
       isCentralPatronTypeMappingsPending={isCentralPatronTypeMappingsPending}
       isInnReachPatronTypesPending={isInnReachPatronTypesPending}
-      existingBarcodesSet={existingBarcodesSet}
       initialValues={initialValues}
+      parentMutator={mutator}
       innReachPatronTypesFailed={innReachPatronTypesFailed}
       onSubmit={handleSubmit}
       onChangeServer={handleServerChange}
@@ -175,7 +161,9 @@ FolioCirculationUserCreateEditRoute.manifest = Object.freeze({
   },
   users: {
     type: 'okapi',
-    path: `users?limit=${USERS_LIMIT}`,
+    path: 'users',
+    accumulate: true,
+    fetch: false,
     throwErrors: false,
   },
   centralPatronTypeMappings: {
@@ -198,11 +186,6 @@ FolioCirculationUserCreateEditRoute.propTypes = {
   resources: PropTypes.shape({
     selectedServerId: PropTypes.string,
     centralServerRecords: PropTypes.shape({
-      records: PropTypes.arrayOf(PropTypes.object).isRequired,
-      isPending: PropTypes.bool.isRequired,
-      hasLoaded: PropTypes.bool.isRequired,
-    }).isRequired,
-    users: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
       isPending: PropTypes.bool.isRequired,
       hasLoaded: PropTypes.bool.isRequired,

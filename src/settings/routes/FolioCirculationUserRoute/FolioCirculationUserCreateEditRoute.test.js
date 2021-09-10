@@ -28,19 +28,6 @@ const servers = [
   },
 ];
 
-const users = [
-  {
-    id: '22aac6ba-6fa1-418a-a5fa-476e9c0aec1d',
-    username: 'John_Doe',
-    barcode: '1630029773640558945',
-  },
-  {
-    id: 'e80de070-5e84-4793-a4b0-6ee29dae07d3',
-    username: 'Observer',
-    barcode: '111111',
-  },
-];
-
 const innReachPatronTypes = {
   patronTypeList: [
     {
@@ -100,11 +87,6 @@ const payload = {
 const resourcesMock = {
   centralServerRecords: {
     records: [{ centralServers: servers }],
-    isPending: false,
-    hasLoaded: false,
-  },
-  users: {
-    records: [{ users }],
     isPending: false,
     hasLoaded: false,
   },
