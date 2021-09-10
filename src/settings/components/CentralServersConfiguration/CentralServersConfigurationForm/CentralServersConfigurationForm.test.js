@@ -48,6 +48,7 @@ const initValues = {
 const renderForm = ({
   onCancel,
   initialValues,
+  isEditMode = false,
   onSubmit,
   showPrevLocalServerValue,
   onShowPreviousLocalServerValue,
@@ -58,6 +59,7 @@ const renderForm = ({
       <CentralServersConfigurationContext.Provider value={data}>
         <CentralServersConfigurationForm
           initialValues={initialValues}
+          isEditMode={isEditMode}
           showPrevLocalServerValue={showPrevLocalServerValue}
           onSaveLocalServerKeypair={jest.fn()}
           onCancel={onCancel}
@@ -190,29 +192,93 @@ describe('CentralServerConfigurationForm component', () => {
   });
 
   describe('local server fields', () => {
-    let localServerKey;
-    let localServerSecret;
+    describe('common behavior', () => {
+      let localServerKey;
+      let localServerSecret;
 
-    beforeEach(() => {
-      renderForm(commonProps);
-      localServerKey = screen.getByTestId(CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY);
-      localServerSecret = screen.getByTestId(CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET);
+      beforeEach(() => {
+        renderForm(commonProps);
+        localServerKey = screen.getByTestId(CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_KEY);
+        localServerSecret = screen.getByTestId(CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET);
+      });
+
+      it('should be empty', () => {
+        expect(localServerKey).toHaveValue('');
+        expect(localServerSecret).toHaveValue('');
+      });
+
+      it('should be disabled', () => {
+        expect(localServerKey).toBeDisabled();
+        expect(localServerSecret).toBeDisabled();
+      });
+
+      it('should have an uuid after clicking on the "Generate keypair" button', () => {
+        userEvent.click(screen.getByTestId('generate-keypair'));
+        expect(localServerKey.value.length).toBe(36);
+        expect(localServerSecret.value.length).toBe(36);
+      });
     });
 
-    it('should be empty', () => {
-      expect(localServerKey).toHaveValue('');
-      expect(localServerSecret).toHaveValue('');
+    describe('edit mode', () => {
+      let localServerSecret;
+
+      beforeEach(() => {
+        renderForm({
+          ...commonProps,
+          isEditMode: true,
+        });
+        localServerSecret = screen.getByTestId(CENTRAL_SERVER_CONFIGURATION_FIELDS.LOCAL_SERVER_SECRET);
+      });
+
+      it('should have "password" type', () => {
+        expect(localServerSecret.type).toBe('password');
+      });
+
+      it('should have "text" type', () => {
+        const showSecretButton = screen.getByTestId('toggle-secret-mask');
+
+        userEvent.click(showSecretButton);
+        expect(localServerSecret.type).toBe('text');
+      });
+    });
+  });
+
+  describe('"Show secrets" button', () => {
+    it('should be visible', () => {
+      const { getByTestId } = renderForm({
+        ...commonProps,
+        isEditMode: true,
+      });
+      const showSecretButton = getByTestId('toggle-secret-mask');
+
+      expect(showSecretButton).toBeVisible();
     });
 
-    it('should be disabled', () => {
-      expect(localServerKey).toBeDisabled();
-      expect(localServerSecret).toBeDisabled();
+    it('should be hidden', () => {
+      const { queryByTestId } = renderForm(commonProps);
+      const showSecretButton = queryByTestId('toggle-secret-mask');
+
+      expect(showSecretButton).toBeNull();
     });
 
-    it('should have an uuid after clicking on the "Generate keypair" button', () => {
-      userEvent.click(screen.getByTestId('generate-keypair'));
-      expect(localServerKey.value.length).toBe(36);
-      expect(localServerSecret.value.length).toBe(36);
+    it('should have a "Show secrets" name', () => {
+      const { getByText } = renderForm({
+        ...commonProps,
+        isEditMode: true,
+      });
+
+      expect(getByText('Show secrets')).toBeDefined();
+    });
+
+    it('should have a "Hide secrets" name', () => {
+      const { getByText, getByTestId } = renderForm({
+        ...commonProps,
+        isEditMode: true,
+      });
+      const showSecretButton = getByTestId('toggle-secret-mask');
+
+      userEvent.click(showSecretButton);
+      expect(getByText('Hide secrets')).toBeDefined();
     });
   });
 

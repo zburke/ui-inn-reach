@@ -66,6 +66,8 @@
   "settings.central-server-configuration.create-edit.field.localServerKey": "Local server key",
   "settings.central-server-configuration.create-edit.field.localServerSecret": "Local server secret",
   "settings.central-server-configuration.create-edit.button.generateKeypair": "Generate keypair",
+  "settings.central-server-configuration.create-edit.button.show-secrets": "Show secrets",
+  "settings.central-server-configuration.create-edit.button.hide-secrets": "Hide secrets",
   "settings.central-server-configuration.create-edit.button.cancel": "Cancel",
   "settings.central-server-configuration.create-edit.button.save&close": "Save & close",
   "settings.central-server-configuration.create-edit.validation.required": "Required",
