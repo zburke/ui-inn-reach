@@ -29,10 +29,6 @@ textarea {
   composes: tabularCol from '../../../../FolioToInnReachLocations/FolioToInnReachLocationsForm/components/TabularList/TabularList.css'; /* stylelint-disable-line value-keyword-case */
   display: block;
   padding: 10px;
-
-  & > [class*="textArea"] {
-    width: 100%;
-  }
 }
 
 .tabularCol:first-child {
@@ -46,14 +42,10 @@ textarea {
 }
 
 .customColMdWidth {
-  flex-basis: 44%;
-  max-width: 44%;
+  flex-basis: 47%;
+  max-width: 47%;
 }
 
 .selectControl option:disabled {
   background-color: var(--color-fill-disabled) !important;
-}
-
-.cursorNone {
-  pointer-events: none;
 }

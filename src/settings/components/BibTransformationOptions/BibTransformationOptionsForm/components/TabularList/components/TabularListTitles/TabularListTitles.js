@@ -33,7 +33,10 @@ const TabularListTitles = () => {
           <FormattedMessage id="ui-inn-reach.settings.bib-transformation.field.ignore-prefixes" />
         </Label>
       </Col>
-      <Col className={classNames(css.tabularHeaderCol, css.customColSmWidth)} />
+      <Col
+        sm={1}
+        className={css.tabularHeaderCol}
+      />
     </Row>
   );
 };

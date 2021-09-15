@@ -28,7 +28,9 @@ import {
 import {
   validateIdentifierType,
 } from './utils';
-import AddAndDeleteButtons from './components/AddAndDeleteButtons';
+import {
+  AddAndDeleteButtons,
+} from '../../../../common';
 import TabularListTitles from './components/TabularListTitles';
 import SwapButtons from './components/SwapButtons';
 import css from './TabularList.css';
@@ -50,35 +52,6 @@ const TabularList = ({
   } = mutators;
   const { formatMessage } = useIntl();
   const srsRef = useRef();
-
-  const handleAddRow = (index, fields) => {
-    addRowAfterCurrent(index, NEW_ROW_VALUES);
-
-    srsRef.current.sendMessage(
-      <FormattedMessage
-        id="ui-inn-reach.action.add-new-field"
-        values={{
-          label: formatMessage({ id: 'ui-inn-reach.settings.bib-transformation.action.add-new-field' }),
-          fieldsLength: fields.length + 1,
-        }}
-      />
-    );
-  };
-
-  const handleDeleteRow = (index, fields) => {
-    fields.remove(index);
-
-    srsRef.current.sendMessage(
-      <FormattedMessage
-        id="ui-inn-reach.action.remove-fields"
-        values={{
-          label: formatMessage({ id: 'ui-inn-reach.settings.bib-transformation.action.remove-fields' }),
-          fieldsLength: fields.length - 1,
-          index: index + 1,
-        }}
-      />
-    );
-  };
 
   const handleSwapRows = (from, to) => {
     swapRows(from, to);
@@ -110,7 +83,6 @@ const TabularList = ({
         {({ fields }) => fields.map((name, index) => {
           const isLastRow = index === fields.length - 1;
           const isDownButtonVisible = (index === 0 && fields.length > 1) || (!!index && !isLastRow);
-          const isDeleteButtonDisabled = fields.length === 1;
 
           return (
             <Row
@@ -161,10 +133,11 @@ const TabularList = ({
                 />
               </Col>
               <AddAndDeleteButtons
-                isDeleteButtonDisabled={isDeleteButtonDisabled}
                 index={index}
-                onAdd={() => handleAddRow(index, fields)}
-                onDelete={() => handleDeleteRow(index, fields)}
+                fields={fields}
+                addRowAfterCurrent={addRowAfterCurrent}
+                newRowTemplate={NEW_ROW_VALUES}
+                srsRef={srsRef}
               />
             </Row>
           );
