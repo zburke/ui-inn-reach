@@ -9,4 +9,5 @@ export { default as ManageContributionRoute } from './ManageContributionRoute';
 export { default as BibTransformationOptionsRoute } from './BibTransformationOptions';
 export { default as CentralPatronTypeRoute } from './CentralPatronTypeRoute';
 export { default as CentralItemTypeRoute } from './CentralItemTypeRoute';
+export { default as FolioCirculationUserRoute } from './FolioCirculationUserRoute';
 export { default as PatronAgencyRoute } from './PatronAgency';

@@ -1,6 +1,5 @@
 import React, {
   useEffect,
-  useRef,
   useMemo,
 } from 'react';
 import {
@@ -76,8 +75,6 @@ const AgencyToFolioLocationsForm = ({
   onChangeServerLocationOptions,
   onChangeLocalServerLocationOptions,
 }) => {
-  const submitted = useRef(false);
-
   const isLibraryChanged = values[LIBRARY_ID] !== agencyMappings[LIBRARY_ID];
   const isLocationChanged = values[LOCATION_ID] !== agencyMappings[LOCATION_ID];
   const isLocalServerLibraryChanged = values[LOCAL_SERVER_LIBRARY_ID] !== initialValues[LOCAL_SERVER_LIBRARY_ID];
@@ -100,11 +97,6 @@ const AgencyToFolioLocationsForm = ({
 
   const localServerOptions = useMemo(() => getLocalServerOptions(localServers), [localServers]);
 
-  const handleChangeServer = (serverName) => {
-    submitted.current = false;
-    onChangeServer(serverName);
-  };
-
   const handleChangeServerLibrary = (libraryId) => {
     if (values[LIBRARY_ID] === libraryId) return;
 
@@ -118,7 +110,6 @@ const AgencyToFolioLocationsForm = ({
       : getFolioLocationOptions(folioLocationsMap, libraryId);
 
     form.change(LIBRARY_ID, selectedLibraryId);
-    submitted.current = false;
     onChangeServerLocationOptions(locOptions);
 
     if (agencyMappings[LIBRARY_ID] === libraryId) {
@@ -134,7 +125,6 @@ const AgencyToFolioLocationsForm = ({
     const { selectedValue: selectedLocationId } = getSelectedOptionInfo(locationId);
 
     form.change(LOCATION_ID, selectedLocationId);
-    submitted.current = false;
   };
 
   const handleChangeLocalServer = (localCode) => {
@@ -188,11 +178,6 @@ const AgencyToFolioLocationsForm = ({
     form.change(LOCAL_SERVER_LOCATION_ID, selectedLocalServerLocation);
   };
 
-  const handleSave = (event) => {
-    submitted.current = true;
-    handleSubmit(event);
-  };
-
   useEffect(() => {
     onChangePristineState(isPristine);
   }, [isPristine]);
@@ -214,7 +199,7 @@ const AgencyToFolioLocationsForm = ({
         buttonStyle="primary mega"
         type="submit"
         disabled={!enabled}
-        onClick={handleSave}
+        onClick={handleSubmit}
       >
         <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.button.save" />
       </Button>
@@ -236,7 +221,7 @@ const AgencyToFolioLocationsForm = ({
           dataOptions={serverOptions}
           placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
           value={selectedServer.name}
-          onChange={handleChangeServer}
+          onChange={onChangeServer}
         />
         {isLocalServersPending && <Loading />}
         {selectedServer.id && !isLocalServersPending &&
@@ -253,7 +238,7 @@ const AgencyToFolioLocationsForm = ({
                   label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-library" />}
                   dataOptions={libraryOptions}
                   placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-library' })}
-                  error={submitted.current ? meta.error : undefined}
+                  error={meta.submitFailed ? meta.error : undefined}
                   onChange={handleChangeServerLibrary}
                 />
               )}
@@ -271,7 +256,7 @@ const AgencyToFolioLocationsForm = ({
                   label={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-location" />}
                   dataOptions={serverLocationOptions}
                   placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-location' })}
-                  error={submitted.current ? meta.error : undefined}
+                  error={meta.submitFailed ? meta.error : undefined}
                   onChange={handleChangeServerLocation}
                 />
               )}

@@ -64,6 +64,7 @@ const validate = (values) => ({
 
 const CentralConfigurationForm = ({
   initialValues,
+  isEditMode,
   showPrevLocalServerValue,
   onShowPreviousLocalServerValue,
   onCancel,
@@ -82,7 +83,9 @@ const CentralConfigurationForm = ({
     section1: true,
     section2: true,
   });
+  const [isSecretFieldsHaveMask, setIsSecretFieldsHaveMask] = useState(isEditMode);
 
+  const secretFieldType = isSecretFieldsHaveMask ? 'password' : 'text';
   const loanTypeOptions = useMemo(() => loanTypes.map(({ id, name }) => ({
     label: name,
     value: id,
@@ -110,6 +113,10 @@ const CentralConfigurationForm = ({
     initialValues[CENTRAL_SERVER_KEY] !== dirtyFieldsSinceLastSubmit[CENTRAL_SERVER_KEY] ||
     initialValues[CENTRAL_SERVER_SECRET] !== dirtyFieldsSinceLastSubmit[CENTRAL_SERVER_SECRET]
   );
+
+  const toggleSecretMask = () => {
+    setIsSecretFieldsHaveMask(prevState => !prevState);
+  };
 
   useEffect(() => {
     onChangePristineState(pristine);
@@ -289,7 +296,7 @@ const CentralConfigurationForm = ({
                 <Field
                   required
                   name={CENTRAL_SERVER_SECRET}
-                  type="text"
+                  type={secretFieldType}
                   component={TextField}
                   label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.centralServerSecret" />}
                   validate={validateRequired}
@@ -330,7 +337,7 @@ const CentralConfigurationForm = ({
                           disabled
                           id={LOCAL_SERVER_SECRET}
                           data-testid={LOCAL_SERVER_SECRET}
-                          type="text"
+                          type={secretFieldType}
                         />
                       </div>
                     </>
@@ -340,12 +347,19 @@ const CentralConfigurationForm = ({
               <Col xs={4}>
                 <Button
                   data-testid="generate-keypair"
-                  buttonStyle="default"
                   buttonClass={styles.generateKeypair}
                   onClick={generateKeyAndSecret}
                 >
                   <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.button.generateKeypair" />
                 </Button>
+                {isEditMode &&
+                  <Button
+                    data-testid="toggle-secret-mask"
+                    onClick={toggleSecretMask}
+                  >
+                    <FormattedMessage id={`ui-inn-reach.settings.central-server-configuration.create-edit.button.${isSecretFieldsHaveMask ? 'show' : 'hide'}-secrets`} />
+                  </Button>
+                }
               </Col>
             </Row>
           </Accordion>
@@ -361,6 +375,7 @@ CentralConfigurationForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   invalid: PropTypes.bool.isRequired,
+  isEditMode: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
   showPrevLocalServerValue: PropTypes.bool,
