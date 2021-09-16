@@ -9,9 +9,12 @@
   "modal.confirmLabel.keepEditing": "Keep editing",
   "modal.cancelLabel.closeWithoutSaving": "Close without saving",
 
-  "action.add-new-field": "Added a new {label}. {fieldsLength} in total",
-  "action.remove-fields": "{label} {index} has been removed. {fieldsLength} in total",
+  "action.after-click-add": "Added a new row. {fieldsLength} in total",
+  "action.after-click-remove": "Row {index} has been removed. {fieldsLength} in total",
   "action.swap": "{label} {from} and {to} have been swapped",
+  "action.focus.add": "Add a new row",
+  "action.focus.remove": "Remove fields for row {num}",
+
   "banner.local-servers": "Unable to retrieve local server settings from central server. Please verify the configuration of the selected central server.",
   "banner.item-types": "Unable to retrieve INN-Reach item type settings from central server. Please verify the configuration of the selected central server.",
   "banner.patron-types": "Unable to retrieve central patron type values. Please verify the configuration of the selected central server.",
@@ -32,6 +35,7 @@
   "settings.bib-transformation": "Bib transformation options",
   "settings.central-patron-type": "Central patron type",
   "settings.central-item-type": "Central item type",
+  "settings.patron-agency": "Patron agency",
   "settings.folio-circulation-user": "FOLIO circulation user for INN-Reach patron type",
   "settings.some-feature.message": "These are your settings for some app feature.",
 
@@ -281,5 +285,16 @@
   "settings.folio-circulation-user.create.success": "Central patron type settings created successfully",
   "settings.folio-circulation-user.update.success": "Central patron type settings updated successfully",
   "settings.folio-circulation-user.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
-  "settings.folio-circulation-user.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator"
+  "settings.folio-circulation-user.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator",
+
+  "settings.patron-agency.title": "Patron agency",
+  "settings.patron-agency.button.save": "Save",
+  "settings.patron-agency.field.custom-field": "Custom field",
+  "settings.patron-agency.field.custom-field-value": "Custom field value",
+  "settings.patron-agency.field.agency-code": "Agency code",
+  "settings.patron-agency.placeholder.agency-code": "Select agency code",
+  "settings.patron-agency.create.success": "Patron agency settings created successfully",
+  "settings.patron-agency.update.success": "Patron agency settings updated successfully",
+  "settings.patron-agency.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
+  "settings.patron-agency.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator"
 }

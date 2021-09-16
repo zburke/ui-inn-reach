@@ -10,3 +10,4 @@ export * from './bib-transformation-options';
 export * from './central-patron-type';
 export * from './central-item-type';
 export * from './folio-circulation-user';
+export * from './patron-agency';

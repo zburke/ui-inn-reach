@@ -10,3 +10,4 @@ export { default as BibTransformationOptionsRoute } from './BibTransformationOpt
 export { default as CentralPatronTypeRoute } from './CentralPatronTypeRoute';
 export { default as CentralItemTypeRoute } from './CentralItemTypeRoute';
 export { default as FolioCirculationUserRoute } from './FolioCirculationUserRoute';
+export { default as PatronAgencyRoute } from './PatronAgency';

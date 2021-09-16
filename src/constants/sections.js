@@ -13,6 +13,7 @@ import {
   CentralPatronTypeRoute,
   CentralItemTypeRoute,
   FolioCirculationUserRoute,
+  PatronAgencyRoute,
 } from '../settings/routes';
 import {
   MATERIAL_TYPE_ROUTE,
@@ -46,6 +47,9 @@ import {
 import {
   FOLIO_CIRCULATION_USER_ROUTE,
 } from './folio-circulation-user';
+import {
+  PATRON_AGENCY_ROUTE,
+} from './patron-agency';
 
 export const sections = [
   {
@@ -122,6 +126,11 @@ export const sections = [
         route: FOLIO_CIRCULATION_USER_ROUTE,
         label: <FormattedMessage id="ui-inn-reach.settings.folio-circulation-user" />,
         component: FolioCirculationUserRoute,
+      },
+      {
+        route: PATRON_AGENCY_ROUTE,
+        label: <FormattedMessage id="ui-inn-reach.settings.patron-agency" />,
+        component: PatronAgencyRoute,
       },
     ],
   },
