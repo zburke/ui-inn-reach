@@ -58,7 +58,7 @@
     "stylelint-junit-formatter": "^0.2.2"
   },
   "dependencies": {
-    "@folio/stripes-data-transfer-components": "^5.0.0",
+    "@folio/stripes-data-transfer-components": "^4.1.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.0",
     "react-final-form": "^6.3.0",
