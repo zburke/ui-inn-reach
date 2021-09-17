@@ -7,18 +7,18 @@ textarea {
 }
 
 .tabularHeaderCol {
-  composes: tabularHeaderCol from '../../../../FolioToInnReachLocations/FolioToInnReachLocationsForm/components/TabularList/TabularList.css'; /* stylelint-disable-line value-keyword-case */
+  composes: tabularHeaderCol from '../../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
   display: flex;
   align-items: flex-end;
   padding: 10px 10px 0;
 }
 
-.tabularRow:nth-child(2n + 1) {
-  background: var(--color-fill-table-row-odd);
+.tabularRowOdd {
+  composes: tabularRowOdd from '../../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
 }
 
-.tabularRow:nth-child(2n) {
-  background: var(--color-fill-table-row-even);
+.tabularRowEven {
+  composes: tabularRowEven from '../../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
 }
 
 .tabularRow div[class^="feedbackError"] {
@@ -26,13 +26,13 @@ textarea {
 }
 
 .tabularCol {
-  composes: tabularCol from '../../../../FolioToInnReachLocations/FolioToInnReachLocationsForm/components/TabularList/TabularList.css'; /* stylelint-disable-line value-keyword-case */
+  composes: tabularCol from '../../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
   display: block;
   padding: 10px;
 }
 
-.tabularCol:first-child {
-  border-left: none;
+.tabularColFirst {
+  composes: tabularColFirst from '../../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
 }
 
 .customColSmWidth {

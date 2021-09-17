@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import {
   Col,
   IconButton,
@@ -24,7 +25,7 @@ const SwapButtons = ({
   return (
     <Col
       sm={1}
-      className={css.tabularCol}
+      className={classNames(css.tabularCol, css.tabularColFirst)}
     >
       <Row>
         <Col sm={6}>

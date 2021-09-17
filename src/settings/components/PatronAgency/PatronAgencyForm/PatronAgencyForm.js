@@ -20,10 +20,18 @@ import {
   DEFAULT_PANE_WIDTH,
   PATRON_AGENCY_FIELDS,
 } from '../../../../constants';
-import TabularList from './components/TabularList';
+import {
+  TableStyleList,
+} from '../../common';
+import {
+  validate,
+} from './utils';
 
 const {
   CUSTOM_FIELD_ID,
+  USER_CUSTOM_FIELD_MAPPINGS,
+  CUSTOM_FIELD_VALUE,
+  AGENCY_CODE,
 } = PATRON_AGENCY_FIELDS;
 
 const PatronAgencyForm = ({
@@ -70,28 +78,39 @@ const PatronAgencyForm = ({
       footer={getFooter()}
       paneTitle={<FormattedMessage id='ui-inn-reach.settings.patron-agency.title' />}
     >
-      <Selection
-        id={CENTRAL_SERVER_ID}
-        label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
-        dataOptions={serverOptions}
-        placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
-        value={selectedServer.name}
-        onChange={onChangeServer}
-      />
-      {selectedServer.id && !isUserCustomFieldMappingsPending && userCustomFieldMappings &&
-        <Field
-          id={CUSTOM_FIELD_ID}
-          name={CUSTOM_FIELD_ID}
-          component={Selection}
-          label={<FormattedMessage id="ui-inn-reach.settings.patron-agency.field.custom-field" />}
-          dataOptions={customFieldOptions}
-          onChange={handleChangeCustomField}
+      <form>
+        <Selection
+          id={CENTRAL_SERVER_ID}
+          label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
+          dataOptions={serverOptions}
+          placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
+          value={selectedServer.name}
+          onChange={onChangeServer}
         />
-      }
-      {isUserCustomFieldMappingsPending && <Loading />}
-      {showTabularList &&
-        <TabularList agencyCodeOptions={agencyCodeOptions} />
-      }
+        {selectedServer.id && !isUserCustomFieldMappingsPending && userCustomFieldMappings &&
+          <Field
+            id={CUSTOM_FIELD_ID}
+            name={CUSTOM_FIELD_ID}
+            component={Selection}
+            label={<FormattedMessage id="ui-inn-reach.settings.patron-agency.field.custom-field" />}
+            dataOptions={customFieldOptions}
+            onChange={handleChangeCustomField}
+          />
+        }
+        {isUserCustomFieldMappingsPending && <Loading />}
+        {showTabularList &&
+          <TableStyleList
+            fieldArrayName={USER_CUSTOM_FIELD_MAPPINGS}
+            leftTitle={<FormattedMessage id="ui-inn-reach.settings.patron-agency.field.custom-field-value" />}
+            rightTitle={<FormattedMessage id="ui-inn-reach.settings.patron-agency.field.agency-code" />}
+            leftFieldName={CUSTOM_FIELD_VALUE}
+            rightFieldName={AGENCY_CODE}
+            dataOptions={agencyCodeOptions}
+            ariaLabel={<FormattedMessage id="ui-inn-reach.settings.patron-agency.field.agency-code" />}
+            validate={validate}
+          />
+        }
+      </form>
     </Pane>
   );
 };

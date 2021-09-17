@@ -2,12 +2,6 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NO_VALUE_OPTION_VALUE } from '../../../../constants';
 
-export const validateRequired = (value) => {
-  return value
-    ? undefined
-    : <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.validation.required" />;
-};
-
 export const NO_VALUE_LOCAL_SERVER_OPTION = {
   label: <FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.placeholder.local-server" />,
   value: NO_VALUE_OPTION_VALUE,

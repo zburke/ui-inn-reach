@@ -4,11 +4,11 @@
   font-weight: var(--text-weight-bold);
 }
 
-.tabularRow:nth-child(2n + 1) {
+.tabularRowOdd {
   background: var(--color-fill-table-row-odd);
 }
 
-.tabularRow:nth-child(2n) {
+.tabularRowEven {
   background: var(--color-fill-table-row-even);
 }
 
@@ -23,6 +23,6 @@
   border-left: 1px solid var(--color-border-p2);
 }
 
-.tabularCol:first-child {
+.tabularColFirst {
   border-left: none;
 }

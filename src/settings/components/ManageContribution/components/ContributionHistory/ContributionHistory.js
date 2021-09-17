@@ -64,7 +64,7 @@ const resultsFormatter = () => ({
 
 const ContributionHistory = ({
   currentContributionHistory,
-  isСurrentContributionHistoryPending,
+  isCurrentContributionHistoryPending,
   currentContributionHistoryCount,
   onNeedMoreContributionHistoryData,
 }) => {
@@ -73,7 +73,7 @@ const ContributionHistory = ({
       autosize
       virtualize
       id="contributionHistoryList"
-      loading={isСurrentContributionHistoryPending}
+      loading={isCurrentContributionHistoryPending}
       pageAmount={PAGE_AMOUNT}
       pagingType="click"
       totalCount={currentContributionHistoryCount}
@@ -88,9 +88,9 @@ const ContributionHistory = ({
 };
 
 ContributionHistory.propTypes = {
-  currentContributionHistory: PropTypes.object.isRequired,
+  currentContributionHistory: PropTypes.array.isRequired,
   currentContributionHistoryCount: PropTypes.number.isRequired,
-  isСurrentContributionHistoryPending: PropTypes.bool.isRequired,
+  isCurrentContributionHistoryPending: PropTypes.bool.isRequired,
   onNeedMoreContributionHistoryData: PropTypes.func.isRequired,
 };
 export default ContributionHistory;
