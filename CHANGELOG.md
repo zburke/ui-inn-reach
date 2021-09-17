@@ -2,7 +2,7 @@
 
 ## [1.0.1] (IN PROGRESS)
 
-## [1.0.0](https://github.com/folio-org/ui-inn-reach/tree/v1.0.0) (2021-09-217)
+## [1.0.0](https://github.com/folio-org/ui-inn-reach/tree/v1.0.0) (2021-09-17)
 
 * INN-Reach Circulation Settings: Settings Interface for Patron Agency Mapping. Refs UIINREACH-31.
 * Update strioes v7 and react to v17. Refs UIINREACH-66.
