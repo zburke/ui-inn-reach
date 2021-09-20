@@ -100,6 +100,7 @@ describe('renderManageContributionRoute component', () => {
 
   it('should be rendered', async () => {
     let component;
+
     await act(async () => {
       component = renderManageContributionRoute();
     });

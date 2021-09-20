@@ -32,9 +32,8 @@ import {
   getFinalLocationMappings,
   getLocationMappingsMap,
   getTabularListForLocations,
-  getTabularListMapForLocations,
+  getTabularListMap,
   getFinalLibraryMappings,
-  getTabularListMapForLibraries,
   getLibrariesMappingsMap,
 } from './utils';
 import {
@@ -213,7 +212,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
       finalRecord = {
         locationMappings: getFinalLocationMappings({
           folioLocations,
-          tabularListMap: getTabularListMapForLocations(record.tabularList),
+          tabularListMap: getTabularListMap(record.tabularList),
           innReachLocationsMap: getInnReachLocationsMapCodeFirst(innReachLocations),
           locationMappingsMap,
         }),
@@ -238,7 +237,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
       finalRecord = {
         libraryMappings: getFinalLibraryMappings({
           folioLibraries,
-          tabularListMap: getTabularListMapForLibraries(record.tabularList),
+          tabularListMap: getTabularListMap(record.tabularList),
           innReachLocationsMap: getInnReachLocationsMapCodeFirst(innReachLocations),
           librariesMappingsMap,
         }),

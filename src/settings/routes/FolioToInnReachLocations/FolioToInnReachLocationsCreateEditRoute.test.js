@@ -119,9 +119,11 @@ const recordForLocationMappings = {
     {
       folioLocation: 'folioName5 (code5)',
       innReachLocations: 'test',
+      code: 'code5',
     },
     {
       folioLocation: 'FOLIOname1 (7sdfe)',
+      code: '7sdfe',
     },
   ],
 };
@@ -130,10 +132,12 @@ const recordForLibrariesMappings = {
   tabularList: [
     {
       folioLibrary: 'newLib (QWER)',
-      innReachLocations: 'test'
+      innReachLocations: 'test',
+      code: 'QWER',
     },
     {
       folioLibrary: 'test library (l)',
+      code: 'l',
     },
   ],
 };
@@ -261,12 +265,14 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
         {
           id: '0939ebc4-cf37-4968-841e-912c0c02eacf',
           label: 'newLib (QWER)',
-          value: 'newLib'
+          value: 'newLib',
+          code: 'QWER',
         },
         {
           id: '9e3ccd90-8d64-4c52-8ee8-f09f5d4ebb56',
           label: 'test library (l)',
-          value: 'test library'
+          value: 'test library',
+          code: 'l',
         }
       ]);
     });
@@ -279,8 +285,14 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Libraries'); });
       expect(FolioToInnReachLocationsForm.mock.calls[5][0].initialValues).toEqual({
         tabularList: [
-          { folioLibrary: 'newLib (QWER)' },
-          { folioLibrary: 'test library (l)' }
+          {
+            folioLibrary: 'newLib (QWER)',
+            code: 'QWER',
+          },
+          {
+            folioLibrary: 'test library (l)',
+            code: 'l',
+          }
         ]
       });
     });
@@ -311,8 +323,14 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeLibrary(loclibs[1].name); });
       expect(FolioToInnReachLocationsForm.mock.calls[5][0].initialValues).toEqual({
         tabularList: [
-          { folioLocation: 'folioName5 (code5)' },
-          { folioLocation: 'FOLIOname1 (7sdfe)' }
+          {
+            folioLocation: 'folioName5 (code5)',
+            code: 'code5',
+          },
+          {
+            folioLocation: 'FOLIOname1 (7sdfe)',
+            code: '7sdfe',
+          }
         ]
       });
     });

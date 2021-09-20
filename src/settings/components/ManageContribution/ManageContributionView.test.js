@@ -29,9 +29,9 @@ const selectedServerMock = {
 };
 
 const currentContribution = {
-  itemTypeMappingStatus: "Valid",
-  locationsMappingStatus: "Invalid",
-  status: "Not started",
+  itemTypeMappingStatus: 'Valid',
+  locationsMappingStatus: 'Invalid',
+  status: 'Not started',
 };
 
 const renderCentralPatronTypeForm = ({
@@ -75,7 +75,6 @@ describe('ManageContributionView', () => {
   const selectCurrentContribution = jest.fn();
   const onInitiateContribution = jest.fn();
   const onNeedMoreContributionHistoryData = jest.fn();
-
 
   const commonProps = {
     onChangeServer,
