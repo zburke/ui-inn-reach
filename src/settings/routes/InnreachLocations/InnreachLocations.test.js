@@ -34,6 +34,6 @@ describe('Given InnreachLocations', () => {
   it('should render label', () => {
     const { getByText } = renderInnreachLocations({ stripes });
 
-    expect(getByText('INN-reach locations')).toBeDefined();
+    expect(getByText('INN-Reach locations')).toBeDefined();
   });
 });

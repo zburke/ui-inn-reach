@@ -28,8 +28,9 @@
   "settings.general": "General",
   "settings.circulation-mappings": "Circulation mappings",
   "settings.record-contribution": "Record contribution",
-  "settings.central-server.configuration": "Central Server Configuration",
-  "settings.innreach.locations": "INN-Reach Locations",
+  "settings.central-server.configuration": "Central server configuration",
+  "settings.innreach.locations": "INN-Reach locations",
+  "settings.manage-contribution": "Manage contribution",
   "settings.contribution-criteria": "Contribution criteria",
   "settings.contribution-options": "Circulation status mapping",
   "settings.folio-to-inn-reach-locations": "FOLIO to INN-Reach locations",
@@ -98,8 +99,8 @@
   "settings.central-server-configuration.local-agency.field.code": "Local agency",
   "settings.central-server-configuration.local-agency.field.libraries": "FOLIO libraries",
 
-  "settings.central-server.locations": "INN-reach locations",
-  "settings.central-server.location": "INN-reach location",
+  "settings.central-server.locations": "INN-Reach locations",
+  "settings.central-server.location": "INN-Reach location",
 
   "settings.innreach-locations.location-code": "Location code",
   "settings.innreach-locations.description": "Description",
@@ -204,8 +205,7 @@
   "settings.bib-transformation.callout.connection-problem.post": "There was a problem and your creation was not saved: {message}, status code {code}",
   "settings.bib-transformation.callout.connection-problem.put": "There was a problem and your update was not saved: {message}, status code {code}",
 
-  "settings.manage-contribution": "Manage Contribution",
-  "settings.manage-contribution.title": "Manage Contribution",
+  "settings.manage-contribution.title": "Manage contribution",
   "settings.manage-contribution.tab.current": "Current contribution",
   "settings.manage-contribution.tab.history": "Contribution history",
   "settings.manage-contribution.button.initiate-contribution": "Initiate contribution",
