@@ -87,6 +87,23 @@ const ManageContribution = ({
       .finally(() => setIsInitiateContributionPending(false));
   };
 
+  const handleCancelContribution = () => {
+    mutator.jobs.DELETE({ id: currentContribution.jobId })
+      .then(() => {
+        setIsСurrentContributionPending(true);
+        showCallout({
+          message: <FormattedMessage id='ui-inn-reach.settings.manage-contribution.cancel.success' />,
+        });
+        fetchCurrentContribution();
+      })
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id='ui-inn-reach.settings.manage-contribution.cancel.failed' />,
+        });
+      });
+  };
+
   const loadContributionHistory = (offset) => {
     setIsСurrentContributionHistoryPending(true);
 
@@ -161,6 +178,7 @@ const ManageContribution = ({
       onChangeServer={handleServerChange}
       onInitiateContribution={onInitiateContribution}
       onNeedMoreContributionHistoryData={onNeedMoreContributionHistoryData}
+      onCancelContribution={handleCancelContribution}
     />
   );
 };
@@ -192,6 +210,13 @@ ManageContribution.manifest = Object.freeze({
     throwErrors: false,
     fetch: false,
   },
+  jobs: {
+    type: 'okapi',
+    path: 'instance-storage/instances/iteration/:{id}',
+    accumulate: true,
+    fetch: false,
+    throwErrors: false,
+  },
 });
 
 ManageContribution.propTypes = {
@@ -216,6 +241,9 @@ ManageContribution.propTypes = {
     }).isRequired,
     initiateContribution: PropTypes.shape({
       POST: PropTypes.func,
+    }).isRequired,
+    jobs: PropTypes.shape({
+      DELETE: PropTypes.func,
     }).isRequired,
   }),
 };

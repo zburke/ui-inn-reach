@@ -37,6 +37,8 @@ const {
 
 const {
   NOT_STARTED,
+  CANCELLED,
+  IN_PROGRESS,
 } = CONTRIBUTION_STATUSES;
 
 const ManageContributionView = ({
@@ -52,17 +54,23 @@ const ManageContributionView = ({
   selectedServer,
   onChangeServer,
   onInitiateContribution,
+  onCancelContribution,
   onNeedMoreContributionHistoryData,
 }) => {
   const { formatMessage } = useIntl();
   const initiateContributionRef = useRef(null);
-  const canInitiateContribution = currentContribution[STATUS]
-    && currentContribution[STATUS] === NOT_STARTED &&
-    currentContribution[ITEM_TYPE_MAPPING_STATUS] === ITEM_TYPE_MAPPING_STATUSES.VALID &&
-    currentContribution[LOCATIONS_MAPPING_STATUS] === LOCATIONS_MAPPING_STATUSES.VALID;
-  const ariaLabelledby = !canInitiateContribution ? { 'aria-labelledby': 'tooltip-text' } : {};
+
   const getFooter = () => {
-    const initiateCintributionBtn = (
+    if (!selectedServer.id || showContributionHistory) return null;
+
+    const canInitiateContribution = (
+      (currentContribution[STATUS] === NOT_STARTED || currentContribution[STATUS] === CANCELLED) &&
+      currentContribution[ITEM_TYPE_MAPPING_STATUS] === ITEM_TYPE_MAPPING_STATUSES.VALID &&
+      currentContribution[LOCATIONS_MAPPING_STATUS] === LOCATIONS_MAPPING_STATUSES.VALID
+    );
+    const ariaLabelledby = !canInitiateContribution ? { 'aria-labelledby': 'tooltip-text' } : {};
+
+    const initiateContributionBtn = () => (
       <>
         <div
           ref={initiateContributionRef}
@@ -92,9 +100,40 @@ const ManageContributionView = ({
       </>
     );
 
-    return !selectedServer.id || showContributionHistory || currentContribution[STATUS] !== NOT_STARTED
-      ? null
-      : <PaneFooter renderEnd={initiateCintributionBtn} />;
+    const cancelContributionBtn = () => (
+      <Button
+        marginBottom0
+        buttonStyle="default mega"
+        onClick={onCancelContribution}
+      >
+        <FormattedMessage id="ui-inn-reach.settings.manage-contribution.button.cancel-contribution" />
+      </Button>
+    );
+
+    const pauseContributionBtn = () => (
+      <Button
+        marginBottom0
+        buttonStyle="primary mega"
+      >
+        <FormattedMessage id="ui-inn-reach.settings.manage-contribution.button.pause-contribution" />
+      </Button>
+    );
+
+    switch (currentContribution[STATUS]) {
+      case NOT_STARTED:
+        return <PaneFooter renderEnd={initiateContributionBtn()} />;
+      case IN_PROGRESS:
+        return (
+          <PaneFooter
+            renderStart={cancelContributionBtn()}
+            renderEnd={pauseContributionBtn()}
+          />
+        );
+      case CANCELLED:
+        return <PaneFooter renderEnd={initiateContributionBtn()} />;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -160,6 +199,7 @@ ManageContributionView.propTypes = {
   selectedServer: PropTypes.object.isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   showContributionHistory: PropTypes.bool.isRequired,
+  onCancelContribution: PropTypes.func.isRequired,
   onChangeServer: PropTypes.func.isRequired,
   onInitiateContribution: PropTypes.func.isRequired,
   onNeedMoreContributionHistoryData: PropTypes.func.isRequired,
