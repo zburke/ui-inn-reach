@@ -44,26 +44,26 @@ const ManageContribution = ({
   } = useCentralServers(history, servers);
 
   const showCallout = useCallout();
-  const [currentContribution, setСurrentContribution] = useState({});
+  const [currentContribution, setCurrentContribution] = useState({});
   const [currentContributionHistory, setCurrentContributionHistory] = useState([]);
   const [contributionHistoryCount, setContributionHistoryCount] = useState(0);
   const [contributionHistoryOffset, setContributionHistoryOffset] = useState(0);
 
-  const [isСurrentContributionPending, setIsСurrentContributionPending] = useState(false);
+  const [isCurrentContributionPending, setIsCurrentContributionPending] = useState(false);
   const [isInitiateContributionPending, setIsInitiateContributionPending] = useState(false);
-  const [isСurrentContributionHistoryPending, setIsСurrentContributionHistoryPending] = useState(false);
+  const [isCurrentContributionHistoryPending, setIsCurrentContributionHistoryPending] = useState(false);
 
   const [showContributionHistory, setShowContributionHistory] = useState(false);
 
   const fetchCurrentContribution = () => {
     mutator.currentContribution.GET()
-      .then(response => setСurrentContribution(response))
+      .then(response => setCurrentContribution(response))
       .catch(() => null)
-      .finally(() => setIsСurrentContributionPending(false));
+      .finally(() => setIsCurrentContributionPending(false));
   };
 
-  const selectCurrentContibution = () => {
-    setIsСurrentContributionPending(true);
+  const selectCurrentContribution = () => {
+    setIsCurrentContributionPending(true);
     setShowContributionHistory(false);
     fetchCurrentContribution();
   };
@@ -72,7 +72,7 @@ const ManageContribution = ({
     setIsInitiateContributionPending(true);
     mutator.initiateContribution.POST({})
       .then(() => {
-        setIsСurrentContributionPending(true);
+        setIsCurrentContributionPending(true);
         showCallout({
           message: <FormattedMessage id='ui-inn-reach.settings.manage-contribution.initaiate.success' />,
         });
@@ -105,7 +105,7 @@ const ManageContribution = ({
   };
 
   const loadContributionHistory = (offset) => {
-    setIsСurrentContributionHistoryPending(true);
+    setIsCurrentContributionHistoryPending(true);
 
     return mutator.contributionHistory.GET({
       params: {
@@ -126,11 +126,11 @@ const ManageContribution = ({
           message: <FormattedMessage id="ui-inn-reach.settings.manage-contribution.history.callout.connectionProblem.get" />,
         });
       })
-      .finally(() => setIsСurrentContributionHistoryPending(false));
+      .finally(() => setIsCurrentContributionHistoryPending(false));
   };
 
   const refreshList = () => {
-    setIsСurrentContributionHistoryPending(true);
+    setIsCurrentContributionHistoryPending(true);
     setShowContributionHistory(true);
     setCurrentContributionHistory([]);
     setContributionHistoryCount(0);
@@ -153,9 +153,9 @@ const ManageContribution = ({
   useEffect(() => {
     if (selectedServer.id) {
       mutator.selectedServerId.replace(selectedServer.id);
-      setIsСurrentContributionPending(true);
-      setСurrentContribution({});
-      setCurrentContributionHistory({});
+      setIsCurrentContributionPending(true);
+      setCurrentContribution({});
+      setCurrentContributionHistory([]);
       fetchCurrentContribution();
     }
   }, [selectedServer]);
@@ -167,13 +167,13 @@ const ManageContribution = ({
       currentContribution={currentContribution}
       currentContributionHistory={currentContributionHistory}
       currentContributionHistoryCount={contributionHistoryCount}
-      isСurrentContributionPending={isСurrentContributionPending}
-      isСurrentContributionHistoryPending={isСurrentContributionHistoryPending}
+      isCurrentContributionPending={isCurrentContributionPending}
+      isCurrentContributionHistoryPending={isCurrentContributionHistoryPending}
       isInitiateContributionPending={isInitiateContributionPending}
       showContributionHistory={showContributionHistory}
       serverOptions={serverOptions}
-      selectContibutionHistory={refreshList}
-      selectCurrentContibution={selectCurrentContibution}
+      selectContributionHistory={refreshList}
+      selectCurrentContribution={selectCurrentContribution}
       selectedServer={selectedServer}
       onChangeServer={handleServerChange}
       onInitiateContribution={onInitiateContribution}

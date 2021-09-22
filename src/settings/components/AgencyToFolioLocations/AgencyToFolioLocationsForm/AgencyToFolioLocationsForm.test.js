@@ -6,15 +6,10 @@ import { screen } from '@testing-library/react';
 import { FormattedMessage } from 'react-intl';
 import { translationsProperties } from '../../../../../test/jest/helpers';
 import AgencyToFolioLocationsForm from './AgencyToFolioLocationsForm';
-import { AGENCY_TO_FOLIO_LOCATIONS_FIELDS } from '../../../../constants';
 import {
   NO_VALUE_LOCAL_SERVER_OPTION,
   NO_VALUE_LOCATION_OPTION,
 } from './utils';
-
-const {
-  AGENCY_CODE_MAPPINGS,
-} = AGENCY_TO_FOLIO_LOCATIONS_FIELDS;
 
 const serverOptions = [
   {
@@ -273,7 +268,7 @@ describe('AgencyToFolioLocationsForm', () => {
       });
 
       it('should add the tabular list', () => {
-        expect(screen.getByTestId(AGENCY_CODE_MAPPINGS)).toBeVisible();
+        expect(screen.getByTestId('table-style-list')).toBeVisible();
       });
 
       describe('handleChangeLocalServerLibrary', () => {

@@ -45,12 +45,12 @@ const ManageContributionView = ({
   currentContribution,
   currentContributionHistory,
   currentContributionHistoryCount,
-  isСurrentContributionPending,
-  isСurrentContributionHistoryPending,
+  isCurrentContributionPending,
+  isCurrentContributionHistoryPending,
   showContributionHistory,
   serverOptions,
-  selectContibutionHistory,
-  selectCurrentContibution,
+  selectContributionHistory,
+  selectCurrentContribution,
   selectedServer,
   onChangeServer,
   onInitiateContribution,
@@ -157,29 +157,29 @@ const ManageContributionView = ({
           >
             <Button
               buttonStyle={`${!showContributionHistory ? 'primary' : 'default'}`}
-              onClick={selectCurrentContibution}
+              onClick={selectCurrentContribution}
             >
               <FormattedMessage id="ui-inn-reach.settings.manage-contribution.navigation.current" />
             </Button>
             <Button
               buttonStyle={`${showContributionHistory ? 'primary' : 'default'}`}
-              onClick={selectContibutionHistory}
+              onClick={selectContributionHistory}
             >
               <FormattedMessage id="ui-inn-reach.settings.manage-contribution.navigation.history" />
             </Button>
           </ButtonGroup>
         }
-        {(isСurrentContributionPending || isСurrentContributionHistoryPending) && <Loading />}
-        {selectedServer.id && !showContributionHistory && !isСurrentContributionPending && currentContribution &&
+        {(isCurrentContributionPending || isCurrentContributionHistoryPending) && <Loading />}
+        {selectedServer.id && !showContributionHistory && !isCurrentContributionPending && currentContribution &&
           <CurrentContribution
             currentContribution={currentContribution}
           />
         }
-        {selectedServer.id && showContributionHistory && !isСurrentContributionHistoryPending && currentContributionHistory &&
+        {selectedServer.id && showContributionHistory && !isCurrentContributionHistoryPending && currentContributionHistory &&
           <ContributionHistory
             currentContributionHistory={currentContributionHistory}
             currentContributionHistoryCount={currentContributionHistoryCount}
-            isСurrentContributionHistoryPending={isСurrentContributionHistoryPending}
+            isCurrentContributionHistoryPending={isCurrentContributionHistoryPending}
             onNeedMoreContributionHistoryData={onNeedMoreContributionHistoryData}
           />
         }
@@ -190,12 +190,12 @@ const ManageContributionView = ({
 
 ManageContributionView.propTypes = {
   currentContribution: PropTypes.object.isRequired,
-  currentContributionHistory: PropTypes.object.isRequired,
+  currentContributionHistory: PropTypes.array.isRequired,
   currentContributionHistoryCount: PropTypes.number.isRequired,
-  isСurrentContributionHistoryPending: PropTypes.bool.isRequired,
-  isСurrentContributionPending: PropTypes.bool.isRequired,
-  selectContibutionHistory: PropTypes.func.isRequired,
-  selectCurrentContibution: PropTypes.func.isRequired,
+  isCurrentContributionHistoryPending: PropTypes.bool.isRequired,
+  isCurrentContributionPending: PropTypes.bool.isRequired,
+  selectContributionHistory: PropTypes.func.isRequired,
+  selectCurrentContribution: PropTypes.func.isRequired,
   selectedServer: PropTypes.object.isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   showContributionHistory: PropTypes.bool.isRequired,

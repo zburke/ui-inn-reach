@@ -62,7 +62,7 @@ export const sections = [
       },
       {
         route: 'locations',
-        label: <FormattedMessage id="ui-inn-reach.settings.central-server.locations" />,
+        label: <FormattedMessage id="ui-inn-reach.settings.innreach.locations" />,
         component: InnreachLocations,
       },
     ],
@@ -98,7 +98,7 @@ export const sections = [
       },
       {
         route: MANAGE_CONTRIBUTION_ROUTE,
-        label: <FormattedMessage id="ui-inn-reach.settings.manage-contribution.title" />,
+        label: <FormattedMessage id="ui-inn-reach.settings.manage-contribution" />,
         component: ManageContributionRoute,
       },
     ],
