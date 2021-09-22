@@ -3,9 +3,6 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 import {
-  isEqual,
-} from 'lodash';
-import {
   Checkbox,
   Col,
   Row,
@@ -18,21 +15,19 @@ import {
 } from 'react-final-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 import {
-  FieldArray,
-} from 'react-final-form-arrays';
-import {
   BIB_TRANSFORMATION_FIELDS,
   NEW_ROW_VALUES,
   TEXTAREA_ROWS_NUMBER,
 } from '../../../../../../constants';
 import {
-  validateIdentifierType,
-} from './utils';
-import {
   AddAndDeleteButtons,
+  TableStyleList,
 } from '../../../../common';
 import TabularListTitles from './components/TabularListTitles';
 import SwapButtons from './components/SwapButtons';
+import {
+  required,
+} from '../../../../../../utils';
 import css from './TabularList.css';
 
 const {
@@ -69,16 +64,12 @@ const TabularList = ({
   };
 
   return (
-    <Col
-      sm={12}
-      data-testid={MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS}
-      className={css.tabularContainer}
-    >
+    <>
       <SRStatus ref={srsRef} />
-      <TabularListTitles />
-      <FieldArray
-        isEqual={isEqual}
-        name={MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS}
+      <TableStyleList
+        fieldArrayName={MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS}
+        customTitles={<TabularListTitles />}
+        rootClassName={css.tabularContainer}
       >
         {({ fields }) => fields.map((name, index) => {
           const isLastRow = index === fields.length - 1;
@@ -87,7 +78,7 @@ const TabularList = ({
           return (
             <Row
               key={index}
-              className={css.tabularRow}
+              className={classNames(css.tabularRow, index % 2 ? css.tabularRowOdd : css.tabularRowEven)}
             >
               <SwapButtons
                 isUpButtonVisible={!!index}
@@ -109,7 +100,7 @@ const TabularList = ({
                   dataOptions={identifierTypeOptions}
                   placeholder={formatMessage({ id: 'ui-inn-reach.settings.bib-transformation.placeholder.identifier-type' })}
                   selectClass={css.selectControl}
-                  validate={validateIdentifierType}
+                  validate={required}
                 />
               </Col>
               <Col className={classNames(css.tabularCol, css.customColSmWidth)}>
@@ -142,8 +133,8 @@ const TabularList = ({
             </Row>
           );
         })}
-      </FieldArray>
-    </Col>
+      </TableStyleList>
+    </>
   );
 };
 

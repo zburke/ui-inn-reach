@@ -16,6 +16,7 @@ export const FOLIO_TO_INN_REACH_LOCATION_FIELDS = {
   INN_REACH_LOCATIONS: 'innReachLocations',
   FOLIO_LIBRARY: 'folioLibrary',
   FOLIO_LOCATION: 'folioLocation',
+  CODE: 'code',
 };
 
 export const NO_VALUE_LOCATION_OPTION = {

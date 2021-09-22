@@ -1,5 +1,5 @@
 .tabularHeaderCol {
-  composes: tabularHeaderCol from '../../../FolioToInnReachLocations/FolioToInnReachLocationsForm/components/TabularList/TabularList.css'; /* stylelint-disable-line value-keyword-case */
+  composes: tabularHeaderCol from '../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
   padding-bottom: 5px;
 }
 
@@ -8,14 +8,10 @@
 }
 
 .tabularCol {
-  composes: tabularCol from '../../../FolioToInnReachLocations/FolioToInnReachLocationsForm/components/TabularList/TabularList.css'; /* stylelint-disable-line value-keyword-case */
+  composes: tabularCol from '../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
   display: initial;
 }
 
-.tabularCol:first-child {
-  border-left: none;
-}
-
-.topFieldWrapper {
-  margin-bottom: 10px;
+.tabularColFirst {
+  composes: tabularColFirst from '../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
 }

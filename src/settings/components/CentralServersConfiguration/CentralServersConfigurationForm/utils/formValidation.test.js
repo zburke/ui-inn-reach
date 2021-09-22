@@ -1,18 +1,10 @@
 import {
-  validateRequired,
   validateLocalServerCode,
   validateLocalAgency,
 } from './formValidation';
 import { DEFAULT_VALUES } from '../../../../routes/CentralServersConfigurationRoute/CentralServersConfigurationCreateEditContainer';
 
 describe('formValidation utils', () => {
-  describe('validateRequired', () => {
-    it('should return the correct value', () => {
-      expect(validateRequired('value')).toBeUndefined();
-      expect(validateRequired()).toBeDefined();
-    });
-  });
-
   describe('validateLocalServerCode', () => {
     it('should return the correct value', () => {
       expect(validateLocalServerCode()).toBeDefined();

@@ -5,22 +5,29 @@ import {
 } from 'lodash';
 import {
   Button,
-  Col,
   Loading,
   MessageBanner,
   Pane,
   PaneFooter,
-  Row,
   Selection,
 } from '@folio/stripes-components';
 import stripesFinalForm from '@folio/stripes/final-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 import {
   BANNER_ERROR_TYPE,
+  CENTRAL_PATRON_TYPE_FIELDS,
   CENTRAL_SERVER_ID,
   DEFAULT_PANE_WIDTH,
 } from '../../../../constants';
-import TabularList from './components/TabularList';
+import {
+  TableStyleList,
+} from '../../common';
+
+const {
+  PATRON_TYPE_MAPPINGS,
+  PATRON_GROUP_LABEL,
+  PATRON_TYPE,
+} = CENTRAL_PATRON_TYPE_FIELDS;
 
 const CentralPatronTypeForm = ({
   selectedServer,
@@ -59,28 +66,35 @@ const CentralPatronTypeForm = ({
       footer={getFooter()}
       paneTitle={<FormattedMessage id='ui-inn-reach.settings.central-patron-type.title' />}
     >
-      <Row>
-        <Col sm={12}>
-          <Selection
-            id={CENTRAL_SERVER_ID}
-            label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
-            dataOptions={serverOptions}
-            placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
-            value={selectedServer.name}
-            onChange={onChangeServer}
+      <form>
+        <Selection
+          id={CENTRAL_SERVER_ID}
+          label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
+          dataOptions={serverOptions}
+          placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
+          value={selectedServer.name}
+          onChange={onChangeServer}
+        />
+        {isPatronTypeMappingsPending && <Loading />}
+        <MessageBanner
+          type={BANNER_ERROR_TYPE}
+          show={patronTypesFailed}
+        >
+          <FormattedMessage id="ui-inn-reach.banner.patron-types" />
+        </MessageBanner>
+        {showTabularList &&
+          <TableStyleList
+            requiredRightCol
+            fieldArrayName={PATRON_TYPE_MAPPINGS}
+            leftTitle={<FormattedMessage id="ui-inn-reach.settings.central-patron-type.field.folio-patron-groups" />}
+            rightTitle={<FormattedMessage id="ui-inn-reach.settings.central-patron-type.field.patron-type" />}
+            leftFieldName={PATRON_GROUP_LABEL}
+            rightFieldName={PATRON_TYPE}
+            dataOptions={patronTypeOptions}
+            ariaLabel={<FormattedMessage id="ui-inn-reach.settings.central-patron-type.field.patron-type" />}
           />
-        </Col>
-      </Row>
-      {isPatronTypeMappingsPending && <Loading />}
-      <MessageBanner
-        type={BANNER_ERROR_TYPE}
-        show={patronTypesFailed}
-      >
-        <FormattedMessage id="ui-inn-reach.banner.patron-types" />
-      </MessageBanner>
-      {showTabularList &&
-        <TabularList patronTypeOptions={patronTypeOptions} />
-      }
+        }
+      </form>
     </Pane>
   );
 };

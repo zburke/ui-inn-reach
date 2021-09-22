@@ -1,15 +1,14 @@
 import React from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Field } from 'react-final-form';
-import { FieldArray } from 'react-final-form-arrays';
 
 import {
   Col,
   Row,
   Selection,
 } from '@folio/stripes-components';
-
 import {
   AGENCY_TO_FOLIO_LOCATIONS_FIELDS,
   NO_VALUE_OPTION_VALUE,
@@ -17,7 +16,9 @@ import {
 import {
   getFolioLocationOptions,
 } from '../../utils';
-
+import {
+  TableStyleList,
+} from '../../../../common';
 import css from './TabularList.css';
 
 const {
@@ -59,79 +60,64 @@ const TabularList = ({
   };
 
   return (
-    <Col
-      sm={12}
-      data-testid={AGENCY_CODE_MAPPINGS}
+    <TableStyleList
+      fieldArrayName={AGENCY_CODE_MAPPINGS}
+      leftTitle={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.agency-code-description" />}
+      rightTitle={<FormattedMessage id="ui-inn-reach.settings.agency-to-folio-locations.field.folio-library-and-location" />}
     >
-      <Row>
-        <Col
-          className={css.tabularHeaderCol}
-          sm={6}
-        >
-          {formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.field.agency-code-description' })}
-        </Col>
-        <Col
-          className={css.tabularHeaderCol}
-          sm={6}
-        >
-          {formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.field.folio-library-and-location' })}
-        </Col>
-      </Row>
-      <FieldArray name={AGENCY_CODE_MAPPINGS}>
-        {({ fields }) => fields.map((name, index) => {
-          const rowData = fields.value[index];
-          const libraryId = rowData[LIBRARY_ID];
-          const locationOptions = libraryId
-            ? getFolioLocationOptions(folioLocationsMap, libraryId)
-            : [];
+      {({ fields }) => fields.map((name, index) => {
+        const rowData = fields.value[index];
+        const libraryId = rowData[LIBRARY_ID];
+        const locationOptions = libraryId
+          ? getFolioLocationOptions(folioLocationsMap, libraryId)
+          : [];
 
-          return (
-            <Row
-              key={index}
-              className={css.tabularRow}
+        return (
+          <Row
+            key={index}
+            className={index % 2 ? css.tabularRowOdd : css.tabularRowEven}
+          >
+            <Col
+              sm={6}
+              className={classNames(css.tabularCol, css.tabularColFirst)}
             >
-              <Col
-                sm={6}
-                className={css.tabularCol}
-              >
-                <Field
-                  id={`${name}.${AGENCY}${index}`}
-                  name={`${name}.${AGENCY}`}
-                  component={({ input }) => input.value}
-                />
-              </Col>
-              <Col
-                sm={6}
-                className={css.tabularCol}
-              >
-                <div className={css.topFieldWrapper}>
-                  <Field
-                    marginBottom0
-                    id={`${name}.${LIBRARY_ID}-${index}`}
-                    name={`${name}.${LIBRARY_ID}`}
-                    aria-label={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.field.folio-library-and-location' })}
-                    component={Selection}
-                    dataOptions={librariesOptions}
-                    placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-library' })}
-                    onChange={libId => handleLibraryChange(libId, index, fields)}
-                  />
-                </div>
+              <Field
+                id={`${name}.${AGENCY}${index}`}
+                name={`${name}.${AGENCY}`}
+                component={({ input }) => input.value}
+              />
+            </Col>
+            <Col
+              sm={6}
+              className={css.tabularCol}
+            >
+              <div className={css.topFieldWrapper}>
                 <Field
                   marginBottom0
-                  id={`${name}.${LOCATION_ID}-${index}`}
-                  disabled={!libraryId}
-                  name={`${name}.${LOCATION_ID}`}
+                  id={`${name}.${LIBRARY_ID}-${index}`}
+                  name={`${name}.${LIBRARY_ID}`}
                   aria-label={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.field.folio-library-and-location' })}
                   component={Selection}
-                  dataOptions={locationOptions}
-                  placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-location' })}
+                  dataOptions={librariesOptions}
+                  placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-library' })}
+                  onChange={libId => handleLibraryChange(libId, index, fields)}
                 />
-              </Col>
-            </Row>
-          );
-        })}
-      </FieldArray>
-    </Col>
+              </div>
+              <Field
+                marginBottom0
+                id={`${name}.${LOCATION_ID}-${index}`}
+                disabled={!libraryId}
+                name={`${name}.${LOCATION_ID}`}
+                aria-label={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.field.folio-library-and-location' })}
+                component={Selection}
+                dataOptions={locationOptions}
+                placeholder={formatMessage({ id: 'ui-inn-reach.settings.agency-to-folio-locations.placeholder.folio-location' })}
+              />
+            </Col>
+          </Row>
+        );
+      })}
+    </TableStyleList>
   );
 };
 

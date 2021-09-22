@@ -4,16 +4,10 @@ import {
   isEmpty,
 } from 'lodash';
 
-export const validateRequired = (value) => {
-  return value
-    ? undefined
-    : <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.validation.required" />;
-};
-
 // eslint-disable-next-line
 export const validateLocalServerCode = (value) => {
   if (!value) {
-    return <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.validation.required" />;
+    return <FormattedMessage id="ui-inn-reach.validate.required" />;
   } else {
     const isCodeValid = /^.{5}$/.test(value);
 
@@ -28,7 +22,7 @@ const getEmptyFieldError = (localAgenciesValues) => {
   const isFieldsEmpty = localAgenciesValues.every(item => !item.localAgency && isEmpty(item.FOLIOLibraries));
 
   if (isFieldsEmpty) {
-    const requiredTextMessage = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.validation.required" />;
+    const requiredTextMessage = <FormattedMessage id="ui-inn-reach.validate.required" />;
 
     errorList[0] = {
       localAgency: requiredTextMessage,
@@ -38,9 +32,9 @@ const getEmptyFieldError = (localAgenciesValues) => {
     // if only the field 'FOLIO libraries' or 'Local Agency' is empty
     localAgenciesValues.forEach((item, index) => {
       if (item.localAgency && isEmpty(item.FOLIOLibraries)) {
-        errorList[index] = { FOLIOLibraries: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.validation.required" /> };
+        errorList[index] = { FOLIOLibraries: <FormattedMessage id="ui-inn-reach.validate.required" /> };
       } else if (!item.localAgency && !isEmpty(item.FOLIOLibraries)) {
-        errorList[index] = { localAgency: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.validation.required" /> };
+        errorList[index] = { localAgency: <FormattedMessage id="ui-inn-reach.validate.required" /> };
       }
     });
   }
