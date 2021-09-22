@@ -17,10 +17,19 @@ import stripesFinalForm from '@folio/stripes/final-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 import {
   BANNER_ERROR_TYPE,
+  CENTRAL_ITEM_TYPE_FIELDS,
   CENTRAL_SERVER_ID,
   DEFAULT_PANE_WIDTH,
 } from '../../../../constants';
-import TabularList from './components/TabularList';
+import {
+  TableStyleList,
+} from '../../common';
+
+const {
+  ITEM_TYPE_MAPPINGS,
+  ITEM_TYPE_LABEL,
+  MATERIAL_TYPE_ID,
+} = CENTRAL_ITEM_TYPE_FIELDS;
 
 const CentralItemTypeForm = ({
   selectedServer,
@@ -79,7 +88,16 @@ const CentralItemTypeForm = ({
         <FormattedMessage id="ui-inn-reach.banner.item-types" />
       </MessageBanner>
       {showTabularList &&
-        <TabularList folioMaterialTypeOptions={folioMaterialTypeOptions} />
+        <TableStyleList
+          requiredRightCol
+          fieldArrayName={ITEM_TYPE_MAPPINGS}
+          leftTitle={<FormattedMessage id="ui-inn-reach.settings.central-patron-type.field.folio-patron-groups" />}
+          rightTitle={<FormattedMessage id="ui-inn-reach.settings.central-patron-type.field.patron-type" />}
+          leftFieldName={ITEM_TYPE_LABEL}
+          rightFieldName={MATERIAL_TYPE_ID}
+          dataOptions={folioMaterialTypeOptions}
+          ariaLabel={<FormattedMessage id="ui-inn-reach.settings.central-patron-type.field.patron-type" />}
+        />
       }
     </Pane>
   );

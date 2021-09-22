@@ -36,8 +36,10 @@ import LocalAgencyFields from './components/LocalAgencyFields';
 import {
   validateLocalAgency,
   validateLocalServerCode,
-  validateRequired,
 } from './utils/formValidation';
+import {
+  required,
+} from '../../../../utils';
 
 import {
   CENTRAL_SERVER_CONFIGURATION_FIELDS,
@@ -219,7 +221,7 @@ const CentralConfigurationForm = ({
                   type="text"
                   component={TextField}
                   label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.name" />}
-                  validate={validateRequired}
+                  validate={required}
                 />
               </Col>
             </Row>
@@ -256,7 +258,7 @@ const CentralConfigurationForm = ({
                   placeholder=" "
                   component={Select}
                   dataOptions={loanTypeOptions}
-                  validate={validateRequired}
+                  validate={required}
                 />
               </Col>
             </Row>
@@ -279,7 +281,7 @@ const CentralConfigurationForm = ({
                   type="text"
                   component={TextField}
                   label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.centralServerAddress" />}
-                  validate={validateRequired}
+                  validate={required}
                 />
               </Col>
               <Col xs={4}>
@@ -289,7 +291,7 @@ const CentralConfigurationForm = ({
                   type="text"
                   component={TextField}
                   label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.centralServerKey" />}
-                  validate={validateRequired}
+                  validate={required}
                 />
               </Col>
               <Col xs={4}>
@@ -299,7 +301,7 @@ const CentralConfigurationForm = ({
                   type={secretFieldType}
                   component={TextField}
                   label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.centralServerSecret" />}
-                  validate={validateRequired}
+                  validate={required}
                 />
               </Col>
             </Row>

@@ -10,6 +10,7 @@ module.exports = {
     ['@babel/plugin-proposal-private-methods', { 'loose': true }],
     ['@babel/plugin-transform-react-jsx', {
       'runtime': 'automatic'
-    }]
+    }],
+    ['@babel/plugin-proposal-private-property-in-object', { 'loose': true }]
   ],
 };

@@ -23,8 +23,17 @@ import {
   DEFAULT_PANE_WIDTH,
   CENTRAL_SERVER_ID,
   BANNER_ERROR_TYPE,
+  MATERIAL_TYPE_FIELDS,
 } from '../../../../constants';
-import { MaterialTypeMappingList } from '../components';
+import {
+  TableStyleList,
+} from '../../common';
+
+const {
+  MATERIAL_TYPE_MAPPING_LIST,
+  CENTRAL_ITEM_TYPE,
+  MATERIAL_TYPE_LABEL,
+} = MATERIAL_TYPE_FIELDS;
 
 const MaterialTypeForm = ({
   selectedServer,
@@ -81,33 +90,40 @@ const MaterialTypeForm = ({
       footer={getFooter()}
       paneTitle={<FormattedMessage id='ui-inn-reach.settings.material-type-mapping.title' />}
     >
-      <Row>
-        <Col sm={12}>
-          <Selection
-            id={CENTRAL_SERVER_ID}
-            label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
-            dataOptions={serverOptions}
-            placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
-            value={selectedServer.name}
-            loading={isServersPending}
-            onChange={onChangeServer}
+      <form>
+        <Row>
+          <Col sm={12}>
+            <Selection
+              id={CENTRAL_SERVER_ID}
+              label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
+              dataOptions={serverOptions}
+              placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
+              value={selectedServer.name}
+              loading={isServersPending}
+              onChange={onChangeServer}
+            />
+          </Col>
+        </Row>
+        {isPending && <Loading />}
+        <MessageBanner
+          type={BANNER_ERROR_TYPE}
+          show={innReachItemTypesFailed}
+        >
+          <FormattedMessage id="ui-inn-reach.banner.item-types" />
+        </MessageBanner>
+        {selectedServer.id && !isPending && !innReachItemTypesFailed &&
+          <TableStyleList
+            requiredRightCol
+            fieldArrayName={MATERIAL_TYPE_MAPPING_LIST}
+            leftTitle={<FormattedMessage id="ui-inn-reach.settings.material-type-mapping.field.folio-material-types" />}
+            rightTitle={<FormattedMessage id="ui-inn-reach.settings.material-type-mapping.field.item-type" />}
+            leftFieldName={MATERIAL_TYPE_LABEL}
+            rightFieldName={CENTRAL_ITEM_TYPE}
+            dataOptions={innReachItemTypeOptions}
+            ariaLabel={<FormattedMessage id="ui-inn-reach.settings.material-type-mapping.field.item-type" />}
           />
-        </Col>
-      </Row>
-      {isPending && <Loading />}
-      <MessageBanner
-        type={BANNER_ERROR_TYPE}
-        show={innReachItemTypesFailed}
-      >
-        <FormattedMessage id="ui-inn-reach.banner.item-types" />
-      </MessageBanner>
-      {selectedServer.id && !isPending && !innReachItemTypesFailed &&
-        <form>
-          <MaterialTypeMappingList
-            innReachItemTypeOptions={innReachItemTypeOptions}
-          />
-        </form>
-      }
+        }
+      </form>
     </Pane>
   );
 };

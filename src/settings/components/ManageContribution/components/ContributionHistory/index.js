@@ -1,1 +1,1 @@
-export { default } from './ConrtibutionHistory';
+export { default } from './ContributionHistory';

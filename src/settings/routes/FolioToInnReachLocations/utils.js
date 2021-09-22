@@ -6,6 +6,7 @@ const {
   INN_REACH_LOCATIONS,
   FOLIO_LIBRARY,
   FOLIO_LOCATION,
+  CODE,
 } = FOLIO_TO_INN_REACH_LOCATION_FIELDS;
 
 export const getServerLibraries = (localAgencies, folioLibraries) => {
@@ -26,6 +27,7 @@ export const getServerLibraries = (localAgencies, folioLibraries) => {
         id,
         label: `${name} (${code})`,
         value: name,
+        code,
       };
 
       formattedLibraries.push(option);
@@ -169,6 +171,7 @@ export const getLeftColumnLocations = ({
     if (campusId === selectedLibraryCampusId) {
       accum.push({
         [FOLIO_LOCATION]: `${name} (${code})`,
+        [CODE]: code,
       });
     }
 
@@ -177,8 +180,9 @@ export const getLeftColumnLocations = ({
 };
 
 export const getLeftColumnLibraries = (serverLibraries) => {
-  return serverLibraries.map(({ label }) => ({
+  return serverLibraries.map(({ label, code }) => ({
     [FOLIO_LIBRARY]: label,
+    [CODE]: code,
   }));
 };
 
@@ -196,6 +200,7 @@ export const getTabularListForLocations = ({
     if (campusId === selectedLibraryCampusId) {
       const option = {
         [FOLIO_LOCATION]: `${name} (${code})`,
+        [CODE]: code,
       };
       const isCodeSelected = locMappingsMap.has(id);
 
@@ -219,9 +224,10 @@ export const getLibrariesTabularList = ({
 }) => {
   const innReachLocationsMap = getInnReachLocationsMap(innReachLocations);
 
-  return serverLibraries.map(({ id, label }) => {
+  return serverLibraries.map(({ id, label, code }) => {
     const option = {
       [FOLIO_LIBRARY]: label,
+      [CODE]: code,
     };
     const isCodeSelected = libMappingsMap.has(id);
 
@@ -235,29 +241,11 @@ export const getLibrariesTabularList = ({
   });
 };
 
-export const getTabularListMapForLocations = (tabularList) => {
+export const getTabularListMap = (tabularList) => {
   const tabularListMap = new Map();
 
   tabularList.forEach(row => {
-    const locationNameWithCode = row[FOLIO_LOCATION];
-    const innReachLocationCode = row[INN_REACH_LOCATIONS];
-    const locationCode = /\((.+)\)$/.exec(locationNameWithCode)?.[1];
-
-    tabularListMap.set(locationCode, innReachLocationCode);
-  });
-
-  return tabularListMap;
-};
-
-export const getTabularListMapForLibraries = (tabularList) => {
-  const tabularListMap = new Map();
-
-  tabularList.forEach(row => {
-    const libraryNameWithCode = row[FOLIO_LIBRARY];
-    const innReachLocationCode = row[INN_REACH_LOCATIONS];
-    const libraryCode = /\((.+)\)$/.exec(libraryNameWithCode)?.[1];
-
-    tabularListMap.set(libraryCode, innReachLocationCode);
+    tabularListMap.set(row[CODE], row[INN_REACH_LOCATIONS]);
   });
 
   return tabularListMap;

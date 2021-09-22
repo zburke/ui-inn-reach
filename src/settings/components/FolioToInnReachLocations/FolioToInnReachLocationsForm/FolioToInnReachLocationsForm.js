@@ -22,10 +22,13 @@ import {
   DEFAULT_PANE_WIDTH,
   FOLIO_TO_INN_REACH_LOCATION_FIELDS,
 } from '../../../../constants';
-import { TabularList } from './components';
 import {
   getInnReachLocationOptions,
+  validate,
 } from './utils';
+import {
+  TableStyleList,
+} from '../../common';
 
 const {
   MAPPING_TYPE,
@@ -121,38 +124,48 @@ const FolioToInnReachLocationsForm = ({
       footer={getFooter()}
       paneTitle={<FormattedMessage id='ui-inn-reach.settings.folio-to-inn-reach-locations.title' />}
     >
-      <Selection
-        id={CENTRAL_SERVER_ID}
-        label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
-        dataOptions={serverOptions}
-        placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
-        value={selectedServer.name}
-        onChange={onChangeServer}
-      />
-      {selectedServer.id &&
-      <Select
-        id={MAPPING_TYPE}
-        label={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.mapping-type" />}
-        dataOptions={mappingTypesOptions}
-        value={mappingType}
-        onChange={handleMappingTypeChange}
-      />
-      }
-      {mappingType === locationsMappingType &&
-      <Selection
-        id={LIBRARY}
-        label={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.library" />}
-        placeholder={formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.placeholder.select-library' })}
-        dataOptions={serverLibraryOptions}
-        onChange={onChangeLibrary}
-      />
-      }
-      {isMappingsPending && <Loading />}
       <form>
+        <Selection
+          id={CENTRAL_SERVER_ID}
+          label={<FormattedMessage id="ui-inn-reach.settings.field.centralServer" />}
+          dataOptions={serverOptions}
+          placeholder={formatMessage({ id: 'ui-inn-reach.settings.placeholder.centralServer' })}
+          value={selectedServer.name}
+          onChange={onChangeServer}
+        />
+        {selectedServer.id &&
+          <Select
+            id={MAPPING_TYPE}
+            label={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.mapping-type" />}
+            dataOptions={mappingTypesOptions}
+            value={mappingType}
+            onChange={handleMappingTypeChange}
+          />
+        }
+        {mappingType === locationsMappingType &&
+          <Selection
+            id={LIBRARY}
+            label={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.library" />}
+            placeholder={formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.placeholder.select-library' })}
+            dataOptions={serverLibraryOptions}
+            onChange={onChangeLibrary}
+          />
+        }
+        {isMappingsPending && <Loading />}
         {isShowTabularList &&
-          <TabularList
-            innReachLocationOptions={innReachLocationOptions}
-            leftColumnName={leftColumnName}
+          <TableStyleList
+            fieldArrayName={TABULAR_LIST}
+            leftTitle={leftColumnName === FOLIO_LIBRARY
+              ? <FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.libraries" />
+              : <FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.locations" />
+            }
+            rightTitle={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
+            leftFieldName={leftColumnName}
+            rightFieldName={INN_REACH_LOCATIONS}
+            dataOptions={innReachLocationOptions}
+            ariaLabel={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
+            requiredRightCol={leftColumnName === FOLIO_LIBRARY}
+            validate={validate}
           />
         }
       </form>

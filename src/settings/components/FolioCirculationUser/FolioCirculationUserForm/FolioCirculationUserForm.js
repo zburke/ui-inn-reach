@@ -5,12 +5,10 @@ import {
 } from 'lodash';
 import {
   Button,
-  Col,
   Loading,
   MessageBanner,
   Pane,
   PaneFooter,
-  Row,
   Selection,
 } from '@folio/stripes-components';
 import stripesFinalForm from '@folio/stripes/final-form';
@@ -70,31 +68,29 @@ const FolioCirculationUserForm = ({
       footer={getFooter()}
       paneTitle={<FormattedMessage id='ui-inn-reach.settings.folio-circulation-user.title' />}
     >
-      <Row>
-        <Col sm={12}>
-          <Selection
-            id={CENTRAL_SERVER_ID}
-            label={<FormattedMessage id="ui-inn-reach.settings.folio-circulation-user.field.central-server" />}
-            dataOptions={serverOptions}
-            placeholder={formatMessage({ id: 'ui-inn-reach.settings.folio-circulation-user.placeholder.central-server' })}
-            value={selectedServer.name}
-            onChange={onChangeServer}
-          />
-        </Col>
-      </Row>
-      {isCentralPatronTypeMappingsPending && <Loading />}
-      <MessageBanner
-        type={BANNER_ERROR_TYPE}
-        show={innReachPatronTypesFailed}
-      >
-        <FormattedMessage id="ui-inn-reach.banner.patron-types" />
-      </MessageBanner>
-      {showTabularList &&
-        <TabularList
-          form={form}
-          parentMutator={parentMutator}
+      <form>
+        <Selection
+          id={CENTRAL_SERVER_ID}
+          label={<FormattedMessage id="ui-inn-reach.settings.folio-circulation-user.field.central-server" />}
+          dataOptions={serverOptions}
+          placeholder={formatMessage({ id: 'ui-inn-reach.settings.folio-circulation-user.placeholder.central-server' })}
+          value={selectedServer.name}
+          onChange={onChangeServer}
         />
-      }
+        {isCentralPatronTypeMappingsPending && <Loading />}
+        <MessageBanner
+          type={BANNER_ERROR_TYPE}
+          show={innReachPatronTypesFailed}
+        >
+          <FormattedMessage id="ui-inn-reach.banner.patron-types" />
+        </MessageBanner>
+        {showTabularList &&
+          <TabularList
+            form={form}
+            parentMutator={parentMutator}
+          />
+        }
+      </form>
     </Pane>
   );
 };

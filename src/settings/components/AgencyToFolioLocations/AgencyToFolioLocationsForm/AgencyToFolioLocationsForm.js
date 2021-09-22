@@ -37,8 +37,10 @@ import {
   getFolioLocationOptions,
   getLocalServerOptions,
   getSelectedOptionInfo,
-  validateRequired,
 } from './utils';
+import {
+  required,
+} from '../../../../utils';
 
 import css from './AgencyToFolioLocationsForm.css';
 
@@ -228,7 +230,7 @@ const AgencyToFolioLocationsForm = ({
           <>
             <Field
               name={LIBRARY_ID}
-              validate={validateRequired}
+              validate={required}
             >
               {({ input, meta }) => (
                 <Selection
@@ -245,7 +247,7 @@ const AgencyToFolioLocationsForm = ({
             </Field>
             <Field
               name={LOCATION_ID}
-              validate={validateRequired}
+              validate={required}
             >
               {({ input, meta }) => (
                 <Selection
