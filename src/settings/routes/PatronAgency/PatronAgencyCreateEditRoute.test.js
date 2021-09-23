@@ -10,7 +10,6 @@ import { translationsProperties } from '../../../../test/jest/helpers';
 import PatronAgencyCreateEditRoute from './PatronAgencyCreateEditRoute';
 import PatronAgencyForm from '../../components/PatronAgency/PatronAgencyForm';
 import { useCentralServers } from '../../../hooks';
-import { getOnlyCustomFieldValues } from './utils';
 
 jest.mock('../../components/PatronAgency/PatronAgencyForm', () => {
   return jest.fn(() => <div>PatronAgencyForm</div>);
@@ -107,21 +106,15 @@ const serverOptions = [
 
 const userCustomFieldMappings = {
   customFieldId: 'f72a0b4b-21df-4985-8c9f-0d5c910296c3',
-  userCustomFieldMappings: [
-    {
-      customFieldValue: 'qwerty1',
-      agencyCode: '1qwer'
-    },
-    {
-      customFieldValue: 'qwerty2',
-      agencyCode: 'qwer1'
-    },
-  ],
+  configuredOptions: {
+    qwerty1: '1qwer',
+    qwerty2: 'qwer1',
+  },
 };
 
 const record = {
   customFieldId: 'f72a0b4b-21df-4985-8c9f-0d5c910296c3',
-  userCustomFieldMappings: [
+  configuredOptions: [
     {
       customFieldValue: 'qwerty1',
       agencyCode: '1qwer'
@@ -135,6 +128,15 @@ const record = {
       agencyCode: 'qwer3'
     },
   ],
+};
+
+const payload = {
+  customFieldId: 'f72a0b4b-21df-4985-8c9f-0d5c910296c3',
+  configuredOptions: {
+    qwerty1: '1qwer',
+    qwerty2: 'qwer1',
+    qwerty3: 'qwer3',
+  },
 };
 
 const resourcesMock = {
@@ -152,6 +154,7 @@ const mutatorMock = {
   userCustomFieldMappings: {
     GET: jest.fn(() => Promise.resolve()),
     PUT: jest.fn(() => Promise.resolve()),
+    POST: jest.fn(() => Promise.resolve()),
   },
 };
 
@@ -216,7 +219,11 @@ describe('renderPatronAgencyCreateEditRoute component', () => {
         await act(async () => { PatronAgencyForm.mock.calls[4][0].onChangeCustomField(customFields[0].id); });
         expect(PatronAgencyForm.mock.calls[5][0].initialValues).toEqual({
           customFieldId: customFields[0].id,
-          userCustomFieldMappings: getOnlyCustomFieldValues(customFields, customFields[0].id),
+          configuredOptions: [
+            { customFieldValue: 'Meyer' },
+            { customFieldValue: 'Garnett' },
+            { customFieldValue: 'Barbe' },
+          ],
         });
       });
 
@@ -228,7 +235,14 @@ describe('renderPatronAgencyCreateEditRoute component', () => {
         await act(async () => { await PatronAgencyForm.mock.calls[0][0].onChangeServer(servers[0].name); });
         await act(async () => { PatronAgencyForm.mock.calls[5][0].onChangeCustomField(customFields[1].id); });
         await act(async () => { PatronAgencyForm.mock.calls[6][0].onChangeCustomField(customFields[0].id); });
-        expect(PatronAgencyForm.mock.calls[7][0].initialValues).toEqual(userCustomFieldMappings);
+        expect(PatronAgencyForm.mock.calls[7][0].initialValues).toEqual({
+          customFieldId: 'f72a0b4b-21df-4985-8c9f-0d5c910296c3',
+          configuredOptions: [
+            { customFieldValue: 'Meyer' },
+            { customFieldValue: 'Garnett' },
+            { customFieldValue: 'Barbe' },
+          ],
+        });
       });
 
       it('should be with agency codes too', async () => {
@@ -237,12 +251,27 @@ describe('renderPatronAgencyCreateEditRoute component', () => {
         newMutator.userCustomFieldMappings.GET = jest.fn(() => Promise.resolve(userCustomFieldMappings));
         await renderPatronAgencyCreateEditRoute({ mutator: newMutator });
         await act(async () => { await PatronAgencyForm.mock.calls[0][0].onChangeServer(servers[0].name); });
-        expect(PatronAgencyForm.mock.calls[5][0].initialValues).toEqual(userCustomFieldMappings);
+        expect(PatronAgencyForm.mock.calls[5][0].initialValues).toEqual({
+          customFieldId: 'f72a0b4b-21df-4985-8c9f-0d5c910296c3',
+          configuredOptions: [
+            { customFieldValue: 'Meyer' },
+            { customFieldValue: 'Garnett' },
+            { customFieldValue: 'Barbe' },
+          ]
+        });
       });
     });
   });
 
   describe('handleSubmit', () => {
+    it('should make a POST request', async () => {
+      await act(async () => { renderPatronAgencyCreateEditRoute(); });
+      await act(async () => { PatronAgencyForm.mock.calls[0][0].onChangeServer(servers[0].name); });
+      await act(async () => { PatronAgencyForm.mock.calls[4][0].onChangeCustomField(customFields[0].id); });
+      await act(async () => { PatronAgencyForm.mock.calls[5][0].onSubmit(record); });
+      expect(mutatorMock.userCustomFieldMappings.POST).toHaveBeenCalledWith(payload);
+    });
+
     it('should make a PUT request', async () => {
       const newMutator = cloneDeep(mutatorMock);
 
@@ -253,7 +282,7 @@ describe('renderPatronAgencyCreateEditRoute component', () => {
         await PatronAgencyForm.mock.calls[1][0].onChangeCustomField(customFields[0].id);
         PatronAgencyForm.mock.calls[3][0].onSubmit(record);
       });
-      expect(mutatorMock.userCustomFieldMappings.PUT).toHaveBeenCalledWith(record);
+      expect(mutatorMock.userCustomFieldMappings.PUT).toHaveBeenCalledWith(payload);
     });
   });
 });

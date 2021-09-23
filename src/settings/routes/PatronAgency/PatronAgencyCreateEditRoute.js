@@ -116,7 +116,7 @@ const PatronAgencyCreateEditRoute = ({
       })
       .catch(() => {
         showCallout({ type: CALLOUT_ERROR_TYPE,
-          message: <FormattedMessage id={`ui-inn-reach.settings.bib-transformation.callout.connectionProblem.${action}`} /> });
+          message: <FormattedMessage id={`ui-inn-reach.settings.patron-agency.callout.connectionProblem.${action}`} /> });
       });
   };
 
