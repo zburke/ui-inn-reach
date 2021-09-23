@@ -10,7 +10,7 @@ import { translationsProperties } from '../../../../test/jest/helpers';
 import PatronAgencyCreateEditRoute from './PatronAgencyCreateEditRoute';
 import PatronAgencyForm from '../../components/PatronAgency/PatronAgencyForm';
 import { useCentralServers } from '../../../hooks';
-import { getCustomFieldValueOptions } from './utils';
+import { getOnlyCustomFieldValues } from './utils';
 
 jest.mock('../../components/PatronAgency/PatronAgencyForm', () => {
   return jest.fn(() => <div>PatronAgencyForm</div>);
@@ -216,7 +216,7 @@ describe('renderPatronAgencyCreateEditRoute component', () => {
         await act(async () => { PatronAgencyForm.mock.calls[4][0].onChangeCustomField(customFields[0].id); });
         expect(PatronAgencyForm.mock.calls[5][0].initialValues).toEqual({
           customFieldId: customFields[0].id,
-          userCustomFieldMappings: getCustomFieldValueOptions(customFields, customFields[0].id),
+          userCustomFieldMappings: getOnlyCustomFieldValues(customFields, customFields[0].id),
         });
       });
 

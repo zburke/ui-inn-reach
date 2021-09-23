@@ -24,6 +24,9 @@ import {
 import {
   TableStyleList,
 } from '../../common';
+import {
+  required,
+} from '../../../../utils';
 
 const {
   ITEM_TYPE_MAPPINGS,
@@ -97,6 +100,7 @@ const CentralItemTypeForm = ({
           rightFieldName={MATERIAL_TYPE_ID}
           dataOptions={folioMaterialTypeOptions}
           ariaLabel={<FormattedMessage id="ui-inn-reach.settings.central-patron-type.field.patron-type" />}
+          validate={required}
         />
       }
     </Pane>
