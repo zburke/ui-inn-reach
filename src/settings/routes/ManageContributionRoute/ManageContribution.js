@@ -50,7 +50,6 @@ const ManageContribution = ({
   const [contributionHistoryOffset, setContributionHistoryOffset] = useState(0);
 
   const [isCurrentContributionPending, setIsCurrentContributionPending] = useState(false);
-  const [isInitiateContributionPending, setIsInitiateContributionPending] = useState(false);
   const [isCurrentContributionHistoryPending, setIsCurrentContributionHistoryPending] = useState(false);
 
   const [showContributionHistory, setShowContributionHistory] = useState(false);
@@ -68,8 +67,7 @@ const ManageContribution = ({
     fetchCurrentContribution();
   };
 
-  const onInitiateContribution = () => {
-    setIsInitiateContributionPending(true);
+  const handleInitiateContribution = () => {
     mutator.initiateContribution.POST({})
       .then(() => {
         setIsCurrentContributionPending(true);
@@ -83,14 +81,13 @@ const ManageContribution = ({
           type: CALLOUT_ERROR_TYPE,
           message: <FormattedMessage id='ui-inn-reach.settings.manage-contribution.initaiate.failed' />,
         });
-      })
-      .finally(() => setIsInitiateContributionPending(false));
+      });
   };
 
   const handleCancelContribution = () => {
     mutator.jobs.DELETE({ id: currentContribution.jobId })
       .then(() => {
-        setIsСurrentContributionPending(true);
+        setIsCurrentContributionPending(true);
         showCallout({
           message: <FormattedMessage id='ui-inn-reach.settings.manage-contribution.cancel.success' />,
         });
@@ -138,7 +135,7 @@ const ManageContribution = ({
     loadContributionHistory(0);
   };
 
-  const onNeedMoreContributionHistoryData = useCallback(
+  const handleNeedMoreContributionHistoryData = useCallback(
     () => {
       const newOffset = contributionHistoryOffset + PAGE_AMOUNT;
 
@@ -169,15 +166,14 @@ const ManageContribution = ({
       currentContributionHistoryCount={contributionHistoryCount}
       isCurrentContributionPending={isCurrentContributionPending}
       isCurrentContributionHistoryPending={isCurrentContributionHistoryPending}
-      isInitiateContributionPending={isInitiateContributionPending}
       showContributionHistory={showContributionHistory}
       serverOptions={serverOptions}
       selectContributionHistory={refreshList}
       selectCurrentContribution={selectCurrentContribution}
       selectedServer={selectedServer}
       onChangeServer={handleServerChange}
-      onInitiateContribution={onInitiateContribution}
-      onNeedMoreContributionHistoryData={onNeedMoreContributionHistoryData}
+      onInitiateContribution={handleInitiateContribution}
+      onNeedMoreContributionHistoryData={handleNeedMoreContributionHistoryData}
       onCancelContribution={handleCancelContribution}
     />
   );

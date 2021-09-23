@@ -45,6 +45,7 @@ const renderCentralPatronTypeForm = ({
   selectCurrentContribution,
   onChangeServer,
   onInitiateContribution,
+  onCancelContribution,
   onNeedMoreContributionHistoryData,
 } = {}) => {
   return renderWithIntl(
@@ -62,6 +63,7 @@ const renderCentralPatronTypeForm = ({
         selectCurrentContribution={selectCurrentContribution}
         onChangeServer={onChangeServer}
         onInitiateContribution={onInitiateContribution}
+        onCancelContribution={onCancelContribution}
         onNeedMoreContributionHistoryData={onNeedMoreContributionHistoryData}
       />
     </Router>,
@@ -74,6 +76,7 @@ describe('ManageContributionView', () => {
   const selectContributionHistory = jest.fn();
   const selectCurrentContribution = jest.fn();
   const onInitiateContribution = jest.fn();
+  const onCancelContribution = jest.fn();
   const onNeedMoreContributionHistoryData = jest.fn();
 
   const commonProps = {
@@ -81,6 +84,7 @@ describe('ManageContributionView', () => {
     selectContributionHistory,
     selectCurrentContribution,
     onInitiateContribution,
+    onCancelContribution,
     onNeedMoreContributionHistoryData,
   };
 
