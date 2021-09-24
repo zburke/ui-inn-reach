@@ -78,6 +78,7 @@
   },
   "stripes": {
     "actsAs": [
+      "app",
       "settings"
     ],
     "icons": [

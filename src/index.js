@@ -45,6 +45,22 @@ export default function InnReach({
       </Route>
     );
   }
+
+  return (
+    <Switch>
+      <Route
+        component={TransactionsListRoute}
+        path={`${path}/transactions`}
+      >
+        <Route
+          exact
+          component={TransactionViewRoute}
+          path={`${path}/transactions/:id/view`}
+        />
+      </Route>
+      <Redirect to={`${path}/transactions`} />
+    </Switch>
+  );
 }
 
 InnReach.propTypes = {
