@@ -167,6 +167,7 @@ PatronAgencyCreateEditRoute.manifest = Object.freeze({
   userCustomFieldMappings: {
     type: 'okapi',
     path: 'inn-reach/central-servers/%{selectedServerId}/user-custom-field-mappings',
+    pk: '',
     accumulate: true,
     fetch: false,
     throwErrors: false,
