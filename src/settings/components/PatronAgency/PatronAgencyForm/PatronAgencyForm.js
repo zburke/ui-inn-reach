@@ -23,13 +23,10 @@ import {
 import {
   TableStyleList,
 } from '../../common';
-import {
-  validate,
-} from './utils';
 
 const {
   CUSTOM_FIELD_ID,
-  USER_CUSTOM_FIELD_MAPPINGS,
+  CONFIGURED_OPTIONS,
   CUSTOM_FIELD_VALUE,
   AGENCY_CODE,
 } = PATRON_AGENCY_FIELDS;
@@ -100,14 +97,13 @@ const PatronAgencyForm = ({
         {isUserCustomFieldMappingsPending && <Loading />}
         {showTabularList &&
           <TableStyleList
-            fieldArrayName={USER_CUSTOM_FIELD_MAPPINGS}
+            fieldArrayName={CONFIGURED_OPTIONS}
             leftTitle={<FormattedMessage id="ui-inn-reach.settings.patron-agency.field.custom-field-value" />}
             rightTitle={<FormattedMessage id="ui-inn-reach.settings.patron-agency.field.agency-code" />}
             leftFieldName={CUSTOM_FIELD_VALUE}
             rightFieldName={AGENCY_CODE}
             dataOptions={agencyCodeOptions}
             ariaLabel={<FormattedMessage id="ui-inn-reach.settings.patron-agency.field.agency-code" />}
-            validate={validate}
           />
         }
       </form>

@@ -6,7 +6,7 @@ export const PATRON_AGENCY_ROUTE = 'patron-agency';
 
 export const PATRON_AGENCY_FIELDS = {
   CUSTOM_FIELD_ID: 'customFieldId',
-  USER_CUSTOM_FIELD_MAPPINGS: 'userCustomFieldMappings',
+  CONFIGURED_OPTIONS: 'configuredOptions',
   CUSTOM_FIELD_VALUE: 'customFieldValue',
   AGENCY_CODE: 'agencyCode',
 };

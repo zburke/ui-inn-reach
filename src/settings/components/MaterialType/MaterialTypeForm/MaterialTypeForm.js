@@ -28,6 +28,9 @@ import {
 import {
   TableStyleList,
 } from '../../common';
+import {
+  required,
+} from '../../../../utils';
 
 const {
   MATERIAL_TYPE_MAPPING_LIST,
@@ -121,6 +124,7 @@ const MaterialTypeForm = ({
             rightFieldName={CENTRAL_ITEM_TYPE}
             dataOptions={innReachItemTypeOptions}
             ariaLabel={<FormattedMessage id="ui-inn-reach.settings.material-type-mapping.field.item-type" />}
+            validate={required}
           />
         }
       </form>

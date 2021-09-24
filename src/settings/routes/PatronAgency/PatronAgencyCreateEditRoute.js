@@ -27,14 +27,17 @@ import {
 import { PatronAgencyForm } from '../../components/PatronAgency';
 import {
   getCustomFieldOptions,
-  getCustomFieldValueOptions,
+  getSelectedCustomField,
+  getOnlyCustomFieldValues,
   getAgencyCodeOptions,
+  formatUserCustomFieldMappings,
+  formatPayload,
 } from './utils';
 import useCentralServers from '../../../hooks/useCentralServers';
 
 const {
   CUSTOM_FIELD_ID,
-  USER_CUSTOM_FIELD_MAPPINGS,
+  CONFIGURED_OPTIONS,
 } = PATRON_AGENCY_FIELDS;
 
 const PatronAgencyCreateEditRoute = ({
@@ -80,38 +83,46 @@ const PatronAgencyCreateEditRoute = ({
     setUserCustomFieldMappings(null);
   };
 
+  const setFullMappings = (customFieldId) => {
+    const selectedCustomField = getSelectedCustomField(customFields, customFieldId);
+    const formattedMappings = formatUserCustomFieldMappings(selectedCustomField, userCustomFieldMappings);
+
+    setInitialValues(formattedMappings);
+  };
+
   const handleCustomFieldChange = (customFieldId) => {
     if (userCustomFieldMappings?.[CUSTOM_FIELD_ID] === customFieldId) {
-      setInitialValues(userCustomFieldMappings);
+      setFullMappings(customFieldId);
     } else {
+      const selectedCustomField = getSelectedCustomField(customFields, customFieldId);
+
       setInitialValues({
         [CUSTOM_FIELD_ID]: customFieldId,
-        [USER_CUSTOM_FIELD_MAPPINGS]: getCustomFieldValueOptions(customFields, customFieldId),
+        [CONFIGURED_OPTIONS]: getOnlyCustomFieldValues(selectedCustomField),
       });
     }
   };
 
-  const handleSubmit = (payload) => {
-    mutator.userCustomFieldMappings.PUT(payload)
-      .then(() => {
-        const action = isEmpty(userCustomFieldMappings) ? 'create' : 'update';
+  const handleSubmit = (record) => {
+    const { POST, PUT } = mutator.userCustomFieldMappings;
+    const saveMethod = isEmpty(userCustomFieldMappings) ? POST : PUT;
+    const action = isEmpty(userCustomFieldMappings) ? 'create' : 'update';
+    const payload = formatPayload(record);
 
-        setUserCustomFieldMappings(payload[USER_CUSTOM_FIELD_MAPPINGS]);
+    saveMethod(payload)
+      .then(() => {
+        setUserCustomFieldMappings(payload);
         showCallout({ message: <FormattedMessage id={`ui-inn-reach.settings.patron-agency.${action}.success`} /> });
       })
       .catch(() => {
-        const action = isEmpty(userCustomFieldMappings) ? 'post' : 'put';
-
-        showCallout({
-          type: CALLOUT_ERROR_TYPE,
-          message: <FormattedMessage id={`ui-inn-reach.settings.patron-agency.callout.connectionProblem.${action}`} />,
-        });
+        showCallout({ type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id={`ui-inn-reach.settings.patron-agency.callout.connectionProblem.${action}`} /> });
       });
   };
 
   useEffect(() => {
     if (selectedServer.id && !isUserCustomFieldMappingsPending && !isEmpty(userCustomFieldMappings)) {
-      setInitialValues(userCustomFieldMappings);
+      setFullMappings(userCustomFieldMappings[CUSTOM_FIELD_ID]);
     }
   }, [selectedServer.id, userCustomFieldMappings, isUserCustomFieldMappingsPending]);
 
@@ -156,6 +167,7 @@ PatronAgencyCreateEditRoute.manifest = Object.freeze({
   userCustomFieldMappings: {
     type: 'okapi',
     path: 'inn-reach/central-servers/%{selectedServerId}/user-custom-field-mappings',
+    pk: '',
     accumulate: true,
     fetch: false,
     throwErrors: false,
@@ -178,6 +190,7 @@ PatronAgencyCreateEditRoute.propTypes = {
     }).isRequired,
     userCustomFieldMappings: PropTypes.shape({
       GET: PropTypes.func,
+      POST: PropTypes.func,
       PUT: PropTypes.func,
     }).isRequired,
   }),
