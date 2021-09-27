@@ -16,10 +16,14 @@ import {
   getCentralServerConfigurationListUrl,
 } from '../../../utils';
 import { useCallout } from '../../../hooks';
+import {
+  SettingsContext,
+} from '../../../contexts';
 
 const record = {
   id: '12345',
   name: 'Andromeda',
+  centralServerCode: '1234p',
   localServerCode: 'tandr',
   loanTypeId: 'e17acc08-b8ca-469a-a984-d9249faad178',
   centralServerAddress: 'https://opentown-lib.edu/andromeda',
@@ -50,6 +54,8 @@ jest.mock('../../../utils', () => {
   };
 });
 
+const showAllSections = jest.fn();
+
 const renderCreateRoute = ({
   mutator = {},
   history = {
@@ -69,10 +75,16 @@ const renderCreateRoute = ({
 } = {}) => (
   renderWithIntl(
     <MemoryRouter>
-      <CentralServersConfigurationCreateRoute
-        mutator={mutator}
-        history={history}
-      />
+      <SettingsContext.Provider
+        value={{
+          onShowAllSections: showAllSections,
+        }}
+      >
+        <CentralServersConfigurationCreateRoute
+          mutator={mutator}
+          history={history}
+        />
+      </SettingsContext.Provider>
     </MemoryRouter>,
     translationsProperties,
   )
@@ -112,6 +124,11 @@ describe('CentralServersConfigurationCreateRoute component', () => {
       it('should be called', async () => {
         await CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(record);
         expect(postMock).toHaveBeenCalled();
+      });
+
+      it('should show all sections', async () => {
+        await CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(record);
+        expect(showAllSections).toHaveBeenCalled();
       });
 
       it('should download JSON file', async () => {

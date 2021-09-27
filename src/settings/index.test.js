@@ -33,6 +33,7 @@ const centralServers = {
           id: 'e57fbcd1-9b0b-49b4-a429-183d5a8d1ec7',
         },
       ],
+      centralServerCode: '1234p',
       localServerCode: 'tyrea',
       localServerKey: 'ded55ccb-24e7-4d8a-95a1-a510d5fb8681',
       localServerSecret: '$2a$10$.pqjQEIN4ejnzcmYHbqY2eC/1Vqr4ILc5U/PXYkYhksPClbi74OD.',

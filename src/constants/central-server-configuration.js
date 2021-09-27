@@ -17,6 +17,7 @@ export const CENTRAL_SERVER_CONFIGURATION_FIELDS = {
   NAME: 'name',
   METADATA: 'metadata',
   DESCRIPTION: 'description',
+  CENTRAL_SERVER_CODE: 'centralServerCode',
   LOCAL_SERVER_CODE: 'localServerCode',
   CENTRAL_SERVER_ADDRESS: 'centralServerAddress',
   LOAN_TYPE_ID: 'loanTypeId',

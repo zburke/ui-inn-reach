@@ -5,7 +5,7 @@ import {
 } from 'lodash';
 
 // eslint-disable-next-line
-export const validateLocalServerCode = (value) => {
+export const validateServerCode = (value) => {
   if (!value) {
     return <FormattedMessage id="ui-inn-reach.validate.required" />;
   } else {

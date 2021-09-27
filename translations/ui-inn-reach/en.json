@@ -63,6 +63,7 @@
   "settings.central-server-configuration.create-edit.accordion.serverConnection.title": "Server connection",
   "settings.central-server-configuration.create-edit.field.name": "Name",
   "settings.central-server-configuration.create-edit.field.description": "Description",
+  "settings.central-server-configuration.create-edit.field.centralServerCode": "Central server code",
   "settings.central-server-configuration.create-edit.field.localServerCode": "Local server code",
   "settings.central-server-configuration.create-edit.field.borrowedItemLoanType": "Borrowed item loan type",
   "settings.central-server-configuration.create-edit.field.centralServerAddress": "Central server address",

@@ -2,6 +2,7 @@ import React, {
   useCallback,
   useState,
   useEffect,
+  useContext,
 } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -36,6 +37,9 @@ import {
   FILL_PANE_WIDTH,
   CENTRAL_SERVER_CONFIGURATION_FIELDS,
 } from '../../../constants';
+import {
+  SettingsContext,
+} from '../../../contexts';
 
 const CentralServersConfigurationViewRoute = ({
   history,
@@ -53,6 +57,9 @@ const CentralServersConfigurationViewRoute = ({
   const [isConfirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
 
   const showCallout = useCallout();
+  const {
+    onShowFilteredSections,
+  } = useContext(SettingsContext);
 
   useEffect(
     () => {
@@ -86,6 +93,7 @@ const CentralServersConfigurationViewRoute = ({
     setConfirmDeleteModalOpen(false);
     mutator.viewCentralServersConfiguration.DELETE({ id })
       .then(() => {
+        onShowFilteredSections();
         showCallout({
           message: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.deleted" />
         });
