@@ -294,5 +294,20 @@
   "settings.patron-agency.create.success": "Patron agency settings created successfully",
   "settings.patron-agency.update.success": "Patron agency settings updated successfully",
   "settings.patron-agency.callout.connectionProblem.post": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
-  "settings.patron-agency.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator"
+  "settings.patron-agency.callout.connectionProblem.put": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator",
+
+  "transaction.field.time": "Transaction time",
+  "transaction.field.type": "Transaction type",
+  "transaction.field.itemTitle": "Item title (Agency code)",
+  "transaction.field.patronName": "Patron name (Agency code)",
+  "transaction.field.status": "Transaction status (INN-Reach)",
+  "transaction.field.label.time": "{date} {time}",
+  "transaction.field.label.transactionType.Item": "Item",
+  "transaction.field.label.transactionType.Patron": "Patron",
+  "transaction.field.label.transactionType.Local": "Local",
+
+  "title.list.transactions": "INN-Reach transactions",
+  "search": "Search",
+  "resetAllFilters": "Reset all",
+  "searchAndFilter": "Select activity"
 }
