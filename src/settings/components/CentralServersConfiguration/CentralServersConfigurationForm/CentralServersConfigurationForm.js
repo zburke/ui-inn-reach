@@ -243,7 +243,7 @@ const CentralConfigurationForm = ({
                   type="text"
                   component={TextField}
                   label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.centralServerCode" />}
-                  validate={validateServerCode}
+                  validate={required}
                 />
               </Col>
               <Col sm={3}>
