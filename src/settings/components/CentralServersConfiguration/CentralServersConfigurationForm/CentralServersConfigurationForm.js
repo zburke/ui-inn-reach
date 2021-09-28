@@ -35,7 +35,7 @@ import LocalAgencyFields from './components/LocalAgencyFields';
 
 import {
   validateLocalAgency,
-  validateLocalServerCode,
+  validateServerCode,
 } from './utils/formValidation';
 import {
   required,
@@ -56,6 +56,7 @@ const {
   LOCAL_SERVER_SECRET,
   NAME,
   DESCRIPTION,
+  CENTRAL_SERVER_CODE,
   LOCAL_SERVER_CODE,
   LOAN_TYPE_ID,
 } = CENTRAL_SERVER_CONFIGURATION_FIELDS;
@@ -238,11 +239,21 @@ const CentralConfigurationForm = ({
               <Col sm={3}>
                 <Field
                   required
+                  name={CENTRAL_SERVER_CODE}
+                  type="text"
+                  component={TextField}
+                  label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.centralServerCode" />}
+                  validate={validateServerCode}
+                />
+              </Col>
+              <Col sm={3}>
+                <Field
+                  required
                   name={LOCAL_SERVER_CODE}
                   type="text"
                   component={TextField}
                   label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.field.localServerCode" />}
-                  validate={validateLocalServerCode}
+                  validate={validateServerCode}
                 />
               </Col>
             </Row>
