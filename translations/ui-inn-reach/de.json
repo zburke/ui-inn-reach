@@ -270,5 +270,11 @@
     "settings.patron-agency.update.success": "Patron agency settings updated successfully",
     "validate.required": "Required",
     "settings.patron-agency.callout.connectionProblem.create": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
-    "settings.patron-agency.callout.connectionProblem.update": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator"
+    "settings.patron-agency.callout.connectionProblem.update": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator",
+    "settings.manage-contribution.button.cancel-contribution": "Cancel contribution",
+    "settings.manage-contribution.button.pause-contribution": "Pause",
+    "settings.manage-contribution.cancel.failed": "Cancel contribution failed",
+    "settings.manage-contribution.cancel.success": "Contribution canceled successfully",
+    "settings.manage-contribution.contribution-status.cancelled": "Cancelled",
+    "settings.central-server-configuration.create-edit.field.centralServerCode": "Central server code"
 }

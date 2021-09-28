@@ -270,5 +270,11 @@
     "settings.patron-agency.update.success": "تم تحديث إعدادات وكالة المستفيد بنجاح",
     "validate.required": "مطلوب",
     "settings.patron-agency.callout.connectionProblem.create": "تعذر إنشاء البيانات بسبب خطأ في الوحدة. يرجى إعادة المحاولة مرة أخرى. إذا استمرت المشكلة، يرجى الاتصال بمدير النظام",
-    "settings.patron-agency.callout.connectionProblem.update": "تعذر تحديث البيانات بسبب خطأ في الوحدة. يرجى إعادة المحاولة مرة أخرى. إذا استمرت المشكلة، يرجى الاتصال بمدير النظام"
+    "settings.patron-agency.callout.connectionProblem.update": "تعذر تحديث البيانات بسبب خطأ في الوحدة. يرجى إعادة المحاولة مرة أخرى. إذا استمرت المشكلة، يرجى الاتصال بمدير النظام",
+    "settings.manage-contribution.button.cancel-contribution": "Cancel contribution",
+    "settings.manage-contribution.button.pause-contribution": "Pause",
+    "settings.manage-contribution.cancel.failed": "Cancel contribution failed",
+    "settings.manage-contribution.cancel.success": "Contribution canceled successfully",
+    "settings.manage-contribution.contribution-status.cancelled": "Cancelled",
+    "settings.central-server-configuration.create-edit.field.centralServerCode": "Central server code"
 }
