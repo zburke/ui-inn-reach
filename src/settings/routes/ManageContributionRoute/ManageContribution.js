@@ -50,7 +50,6 @@ const ManageContribution = ({
   const [contributionHistoryOffset, setContributionHistoryOffset] = useState(0);
 
   const [isCurrentContributionPending, setIsCurrentContributionPending] = useState(false);
-  const [isInitiateContributionPending, setIsInitiateContributionPending] = useState(false);
   const [isCurrentContributionHistoryPending, setIsCurrentContributionHistoryPending] = useState(false);
 
   const [showContributionHistory, setShowContributionHistory] = useState(false);
@@ -68,8 +67,7 @@ const ManageContribution = ({
     fetchCurrentContribution();
   };
 
-  const onInitiateContribution = () => {
-    setIsInitiateContributionPending(true);
+  const handleInitiateContribution = () => {
     mutator.initiateContribution.POST({})
       .then(() => {
         setIsCurrentContributionPending(true);
@@ -83,8 +81,24 @@ const ManageContribution = ({
           type: CALLOUT_ERROR_TYPE,
           message: <FormattedMessage id='ui-inn-reach.settings.manage-contribution.initaiate.failed' />,
         });
+      });
+  };
+
+  const handleCancelContribution = () => {
+    mutator.jobs.DELETE({ id: currentContribution.jobId })
+      .then(() => {
+        setIsCurrentContributionPending(true);
+        showCallout({
+          message: <FormattedMessage id='ui-inn-reach.settings.manage-contribution.cancel.success' />,
+        });
+        fetchCurrentContribution();
       })
-      .finally(() => setIsInitiateContributionPending(false));
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id='ui-inn-reach.settings.manage-contribution.cancel.failed' />,
+        });
+      });
   };
 
   const loadContributionHistory = (offset) => {
@@ -121,7 +135,7 @@ const ManageContribution = ({
     loadContributionHistory(0);
   };
 
-  const onNeedMoreContributionHistoryData = useCallback(
+  const handleNeedMoreContributionHistoryData = useCallback(
     () => {
       const newOffset = contributionHistoryOffset + PAGE_AMOUNT;
 
@@ -152,15 +166,15 @@ const ManageContribution = ({
       currentContributionHistoryCount={contributionHistoryCount}
       isCurrentContributionPending={isCurrentContributionPending}
       isCurrentContributionHistoryPending={isCurrentContributionHistoryPending}
-      isInitiateContributionPending={isInitiateContributionPending}
       showContributionHistory={showContributionHistory}
       serverOptions={serverOptions}
       selectContributionHistory={refreshList}
       selectCurrentContribution={selectCurrentContribution}
       selectedServer={selectedServer}
       onChangeServer={handleServerChange}
-      onInitiateContribution={onInitiateContribution}
-      onNeedMoreContributionHistoryData={onNeedMoreContributionHistoryData}
+      onInitiateContribution={handleInitiateContribution}
+      onNeedMoreContributionHistoryData={handleNeedMoreContributionHistoryData}
+      onCancelContribution={handleCancelContribution}
     />
   );
 };
@@ -192,6 +206,13 @@ ManageContribution.manifest = Object.freeze({
     throwErrors: false,
     fetch: false,
   },
+  jobs: {
+    type: 'okapi',
+    path: 'instance-storage/instances/iteration/:{id}',
+    accumulate: true,
+    fetch: false,
+    throwErrors: false,
+  },
 });
 
 ManageContribution.propTypes = {
@@ -216,6 +237,9 @@ ManageContribution.propTypes = {
     }).isRequired,
     initiateContribution: PropTypes.shape({
       POST: PropTypes.func,
+    }).isRequired,
+    jobs: PropTypes.shape({
+      DELETE: PropTypes.func,
     }).isRequired,
   }),
 };

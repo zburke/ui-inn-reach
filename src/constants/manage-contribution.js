@@ -32,6 +32,7 @@ export const CONTRIBUTION_STATUSES = {
   IN_PROGRESS: 'In Progress',
   PAUSED: 'Paused',
   COMPLETE: 'Complete',
+  CANCELLED: 'Cancelled',
 };
 
 export const CONTRIBUTION_STATUS_LABELS = {
@@ -39,6 +40,7 @@ export const CONTRIBUTION_STATUS_LABELS = {
   [CONTRIBUTION_STATUSES.IN_PROGRESS]: 'ui-inn-reach.settings.manage-contribution.contribution-status.in-progress',
   [CONTRIBUTION_STATUSES.PAUSED]: 'ui-inn-reach.settings.manage-contribution.contribution-status.paused',
   [CONTRIBUTION_STATUSES.COMPLETE]: 'ui-inn-reach.settings.manage-contribution.contribution-status.complete',
+  [CONTRIBUTION_STATUSES.CANCELLED]: 'ui-inn-reach.settings.manage-contribution.contribution-status.cancelled',
 };
 
 export const ITEM_TYPE_MAPPING_STATUSES = {
