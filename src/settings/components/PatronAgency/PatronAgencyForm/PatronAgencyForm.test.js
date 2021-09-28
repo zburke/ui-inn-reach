@@ -43,7 +43,7 @@ const agencyCodeOptions = [
 
 const defaultInitialValues = {
   customFieldId: 'f72a0b4b-21df-4985-8c9f-0d5c910296c3',
-  userCustomFieldMappings: [
+  configuredOptions: [
     {
       customFieldValue: 'qwerty1',
     },
@@ -111,7 +111,7 @@ describe('PatronAgencyForm', () => {
       const { getByRole } = renderCentralPatronTypeForm(commonProps);
 
       document.getElementById('option-centralServerId-0-f8723a94-25d5-4f19-9043-cc3c306d54a1').click();
-      document.getElementById('option-userCustomFieldMappings[0].agencyCode-0-0-1qwer').click();
+      document.getElementById('option-configuredOptions[0].agencyCode-0-0-1qwer').click();
       expect(getByRole('button', { name: 'Save' })).toBeEnabled();
     });
 

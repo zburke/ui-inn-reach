@@ -9,9 +9,6 @@ import {
 } from 'react-final-form';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {
-  required,
-} from '../../../../../../utils';
 import css from '../../TableStyleList.css';
 
 const DefaultRow = ({
@@ -46,7 +43,7 @@ const DefaultRow = ({
           aria-label={ariaLabel}
           component={Selection}
           dataOptions={dataOptions}
-          validate={validate || required}
+          validate={validate || undefined}
         />
       </Col>
     </Row>

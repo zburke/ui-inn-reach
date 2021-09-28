@@ -309,5 +309,8 @@
   "title.list.transactions": "INN-Reach transactions",
   "search": "Search",
   "resetAllFilters": "Reset all",
-  "searchAndFilter": "Select activity"
+  "searchAndFilter": "Select activity",
+  
+  "settings.patron-agency.callout.connectionProblem.create": "Unable to create data due to a module error. Please try again. If a problem persists please contact your system administrator",
+  "settings.patron-agency.callout.connectionProblem.update": "Unable to updated data due to a module error. Please try again. If a problem persists please contact your system administrator"
 }

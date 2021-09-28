@@ -22,6 +22,9 @@ import {
 import {
   TableStyleList,
 } from '../../common';
+import {
+  required,
+} from '../../../../utils';
 
 const {
   PATRON_TYPE_MAPPINGS,
@@ -92,6 +95,7 @@ const CentralPatronTypeForm = ({
             rightFieldName={PATRON_TYPE}
             dataOptions={patronTypeOptions}
             ariaLabel={<FormattedMessage id="ui-inn-reach.settings.central-patron-type.field.patron-type" />}
+            validate={required}
           />
         }
       </form>
