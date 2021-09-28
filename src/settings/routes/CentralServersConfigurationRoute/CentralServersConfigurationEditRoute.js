@@ -102,7 +102,7 @@ const CentralServersConfigurationEditRoute = ({
       })
       .catch(error => {
         const message = error.status === 400
-          ? <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.invalidData" />
+          ? <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.invalidData" />
           : <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.connectionProblem.put" />;
 
         showCallout({

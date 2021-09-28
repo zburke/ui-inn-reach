@@ -111,12 +111,6 @@ const CentralConfigurationForm = ({
     setSections(prevState => ({ ...prevState, [id]: !prevState[id] }));
   };
 
-  const getIsCentralServerDataChanged = () => (
-    initialValues[CENTRAL_SERVER_ADDRESS] !== dirtyFieldsSinceLastSubmit[CENTRAL_SERVER_ADDRESS] ||
-    initialValues[CENTRAL_SERVER_KEY] !== dirtyFieldsSinceLastSubmit[CENTRAL_SERVER_KEY] ||
-    initialValues[CENTRAL_SERVER_SECRET] !== dirtyFieldsSinceLastSubmit[CENTRAL_SERVER_SECRET]
-  );
-
   const toggleSecretMask = () => {
     setIsSecretFieldsHaveMask(prevState => !prevState);
   };
@@ -163,7 +157,7 @@ const CentralConfigurationForm = ({
         data-testid="save-button"
         buttonStyle="primary mega"
         type="submit"
-        disabled={invalid || !getIsCentralServerDataChanged() || pristine}
+        disabled={invalid || pristine}
         onClick={handleSubmit}
       >
         <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.button.save&close" />

@@ -58,7 +58,7 @@ const CentralServersConfigurationViewRoute = ({
 
   const showCallout = useCallout();
   const {
-    onShowFilteredSections,
+    onDeleteCentralServer,
   } = useContext(SettingsContext);
 
   useEffect(
@@ -93,7 +93,7 @@ const CentralServersConfigurationViewRoute = ({
     setConfirmDeleteModalOpen(false);
     mutator.viewCentralServersConfiguration.DELETE({ id })
       .then(() => {
-        onShowFilteredSections();
+        onDeleteCentralServer(centralServer.name);
         showCallout({
           message: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.deleted" />
         });

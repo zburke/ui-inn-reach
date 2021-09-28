@@ -48,23 +48,23 @@ const InnReachSettings = ({
   const [sectionsToShow, setSectionsToShow] = useState(sections);
   const [isLoading, setIsLoading] = useState(false);
 
-  const showAllSections = () => {
-    setSectionsToShow(sections);
+  const addCentralServer = (newCentralServer) => {
+    setCentralServers(prev => [...prev, newCentralServer]);
   };
 
-  const showFilteredSections = () => {
-    const filteredSections = sections.filter(section => (
-      ![RECORD_CONTRIBUTION, CIRCULATION_MAPPINGS].includes(section.id)
-    ));
-
-    setSectionsToShow(filteredSections);
+  const deleteCentralServer = (centralServerName) => {
+    setCentralServers(prev => prev.filter(({ name }) => name !== centralServerName));
   };
 
   useEffect(() => {
     if (isEmpty(centralServers)) {
-      showFilteredSections();
+      const filteredSections = sections.filter(section => (
+        ![RECORD_CONTRIBUTION, CIRCULATION_MAPPINGS].includes(section.id)
+      ));
+
+      setSectionsToShow(filteredSections);
     } else {
-      showAllSections();
+      setSectionsToShow(sections);
     }
   }, [centralServers]);
 
@@ -90,8 +90,8 @@ const InnReachSettings = ({
     <>
       <SettingsContext.Provider
         value={{
-          onShowAllSections: showAllSections,
-          onShowFilteredSections: showFilteredSections,
+          onAddCentralServer: addCentralServer,
+          onDeleteCentralServer: deleteCentralServer,
         }}
       >
         <CalloutContext.Provider value={calloutRef.current}>
