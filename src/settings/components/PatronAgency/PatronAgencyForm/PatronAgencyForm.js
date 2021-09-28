@@ -54,7 +54,7 @@ const PatronAgencyForm = ({
   };
 
   const getFooter = () => {
-    const disabled = pristine || values[CONFIGURED_OPTIONS].every(option => !option[AGENCY_CODE]);
+    const disabled = pristine || values[CONFIGURED_OPTIONS]?.every(option => !option[AGENCY_CODE]);
     const saveButton = (
       <Button
         marginBottom0
