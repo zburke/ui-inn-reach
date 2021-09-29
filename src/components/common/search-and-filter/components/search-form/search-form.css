@@ -1,0 +1,21 @@
+@import "@folio/stripes-components/lib/variables";
+
+.searchField {
+  margin-bottom: calc(var(--control-margin-bottom) / 2);
+}
+
+.insideForm {
+  display: flex;
+  align-items: center;
+  margin: var(--control-margin-bottom);
+}
+
+.insideSearch {
+  width: calc(var(--container-max-width) * 9);
+  margin-right: var(--gutter-static-two-thirds);
+}
+
+.insideBtn {
+  width: calc(var(--container-max-width) / 5);
+  margin: var(--input-vertical-padding);
+}

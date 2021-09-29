@@ -9,7 +9,7 @@ import InnReach from './index';
 
 jest.mock('./settings', () => () => 'InnReachSettings');
 
-const renderPrimeRoutes = (props) => {
+const renderSettingsRoutes = (props) => {
   const history = createMemoryHistory();
 
   return render(
@@ -27,7 +27,7 @@ const renderPrimeRoutes = (props) => {
   );
 };
 
-describe('InnReach component', () => {
+describe('InnReach settings', () => {
   let stripes;
 
   beforeEach(() => {
@@ -35,7 +35,7 @@ describe('InnReach component', () => {
   });
 
   it('should be rendered', () => {
-    const { container, getByText } = renderPrimeRoutes({ stripes });
+    const { container, getByText } = renderSettingsRoutes({ stripes });
 
     expect(container).toBeVisible();
     expect(getByText('InnReachSettings')).toBeDefined();

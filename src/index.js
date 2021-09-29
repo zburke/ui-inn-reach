@@ -9,12 +9,16 @@ import {
   Route,
   stripesShape,
   Switch,
+  Redirect,
 } from '@folio/stripes/core';
 
 import InnReachSettings from './settings';
 import {
   sections,
 } from './constants/sections';
+import {
+  TransactionListRoute,
+} from './routes';
 
 export default function InnReach({
   showSettings,
@@ -45,6 +49,16 @@ export default function InnReach({
       </Route>
     );
   }
+
+  return (
+    <Switch>
+      <Route
+        component={TransactionListRoute}
+        path={`${path}/transactions`}
+      />
+      <Redirect to={`${path}/transactions`} />
+    </Switch>
+  );
 }
 
 InnReach.propTypes = {
