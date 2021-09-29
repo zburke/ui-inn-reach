@@ -1,3 +1,4 @@
+export const APP_NAME = 'inn-reach';
 export const MODULE_NAME = 'INN-Reach';
 export const MODULE_ROUTE = 'innreach';
 
@@ -17,8 +18,10 @@ export const ICONS = {
   DELETE: 'trash',
   ARROW_UP: 'arrow-up',
   ARROW_DOWN: 'arrow-down',
+  TIMES_CIRCLE_SOLID: 'times-circle-solid',
 };
 
+export const FILTER_PANE_WIDTH = '320px';
 export const ENTITY_NOT_FOUND_STATUS_CODE = 404;
 export const UNPROCESSABLE_ENTITY_STATUS_CODE = 422;
 
@@ -29,3 +32,9 @@ export const NO_VALUE_OPTION_VALUE = '';
 export const CENTRAL_SERVERS_LIMITING = 9999;
 
 export const CENTRAL_SERVER_ID = 'centralServerId';
+
+export const DATE_FORMAT = 'YYYY-MM-DD';
+
+export const ICON_KEYS = {
+  APP: 'app',
+};

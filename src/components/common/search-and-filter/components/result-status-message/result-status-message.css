@@ -1,0 +1,3 @@
+.negativeIndexPosition div[class^="noResultsMessage--"] {
+  z-index: -1;
+}
