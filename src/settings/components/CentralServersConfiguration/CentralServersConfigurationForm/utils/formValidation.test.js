@@ -1,15 +1,15 @@
 import {
-  validateLocalServerCode,
+  validateServerCode,
   validateLocalAgency,
 } from './formValidation';
 import { DEFAULT_VALUES } from '../../../../routes/CentralServersConfigurationRoute/CentralServersConfigurationCreateEditContainer';
 
 describe('formValidation utils', () => {
-  describe('validateLocalServerCode', () => {
+  describe('validateServerCode', () => {
     it('should return the correct value', () => {
-      expect(validateLocalServerCode()).toBeDefined();
-      expect(validateLocalServerCode('asdfg')).toBeUndefined();
-      expect(validateLocalServerCode('1aSdfdge')).toBeDefined();
+      expect(validateServerCode()).toBeDefined();
+      expect(validateServerCode('asdfg')).toBeUndefined();
+      expect(validateServerCode('1aSdfdge')).toBeDefined();
     });
   });
 

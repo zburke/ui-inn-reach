@@ -1,5 +1,5 @@
-textarea {
-  margin-bottom: 0 !important;
+.textareaContainer textarea {
+  margin-bottom: 0;
 }
 
 .tabularContainer {
@@ -47,5 +47,5 @@ textarea {
 }
 
 .selectControl option:disabled {
-  background-color: var(--color-fill-disabled) !important;
+  background-color: var(--color-fill-disabled);
 }

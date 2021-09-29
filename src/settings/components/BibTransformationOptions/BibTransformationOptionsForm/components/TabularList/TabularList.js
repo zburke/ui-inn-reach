@@ -112,7 +112,7 @@ const TabularList = ({
                   type="checkbox"
                 />
               </Col>
-              <Col className={classNames(css.tabularCol, css.customColMdWidth)}>
+              <Col className={classNames(css.tabularCol, css.customColMdWidth, css.textareaContainer)}>
                 <Field
                   id={`${name}.${IGNORE_PREFIXES}-${index}`}
                   name={`${name}.${IGNORE_PREFIXES}`}

@@ -48,6 +48,33 @@ const serverOptions = [
   },
 ];
 
+const currentContribution = {
+  itemTypeMappingStatus: 'Valid',
+  locationsMappingStatus: 'Valid',
+  status: 'Not started',
+};
+
+const contributionInProgress = {
+  contributionStarted: '2021-09-23T15:58:21.011+00:00',
+  contributionStartedBy: 'diku_admin',
+  errors: [],
+  id: 'c3402202-cf99-4373-8543-47e358432dfb',
+  itemTypeMappingStatus: 'Valid',
+  jobId: 'a471a791-17dd-4728-88dc-9784cc46064a',
+  locationsMappingStatus: 'Valid',
+  recordsContributed: 0,
+  recordsDecontributed: 0,
+  recordsProcessed: 0,
+  recordsTotal: 0,
+  recordsUpdated: 0,
+  status: 'In Progress',
+};
+
+const contributionCancelled = {
+  ...contributionInProgress,
+  status: 'Cancelled',
+};
+
 const resourcesMock = {
   centralServerRecords: {
     records: [{ centralServers: servers }],
@@ -61,13 +88,17 @@ const mutatorMock = {
     replace: jest.fn(),
   },
   currentContribution: {
-    GET: jest.fn(() => Promise.resolve()),
+    GET: jest.fn(() => Promise.resolve(currentContribution)),
   },
   contributionHistory: {
     GET: jest.fn(() => Promise.resolve()),
   },
   initiateContribution: {
     GET: jest.fn(() => Promise.resolve()),
+    POST: jest.fn(() => Promise.resolve()),
+  },
+  jobs: {
+    DELETE: jest.fn(() => Promise.resolve()),
   },
 };
 
@@ -130,6 +161,50 @@ describe('renderManageContributionRoute component', () => {
 
     it('should pass the selected server', () => {
       expect(ManageContributionView.mock.calls[3][0].selectedServer).toEqual(servers[1]);
+    });
+  });
+
+  describe('handleInitiateContribution', () => {
+    const newMutator = cloneDeep(mutatorMock);
+
+    newMutator.currentContribution.GET = jest.fn(() => Promise.resolve(contributionInProgress));
+
+    beforeEach(async () => {
+      renderManageContributionRoute({ mutator: newMutator });
+      await act(async () => { await ManageContributionView.mock.calls[1][0].onChangeServer(servers[1].name); });
+      await act(async () => { ManageContributionView.mock.calls[3][0].onInitiateContribution(); });
+    });
+
+    it('should trigger an initial contribution', async () => {
+      expect(newMutator.initiateContribution.POST).toHaveBeenCalled();
+    });
+
+    it('should fetch the current contribution state', async () => {
+      expect(newMutator.currentContribution.GET).toHaveBeenCalled();
+    });
+
+    it('should fetch the current contribution state', async () => {
+      expect(ManageContributionView.mock.calls[5][0].currentContribution).toEqual(contributionInProgress);
+    });
+  });
+
+  describe('handleCancelContribution', () => {
+    const newMutator = cloneDeep(mutatorMock);
+
+    newMutator.currentContribution.GET = jest.fn(() => Promise.resolve(contributionCancelled));
+
+    beforeEach(async () => {
+      renderManageContributionRoute({ mutator: newMutator });
+      await act(async () => { await ManageContributionView.mock.calls[1][0].onChangeServer(servers[1].name); });
+      await act(async () => { ManageContributionView.mock.calls[3][0].onCancelContribution(); });
+    });
+
+    it('should be canceled the contribution process', () => {
+      expect(newMutator.jobs.DELETE).toHaveBeenCalledWith({ id: contributionCancelled.jobId });
+    });
+
+    it('should fetch the current contribution state', () => {
+      expect(newMutator.currentContribution.GET).toHaveBeenCalled();
     });
   });
 });

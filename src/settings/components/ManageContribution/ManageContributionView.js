@@ -1,43 +1,22 @@
-import React, {
-  useRef,
-} from 'react';
-
+import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-
 import {
   Button,
   ButtonGroup,
   Pane,
-  PaneFooter,
   Selection,
   Loading,
-  Tooltip,
 } from '@folio/stripes-components';
-
 import {
-  MANAGE_CONTRIBUTION_FIELDS,
-  CONTRIBUTION_STATUSES,
   DEFAULT_PANE_WIDTH,
   CENTRAL_SERVER_ID,
-  ITEM_TYPE_MAPPING_STATUSES,
-  LOCATIONS_MAPPING_STATUSES,
 } from '../../../constants';
 import {
   CurrentContribution,
   ContributionHistory,
+  Footer,
 } from './components';
-import css from './ManageContributionView.css';
-
-const {
-  STATUS,
-  ITEM_TYPE_MAPPING_STATUS,
-  LOCATIONS_MAPPING_STATUS,
-} = MANAGE_CONTRIBUTION_FIELDS;
-
-const {
-  NOT_STARTED,
-} = CONTRIBUTION_STATUSES;
 
 const ManageContributionView = ({
   currentContribution,
@@ -52,55 +31,24 @@ const ManageContributionView = ({
   selectedServer,
   onChangeServer,
   onInitiateContribution,
+  onCancelContribution,
   onNeedMoreContributionHistoryData,
 }) => {
   const { formatMessage } = useIntl();
-  const initiateContributionRef = useRef(null);
-  const canInitiateContribution = currentContribution[STATUS]
-    && currentContribution[STATUS] === NOT_STARTED &&
-    currentContribution[ITEM_TYPE_MAPPING_STATUS] === ITEM_TYPE_MAPPING_STATUSES.VALID &&
-    currentContribution[LOCATIONS_MAPPING_STATUS] === LOCATIONS_MAPPING_STATUSES.VALID;
-  const ariaLabelledby = !canInitiateContribution ? { 'aria-labelledby': 'tooltip-text' } : {};
-  const getFooter = () => {
-    const initiateContributionBtn = (
-      <>
-        <div
-          ref={initiateContributionRef}
-          className={css.tooltipWrapper}
-          {...ariaLabelledby}
-        >
-          <Button
-            marginBottom0
-            data-testid="initiate-contribution"
-            id="clickable-initiate-contribution"
-            buttonStyle="primary mega"
-            disabled={!canInitiateContribution}
-            onClick={onInitiateContribution}
-          >
-            <FormattedMessage id="ui-inn-reach.settings.manage-contribution.button.initiate-contribution" />
-          </Button>
-        </div>
-        {!canInitiateContribution &&
-          <Tooltip
-            id="save-button-tooltip"
-            name="tooltip-text"
-            text={<FormattedMessage id="ui-inn-reach.settings.manage-contribution.tooltip.check-mappings" />}
-            triggerRef={initiateContributionRef}
-          />
-        }
-
-      </>
+  const footer = !selectedServer.id || showContributionHistory
+    ? null
+    : (
+      <Footer
+        currentContribution={currentContribution}
+        onInitiateContribution={onInitiateContribution}
+        onCancelContribution={onCancelContribution}
+      />
     );
-
-    return !selectedServer.id || showContributionHistory || currentContribution[STATUS] !== NOT_STARTED
-      ? null
-      : <PaneFooter renderEnd={initiateContributionBtn} />;
-  };
 
   return (
     <Pane
       defaultWidth={DEFAULT_PANE_WIDTH}
-      footer={getFooter()}
+      footer={footer}
       paneTitle={<FormattedMessage id='ui-inn-reach.settings.manage-contribution.title' />}
     >
       <>
@@ -160,6 +108,7 @@ ManageContributionView.propTypes = {
   selectedServer: PropTypes.object.isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   showContributionHistory: PropTypes.bool.isRequired,
+  onCancelContribution: PropTypes.func.isRequired,
   onChangeServer: PropTypes.func.isRequired,
   onInitiateContribution: PropTypes.func.isRequired,
   onNeedMoreContributionHistoryData: PropTypes.func.isRequired,

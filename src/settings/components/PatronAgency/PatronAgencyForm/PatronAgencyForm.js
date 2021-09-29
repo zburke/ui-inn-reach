@@ -54,12 +54,13 @@ const PatronAgencyForm = ({
   };
 
   const getFooter = () => {
+    const disabled = pristine || values[CONFIGURED_OPTIONS]?.every(option => !option[AGENCY_CODE]);
     const saveButton = (
       <Button
         marginBottom0
         buttonStyle="primary mega"
         type="submit"
-        disabled={pristine}
+        disabled={disabled}
         onClick={handleSubmit}
       >
         <FormattedMessage id="ui-inn-reach.settings.patron-agency.button.save" />

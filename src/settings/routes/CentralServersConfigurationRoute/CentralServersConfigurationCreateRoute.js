@@ -1,6 +1,7 @@
 import React, {
   useState,
   useRef,
+  useContext,
 } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -27,6 +28,9 @@ import {
 import {
   getConvertedLocalAgenciesToCreateEdit,
 } from './utils';
+import {
+  SettingsContext,
+} from '../../../contexts';
 
 const CentralServersConfigurationCreateRoute = ({
   history,
@@ -35,6 +39,9 @@ const CentralServersConfigurationCreateRoute = ({
   const unblockRef = useRef();
   const showCallout = useCallout();
   const [openModal, setOpenModal] = useState(false);
+  const {
+    onShowAllSections,
+  } = useContext(SettingsContext);
 
   const navigateToList = () => history.push(getCentralServerConfigurationListUrl());
 
@@ -71,6 +78,8 @@ const CentralServersConfigurationCreateRoute = ({
       .then(() => {
         const fileName = `${name}-local-server-keypair`;
         const exportData = { localServerKey, localServerSecret };
+
+        onShowAllSections();
 
         if (localServerKey && localServerSecret) {
           downloadJsonFile(exportData, fileName);

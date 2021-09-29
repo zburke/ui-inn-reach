@@ -17,6 +17,7 @@ import {
 
 import {
   CalloutContext,
+  SettingsContext,
 } from '../contexts';
 import {
   CALLOUT_ERROR_TYPE,
@@ -47,15 +48,23 @@ const InnReachSettings = ({
   const [sectionsToShow, setSectionsToShow] = useState(sections);
   const [isLoading, setIsLoading] = useState(false);
 
+  const showAllSections = () => {
+    setSectionsToShow(sections);
+  };
+
+  const showFilteredSections = () => {
+    const filteredSections = sections.filter(section => (
+      ![RECORD_CONTRIBUTION, CIRCULATION_MAPPINGS].includes(section.id)
+    ));
+
+    setSectionsToShow(filteredSections);
+  };
+
   useEffect(() => {
     if (isEmpty(centralServers)) {
-      const filteredSections = sections.filter(section => (
-        ![RECORD_CONTRIBUTION, CIRCULATION_MAPPINGS].includes(section.id)
-      ));
-
-      setSectionsToShow(filteredSections);
+      showFilteredSections();
     } else {
-      setSectionsToShow(sections);
+      showAllSections();
     }
   }, [centralServers]);
 
@@ -79,14 +88,21 @@ const InnReachSettings = ({
 
   return (
     <>
-      <CalloutContext.Provider value={calloutRef.current}>
-        <Settings
-          path={path}
-          sections={sectionsToShow}
-          location={location}
-        />
-        {children}
-      </CalloutContext.Provider>
+      <SettingsContext.Provider
+        value={{
+          onShowAllSections: showAllSections,
+          onShowFilteredSections: showFilteredSections,
+        }}
+      >
+        <CalloutContext.Provider value={calloutRef.current}>
+          <Settings
+            path={path}
+            sections={sectionsToShow}
+            location={location}
+          />
+          {children}
+        </CalloutContext.Provider>
+      </SettingsContext.Provider>
       <Callout ref={calloutRef} />
     </>
   );
