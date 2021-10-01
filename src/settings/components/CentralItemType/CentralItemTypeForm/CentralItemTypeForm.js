@@ -91,12 +91,12 @@ const CentralItemTypeForm = ({
         <TableStyleList
           requiredRightCol
           fieldArrayName={ITEM_TYPE_MAPPINGS}
-          leftTitle={<FormattedMessage id="ui-inn-reach.settings.central-patron-type.field.folio-patron-groups" />}
-          rightTitle={<FormattedMessage id="ui-inn-reach.settings.central-patron-type.field.patron-type" />}
+          leftTitle={<FormattedMessage id="ui-inn-reach.settings.central-item-type.field.item-type" />}
+          rightTitle={<FormattedMessage id="ui-inn-reach.settings.central-item-type.field.folio-material-type" />}
           leftFieldName={ITEM_TYPE_LABEL}
           rightFieldName={MATERIAL_TYPE_ID}
           dataOptions={folioMaterialTypeOptions}
-          ariaLabel={<FormattedMessage id="ui-inn-reach.settings.central-patron-type.field.patron-type" />}
+          ariaLabel={<FormattedMessage id="ui-inn-reach.settings.central-item-type.field.item-type" />}
         />
       }
     </Pane>
