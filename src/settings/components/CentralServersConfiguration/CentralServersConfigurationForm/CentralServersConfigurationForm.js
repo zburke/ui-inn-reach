@@ -73,7 +73,6 @@ const CentralConfigurationForm = ({
   onCancel,
   handleSubmit,
   invalid,
-  dirtyFieldsSinceLastSubmit,
   form,
   pristine,
   onChangePristineState,
@@ -377,7 +376,6 @@ const CentralConfigurationForm = ({
 };
 
 CentralConfigurationForm.propTypes = {
-  dirtyFieldsSinceLastSubmit: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
@@ -395,7 +393,6 @@ export default stripesFinalForm({
   validate,
   subscription: {
     invalid: true,
-    dirtyFieldsSinceLastSubmit: true,
     values: true,
   },
   initialValuesEqual: (a, b) => isEqual(a, b),

@@ -93,7 +93,7 @@ const CentralServersConfigurationCreateRoute = ({
         if (error.status === 400) {
           message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.invalidData" />;
         } else if (error.status === 409) {
-          message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.localAgencyNotUnique" />;
+          message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.notUnique" />;
         } else {
           message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.connectionProblem.post" />;
         }

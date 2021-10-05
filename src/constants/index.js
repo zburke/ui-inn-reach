@@ -14,3 +14,4 @@ export * from './patron-agency';
 export * from './transactions';
 export * from './api';
 export * from './search';
+export * from './transaction-detail';
