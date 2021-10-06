@@ -11,14 +11,18 @@ import css from './ActionItem.css';
 
 const ActionItem = ({
   id,
+  buttonStyle,
   icon,
+  size,
   buttonTextTranslationKey,
+  disabled,
   onClickHandler,
   onToggle,
 }) => (
   <Button
     id={id}
-    buttonStyle="dropdownItem"
+    buttonStyle={buttonStyle}
+    disabled={disabled}
     onClick={() => {
       onToggle();
       onClickHandler();
@@ -26,7 +30,7 @@ const ActionItem = ({
   >
     <Icon
       icon={icon}
-      size="medium"
+      size={size}
       iconClassName={css.actionIcon}
     />
     <FormattedMessage id={buttonTextTranslationKey} />
@@ -36,9 +40,17 @@ const ActionItem = ({
 ActionItem.propTypes = {
   buttonTextTranslationKey: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
   onClickHandler: PropTypes.func.isRequired,
-  onToggle: PropTypes.func.isRequired
+  onToggle: PropTypes.func.isRequired,
+  buttonStyle: PropTypes.string,
+  disabled: PropTypes.bool,
+  id: PropTypes.string,
+  size: PropTypes.string,
+};
+
+ActionItem.defaultProps = {
+  size: 'medium',
+  buttonStyle: 'dropdownItem',
 };
 
 export default ActionItem;

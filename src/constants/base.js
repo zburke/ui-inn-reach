@@ -18,7 +18,11 @@ export const ICONS = {
   DELETE: 'trash',
   ARROW_UP: 'arrow-up',
   ARROW_DOWN: 'arrow-down',
+  TIMES_CIRCLE: 'times-circle',
   TIMES_CIRCLE_SOLID: 'times-circle-solid',
+  CHECK_OUT: 'check-out',
+  CHECK_IN: 'check-in',
+  RECEIVE: 'receive',
 };
 
 export const FILTER_PANE_WIDTH = '320px';
@@ -37,4 +41,10 @@ export const DATE_FORMAT = 'YYYY-MM-DD';
 
 export const ICON_KEYS = {
   APP: 'app',
+};
+
+export const TRANSACTION_TYPES = {
+  ITEM: 'item',
+  PATRON: 'patron',
+  LOCAL: 'local',
 };
