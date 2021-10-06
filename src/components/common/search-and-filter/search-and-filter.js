@@ -19,6 +19,8 @@ import {
   ResultStatusMessage,
 } from './components';
 
+import TransactionListFilters from '../../transaction/transaction-list-filters';
+
 import {
   useLocationFilters,
   useLocationSorting,
@@ -47,7 +49,7 @@ const SearchAndFilter = ({
   const [
     filters,
     searchQuery,
-    applyFilters, // eslint-disable-line
+    applyFilters,
     applySearch,
     changeSearch,
     resetFilters,
@@ -71,7 +73,12 @@ const SearchAndFilter = ({
   const getResultsPaneFilters = !isFiltersOpened ? filters : {};
 
   const getFilters = useCallback(() => {
-    return null;
+    return (
+      <TransactionListFilters
+        activeFilters={filters}
+        applyFilters={applyFilters}
+      />
+    );
   }, [location, filters]);
 
   const renderLastMenu = () => {
