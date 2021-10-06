@@ -23,7 +23,6 @@ const TransactionListFilters = ({
   activeFilters,
   applyFilters,
 }) => {
-
   const adaptedApplyFilters = useCallback(
     applyFiltersAdapter(applyFilters),
     [applyFilters],
@@ -48,7 +47,6 @@ const TransactionListFilters = ({
     </AccordionSet>
   );
 };
-
 
 TransactionListFilters.propTypes = {
   activeFilters: PropTypes.object.isRequired,
