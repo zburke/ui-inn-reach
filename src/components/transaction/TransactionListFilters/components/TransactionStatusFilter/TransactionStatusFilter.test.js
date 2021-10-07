@@ -4,15 +4,19 @@ import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jes
 import user from '@testing-library/user-event';
 
 import TransactionStatusFilter from './TransactionStatusFilter';
+import { translationsProperties } from '../../../../../../test/jest/helpers';
 
-const TRANSACTION_STRATUS_FILTER_LABEL = 'ui-inn-reach.transaction.transactionStatus';
-
-const renderTransactionStatusFilter = (props = {}) => (renderWithIntl(
+const renderTransactionStatusFilter = ({
+  activeFilters = [],
+  onChange,
+}) => (renderWithIntl(
   <TransactionStatusFilter
     id="transaction-filter-transactionStatus"
     name="transactionStatus"
-    {...props}
+    activeFilters={activeFilters}
+    onChange={onChange}
   />,
+  translationsProperties,
 ));
 
 describe('TransactionStatusFilter', () => {
@@ -24,7 +28,7 @@ describe('TransactionStatusFilter', () => {
 
   it('should display Transaction status filter', () => {
     renderTransactionStatusFilter({ onChange });
-    expect(screen.getByText(TRANSACTION_STRATUS_FILTER_LABEL)).toBeDefined();
+    expect(screen.getByText('Transaction status')).toBeDefined();
   });
 
   it('should call onChange', () => {
