@@ -316,6 +316,7 @@
   "transaction.filter.transactionType.item": "Item",
   "transaction.filter.transactionType.patron": "Patron",
   "transaction.filter.transactionType.local": "Local",
+  "transaction.filter.transactionStatus": "Transaction status",
 
   "title.list.transactions": "INN-Reach transactions",
   "search": "Search",

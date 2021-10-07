@@ -11,7 +11,12 @@ import {
 } from '../../common';
 
 import {
+  TransactionStatusFilter,
+} from './components';
+
+import {
   TRANSACTION_TYPE_FILTER_PARAMETER,
+  TRANSACTION_STATUS_FILTER_PARAMETER,
   TRANSACTION_TYPES,
 } from '../../../constants';
 import {
@@ -42,6 +47,12 @@ const TransactionListFilters = ({
         labelId="ui-inn-reach.transaction.filter.transactionType"
         name={TRANSACTION_TYPE_FILTER_PARAMETER}
         options={getTransactionTypeDataOptions}
+        onChange={adaptedApplyFilters}
+      />
+      <TransactionStatusFilter
+        activeFilters={activeFilters[TRANSACTION_STATUS_FILTER_PARAMETER]}
+        id={`transaction-filter-${TRANSACTION_STATUS_FILTER_PARAMETER}`}
+        name={TRANSACTION_STATUS_FILTER_PARAMETER}
         onChange={adaptedApplyFilters}
       />
     </AccordionSet>
