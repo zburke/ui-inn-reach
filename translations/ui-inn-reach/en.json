@@ -312,6 +312,12 @@
   "transaction.field.label.transactionType.Patron": "Patron",
   "transaction.field.label.transactionType.Local": "Local",
 
+  "transaction.transactionType": "Transaction type",
+  "transaction.transactionType.item": "Item",
+  "transaction.transactionType.patron": "Patron",
+  "transaction.transactionType.local": "Local",
+  "transaction.transactionStatus": "Transaction status",
+
   "title.list.transactions": "INN-Reach transactions",
   "search": "Search",
   "resetAllFilters": "Reset all",

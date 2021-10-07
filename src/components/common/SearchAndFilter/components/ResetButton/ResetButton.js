@@ -7,7 +7,7 @@ import {
   Icon,
 } from '@folio/stripes/components';
 
-import css from './reset-button.css';
+import css from './ResetButton.css';
 import {
   ICONS,
 } from '../../../../../constants';
