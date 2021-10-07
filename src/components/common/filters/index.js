@@ -1,2 +1,2 @@
-export { default as CheckboxFilter } from './checkbox-filter';
-export { default as FilterAccordion } from './filter-accordion';
+export { default as CheckboxFilter } from './CheckboxFilter';
+export { default as FilterAccordion } from './FilterAccordion';
