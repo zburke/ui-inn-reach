@@ -291,5 +291,10 @@
     "title.list.transactions": "معاملات INN-Reach",
     "search": "بحث",
     "resetAllFilters": "إعادة تعيين الكل",
-    "searchAndFilter": "حدد نشاطاً"
+    "searchAndFilter": "حدد نشاطاً",
+    "transaction.transactionType": "نوع المعاملة",
+    "transaction.transactionType.item": "مادة",
+    "transaction.transactionType.patron": "مستفيد",
+    "transaction.transactionType.local": "محلي",
+    "transaction.transactionStatus": "حالة المعاملة"
 }
