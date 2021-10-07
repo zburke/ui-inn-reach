@@ -36,7 +36,7 @@ const TransactionListFilters = ({
   const getTransactionTypeDataOptions = useMemo(() => (
     getCheckboxFilterOptions(
       TRANSACTION_TYPE_FILTER_PARAMETER,
-      TRANSACTION_TYPES,
+      Object.values(TRANSACTION_TYPES),
     )), [TRANSACTION_TYPES]);
 
   return (
@@ -44,7 +44,7 @@ const TransactionListFilters = ({
       <CheckboxFilter
         activeFilters={activeFilters[TRANSACTION_TYPE_FILTER_PARAMETER]}
         id={TRANSACTION_TYPE_FILTER_PARAMETER}
-        labelId="ui-inn-reach.transaction.filter.transactionType"
+        labelId="ui-inn-reach.transaction.transactionType"
         name={TRANSACTION_TYPE_FILTER_PARAMETER}
         options={getTransactionTypeDataOptions}
         onChange={adaptedApplyFilters}

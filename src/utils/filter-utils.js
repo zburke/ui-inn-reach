@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 export const getCheckboxFilterOptions = (filterName, options) => options.map(filterValue => ({
-  label: <FormattedMessage id={`ui-inn-reach.transaction.filter.${filterName}.${filterValue}`} />,
+  label: <FormattedMessage id={`ui-inn-reach.transaction.${filterName}.${filterValue}`} />,
   value: filterValue
 }));
 

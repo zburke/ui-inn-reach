@@ -9,7 +9,7 @@ import {
   TRANSACTION_STATUSES,
 } from '../../../../../constants';
 
-const TRANSACTION_STRATUS_FILTER_LABEL = 'ui-inn-reach.transaction.filter.transactionStatus';
+const TRANSACTION_STRATUS_FILTER_LABEL = 'ui-inn-reach.transaction.transactionStatus';
 
 const renderTransactionStatusFilter = (props = {}) => (renderWithIntl(
   <TransactionStatusFilter

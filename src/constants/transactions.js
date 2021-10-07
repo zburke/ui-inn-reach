@@ -17,6 +17,14 @@ export const TRANSACTION_STATUSES = {
   FINAL_CHECKIN: 'FINAL_CHECKIN',
 };
 
+export const TRANSACTION_TYPE_FILTER_PARAMETER = 'transactionType';
+export const TRANSACTION_STATUS_FILTER_PARAMETER = 'transactionStatus';
+export const TRANSACTION_TYPES = {
+  ITEM: 'item',
+  PATRON: 'patron',
+  LOCAL: 'local',
+};
+
 export const TRANSACTION_FIELDS = {
   ID: 'id',
   TIME: 'time',

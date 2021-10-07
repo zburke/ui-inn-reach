@@ -26,7 +26,7 @@ const TransactionStatusFilter = ({
 }) => {
   const statuses = useMemo(() => getTransactionStatusOptions(Object.values(TRANSACTION_STATUSES)), [TRANSACTION_STATUSES]);
   const intl = useIntl();
-  const labelId = 'ui-inn-reach.transaction.filter.transactionStatus';
+  const labelId = 'ui-inn-reach.transaction.transactionStatus';
   const label = useMemo(() => intl.formatMessage({ id: labelId }), [intl, labelId]);
 
   return (
