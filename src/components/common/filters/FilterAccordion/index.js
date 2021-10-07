@@ -1,1 +1,1 @@
-export { default } from './FilterAcordion';
+export { default } from './FilterAccordion';

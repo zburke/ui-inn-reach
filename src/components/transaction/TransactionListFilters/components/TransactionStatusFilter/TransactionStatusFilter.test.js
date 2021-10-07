@@ -5,10 +5,6 @@ import user from '@testing-library/user-event';
 
 import TransactionStatusFilter from './TransactionStatusFilter';
 
-import {
-  TRANSACTION_STATUSES,
-} from '../../../../../constants';
-
 const TRANSACTION_STRATUS_FILTER_LABEL = 'ui-inn-reach.transaction.transactionStatus';
 
 const renderTransactionStatusFilter = (props = {}) => (renderWithIntl(
@@ -33,10 +29,10 @@ describe('TransactionStatusFilter', () => {
 
   it('should call onChange', () => {
     renderTransactionStatusFilter({ onChange });
-    user.click(screen.getByText(TRANSACTION_STATUSES.ITEM_HOLD));
+    user.click(screen.getByText('ITEM_HOLD'));
     expect(onChange).toHaveBeenCalledWith({
       name: 'transactionStatus',
-      values: [TRANSACTION_STATUSES.ITEM_HOLD],
+      values: ['ITEM_HOLD'],
     });
   });
 });
