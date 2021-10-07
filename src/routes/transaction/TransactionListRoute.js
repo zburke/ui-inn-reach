@@ -13,7 +13,7 @@ import {
   useLocationReset,
   useList,
 } from '../../hooks';
-import TransactionList from '../../components/transaction/transaction-list';
+import TransactionList from '../../components/transaction/TransactionList';
 import {
   TRANSACTION_LIST_DEFAULT_SORT_FIELD,
   RESULT_COUNT_INCREMENT,

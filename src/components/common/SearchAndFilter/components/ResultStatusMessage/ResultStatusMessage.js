@@ -5,7 +5,7 @@ import { SearchAndSortNoResultsMessage } from '@folio/stripes/smart-components';
 
 import { SEARCH_PARAMETER } from '../../../../../constants';
 
-import css from './result-status-message.css';
+import css from './ResultStatusMessage.css';
 
 export default function ResultStatusMessage({
   filters,

@@ -10,7 +10,7 @@ import {
   SearchField,
 } from '@folio/stripes/components';
 
-import css from './search-form.css';
+import css from './SearchForm.css';
 
 const SearchForm = ({
   applySearch,
