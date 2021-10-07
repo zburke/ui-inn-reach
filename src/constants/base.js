@@ -42,9 +42,3 @@ export const DATE_FORMAT = 'YYYY-MM-DD';
 export const ICON_KEYS = {
   APP: 'app',
 };
-
-export const TRANSACTION_TYPES = {
-  ITEM: 'item',
-  PATRON: 'patron',
-  LOCAL: 'local',
-};
