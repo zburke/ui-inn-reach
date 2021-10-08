@@ -11,8 +11,7 @@ import {
 
 import { translationsProperties } from '../../../../test/jest/helpers';
 import CentralServersConfigurationCreateEditContainer from './CentralServersConfigurationCreateEditContainer';
-import CentralServersConfigurationForm
-  from '../../components/CentralServersConfiguration/CentralServersConfigurationForm';
+import CentralServersConfigurationForm from '../../components/CentralServersConfiguration/CentralServersConfigurationForm';
 
 const records = {
   id: '12345',
