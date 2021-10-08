@@ -11,9 +11,7 @@ import {
 } from './components';
 
 const {
-  ITEM,
   PATRON,
-  LOCAL,
 } = TRANSACTION_TYPES;
 
 const ActionMenu = ({
@@ -23,18 +21,12 @@ const ActionMenu = ({
   let actions;
 
   switch (transactionType) {
-    case ITEM:
-      actions = null;
-      break;
     case PATRON:
       actions = (
         <PatronActions
           onToggle={onToggle}
         />
       );
-      break;
-    case LOCAL:
-      actions = null;
       break;
     default:
       actions = null;

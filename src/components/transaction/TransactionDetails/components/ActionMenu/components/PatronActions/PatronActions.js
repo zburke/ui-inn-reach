@@ -9,6 +9,11 @@ import {
 
 const PatronActions = ({
   onToggle,
+  onCheckOut,
+  onReceiveItem,
+  onReceiveUnshippedItem,
+  onReturnItem,
+  onCancelHold,
 }) => {
   return (
     <>
@@ -16,31 +21,31 @@ const PatronActions = ({
         icon={ICONS.CHECK_OUT}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.action.check-out"
         onToggle={onToggle}
-        onClickHandler={() => null}
+        onClickHandler={onCheckOut}
       />
       <ActionItem
         icon={ICONS.RECEIVE}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.action.receive-item"
         onToggle={onToggle}
-        onClickHandler={() => null}
+        onClickHandler={onReceiveItem}
       />
       <ActionItem
         icon={ICONS.RECEIVE}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.action.receive-unshipped-item"
         onToggle={onToggle}
-        onClickHandler={() => null}
+        onClickHandler={onReceiveUnshippedItem}
       />
       <ActionItem
         icon={ICONS.CHECK_IN}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.action.return-item"
         onToggle={onToggle}
-        onClickHandler={() => null}
+        onClickHandler={onReturnItem}
       />
       <ActionItem
         icon={ICONS.TIMES_CIRCLE}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.action.cancel-hold"
         onToggle={onToggle}
-        onClickHandler={() => null}
+        onClickHandler={onCancelHold}
       />
     </>
   );
@@ -48,6 +53,11 @@ const PatronActions = ({
 
 PatronActions.propTypes = {
   onToggle: PropTypes.func.isRequired,
+  onCancelHold: PropTypes.func,
+  onCheckOut: PropTypes.func,
+  onReceiveItem: PropTypes.func,
+  onReceiveUnshippedItem: PropTypes.func,
+  onReturnItem: PropTypes.func,
 };
 
 export default PatronActions;

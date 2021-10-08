@@ -40,12 +40,12 @@ const ActionItem = ({
 ActionItem.propTypes = {
   buttonTextTranslationKey: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  onClickHandler: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
   buttonStyle: PropTypes.string,
   disabled: PropTypes.bool,
   id: PropTypes.string,
   size: PropTypes.string,
+  onClickHandler: PropTypes.func,
 };
 
 ActionItem.defaultProps = {
