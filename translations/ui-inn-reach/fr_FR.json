@@ -291,5 +291,10 @@
     "title.list.transactions": "INN-Reach transactions",
     "search": "Rechercher",
     "resetAllFilters": "Tout réinitialiser",
-    "searchAndFilter": "Sélectionnez l'activité"
+    "searchAndFilter": "Sélectionnez l'activité",
+    "transaction.transactionType": "Transaction type",
+    "transaction.transactionType.item": "Item",
+    "transaction.transactionType.patron": "Patron",
+    "transaction.transactionType.local": "Local",
+    "transaction.transactionStatus": "Transaction status"
 }

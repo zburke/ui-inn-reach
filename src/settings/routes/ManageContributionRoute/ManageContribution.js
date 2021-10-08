@@ -208,7 +208,8 @@ ManageContribution.manifest = Object.freeze({
   },
   jobs: {
     type: 'okapi',
-    path: 'instance-storage/instances/iteration/:{id}',
+    path: 'instance-storage/instances/iteration',
+    clientGeneratePk: false,
     accumulate: true,
     fetch: false,
     throwErrors: false,

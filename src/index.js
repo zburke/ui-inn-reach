@@ -13,6 +13,7 @@ import {
 } from '@folio/stripes/core';
 
 import InnReachSettings from './settings';
+import TransactionDetailContainer from './components/transaction/TransactionDetails';
 import {
   sections,
 } from './constants/sections';
@@ -55,7 +56,12 @@ export default function InnReach({
       <Route
         component={TransactionListRoute}
         path={`${path}/transactions`}
-      />
+      >
+        <Route
+          path={`${path}/transactions/:id/view`}
+          component={TransactionDetailContainer}
+        />
+      </Route>
       <Redirect to={`${path}/transactions`} />
     </Switch>
   );

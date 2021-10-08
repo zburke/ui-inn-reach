@@ -40,7 +40,7 @@ const CentralServersConfigurationCreateRoute = ({
   const showCallout = useCallout();
   const [openModal, setOpenModal] = useState(false);
   const {
-    onShowAllSections,
+    onAddCentralServer,
   } = useContext(SettingsContext);
 
   const navigateToList = () => history.push(getCentralServerConfigurationListUrl());
@@ -79,7 +79,7 @@ const CentralServersConfigurationCreateRoute = ({
         const fileName = `${name}-local-server-keypair`;
         const exportData = { localServerKey, localServerSecret };
 
-        onShowAllSections();
+        onAddCentralServer(updatedRecord);
 
         if (localServerKey && localServerSecret) {
           downloadJsonFile(exportData, fileName);
@@ -91,7 +91,9 @@ const CentralServersConfigurationCreateRoute = ({
         let message;
 
         if (error.status === 400) {
-          message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.create-edit.invalidData" />;
+          message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.invalidData" />;
+        } else if (error.status === 409) {
+          message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.notUnique" />;
         } else {
           message = <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.callout.connectionProblem.post" />;
         }

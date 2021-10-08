@@ -168,7 +168,7 @@ FolioCirculationUserCreateEditRoute.manifest = Object.freeze({
   },
   centralPatronTypeMappings: {
     type: 'okapi',
-    path: 'inn-reach/central-servers/%{selectedServerId}/centralPatronTypeMappings',
+    path: 'inn-reach/central-servers/%{selectedServerId}/central-patron-type-mappings',
     accumulate: true,
     fetch: false,
     throwErrors: false,

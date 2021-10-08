@@ -54,7 +54,7 @@ jest.mock('../../../utils', () => {
   };
 });
 
-const showAllSections = jest.fn();
+const onAddCentralServer = jest.fn();
 
 const renderCreateRoute = ({
   mutator = {},
@@ -77,7 +77,7 @@ const renderCreateRoute = ({
     <MemoryRouter>
       <SettingsContext.Provider
         value={{
-          onShowAllSections: showAllSections,
+          onAddCentralServer,
         }}
       >
         <CentralServersConfigurationCreateRoute
@@ -128,7 +128,7 @@ describe('CentralServersConfigurationCreateRoute component', () => {
 
       it('should show all sections', async () => {
         await CentralServersConfigurationCreateEditContainer.mock.calls[0][0].onSubmit(record);
-        expect(showAllSections).toHaveBeenCalled();
+        expect(onAddCentralServer).toHaveBeenCalled();
       });
 
       it('should download JSON file', async () => {
