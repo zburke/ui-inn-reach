@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   FormattedMessage,
+  FormattedNumber,
 } from 'react-intl';
 import {
   MultiColumnList,
   FormattedTime,
   FormattedDate,
+  NoValue,
 } from '@folio/stripes/components';
 
 import {
@@ -59,6 +61,11 @@ const resultsFormatter = () => ({
         time: <FormattedTime value={data.metadata[UPDATED_DATE]} />,
       }}
     />
+  ),
+  [ERRORS]: (data) => (
+    data[ERRORS]
+      ? <FormattedNumber value={data[ERRORS].length} />
+      : <NoValue />
   ),
 });
 
