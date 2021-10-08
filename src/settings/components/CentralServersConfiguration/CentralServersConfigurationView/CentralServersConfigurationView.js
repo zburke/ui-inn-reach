@@ -14,10 +14,12 @@ import {
 } from '@folio/stripes-components';
 
 import {
-  ActionItem,
   GeneralInformation,
   ServerConnection,
 } from './components';
+import {
+  ActionItem,
+} from '../../../../components/common';
 import {
   FirsrMenuCloseButton,
 } from '../../common';

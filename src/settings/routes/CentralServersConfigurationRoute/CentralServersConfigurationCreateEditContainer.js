@@ -12,8 +12,7 @@ import {
   Paneset,
 } from '@folio/stripes-components';
 
-import CentralServersConfigurationForm
-  from '../../components/CentralServersConfiguration/CentralServersConfigurationForm';
+import CentralServersConfigurationForm from '../../components/CentralServersConfiguration/CentralServersConfigurationForm';
 
 export const DEFAULT_VALUES = {
   localAgencies: [

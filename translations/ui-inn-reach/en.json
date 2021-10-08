@@ -347,5 +347,10 @@
   "transaction-detail.field.itemAgency": "Item agency code (Description)",
   "transaction-detail.field.label.time": "{date}, {time}",
   "transaction-detail.field.label.request": "Request detail",
-  "transaction-detail.field.label.loan": "Loan detail"
+  "transaction-detail.field.label.loan": "Loan detail",
+  "transaction-detail.action.check-out": "Check out to patron",
+  "transaction-detail.action.receive-item": "Receive item",
+  "transaction-detail.action.receive-unshipped-item": "Receive unshipped item",
+  "transaction-detail.action.return-item": "Return item",
+  "transaction-detail.action.cancel-hold": "Cancel hold"
 }

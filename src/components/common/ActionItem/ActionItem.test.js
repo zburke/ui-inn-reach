@@ -6,7 +6,7 @@ import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jes
 
 import ActionItem from './ActionItem';
 
-import { translationsProperties } from '../../../../../../../test/jest/helpers';
+import { translationsProperties } from '../../../../test/jest/helpers';
 
 const idEdit = 'editCentralServerConfigurationAction';
 const buttonTextTranslationKeyEdit = 'ui-inn-reach.settings.central-server-configuration.action.edit';

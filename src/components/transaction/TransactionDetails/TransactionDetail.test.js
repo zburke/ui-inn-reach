@@ -13,6 +13,7 @@ jest.mock('./components', () => ({
 
 const transactionMock = {
   id: '1',
+  transactionType: 'patron',
 };
 
 const renderTransactionDetail = ({

@@ -14,6 +14,7 @@ import {
   PatronInformation,
   TransactionSummary,
   ItemInformation,
+  ActionMenu,
 } from './components';
 import {
   TRANSACTION_DETAIL_ACCORDION_STATE,
@@ -23,15 +24,19 @@ import {
 
 const {
   TITLE,
+  TYPE
 } = TRANSACTION_DETAIL_FIELDS;
 
 const TransactionDetail = ({
   transaction,
   onClose,
 }) => {
-  const renderActionMenu = useCallback(() => {
-    return <div />;
-  }, []);
+  const renderActionMenu = useCallback(({ onToggle }) => (
+    <ActionMenu
+      transactionType={transaction[TYPE]}
+      onToggle={onToggle}
+    />
+  ), [transaction[TYPE]]);
 
   return (
     <Pane
