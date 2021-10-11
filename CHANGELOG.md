@@ -1,6 +1,20 @@
 # Change history for ui-inn-reach
 
-## [1.0.1] (IN PROGRESS)
+## [1.2.0] (IN PROGRESS)
+
+
+## [1.1.0](https://github.com/folio-org/ui-inn-reach/tree/v1.1.0) (2021-10-08)
+
+* Fixed manage contribution error. Refs UIINREACH-98.
+* INN-Reach Staff Interface: INN-Reach Transaction Detail View Action Menu (Patron hold). Refs UIINREACH-65.
+* Transaction type filter. Refs UIINREACH-57.
+* INN-Reach Staff Interface: INN-Reach Transaction Detail View. Refs UIINREACH-64.
+* Incorrect titles in the 'central item type' setting. Refs UIINREACH-95.
+* INN-Reach General Settings: Add Central Server Code Field to Central Server Connection Configuration Detail/Edit Screens. Refs UIINREACH-77.
+* Transactions Search. Refs UIINREACH-53.
+* BE integration for Patron Agency Mapping. Refs UIINREACH-76.
+* Record Contribution: Provide functionality to cancel record contribution job for INN-Reach. Refs UIINREACH-74.
+* Fix Capitalization in INN-Reach Setting UI. Refs UIINREACH-73.
 
 ## [1.0.0](https://github.com/folio-org/ui-inn-reach/tree/v1.0.0) (2021-09-17)
 
