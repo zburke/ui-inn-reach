@@ -101,7 +101,7 @@ const RecordsInfo = ({
           className={css.tabularCol}
         >
           {currentContribution[ERRORS]
-            ? <FormattedNumber value={currentContribution[ERRORS]} />
+            ? <FormattedNumber value={currentContribution[ERRORS].length} />
             : <NoValue />}
         </Col>
       </Row>
