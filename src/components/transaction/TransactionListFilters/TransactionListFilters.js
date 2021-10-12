@@ -5,54 +5,77 @@ import React, {
 import PropTypes from 'prop-types';
 
 import { AccordionSet } from '@folio/stripes/components';
+import {
+  stripesConnect,
+} from '@folio/stripes/core';
 
 import {
   CheckboxFilter,
+  MultiChoiceFilter,
 } from '../../common';
 
 import {
-  TransactionStatusFilter,
-} from './components';
-
-import {
-  TRANSACTION_TYPE_FILTER_PARAMETER,
-  TRANSACTION_STATUS_FILTER_PARAMETER,
+  CENTRAL_SERVERS_LIMITING,
   TRANSACTION_TYPES,
+  TRANSACTION_STATUSES,
+  TRANSACTION_FILTER_NAMES,
 } from '../../../constants';
 import {
   applyFiltersAdapter,
+  getCentralServerOptions,
   getCheckboxFilterOptions,
 } from '../../../utils';
+import {
+  getTransactionStatusOptions,
+} from './utils';
+
+const {
+  TRANSACTION_TYPE,
+  TRANSACTION_STATUS,
+  CENTRAL_SERVER,
+} = TRANSACTION_FILTER_NAMES;
 
 const TransactionListFilters = ({
+  resources: {
+    centralServerRecords: {
+      records: centralServers,
+    },
+  },
   activeFilters,
   applyFilters,
 }) => {
-  const adaptedApplyFilters = useCallback(
-    applyFiltersAdapter(applyFilters),
-    [applyFilters],
-  );
+  const servers = centralServers[0]?.centralServers || [];
+  const transactionStatusOptions = useMemo(() => getTransactionStatusOptions(Object.values(TRANSACTION_STATUSES)), []);
+  const centralServerOptions = useMemo(() => getCentralServerOptions(servers), [servers]);
+
+  const adaptedApplyFilters = useCallback(applyFiltersAdapter(applyFilters), [applyFilters]);
 
   const getTransactionTypeDataOptions = useMemo(() => (
     getCheckboxFilterOptions(
-      TRANSACTION_TYPE_FILTER_PARAMETER,
+      TRANSACTION_TYPE,
       Object.values(TRANSACTION_TYPES),
     )), [TRANSACTION_TYPES]);
 
   return (
     <AccordionSet>
       <CheckboxFilter
-        activeFilters={activeFilters[TRANSACTION_TYPE_FILTER_PARAMETER]}
-        id={TRANSACTION_TYPE_FILTER_PARAMETER}
+        activeFilters={activeFilters[TRANSACTION_TYPE]}
+        id={TRANSACTION_TYPE}
         labelId="ui-inn-reach.transaction.transactionType"
-        name={TRANSACTION_TYPE_FILTER_PARAMETER}
+        name={TRANSACTION_TYPE}
         options={getTransactionTypeDataOptions}
         onChange={adaptedApplyFilters}
       />
-      <TransactionStatusFilter
-        activeFilters={activeFilters[TRANSACTION_STATUS_FILTER_PARAMETER]}
-        id={`transaction-filter-${TRANSACTION_STATUS_FILTER_PARAMETER}`}
-        name={TRANSACTION_STATUS_FILTER_PARAMETER}
+      <MultiChoiceFilter
+        name={TRANSACTION_STATUS}
+        activeFilters={activeFilters[TRANSACTION_STATUS]}
+        dataOptions={transactionStatusOptions}
+        onChange={adaptedApplyFilters}
+      />
+      <MultiChoiceFilter
+        name={CENTRAL_SERVER}
+        activeFilters={activeFilters[CENTRAL_SERVER]}
+        dataOptions={centralServerOptions}
         onChange={adaptedApplyFilters}
       />
     </AccordionSet>
@@ -62,6 +85,19 @@ const TransactionListFilters = ({
 TransactionListFilters.propTypes = {
   activeFilters: PropTypes.object.isRequired,
   applyFilters: PropTypes.func.isRequired,
+  resources: PropTypes.shape({
+    centralServerRecords: PropTypes.shape({
+      records: PropTypes.arrayOf(PropTypes.object).isRequired,
+    }).isRequired,
+  }),
 };
 
-export default TransactionListFilters;
+TransactionListFilters.manifest = Object.freeze({
+  centralServerRecords: {
+    type: 'okapi',
+    path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
+    throwErrors: false,
+  },
+});
+
+export default stripesConnect(TransactionListFilters);

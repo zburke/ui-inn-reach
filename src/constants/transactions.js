@@ -17,8 +17,12 @@ export const TRANSACTION_STATUSES = {
   FINAL_CHECKIN: 'FINAL_CHECKIN',
 };
 
-export const TRANSACTION_TYPE_FILTER_PARAMETER = 'transactionType';
-export const TRANSACTION_STATUS_FILTER_PARAMETER = 'transactionStatus';
+export const TRANSACTION_FILTER_NAMES = {
+  TRANSACTION_TYPE: 'transactionType',
+  TRANSACTION_STATUS: 'transactionStatus',
+  CENTRAL_SERVER: 'centralServer',
+};
+
 export const TRANSACTION_TYPES = {
   ITEM: 'item',
   PATRON: 'patron',

@@ -318,6 +318,7 @@
   "transaction.transactionType.patron": "Patron",
   "transaction.transactionType.local": "Local",
   "transaction.transactionStatus": "Transaction status",
+  "transaction.centralServer": "Central server",
 
   "title.list.transactions": "INN-Reach transactions",
   "search": "Search",
