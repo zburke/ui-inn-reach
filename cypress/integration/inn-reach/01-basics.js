@@ -36,7 +36,7 @@ describe('ui-inn-reach: application exists', () => {
     it('should open app and see transaction types', () => {
       cy.get('#app-list-item-clickable-inn-reach-module').click()
       cy.url().should('contain', '/innreach')
-      cy.contains('#transactionType', 'Item')
+      cy.contains('#transactionType', 'Item1')
       cy.contains('#transactionType', 'Patron')
       cy.contains('#transactionType', 'Local')
     })
