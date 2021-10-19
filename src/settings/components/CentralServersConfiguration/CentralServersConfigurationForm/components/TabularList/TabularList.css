@@ -13,10 +13,11 @@
   composes: tabularHeaderCol from '../../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
   padding: 0 15px;
 
-  &:first-Child {
-      flex-basis: 30%;
-      max-width: 30%;
-    }
+  &:first-child {
+    flex-basis: 30%;
+    max-width: 30%;
+  }
+
   &:nth-child(2) {
     flex-basis: 61.66%;
     max-width: 61.66%;
@@ -34,14 +35,15 @@
 
 .tabularCol {
   composes: tabularCol from '../../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
-  &:first-Child {
-     flex-basis: 30%;
-     max-width: 30%;
-   }
+  &:first-child {
+    flex-basis: 30%;
+    max-width: 30%;
+  }
+
   &:nth-child(2) {
-     flex-basis: 61.66%;
-     max-width: 61.66%;
-   }
+    flex-basis: 61.66%;
+    max-width: 61.66%;
+  }
 }
 
 .tabularColFirst {
