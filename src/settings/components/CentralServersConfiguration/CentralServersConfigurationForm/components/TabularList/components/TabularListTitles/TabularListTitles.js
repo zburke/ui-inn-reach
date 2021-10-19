@@ -11,19 +11,12 @@ import css from '../../TabularList.css';
 const TabularListTitles = () => {
   return (
     <Row>
-      <Col
-        sm={3}
-        className={css.tabularHeaderCol}
-      >
-
+      <Col className={css.tabularHeaderCol}>
         <Label required>
           <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.local-agency.field.code" />
         </Label>
       </Col>
-      <Col
-        sm={8}
-        className={classNames(css.tabularHeaderCol)}
-      >
+      <Col className={classNames(css.tabularHeaderCol)}>
         <Label required>
           <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.local-agency.field.libraries" />
         </Label>

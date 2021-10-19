@@ -58,6 +58,11 @@ describe('TabularList component', () => {
     expect(screen.getByRole('button', { name: 'Remove fields for row 1' })).toBeVisible();
   });
 
+  it('should have focused on the first field on a new row after clicking the "add" button', () => {
+    userEvent.click(screen.getByRole('button', { name: 'Add a new row' }));
+    expect(document.querySelector('[id="localAgencies[1].localAgency-1"]')).toHaveFocus();
+  });
+
   describe('field validation', () => {
     it('should appear "Required" message after defocused if field is empty', () => {
       const field = document.querySelector('[id="localAgencies[0].localAgency-0"]');

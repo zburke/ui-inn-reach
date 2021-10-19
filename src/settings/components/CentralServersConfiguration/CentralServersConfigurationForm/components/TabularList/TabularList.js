@@ -55,6 +55,7 @@ const TabularList = ({
           const dataWithoutCurRow = fields.value.filter((_, i) => i !== index);
           const selectedOptsSet = getSelectedLibsSet(dataWithoutCurRow);
           const dataOptions = librariesTypeOptions.filter(({ value: libId }) => !selectedOptsSet.has(libId));
+          const isLastRow = index === fields.length - 1;
 
           return (
             <Row
@@ -62,23 +63,18 @@ const TabularList = ({
               className={classNames(css.tabularRow, index % 2 ? css.tabularRowOdd : css.tabularRowEven)}
               data-testid="row"
             >
-              <Col
-                sm={3}
-                className={classNames(css.tabularCol, css.tabularColFirst)}
-              >
+              <Col className={classNames(css.tabularCol, css.tabularColFirst)}>
                 <Field
                   marginBottom0
                   required
+                  autoFocus={isLastRow && fields.length > 1}
                   id={`${name}.${LOCAL_AGENCY}-${index}`}
                   name={`${name}.${LOCAL_AGENCY}`}
                   aria-label={<FormattedMessage id="ui-inn-reach.settings.central-server-configuration.local-agency.field.code" />}
                   component={TextField}
                 />
               </Col>
-              <Col
-                sm={8}
-                className={classNames(css.tabularCol)}
-              >
+              <Col className={css.tabularCol}>
                 <Field
                   marginBottom0
                   required
