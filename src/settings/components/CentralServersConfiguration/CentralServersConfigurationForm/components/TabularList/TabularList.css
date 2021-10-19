@@ -1,0 +1,32 @@
+.tabularContainer {
+  margin-bottom: 1rem;
+
+  & div[class^="multiSelectControl--"],
+  & div[class^="formControl"] {
+    margin-bottom: 0;
+    border: 1px solid #cacaca;
+    background-color: #f7f7f7;
+  }
+}
+
+.tabularHeaderCol {
+  composes: tabularHeaderCol from '../../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
+  padding: 0 15px;
+}
+
+.tabularRowOdd,
+.tabularRowEven {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.tabularRow div[class*="feedbackError"] {
+  margin-bottom: 5px;
+}
+
+.tabularCol {
+  composes: tabularCol from '../../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
+}
+
+.tabularColFirst {
+  composes: tabularColFirst from '../../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
+}

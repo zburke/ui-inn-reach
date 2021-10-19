@@ -13,12 +13,21 @@ import {
 } from '@folio/stripes-components';
 
 import CentralServersConfigurationForm from '../../components/CentralServersConfiguration/CentralServersConfigurationForm';
+import {
+  CENTRAL_SERVER_CONFIGURATION_FIELDS,
+} from '../../../constants';
+
+const {
+  LOCAL_AGENCIES,
+  LOCAL_AGENCY,
+  FOLIO_LIBRARIES,
+} = CENTRAL_SERVER_CONFIGURATION_FIELDS;
 
 export const DEFAULT_VALUES = {
-  localAgencies: [
+  [LOCAL_AGENCIES]: [
     {
-      localAgency: '',
-      FOLIOLibraries: [],
+      [LOCAL_AGENCY]: '',
+      [FOLIO_LIBRARIES]: [],
     }
   ],
 };
