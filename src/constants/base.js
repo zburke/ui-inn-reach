@@ -20,6 +20,7 @@ export const ICONS = {
   ARROW_DOWN: 'arrow-down',
   TIMES_CIRCLE: 'times-circle',
   TIMES_CIRCLE_SOLID: 'times-circle-solid',
+  TRANSFER: 'transfer',
   CHECK_OUT: 'check-out',
   CHECK_IN: 'check-in',
   RECEIVE: 'receive',
