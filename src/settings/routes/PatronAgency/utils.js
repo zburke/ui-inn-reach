@@ -9,20 +9,21 @@ import {
 } from '../../../constants';
 
 const {
+  CUSTOM_FIELD_VALUE_ID,
   CUSTOM_FIELD_VALUE,
   CONFIGURED_OPTIONS,
   AGENCY_CODE,
 } = PATRON_AGENCY_FIELDS;
 
 export const getCustomFieldOptions = (customFields) => {
-  return customFields.map(({ id, name }) => ({
+  return customFields.map(({ refId, name }) => ({
     label: name,
-    value: id,
+    value: refId,
   }));
 };
 
-export const getSelectedCustomField = (customFields, selectedCustomField) => {
-  return customFields.find(customField => customField.id === selectedCustomField);
+export const getSelectedCustomField = (customFields, selectedCustomFieldId) => {
+  return customFields.find(customField => customField.refId === selectedCustomFieldId);
 };
 
 export const getAgencyCodeOptions = (selectedServer) => {
@@ -41,8 +42,9 @@ export const getAgencyCodeOptions = (selectedServer) => {
 };
 
 export const getOnlyCustomFieldValues = (selectedCustomField) => {
-  return selectedCustomField?.selectField?.options?.values.map(({ value }) => ({
+  return selectedCustomField?.selectField?.options?.values.map(({ id, value }) => ({
     [CUSTOM_FIELD_VALUE]: value,
+    [CUSTOM_FIELD_VALUE_ID]: id,
   }));
 };
 
@@ -51,8 +53,8 @@ export const formatPayload = (record) => {
 
   payload[CONFIGURED_OPTIONS] = record[CONFIGURED_OPTIONS]
     .filter(({ agencyCode }) => agencyCode)
-    .reduce((accum, { customFieldValue, agencyCode }) => {
-      accum[customFieldValue] = agencyCode;
+    .reduce((accum, { customFieldValueId, agencyCode }) => {
+      accum[customFieldValueId] = agencyCode;
 
       return accum;
     }, {});
@@ -64,14 +66,15 @@ const getFormattedConfiguredOptions = (selectedCustomField, configuredOptions) =
   const formattedConfiguredOptions = [];
   const customFieldValues = selectedCustomField?.selectField?.options?.values || [];
 
-  customFieldValues.forEach(({ value }) => {
-    const isCustomFieldValueMapped = !!configuredOptions[value];
+  customFieldValues.forEach(({ id, value }) => {
+    const isCustomFieldValueMapped = !!configuredOptions[id];
     const option = {
       [CUSTOM_FIELD_VALUE]: value,
+      [CUSTOM_FIELD_VALUE_ID]: id,
     };
 
     if (isCustomFieldValueMapped) {
-      option[AGENCY_CODE] = configuredOptions[value];
+      option[AGENCY_CODE] = configuredOptions[id];
     }
 
     formattedConfiguredOptions.push(option);
