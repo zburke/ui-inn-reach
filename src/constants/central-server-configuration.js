@@ -22,6 +22,8 @@ export const CENTRAL_SERVER_CONFIGURATION_FIELDS = {
   CENTRAL_SERVER_ADDRESS: 'centralServerAddress',
   LOAN_TYPE_ID: 'loanTypeId',
   LOCAL_AGENCIES: 'localAgencies',
+  LOCAL_AGENCY: 'localAgency',
+  FOLIO_LIBRARIES: 'FOLIOLibraries',
   CENTRAL_SERVER_KEY: 'centralServerKey',
   CENTRAL_SERVER_SECRET: 'centralServerSecret',
   LOCAL_SERVER_KEY: 'localServerKey',

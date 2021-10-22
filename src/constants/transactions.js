@@ -21,6 +21,7 @@ export const TRANSACTION_FILTER_NAMES = {
   TRANSACTION_TYPE: 'transactionType',
   TRANSACTION_STATUS: 'transactionStatus',
   CENTRAL_SERVER: 'centralServer',
+  PATRON_AGENCY: 'patronAgency',
 };
 
 export const TRANSACTION_TYPES = {
