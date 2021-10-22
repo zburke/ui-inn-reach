@@ -38,9 +38,32 @@ const transactionStatusOptions = [
   { label: 'FINAL_CHECKIN', value: 'FINAL_CHECKIN' }
 ];
 
+const centralServerAgencies = {
+  centralServerAgencies: [
+    {
+      'centralServerId': '6da136d0-5e32-4b15-a9df-9181f926e7da',
+      'centralServerCode': 'd2ir',
+      'agencies': [
+        { 'agencyCode': '5dlpl', 'description': 'Sierra Alpha' },
+        { 'agencyCode': '5east', 'description': 'Sierra Public East Library' },
+        { 'agencyCode': '5nrth', 'description': 'Sierra Cluster -- North Library' },
+      ],
+    }
+  ],
+};
+
+const centralServerAgencyOptions = [
+  { value: '5dlpl', label: 'd2ir: 5dlpl - Sierra Alpha' },
+  { value: '5east', label: 'd2ir: 5east - Sierra Public East Library' },
+  { value: '5nrth', label: 'd2ir: 5nrth - Sierra Cluster -- North Library' },
+];
+
 const resourcesMock = {
   centralServerRecords: {
     records: [centralServers],
+  },
+  centralServerAgencies: {
+    records: [centralServerAgencies],
   },
 };
 
@@ -76,7 +99,7 @@ describe('TransactionListFilters', () => {
 
   it('should show the correct number of MultiChoiceFilter components', () => {
     renderTransactionListFilters();
-    expect(screen.getAllByText('MultiChoiceFilter')).toHaveLength(2);
+    expect(screen.getAllByText('MultiChoiceFilter')).toHaveLength(3);
   });
 
   it('should pass the correct status options', () => {
@@ -87,5 +110,10 @@ describe('TransactionListFilters', () => {
   it('should pass the correct central server options', () => {
     renderTransactionListFilters();
     expect(MultiChoiceFilter.mock.calls[1][0].dataOptions).toEqual(centralServerOptions);
+  });
+
+  it('should pass the correct patron agency options', () => {
+    renderTransactionListFilters();
+    expect(MultiChoiceFilter.mock.calls[2][0].dataOptions).toEqual(centralServerAgencyOptions);
   });
 });
