@@ -27,12 +27,14 @@ import {
 } from '../../../utils';
 import {
   getTransactionStatusOptions,
+  getCentralServerAgencyOptions,
 } from './utils';
 
 const {
   TRANSACTION_TYPE,
   TRANSACTION_STATUS,
   CENTRAL_SERVER,
+  PATRON_AGENCY,
 } = TRANSACTION_FILTER_NAMES;
 
 const TransactionListFilters = ({
@@ -40,13 +42,18 @@ const TransactionListFilters = ({
     centralServerRecords: {
       records: centralServers,
     },
+    centralServerAgencies: {
+      records: agencies,
+    },
   },
   activeFilters,
   applyFilters,
 }) => {
   const servers = centralServers[0]?.centralServers || [];
+  const centralServerAgencies = agencies[0]?.centralServerAgencies || [];
   const transactionStatusOptions = useMemo(() => getTransactionStatusOptions(Object.values(TRANSACTION_STATUSES)), []);
   const centralServerOptions = useMemo(() => getCentralServerOptions(servers), [servers]);
+  const centralServerAgencyOptions = useMemo(() => getCentralServerAgencyOptions(centralServerAgencies), [centralServerAgencies]);
 
   const adaptedApplyFilters = useCallback(applyFiltersAdapter(applyFilters), [applyFilters]);
 
@@ -78,6 +85,12 @@ const TransactionListFilters = ({
         dataOptions={centralServerOptions}
         onChange={adaptedApplyFilters}
       />
+      <MultiChoiceFilter
+        name={PATRON_AGENCY}
+        activeFilters={activeFilters[PATRON_AGENCY]}
+        dataOptions={centralServerAgencyOptions}
+        onChange={adaptedApplyFilters}
+      />
     </AccordionSet>
   );
 };
@@ -89,6 +102,9 @@ TransactionListFilters.propTypes = {
     centralServerRecords: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
     }).isRequired,
+    centralServerAgencies: PropTypes.shape({
+      records: PropTypes.arrayOf(PropTypes.object).isRequired,
+    }).isRequired,
   }),
 };
 
@@ -96,6 +112,11 @@ TransactionListFilters.manifest = Object.freeze({
   centralServerRecords: {
     type: 'okapi',
     path: `inn-reach/central-servers?limit=${CENTRAL_SERVERS_LIMITING}`,
+    throwErrors: false,
+  },
+  centralServerAgencies: {
+    type: 'okapi',
+    path: 'inn-reach/central-servers/agencies',
     throwErrors: false,
   },
 });
