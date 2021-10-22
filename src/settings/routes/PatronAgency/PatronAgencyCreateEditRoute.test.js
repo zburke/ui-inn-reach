@@ -26,7 +26,7 @@ jest.mock('../../../hooks', () => ({
 
 const customFields = [
   {
-    id: 'f72a0b4b-21df-4985-8c9f-0d5c910296c3',
+    refId: 'homelibrary',
     name: 'Home Library',
     selectField: {
       options: {
@@ -48,7 +48,7 @@ const customFields = [
     }
   },
   {
-    id: 'ce1f650d-cf0a-44c0-b87e-0473eaf825fa',
+    refId: 'citylibrary',
     name: 'City Library',
     selectField: {
       options: {
@@ -105,37 +105,38 @@ const serverOptions = [
 ];
 
 const userCustomFieldMappings = {
-  customFieldId: 'f72a0b4b-21df-4985-8c9f-0d5c910296c3',
+  customFieldId: customFields[0].refId,
   configuredOptions: {
-    qwerty1: '1qwer',
-    qwerty2: 'qwer1',
+    'opt_0': '1qwer',
+    'opt_1': 'qwer1',
   },
 };
 
 const record = {
-  customFieldId: 'f72a0b4b-21df-4985-8c9f-0d5c910296c3',
+  customFieldId: customFields[0].refId,
   configuredOptions: [
     {
-      customFieldValue: 'qwerty1',
+      customFieldValueId: 'opt_0',
+      customFieldValue: 'Meyer',
       agencyCode: '1qwer'
     },
     {
-      customFieldValue: 'qwerty2',
+      customFieldValueId: 'opt_1',
+      customFieldValue: 'Garnett',
       agencyCode: 'qwer1'
     },
     {
-      customFieldValue: 'qwerty3',
-      agencyCode: 'qwer3'
+      customFieldValueId: 'opt_2',
+      customFieldValue: 'Barbe',
     },
   ],
 };
 
 const payload = {
-  customFieldId: 'f72a0b4b-21df-4985-8c9f-0d5c910296c3',
+  customFieldId: customFields[0].refId,
   configuredOptions: {
-    qwerty1: '1qwer',
-    qwerty2: 'qwer1',
-    qwerty3: 'qwer3',
+    opt_0: '1qwer',
+    opt_1: 'qwer1',
   },
 };
 
@@ -216,13 +217,13 @@ describe('renderPatronAgencyCreateEditRoute component', () => {
       it('should be without the agency codes', async () => {
         renderPatronAgencyCreateEditRoute();
         await act(async () => { await PatronAgencyForm.mock.calls[0][0].onChangeServer(servers[0].name); });
-        await act(async () => { PatronAgencyForm.mock.calls[4][0].onChangeCustomField(customFields[0].id); });
+        await act(async () => { PatronAgencyForm.mock.calls[4][0].onChangeCustomField(customFields[0].refId); });
         expect(PatronAgencyForm.mock.calls[5][0].initialValues).toEqual({
-          customFieldId: customFields[0].id,
+          customFieldId: customFields[0].refId,
           configuredOptions: [
-            { customFieldValue: 'Meyer' },
-            { customFieldValue: 'Garnett' },
-            { customFieldValue: 'Barbe' },
+            { customFieldValue: 'Meyer', customFieldValueId: 'opt_0' },
+            { customFieldValue: 'Garnett', customFieldValueId: 'opt_1' },
+            { customFieldValue: 'Barbe', customFieldValueId: 'opt_2' },
           ],
         });
       });
@@ -233,16 +234,9 @@ describe('renderPatronAgencyCreateEditRoute component', () => {
         newMutator.userCustomFieldMappings.GET = jest.fn(() => Promise.resolve(userCustomFieldMappings));
         renderPatronAgencyCreateEditRoute({ mutator: newMutator });
         await act(async () => { await PatronAgencyForm.mock.calls[0][0].onChangeServer(servers[0].name); });
-        await act(async () => { PatronAgencyForm.mock.calls[5][0].onChangeCustomField(customFields[1].id); });
-        await act(async () => { PatronAgencyForm.mock.calls[6][0].onChangeCustomField(customFields[0].id); });
-        expect(PatronAgencyForm.mock.calls[7][0].initialValues).toEqual({
-          customFieldId: 'f72a0b4b-21df-4985-8c9f-0d5c910296c3',
-          configuredOptions: [
-            { customFieldValue: 'Meyer' },
-            { customFieldValue: 'Garnett' },
-            { customFieldValue: 'Barbe' },
-          ],
-        });
+        await act(async () => { PatronAgencyForm.mock.calls[5][0].onChangeCustomField(customFields[1].refId); });
+        await act(async () => { PatronAgencyForm.mock.calls[6][0].onChangeCustomField(customFields[0].refId); });
+        expect(PatronAgencyForm.mock.calls[7][0].initialValues).toEqual(record);
       });
 
       it('should be with agency codes too', async () => {
@@ -251,14 +245,7 @@ describe('renderPatronAgencyCreateEditRoute component', () => {
         newMutator.userCustomFieldMappings.GET = jest.fn(() => Promise.resolve(userCustomFieldMappings));
         await renderPatronAgencyCreateEditRoute({ mutator: newMutator });
         await act(async () => { await PatronAgencyForm.mock.calls[0][0].onChangeServer(servers[0].name); });
-        expect(PatronAgencyForm.mock.calls[5][0].initialValues).toEqual({
-          customFieldId: 'f72a0b4b-21df-4985-8c9f-0d5c910296c3',
-          configuredOptions: [
-            { customFieldValue: 'Meyer' },
-            { customFieldValue: 'Garnett' },
-            { customFieldValue: 'Barbe' },
-          ]
-        });
+        expect(PatronAgencyForm.mock.calls[5][0].initialValues).toEqual(record);
       });
     });
   });
@@ -267,7 +254,7 @@ describe('renderPatronAgencyCreateEditRoute component', () => {
     it('should make a POST request', async () => {
       await act(async () => { renderPatronAgencyCreateEditRoute(); });
       await act(async () => { PatronAgencyForm.mock.calls[0][0].onChangeServer(servers[0].name); });
-      await act(async () => { PatronAgencyForm.mock.calls[4][0].onChangeCustomField(customFields[0].id); });
+      await act(async () => { PatronAgencyForm.mock.calls[4][0].onChangeCustomField(customFields[0].refId); });
       await act(async () => { PatronAgencyForm.mock.calls[5][0].onSubmit(record); });
       expect(mutatorMock.userCustomFieldMappings.POST).toHaveBeenCalledWith(payload);
     });
@@ -279,7 +266,7 @@ describe('renderPatronAgencyCreateEditRoute component', () => {
       await renderPatronAgencyCreateEditRoute({ mutator: newMutator });
       await act(async () => {
         await PatronAgencyForm.mock.calls[0][0].onChangeServer(servers[0].name);
-        await PatronAgencyForm.mock.calls[1][0].onChangeCustomField(customFields[0].id);
+        await PatronAgencyForm.mock.calls[1][0].onChangeCustomField(customFields[0].refId);
         PatronAgencyForm.mock.calls[3][0].onSubmit(record);
       });
       expect(mutatorMock.userCustomFieldMappings.PUT).toHaveBeenCalledWith(payload);
