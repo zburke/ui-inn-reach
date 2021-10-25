@@ -8,10 +8,12 @@ import {
 } from '../../../../../constants';
 import {
   PatronActions,
+  ItemActions,
 } from './components';
 
 const {
   PATRON,
+  ITEM,
 } = TRANSACTION_TYPES;
 
 const ActionMenu = ({
@@ -24,6 +26,13 @@ const ActionMenu = ({
     case PATRON:
       actions = (
         <PatronActions
+          onToggle={onToggle}
+        />
+      );
+      break;
+    case ITEM:
+      actions = (
+        <ItemActions
           onToggle={onToggle}
         />
       );

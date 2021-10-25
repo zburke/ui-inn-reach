@@ -19,31 +19,31 @@ const PatronActions = ({
     <>
       <ActionItem
         icon={ICONS.CHECK_OUT}
-        buttonTextTranslationKey="ui-inn-reach.transaction-detail.action.check-out"
+        buttonTextTranslationKey="ui-inn-reach.transaction-detail.patron-type.action.check-out"
         onToggle={onToggle}
         onClickHandler={onCheckOut}
       />
       <ActionItem
         icon={ICONS.RECEIVE}
-        buttonTextTranslationKey="ui-inn-reach.transaction-detail.action.receive-item"
+        buttonTextTranslationKey="ui-inn-reach.transaction-detail.patron-type.action.receive-item"
         onToggle={onToggle}
         onClickHandler={onReceiveItem}
       />
       <ActionItem
         icon={ICONS.RECEIVE}
-        buttonTextTranslationKey="ui-inn-reach.transaction-detail.action.receive-unshipped-item"
+        buttonTextTranslationKey="ui-inn-reach.transaction-detail.patron-type.action.receive-unshipped-item"
         onToggle={onToggle}
         onClickHandler={onReceiveUnshippedItem}
       />
       <ActionItem
         icon={ICONS.CHECK_IN}
-        buttonTextTranslationKey="ui-inn-reach.transaction-detail.action.return-item"
+        buttonTextTranslationKey="ui-inn-reach.transaction-detail.patron-type.action.return-item"
         onToggle={onToggle}
         onClickHandler={onReturnItem}
       />
       <ActionItem
         icon={ICONS.TIMES_CIRCLE}
-        buttonTextTranslationKey="ui-inn-reach.transaction-detail.action.cancel-hold"
+        buttonTextTranslationKey="ui-inn-reach.transaction-detail.patron-type.action.cancel-hold"
         onToggle={onToggle}
         onClickHandler={onCancelHold}
       />
