@@ -2,6 +2,7 @@
 
 ## [1.2.0] (IN PROGRESS)
 
+* Use correct `css-loader` syntax. Refs UIINREACH-111.
 
 ## [1.1.0](https://github.com/folio-org/ui-inn-reach/tree/v1.1.0) (2021-10-08)
 
