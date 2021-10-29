@@ -320,9 +320,16 @@
     "transaction-detail.field.label.time": "{date}, {time}",
     "transaction-detail.field.label.request": "Request detail",
     "transaction-detail.field.label.loan": "Loan detail",
-    "transaction-detail.action.check-out": "Check out to patron",
-    "transaction-detail.action.receive-item": "Receive item",
-    "transaction-detail.action.receive-unshipped-item": "Receive unshipped item",
-    "transaction-detail.action.return-item": "Return item",
-    "transaction-detail.action.cancel-hold": "Cancel hold"
+    "transaction.centralServer": "Central server",
+    "transaction.patronAgency": "Patron agency",
+    "transaction-detail.patron-type.action.check-out": "Check out to patron",
+    "transaction-detail.patron-type.action.receive-item": "Receive item",
+    "transaction-detail.patron-type.action.receive-unshipped-item": "Receive unshipped item",
+    "transaction-detail.patron-type.action.return-item": "Return item",
+    "transaction-detail.patron-type.action.cancel-hold": "Cancel hold",
+    "transaction-detail.item-type.action.check-out": "Check out to borrowing site",
+    "transaction-detail.item-type.action.transfer-hold": "Transfer hold to another item",
+    "transaction-detail.item-type.action.recall-item": "Recall item",
+    "transaction-detail.item-type.action.cancel-hold": "Cancel hold",
+    "transaction-detail.item-type.action.final-check-in": "Final check-in"
 }
