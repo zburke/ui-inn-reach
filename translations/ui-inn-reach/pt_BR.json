@@ -320,9 +320,16 @@
     "transaction-detail.field.label.time": "{date} , {time}",
     "transaction-detail.field.label.request": "Detalhes da solicitação",
     "transaction-detail.field.label.loan": "Detalhes do empréstimo",
-    "transaction-detail.action.check-out": "Emprestar para o usuário",
-    "transaction-detail.action.receive-item": "Receber item",
-    "transaction-detail.action.receive-unshipped-item": "Receber item não enviado",
-    "transaction-detail.action.return-item": "Devolver item",
-    "transaction-detail.action.cancel-hold": "Cancelar reserva"
+    "transaction.centralServer": "Servidor central",
+    "transaction.patronAgency": "Agência do usuário",
+    "transaction-detail.patron-type.action.check-out": "Emprestar para o usuário",
+    "transaction-detail.patron-type.action.receive-item": "Receber item",
+    "transaction-detail.patron-type.action.receive-unshipped-item": "Receber item não enviado",
+    "transaction-detail.patron-type.action.return-item": "Devolver item",
+    "transaction-detail.patron-type.action.cancel-hold": "Cancelar reserva",
+    "transaction-detail.item-type.action.check-out": "Emprestar para local de empréstimo",
+    "transaction-detail.item-type.action.transfer-hold": "Transferir reserva para outro item",
+    "transaction-detail.item-type.action.recall-item": "Recall no item",
+    "transaction-detail.item-type.action.cancel-hold": "Cancelar reserva",
+    "transaction-detail.item-type.action.final-check-in": "Devolução final"
 }

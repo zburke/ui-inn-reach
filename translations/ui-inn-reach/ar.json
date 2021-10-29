@@ -320,9 +320,16 @@
     "transaction-detail.field.label.time": "{date}, {time}",
     "transaction-detail.field.label.request": "تفاصيل الطلب",
     "transaction-detail.field.label.loan": "تفاصيل الإعارة",
-    "transaction-detail.action.check-out": "إعارة إلى مستفيد",
-    "transaction-detail.action.receive-item": "استلام المادة",
-    "transaction-detail.action.receive-unshipped-item": "استلام مادة غير مشحونة",
-    "transaction-detail.action.return-item": "إعادة المادة",
-    "transaction-detail.action.cancel-hold": "إلغاء الحجز"
+    "transaction.centralServer": "الخادم المركزي",
+    "transaction.patronAgency": "وكالة المستفيد",
+    "transaction-detail.patron-type.action.check-out": "إعارة إلى مستفيد",
+    "transaction-detail.patron-type.action.receive-item": "استلام مادة",
+    "transaction-detail.patron-type.action.receive-unshipped-item": "استلام مادة غير مشحونة",
+    "transaction-detail.patron-type.action.return-item": "إعادة المادة",
+    "transaction-detail.patron-type.action.cancel-hold": "إلغاء الحجز",
+    "transaction-detail.item-type.action.check-out": "إعارة إلى الموقع المستعير",
+    "transaction-detail.item-type.action.transfer-hold": "نقل الحجز إلى مادة أخرى",
+    "transaction-detail.item-type.action.recall-item": "طلب استرجاع مادة",
+    "transaction-detail.item-type.action.cancel-hold": "إلغاء الحجز",
+    "transaction-detail.item-type.action.final-check-in": "الرد النهائي"
 }
