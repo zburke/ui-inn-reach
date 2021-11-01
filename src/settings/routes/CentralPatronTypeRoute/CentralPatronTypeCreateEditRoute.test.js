@@ -176,13 +176,13 @@ describe('renderCentralPatronTypeCreateEditRoute component', () => {
           {
             patronType: '202',
             patronGroupId: '55ca980e-2535-4945-a4f3-d8bd88f9a386',
-            patronGroupLabel: 'Staff Member',
+            patronGroupLabel: 'staff',
             id: '508657aa-927a-4515-91d8-a4e7a759b3db'
           },
           {
             patronType: '219',
             patronGroupId: '21a7f3ce-d40d-4fc3-bf25-f1b0bbcb236f',
-            patronGroupLabel: 'test desc',
+            patronGroupLabel: 'testing',
             id: '6a58f3d5-5933-4941-b3fa-ff6f7395557e'
           }
         ],

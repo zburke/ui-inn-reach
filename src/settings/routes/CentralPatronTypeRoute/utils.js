@@ -16,9 +16,9 @@ const {
 } = CENTRAL_PATRON_TYPE_FIELDS;
 
 export const getFolioPatronGroupOptions = (patronGroups) => {
-  return patronGroups.map(({ id, desc }) => ({
+  return patronGroups.map(({ id, group }) => ({
     [PATRON_GROUP_ID]: id,
-    [PATRON_GROUP_LABEL]: desc,
+    [PATRON_GROUP_LABEL]: group,
   }));
 };
 
@@ -44,14 +44,14 @@ export const getPatronTypeMappingsMap = (patronTypeMappings) => {
 };
 
 export const formatPatronTypeMappings = (patronGroups, patronTypeMappingsMap) => {
-  return patronGroups.reduce((accum, { id, desc }) => {
+  return patronGroups.reduce((accum, { id, group }) => {
     const isPatronTypeSelected = patronTypeMappingsMap.has(id);
 
     if (isPatronTypeSelected) {
       const mapping = {
         [PATRON_TYPE]: patronTypeMappingsMap.get(id).patronType,
         [PATRON_GROUP_ID]: id,
-        [PATRON_GROUP_LABEL]: desc,
+        [PATRON_GROUP_LABEL]: group,
       };
 
       const mappingId = patronTypeMappingsMap.get(id).id;
