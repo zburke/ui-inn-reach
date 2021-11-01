@@ -99,7 +99,7 @@ describe('TransactionListFilters', () => {
 
   it('should show the correct number of MultiChoiceFilter components', () => {
     renderTransactionListFilters();
-    expect(screen.getAllByText('MultiChoiceFilter')).toHaveLength(3);
+    expect(screen.getAllByText('MultiChoiceFilter')).toHaveLength(4);
   });
 
   it('should pass the correct status options', () => {
@@ -113,6 +113,11 @@ describe('TransactionListFilters', () => {
   });
 
   it('should pass the correct patron agency options', () => {
+    renderTransactionListFilters();
+    expect(MultiChoiceFilter.mock.calls[2][0].dataOptions).toEqual(centralServerAgencyOptions);
+  });
+
+  it('should pass the correct item agency options', () => {
     renderTransactionListFilters();
     expect(MultiChoiceFilter.mock.calls[2][0].dataOptions).toEqual(centralServerAgencyOptions);
   });

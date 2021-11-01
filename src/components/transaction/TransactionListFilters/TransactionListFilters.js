@@ -35,6 +35,7 @@ const {
   TRANSACTION_STATUS,
   CENTRAL_SERVER,
   PATRON_AGENCY,
+  ITEM_AGENCY,
 } = TRANSACTION_FILTER_NAMES;
 
 const TransactionListFilters = ({
@@ -88,6 +89,12 @@ const TransactionListFilters = ({
       <MultiChoiceFilter
         name={PATRON_AGENCY}
         activeFilters={activeFilters[PATRON_AGENCY]}
+        dataOptions={centralServerAgencyOptions}
+        onChange={adaptedApplyFilters}
+      />
+      <MultiChoiceFilter
+        name={ITEM_AGENCY}
+        activeFilters={activeFilters[ITEM_AGENCY]}
         dataOptions={centralServerAgencyOptions}
         onChange={adaptedApplyFilters}
       />

@@ -320,6 +320,7 @@
   "transaction.transactionStatus": "Transaction status",
   "transaction.centralServer": "Central server",
   "transaction.patronAgency": "Patron agency",
+  "transaction.itemAgency": "Item agency",
 
   "title.list.transactions": "INN-Reach transactions",
   "search": "Search",
