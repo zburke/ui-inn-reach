@@ -331,5 +331,7 @@
     "transaction-detail.item-type.action.transfer-hold": "Transferir reserva para outro item",
     "transaction-detail.item-type.action.recall-item": "Recall no item",
     "transaction-detail.item-type.action.cancel-hold": "Cancelar reserva",
-    "transaction-detail.item-type.action.final-check-in": "Devolução final"
+    "transaction-detail.item-type.action.final-check-in": "Devolução final",
+    "transaction.itemAgency": "Item agency",
+    "transaction.patronType": "INN-Reach patron type"
 }

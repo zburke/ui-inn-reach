@@ -331,5 +331,7 @@
     "transaction-detail.item-type.action.transfer-hold": "转移预约到另一单件",
     "transaction-detail.item-type.action.recall-item": "召回单件",
     "transaction-detail.item-type.action.cancel-hold": "取消预约",
-    "transaction-detail.item-type.action.final-check-in": "最后归还"
+    "transaction-detail.item-type.action.final-check-in": "最后归还",
+    "transaction.itemAgency": "Item agency",
+    "transaction.patronType": "INN-Reach patron type"
 }

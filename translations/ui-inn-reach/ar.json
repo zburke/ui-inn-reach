@@ -331,5 +331,7 @@
     "transaction-detail.item-type.action.transfer-hold": "نقل الحجز إلى مادة أخرى",
     "transaction-detail.item-type.action.recall-item": "طلب استرجاع مادة",
     "transaction-detail.item-type.action.cancel-hold": "إلغاء الحجز",
-    "transaction-detail.item-type.action.final-check-in": "الرد النهائي"
+    "transaction-detail.item-type.action.final-check-in": "الرد النهائي",
+    "transaction.itemAgency": "Item agency",
+    "transaction.patronType": "INN-Reach patron type"
 }

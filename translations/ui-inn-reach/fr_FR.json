@@ -331,5 +331,7 @@
     "transaction-detail.item-type.action.transfer-hold": "Transfer hold to another item",
     "transaction-detail.item-type.action.recall-item": "Recall item",
     "transaction-detail.item-type.action.cancel-hold": "Cancel hold",
-    "transaction-detail.item-type.action.final-check-in": "Final check-in"
+    "transaction-detail.item-type.action.final-check-in": "Final check-in",
+    "transaction.itemAgency": "Item agency",
+    "transaction.patronType": "INN-Reach patron type"
 }
