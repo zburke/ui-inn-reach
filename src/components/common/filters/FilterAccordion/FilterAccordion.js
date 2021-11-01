@@ -49,7 +49,7 @@ FilterAccordion.propTypes = {
 };
 
 FilterAccordion.defaultProps = {
-  closedByDefault: true,
+  closedByDefault: false,
   disabled: false,
 };
 

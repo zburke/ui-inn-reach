@@ -52,10 +52,28 @@ const centralServerAgencies = {
   ],
 };
 
+const centralServerPatronTypes = {
+  centralServerPatronTypes: [
+    {
+      centralServerId: 'a4c89793-34ba-4cd6-acdb-74e144c052b8',
+      centralServerCode: 'd2ir',
+      patronTypes: [
+        { centralPatronType: 200, description: 'Patron' },
+        { centralPatronType: 201, description: 'Staff' },
+      ],
+    },
+  ],
+};
+
 const centralServerAgencyOptions = [
   { value: '5dlpl', label: 'd2ir: 5dlpl - Sierra Alpha' },
   { value: '5east', label: 'd2ir: 5east - Sierra Public East Library' },
   { value: '5nrth', label: 'd2ir: 5nrth - Sierra Cluster -- North Library' },
+];
+
+const centralServerPatronTypeOptions = [
+  { value: '200', label: 'd2ir: 200 - Patron' },
+  { value: '201', label: 'd2ir: 201 - Staff' },
 ];
 
 const resourcesMock = {
@@ -64,6 +82,9 @@ const resourcesMock = {
   },
   centralServerAgencies: {
     records: [centralServerAgencies],
+  },
+  centralServerPatronTypes: {
+    records: [centralServerPatronTypes],
   },
 };
 
@@ -99,7 +120,7 @@ describe('TransactionListFilters', () => {
 
   it('should show the correct number of MultiChoiceFilter components', () => {
     renderTransactionListFilters();
-    expect(screen.getAllByText('MultiChoiceFilter')).toHaveLength(4);
+    expect(screen.getAllByText('MultiChoiceFilter')).toHaveLength(5);
   });
 
   it('should pass the correct status options', () => {
@@ -119,6 +140,11 @@ describe('TransactionListFilters', () => {
 
   it('should pass the correct item agency options', () => {
     renderTransactionListFilters();
-    expect(MultiChoiceFilter.mock.calls[2][0].dataOptions).toEqual(centralServerAgencyOptions);
+    expect(MultiChoiceFilter.mock.calls[3][0].dataOptions).toEqual(centralServerAgencyOptions);
+  });
+
+  it('should pass the correct INN-Reach patron type options', () => {
+    renderTransactionListFilters();
+    expect(MultiChoiceFilter.mock.calls[4][0].dataOptions).toEqual(centralServerPatronTypeOptions);
   });
 });

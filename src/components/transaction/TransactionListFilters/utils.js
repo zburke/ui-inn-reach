@@ -13,3 +13,12 @@ export const getCentralServerAgencyOptions = (centralServerAgencies) => {
     }));
   }).flat();
 };
+
+export const getCentralServerPatronTypeOptions = (centralServerPatronTypes) => {
+  return centralServerPatronTypes.map(({ centralServerCode, patronTypes }) => {
+    return patronTypes.map(({ centralPatronType, description }) => ({
+      label: `${centralServerCode}: ${centralPatronType} - ${description}`,
+      value: `${centralPatronType}`,
+    }));
+  }).flat();
+};

@@ -45,7 +45,6 @@ MultiChoiceFilter.propTypes = {
 };
 
 MultiChoiceFilter.defaultProps = {
-  closedByDefault: true,
   disabled: false,
 };
 

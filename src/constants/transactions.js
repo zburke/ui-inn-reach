@@ -23,6 +23,7 @@ export const TRANSACTION_FILTER_NAMES = {
   CENTRAL_SERVER: 'centralServer',
   PATRON_AGENCY: 'patronAgency',
   ITEM_AGENCY: 'itemAgency',
+  PATRON_TYPE: 'patronType',
 };
 
 export const TRANSACTION_TYPES = {
