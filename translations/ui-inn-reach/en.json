@@ -322,6 +322,7 @@
   "transaction.patronAgency": "Patron agency",
   "transaction.itemAgency": "Item agency",
   "transaction.patronType": "INN-Reach patron type",
+  "transaction.itemType": "INN-Reach material type",
 
   "title.list.transactions": "INN-Reach transactions",
   "search": "Search",

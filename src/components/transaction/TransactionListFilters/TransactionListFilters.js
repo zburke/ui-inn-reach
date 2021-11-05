@@ -29,6 +29,7 @@ import {
   getTransactionStatusOptions,
   getCentralServerAgencyOptions,
   getCentralServerPatronTypeOptions,
+  getCentralServerItemTypeOptions,
 } from './utils';
 
 const {
@@ -38,6 +39,7 @@ const {
   PATRON_AGENCY,
   ITEM_AGENCY,
   PATRON_TYPE,
+  ITEM_TYPE,
 } = TRANSACTION_FILTER_NAMES;
 
 const TransactionListFilters = ({
@@ -50,7 +52,10 @@ const TransactionListFilters = ({
     },
     centralServerPatronTypes: {
       records: patronTypes,
-    }
+    },
+    centralServerItemTypes: {
+      records: itemTypes,
+    },
   },
   activeFilters,
   applyFilters,
@@ -58,10 +63,12 @@ const TransactionListFilters = ({
   const servers = centralServers[0]?.centralServers || [];
   const centralServerAgencies = agencies[0]?.centralServerAgencies || [];
   const centralServerPatronTypes = patronTypes[0]?.centralServerPatronTypes || [];
+  const centralServerItemTypes = itemTypes[0]?.centralServerItemTypes || [];
   const transactionStatusOptions = useMemo(() => getTransactionStatusOptions(Object.values(TRANSACTION_STATUSES)), []);
   const centralServerOptions = useMemo(() => getCentralServerOptions(servers), [servers]);
   const centralServerAgencyOptions = useMemo(() => getCentralServerAgencyOptions(centralServerAgencies), [centralServerAgencies]);
   const centralServerPatronTypeOptions = useMemo(() => getCentralServerPatronTypeOptions(centralServerPatronTypes), [centralServerPatronTypes]);
+  const centralServerItemTypeOptions = useMemo(() => getCentralServerItemTypeOptions(centralServerItemTypes), [centralServerItemTypes]);
 
   const adaptedApplyFilters = useCallback(applyFiltersAdapter(applyFilters), [applyFilters]);
 
@@ -111,6 +118,12 @@ const TransactionListFilters = ({
         dataOptions={centralServerPatronTypeOptions}
         onChange={adaptedApplyFilters}
       />
+      <MultiChoiceFilter
+        name={ITEM_TYPE}
+        activeFilters={activeFilters[ITEM_TYPE]}
+        dataOptions={centralServerItemTypeOptions}
+        onChange={adaptedApplyFilters}
+      />
     </AccordionSet>
   );
 };
@@ -126,6 +139,9 @@ TransactionListFilters.propTypes = {
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
     }).isRequired,
     centralServerPatronTypes: PropTypes.shape({
+      records: PropTypes.arrayOf(PropTypes.object).isRequired,
+    }).isRequired,
+    centralServerItemTypes: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
     }).isRequired,
   }),
@@ -145,6 +161,11 @@ TransactionListFilters.manifest = Object.freeze({
   centralServerPatronTypes: {
     type: 'okapi',
     path: 'inn-reach/central-servers/patron-types',
+    throwErrors: false,
+  },
+  centralServerItemTypes: {
+    type: 'okapi',
+    path: 'inn-reach/central-servers/item-types',
     throwErrors: false,
   },
 });

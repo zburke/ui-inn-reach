@@ -205,7 +205,7 @@
       },
       {
         "permissionName": "ui-inn-reach.app.all",
-        "displayName": "Settings (inn-reach): INN-Reach App: All permissions",
+        "displayName": "INN-Reach App: All permissions",
         "subPermissions": [
           "module.inn-reach.enabled",
           "inn-reach.central-servers.all",

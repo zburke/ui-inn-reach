@@ -24,6 +24,7 @@ export const TRANSACTION_FILTER_NAMES = {
   PATRON_AGENCY: 'patronAgency',
   ITEM_AGENCY: 'itemAgency',
   PATRON_TYPE: 'patronType',
+  ITEM_TYPE: 'itemType',
 };
 
 export const TRANSACTION_TYPES = {

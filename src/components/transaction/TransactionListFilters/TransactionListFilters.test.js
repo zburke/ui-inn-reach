@@ -65,6 +65,20 @@ const centralServerPatronTypes = {
   ],
 };
 
+const centralServerItemTypes = {
+  centralServerItemTypes: [
+    {
+      centralServerId: '6da136d0-5e32-4b15-a9df-9181f926e7da',
+      centralServerCode: 'd2ir',
+      itemTypes: [
+        { centralItemType: 200, description: 'Book' },
+        { centralItemType: 201, description: 'Av' },
+        { centralItemType: 202, description: 'Non-Circulation' },
+      ],
+    },
+  ],
+};
+
 const centralServerAgencyOptions = [
   { value: '5dlpl', label: 'd2ir: 5dlpl - Sierra Alpha' },
   { value: '5east', label: 'd2ir: 5east - Sierra Public East Library' },
@@ -76,6 +90,12 @@ const centralServerPatronTypeOptions = [
   { value: '201', label: 'd2ir: 201 - Staff' },
 ];
 
+const centralServerItemTypesOptions = [
+  { value: '200', label: 'd2ir: 200 - Book' },
+  { value: '201', label: 'd2ir: 201 - Av' },
+  { value: '202', label: 'd2ir: 202 - Non-Circulation' },
+];
+
 const resourcesMock = {
   centralServerRecords: {
     records: [centralServers],
@@ -85,6 +105,9 @@ const resourcesMock = {
   },
   centralServerPatronTypes: {
     records: [centralServerPatronTypes],
+  },
+  centralServerItemTypes: {
+    records: [centralServerItemTypes],
   },
 };
 
@@ -120,7 +143,7 @@ describe('TransactionListFilters', () => {
 
   it('should show the correct number of MultiChoiceFilter components', () => {
     renderTransactionListFilters();
-    expect(screen.getAllByText('MultiChoiceFilter')).toHaveLength(5);
+    expect(screen.getAllByText('MultiChoiceFilter')).toHaveLength(6);
   });
 
   it('should pass the correct status options', () => {
@@ -146,5 +169,10 @@ describe('TransactionListFilters', () => {
   it('should pass the correct INN-Reach patron type options', () => {
     renderTransactionListFilters();
     expect(MultiChoiceFilter.mock.calls[4][0].dataOptions).toEqual(centralServerPatronTypeOptions);
+  });
+
+  it('should pass the correct item types options', () => {
+    renderTransactionListFilters();
+    expect(MultiChoiceFilter.mock.calls[5][0].dataOptions).toEqual(centralServerItemTypesOptions);
   });
 });

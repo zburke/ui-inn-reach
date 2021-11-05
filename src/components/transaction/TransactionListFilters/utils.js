@@ -22,3 +22,12 @@ export const getCentralServerPatronTypeOptions = (centralServerPatronTypes) => {
     }));
   }).flat();
 };
+
+export const getCentralServerItemTypeOptions = (centralServerItemTypes) => {
+  return centralServerItemTypes.map(({ centralServerCode, itemTypes }) => {
+    return itemTypes.map(({ centralItemType, description }) => ({
+      label: `${centralServerCode}: ${centralItemType} - ${description}`,
+      value: `${centralItemType}`,
+    }));
+  }).flat();
+};
