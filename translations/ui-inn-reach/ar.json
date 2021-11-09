@@ -332,6 +332,7 @@
     "transaction-detail.item-type.action.recall-item": "طلب استرجاع مادة",
     "transaction-detail.item-type.action.cancel-hold": "إلغاء الحجز",
     "transaction-detail.item-type.action.final-check-in": "الرد النهائي",
-    "transaction.itemAgency": "Item agency",
-    "transaction.patronType": "INN-Reach patron type"
+    "transaction.itemAgency": "وكالة المادة",
+    "transaction.patronType": "نوع مستفيد INN-Reach",
+    "transaction.itemType": "نوع مادة INN-Reach"
 }
