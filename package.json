@@ -199,7 +199,10 @@
           "inn-reach.central-patron-type-mappings.all",
           "inn-reach.d2ir.bib-info.all",
           "inn-reach.d2ir.patron-info.all",
-          "inn-reach.central-server.sys-configuration.all"
+          "inn-reach.central-server.sys-configuration.all",
+          "inn-reach.recall-user.item.post",
+          "inn-reach.recall-user.item.get",
+          "inn-reach.recall-user.item.put"
         ],
         "visible": true
       },
