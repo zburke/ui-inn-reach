@@ -329,6 +329,9 @@
   "resetAllFilters": "Reset all",
   "searchAndFilter": "Select activity",
 
+  "transaction.list.itemTitle": "{itemTitle} ({itemAgencyCode})",
+  "transaction.list.patronName": "{patronName} ({patronAgencyCode})",
+
   "transaction-detail.title": "Transaction detail",
   "transaction-detail.accordion.transaction": "Transaction summary",
   "transaction-detail.accordion.patron": "Patron information",

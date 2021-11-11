@@ -33,13 +33,37 @@ export const TRANSACTION_TYPES = {
   LOCAL: 'local',
 };
 
+export const HOLD_FIELDS = {
+  ID: 'id',
+  TRANSACTION_TIME: 'transactionTime',
+  PICH_UP_LOCATION: 'pickupLocation',
+  PATRON_ID: 'patronId',
+  PATRON_AGENCY_CODE: 'patronAgencyCode',
+  ITEM_AGENCY_CODE: 'itemAgencyCode',
+  ITEM_ID: 'itemId',
+  NEED_BEFORE: 'needBefore',
+  CENTRAL_ITEM_TYPE: 'centralItemType',
+  CENTRAL_PATRON_TYPE: 'centralPatronType',
+  PATRON_NAME: 'patronName',
+  PATRON_HOME_LIBRARY: 'patronHomeLibrary',
+  PATRON_PHONE: 'patronPhone',
+  TITLE: 'title',
+  AUTHOR: 'author',
+  CALL_NUMBER: 'callNumber',
+  SHIPPED_ITEM_BARCODE: 'shippedItemBarcode',
+  METADATA: 'metadata',
+};
+
 export const TRANSACTION_FIELDS = {
   ID: 'id',
-  TIME: 'time',
+  CENTRAL_SERVER_CODE: 'centralServerCode',
   TYPE: 'type',
-  ITEM_TITLE: 'itemTitle',
-  PATRON_NAME: 'patronName',
-  STATUS: 'status',
+  TRACKING_ID: 'trackingId',
+  HOLD: 'hold',
+  STATUS: 'state',
+  ITEM_TITLE: HOLD_FIELDS.TITLE,
+  PATRON_NAME: HOLD_FIELDS.PATRON_NAME,
+  TIME: HOLD_FIELDS.TRANSACTION_TIME,
 };
 
 export const TRANSACTION_LIST_DEFAULT_SORT_FIELD = TRANSACTION_FIELDS.TIME;
