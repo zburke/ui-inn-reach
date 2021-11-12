@@ -1,8 +1,20 @@
 # Change history for ui-inn-reach
 
-## [1.2.0] (IN PROGRESS)
+## [1.3.0] (IN PROGRESS)
 
+## [1.2.0] (https://github.com/folio-org/ui-inn-reach/tree/v1.2.0) (2021-11-12)
+
+* Added recall user permissions. Refs UIINREACH-117.
+* INN-Reach Staff Interface: Filter INN-Reach Transactions by INN-Reach Item Type. Refs UIINREACH-63.
+* Inm-reach Permissions. Refs UIINREACH-108.
+* INN-Reach Staff Interface: Filter INN-Reach Transactions by INN-Reach Patron Type. Refs UIINREACH-62.
+* Central Patron Type to FOLIO Patron Group Setting Should Show Patron Group Name Not Patron Group Description in FOLIO Patron Groups Column. Refs UIINREACH-113.
+* INN-Reach Staff Interface: Filter INN-Reach Transactions by Item Agency. Refs UIINREACH-61.
 * Use correct `css-loader` syntax. Refs UIINREACH-111.
+* INN-Reach Staff Interface: Filter INN-Reach Transactions by Patron Agency. Refs UIINREACH-60.
+* INN-Reach Staff Interface: INN-Reach Transaction Detail View Action Menu (Item hold). Refs UIINREACH-69.
+* When Saving an Central Server Configuration, Validate That Libraries Are Only Assigned to a Single Agency Code. Refs UIINREACH-99.
+* INN-Reach Staff Interface: Filter INN-Reach Transactions by Central Server. Refs UIINREACH-59.
 
 ## [1.1.0](https://github.com/folio-org/ui-inn-reach/tree/v1.1.0) (2021-10-08)
 
