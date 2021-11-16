@@ -6,6 +6,8 @@ import {
 import {
   ASC_ORDER,
   DESC_ORDER,
+  SORT_ORDER_PARAMETER,
+  SORT_PARAMETER,
 } from '../constants';
 
 const useSorting = (resetData, sortableFields) => {
@@ -31,8 +33,8 @@ const useSorting = (resetData, sortableFields) => {
 
       if (sortableFields && !sortableFields.includes(newSortField)) {
         return {
-          sort: sortField,
-          order: sortOrder,
+          [SORT_PARAMETER]: sortField,
+          [SORT_ORDER_PARAMETER]: sortOrder,
         };
       }
 
@@ -40,16 +42,16 @@ const useSorting = (resetData, sortableFields) => {
 
       if (newSortField === sortField) {
         newSort = {
-          sort: sortField,
-          order: toggleSortOrder(),
+          [SORT_PARAMETER]: sortField,
+          [SORT_ORDER_PARAMETER]: toggleSortOrder(),
         };
       } else {
         setSortField(newSortField);
         setSortOrder(ASC_ORDER);
 
         newSort = {
-          sort: newSortField,
-          order: ASC_ORDER,
+          [SORT_PARAMETER]: newSortField,
+          [SORT_ORDER_PARAMETER]: ASC_ORDER,
         };
       }
 

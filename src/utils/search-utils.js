@@ -5,7 +5,22 @@ import {
   ASC_ORDER,
   SORT_PARAMETER,
   SORT_ORDER_PARAMETER,
+  TRANSACTION_FIELDS,
+  HOLD_FIELDS,
 } from '../constants';
+
+const {
+  TYPE,
+  STATUS,
+  CENTRAL_SERVER_CODE,
+} = TRANSACTION_FIELDS;
+
+const {
+  PATRON_AGENCY_CODE,
+  ITEM_AGENCY_CODE,
+  CENTRAL_PATRON_TYPE,
+  CENTRAL_ITEM_TYPE,
+} = HOLD_FIELDS;
 
 export const buildSearch = (newQueryParams, searchString) => {
   return Object.keys(newQueryParams).reduce((acc, paramKey) => {
@@ -45,5 +60,12 @@ export const getParams = (searchString, defaultSortField) => {
     [SEARCH_PARAMETER]: queryParams[SEARCH_PARAMETER],
     [SORT_PARAMETER]: queryParams[SORT_PARAMETER] || defaultSortField,
     [SORT_ORDER_PARAMETER]: queryParams[SORT_ORDER_PARAMETER] || ASC_ORDER,
+    [TYPE]: queryParams[TYPE],
+    [STATUS]: queryParams[STATUS],
+    [CENTRAL_SERVER_CODE]: queryParams[CENTRAL_SERVER_CODE],
+    [PATRON_AGENCY_CODE]: queryParams[PATRON_AGENCY_CODE],
+    [ITEM_AGENCY_CODE]: queryParams[ITEM_AGENCY_CODE],
+    [CENTRAL_PATRON_TYPE]: queryParams[CENTRAL_PATRON_TYPE],
+    [CENTRAL_ITEM_TYPE]: queryParams[CENTRAL_ITEM_TYPE],
   };
 };

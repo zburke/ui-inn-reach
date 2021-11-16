@@ -22,13 +22,13 @@ const renderActionMenu = ({
 
 describe('ActionMenu', () => {
   it('should render the patron actions', () => {
-    const { getByText } = renderActionMenu({ transactionType: 'patron' });
+    const { getByText } = renderActionMenu({ transactionType: 'PATRON' });
 
     expect(getByText('PatronActions')).toBeInTheDocument();
   });
 
   it('should render the item actions', () => {
-    const { getByText } = renderActionMenu({ transactionType: 'item' });
+    const { getByText } = renderActionMenu({ transactionType: 'ITEM' });
 
     expect(getByText('ItemActions')).toBeInTheDocument();
   });

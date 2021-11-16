@@ -55,7 +55,7 @@ const resultsFormatter = {
     );
   },
   [TRANSACTION_FIELDS.TYPE]: data => (
-    <FormattedMessage id={`ui-inn-reach.transaction.transactionType.${data[TRANSACTION_FIELDS.TYPE].toLowerCase()}`} />
+    <FormattedMessage id={`ui-inn-reach.transaction.type.${data[TRANSACTION_FIELDS.TYPE].toLowerCase()}`} />
   ),
   [TRANSACTION_FIELDS.ITEM_TITLE]: data => {
     const hold = data[TRANSACTION_FIELDS.HOLD];

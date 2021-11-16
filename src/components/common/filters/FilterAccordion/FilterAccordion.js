@@ -37,11 +37,11 @@ const FilterAccordion = ({
 };
 
 FilterAccordion.propTypes = {
-  activeFilters: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]).isRequired,
   children: PropTypes.node.isRequired,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  activeFilters: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
   closedByDefault: PropTypes.bool,
   disabled: PropTypes.bool,
   label: PropTypes.node,

@@ -17,20 +17,10 @@ export const TRANSACTION_STATUSES = {
   FINAL_CHECKIN: 'FINAL_CHECKIN',
 };
 
-export const TRANSACTION_FILTER_NAMES = {
-  TRANSACTION_TYPE: 'transactionType',
-  TRANSACTION_STATUS: 'transactionStatus',
-  CENTRAL_SERVER: 'centralServer',
-  PATRON_AGENCY: 'patronAgency',
-  ITEM_AGENCY: 'itemAgency',
-  PATRON_TYPE: 'patronType',
-  ITEM_TYPE: 'itemType',
-};
-
 export const TRANSACTION_TYPES = {
-  ITEM: 'item',
-  PATRON: 'patron',
-  LOCAL: 'local',
+  ITEM: 'ITEM',
+  PATRON: 'PATRON',
+  LOCAL: 'LOCAL',
 };
 
 export const HOLD_FIELDS = {

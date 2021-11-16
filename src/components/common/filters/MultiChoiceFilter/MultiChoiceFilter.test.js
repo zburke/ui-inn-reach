@@ -12,7 +12,8 @@ const dataOptionsMock = [
 ];
 
 const renderMultiChoiceFilter = ({
-  name = 'transactionStatus',
+  name = 'state',
+  labelId = 'ui-inn-reach.transaction.status',
   activeFilters = [],
   dataOptions = dataOptionsMock,
   closedByDefault,
@@ -21,6 +22,7 @@ const renderMultiChoiceFilter = ({
 } = {}) => (renderWithIntl(
   <MultiChoiceFilter
     name={name}
+    labelId={labelId}
     activeFilters={activeFilters}
     dataOptions={dataOptions}
     closedByDefault={closedByDefault}
@@ -42,7 +44,7 @@ describe('MultiChoiceFilter', () => {
     renderMultiChoiceFilter({ onChange });
     userEvent.click(screen.getByText('central server1'));
     expect(onChange).toHaveBeenCalledWith({
-      name: 'transactionStatus',
+      name: 'state',
       values: ['central server1'],
     });
   });

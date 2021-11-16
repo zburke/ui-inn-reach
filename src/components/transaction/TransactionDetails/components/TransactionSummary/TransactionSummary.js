@@ -65,7 +65,7 @@ const TransactionSummary = ({
           <KeyValue
             label={<FormattedMessage id="ui-inn-reach.transaction-detail.field.type" />}
             value={transaction[TYPE] &&
-              <FormattedMessage id={`ui-inn-reach.transaction.transactionType.${transaction[TYPE]}`} />
+              <FormattedMessage id={`ui-inn-reach.transaction.type.${transaction[TYPE].toLowerCase()}`} />
             }
           />
         </Col>

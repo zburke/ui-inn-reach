@@ -15,7 +15,7 @@ const transactionMock = {
   title: 'title',
   transactionTime: '2021-09-29T07:24:38.607+00:00',
   trackingId: '12345',
-  transactionType: 'item',
+  transactionType: 'ITEM',
   status: 'ITEM_HOLD',
   patronName: 'Brown, Adam',
   pickupLocation: 'Circ 1',

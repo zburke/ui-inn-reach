@@ -6,6 +6,7 @@ import FilterAccordion from '../FilterAccordion';
 
 const MultiChoiceFilter = ({
   name,
+  labelId,
   activeFilters,
   dataOptions,
   closedByDefault,
@@ -15,7 +16,7 @@ const MultiChoiceFilter = ({
   return (
     <FilterAccordion
       id={`${name}-filter-accordion`}
-      label={<FormattedMessage id={`ui-inn-reach.transaction.${name}`} />}
+      label={<FormattedMessage id={labelId} />}
       name={name}
       activeFilters={activeFilters}
       closedByDefault={closedByDefault}
@@ -36,10 +37,11 @@ const MultiChoiceFilter = ({
 };
 
 MultiChoiceFilter.propTypes = {
-  activeFilters: PropTypes.arrayOf(PropTypes.string).isRequired,
   dataOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  labelId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  activeFilters: PropTypes.arrayOf(PropTypes.string),
   closedByDefault: PropTypes.bool,
   disabled: PropTypes.bool,
 };
