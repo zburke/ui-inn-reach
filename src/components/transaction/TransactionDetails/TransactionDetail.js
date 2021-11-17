@@ -19,13 +19,18 @@ import {
 import {
   TRANSACTION_DETAIL_ACCORDION_STATE,
   FILL_PANE_WIDTH,
-  TRANSACTION_DETAIL_FIELDS,
+  HOLD_FIELDS,
+  TRANSACTION_FIELDS,
 } from '../../../constants';
 
 const {
+  TYPE,
+  HOLD,
+} = TRANSACTION_FIELDS;
+
+const {
   TITLE,
-  TYPE
-} = TRANSACTION_DETAIL_FIELDS;
+} = HOLD_FIELDS;
 
 const TransactionDetail = ({
   transaction,
@@ -53,7 +58,7 @@ const TransactionDetail = ({
             tag="h2"
             margin="small"
           >
-            {transaction[TITLE]}
+            {transaction[HOLD]?.[TITLE]}
           </Headline>
         </Col>
       </Row>

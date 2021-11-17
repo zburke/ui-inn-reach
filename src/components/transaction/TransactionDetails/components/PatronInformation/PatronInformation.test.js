@@ -7,10 +7,14 @@ import { translationsProperties } from '../../../../../../test/jest/helpers';
 import PatronInformation from './PatronInformation';
 
 const transactionMock = {
-  patronId: '111222333',
-  patronName: 'Brown, Adam',
-  patronType: 'Jon (123)',
-  patronAgency: 'Jane (234)',
+  centralServerCode: 'd2ir',
+  hold: {
+    centralPatronType: 200,
+    patronId: 'patron1',
+    patronAgencyCode: 'jcg01',
+    patronName: 'Brown, Adam',
+    folioPatronId: 'b4cee18d-f862-4ef1-95a5-879fdd619603',
+  },
 };
 
 const history = createMemoryHistory();
@@ -34,7 +38,7 @@ describe('PatronInformation', () => {
   });
 
   it('should show the transaction patron id', () => {
-    expect(screen.getByText('111222333')).toBeVisible();
+    expect(screen.getByText('patron1')).toBeVisible();
   });
 
   it('should show the transaction patron name', () => {
@@ -42,10 +46,10 @@ describe('PatronInformation', () => {
   });
 
   it('should show the transaction patron type', () => {
-    expect(screen.getByText('Jon (123)')).toBeVisible();
+    expect(screen.getByText('d2ir: 200')).toBeVisible();
   });
 
   it('should show the transaction patron agency', () => {
-    expect(screen.getByText('Jane (234)')).toBeVisible();
+    expect(screen.getByText('jcg01')).toBeVisible();
   });
 });

@@ -12,8 +12,10 @@ jest.mock('./components', () => ({
 }));
 
 const transactionMock = {
-  id: '1',
-  transactionType: 'patron',
+  type: 'ITEM',
+  hold: {
+    title: 'test title',
+  },
 };
 
 const renderTransactionDetail = ({
@@ -40,6 +42,11 @@ describe('TransactionDetail', () => {
     const { container } = renderTransactionDetail(commonProps);
 
     expect(container).toBeVisible();
+  });
+
+  it('should display a title', () => {
+    renderTransactionDetail(commonProps);
+    expect(screen.getByText('test title')).toBeVisible();
   });
 
   describe('accordion set', () => {

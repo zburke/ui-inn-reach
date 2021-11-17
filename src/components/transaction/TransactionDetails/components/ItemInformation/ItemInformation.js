@@ -11,18 +11,27 @@ import {
   Link,
 } from 'react-router-dom';
 import {
+  HOLD_FIELDS,
   ITEM_INFORMATION,
-  TRANSACTION_DETAIL_FIELDS,
+  TRANSACTION_FIELDS,
 } from '../../../../../constants';
 
 const {
+  HOLD,
+  CENTRAL_SERVER_CODE,
+} = TRANSACTION_FIELDS;
+
+const {
   ITEM_ID,
-  ITEM_TITLE,
+  TITLE,
   CENTRAL_ITEM_TYPE,
   AUTHOR,
-  CALL_NO,
-  ITEM_AGENCY,
-} = TRANSACTION_DETAIL_FIELDS;
+  CALL_NUMBER,
+  ITEM_AGENCY_CODE,
+  FOLIO_ITEM_ID,
+  FOLIO_INSTANCE_ID,
+  FOLIO_HOLDING_ID,
+} = HOLD_FIELDS;
 
 const ItemInformation = ({
   transaction,
@@ -36,9 +45,13 @@ const ItemInformation = ({
         <Col xs={3}>
           <KeyValue
             label={<FormattedMessage id="ui-inn-reach.transaction-detail.field.itemId" />}
-            value={transaction[ITEM_ID] &&
-              <Link to="/">
-                {transaction[ITEM_ID]}
+            value={
+              transaction[HOLD]?.[ITEM_ID] &&
+              transaction[HOLD]?.[FOLIO_ITEM_ID] &&
+              transaction[HOLD]?.[FOLIO_INSTANCE_ID] &&
+              transaction[HOLD]?.[FOLIO_HOLDING_ID] &&
+              <Link to={`/inventory/view/${transaction[HOLD][FOLIO_INSTANCE_ID]}/${transaction[HOLD][FOLIO_HOLDING_ID]}/${transaction[HOLD][FOLIO_ITEM_ID]}`}>
+                {transaction[HOLD][ITEM_ID]}
               </Link>
             }
           />
@@ -46,31 +59,33 @@ const ItemInformation = ({
         <Col xs={3}>
           <KeyValue
             label={<FormattedMessage id="ui-inn-reach.transaction-detail.field.itemTitle" />}
-            value={transaction[ITEM_TITLE]}
+            value={transaction[HOLD]?.[TITLE]}
           />
         </Col>
         <Col xs={3}>
           <KeyValue
             label={<FormattedMessage id="ui-inn-reach.transaction-detail.field.centralItemType" />}
-            value={transaction[CENTRAL_ITEM_TYPE]}
+            value={transaction[HOLD]?.[CENTRAL_ITEM_TYPE] &&
+              `${transaction[CENTRAL_SERVER_CODE]}: ${transaction[HOLD][CENTRAL_ITEM_TYPE]}`
+            }
           />
         </Col>
         <Col xs={3}>
           <KeyValue
             label={<FormattedMessage id="ui-inn-reach.transaction-detail.field.author" />}
-            value={transaction[AUTHOR]}
+            value={transaction[HOLD]?.[AUTHOR]}
           />
         </Col>
         <Col xs={3}>
           <KeyValue
             label={<FormattedMessage id="ui-inn-reach.transaction-detail.field.callNo" />}
-            value={transaction[CALL_NO]}
+            value={transaction[HOLD]?.[CALL_NUMBER]}
           />
         </Col>
         <Col xs={3}>
           <KeyValue
             label={<FormattedMessage id="ui-inn-reach.transaction-detail.field.itemAgency" />}
-            value={transaction[ITEM_AGENCY]}
+            value={transaction[HOLD]?.[ITEM_AGENCY_CODE]}
           />
         </Col>
       </Row>

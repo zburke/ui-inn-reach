@@ -7,12 +7,18 @@ import { translationsProperties } from '../../../../../../test/jest/helpers';
 import ItemInformation from './ItemInformation';
 
 const transactionMock = {
-  itemId: '4324534',
-  itemTitle: 'Canadian labour relations boards reports.',
-  centralItemType: 'Material type name (INN-Reach code)',
-  author: '-',
-  callNo: 'QP1.E61 v.78 c.1',
-  itemAgency: 'fl1g1 (Description)',
+  centralServerCode: 'd2ir',
+  hold: {
+    centralItemType: 200,
+    itemAgencyCode: 'ydg01',
+    itemId: 'it00000000002',
+    author: 'Herbert, Frank J',
+    folioItemId: '34bd066f-51a3-40d0-ba49-4ad3508b4778',
+    folioInstanceId: 'j7f5ebb7-9285-58f8-bc1e-608ac2080894',
+    folioHoldingId: 'w5f5ebb7-9285-58f8-bc1e-608ac2080832',
+    title: 'Children of Dune',
+    callNumber: 'QP1.E61 v.78 c.1',
+  },
 };
 
 const history = createMemoryHistory();
@@ -36,19 +42,19 @@ describe('ItemInformation', () => {
   });
 
   it('should show the transaction item ID', () => {
-    expect(screen.getByText('4324534')).toBeVisible();
+    expect(screen.getByText('it00000000002')).toBeVisible();
   });
 
   it('should show the transaction item title', () => {
-    expect(screen.getByText('Canadian labour relations boards reports.')).toBeVisible();
+    expect(screen.getByText('Children of Dune')).toBeVisible();
   });
 
   it('should show the transaction central item type', () => {
-    expect(screen.getByText('Material type name (INN-Reach code)')).toBeVisible();
+    expect(screen.getByText('d2ir: 200')).toBeVisible();
   });
 
   it('should show the transaction author', () => {
-    expect(screen.getByText('-')).toBeVisible();
+    expect(screen.getByText('Herbert, Frank J')).toBeVisible();
   });
 
   it('should show the transaction call no.', () => {
@@ -56,6 +62,6 @@ describe('ItemInformation', () => {
   });
 
   it('should show the transaction item agency', () => {
-    expect(screen.getByText('fl1g1 (Description)')).toBeVisible();
+    expect(screen.getByText('ydg01')).toBeVisible();
   });
 });

@@ -11,16 +11,22 @@ jest.mock('@folio/stripes-smart-components', () => ({
 }));
 
 const transactionMock = {
-  id: '1',
-  title: 'title',
-  transactionTime: '2021-09-29T07:24:38.607+00:00',
-  trackingId: '12345',
-  transactionType: 'ITEM',
-  status: 'ITEM_HOLD',
-  patronName: 'Brown, Adam',
-  pickupLocation: 'Circ 1',
-  request: 'Request detail',
-  loan: 'Loan detail',
+  hold: {
+    patronName: 'Brown, Adam',
+    pickupLocation: 'Pickup Loc Code 1:Display Name 1:Print Name 1:Delivery stop 1',
+    transactionTime: 1636614805,
+    folioRequestId: '78ad79d9-afbb-462a-afb7-a31eb331a371',
+    folioLoanId: '829f0791-9c2a-42d5-a2eb-6c3b4a38c1d8',
+    folioPatronId: 'b4cee18d-f862-4ef1-95a5-879fdd619603',
+  },
+  metadata: {
+    createdByUserId: 'e2f5ebb7-9285-58f8-bc1e-608ac2080861',
+    createdByUsername: 'diku_admin',
+    createdDate: '2021-10-19T07:12:50.858+00:00',
+  },
+  state: 'ITEM_HOLD',
+  trackingId: '12348',
+  type: 'ITEM',
 };
 
 const history = createMemoryHistory();
@@ -44,11 +50,11 @@ describe('TransactionSummary', () => {
   });
 
   it('should show the transaction time', () => {
-    expect(screen.getByText('9/29/2021, 7:24 AM')).toBeVisible();
+    expect(screen.getByText('11/11/2021, 7:13 AM')).toBeVisible();
   });
 
   it('should show the transaction tracking id', () => {
-    expect(screen.getByText('12345')).toBeVisible();
+    expect(screen.getByText('12348')).toBeVisible();
   });
 
   it('should show the transaction type', () => {
@@ -64,14 +70,14 @@ describe('TransactionSummary', () => {
   });
 
   it('should show the transaction pickup location', () => {
-    expect(screen.getByText('Circ 1')).toBeVisible();
+    expect(screen.getByText('Pickup Loc Code 1:Display Name 1:Print Name 1:Delivery stop 1')).toBeVisible();
   });
 
   it('should show the transaction request', () => {
     expect(screen.getByText('Request detail')).toBeVisible();
   });
 
-  it('should show the transaction type', () => {
+  it('should show the "Loan detail" link', () => {
     expect(screen.getByText('Loan detail')).toBeVisible();
   });
 });

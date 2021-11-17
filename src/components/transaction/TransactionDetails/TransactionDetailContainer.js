@@ -24,7 +24,7 @@ const TransactionDetailContainer = ({
   history,
   location,
 }) => {
-  const transaction = transactionData[0]?.transaction || {};
+  const transaction = transactionData[0] || {};
 
   const backToList = useCallback(() => {
     history.push({
@@ -47,8 +47,6 @@ TransactionDetailContainer.manifest = Object.freeze({
   transactionView: {
     type: 'okapi',
     path: 'inn-reach/transactions/:{id}',
-    fetch: false,
-    accumulate: true,
     throwErrors: false,
   },
 });
