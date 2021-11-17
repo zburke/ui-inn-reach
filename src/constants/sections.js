@@ -14,6 +14,7 @@ import {
   CentralItemTypeRoute,
   FolioCirculationUserRoute,
   PatronAgencyRoute,
+  InnReachRecallUserRoute,
 } from '../settings/routes';
 import {
   MATERIAL_TYPE_ROUTE,
@@ -50,6 +51,9 @@ import {
 import {
   PATRON_AGENCY_ROUTE,
 } from './patron-agency';
+import {
+  INN_REACH_RECALL_USER_ROUTE,
+} from './inn-reach-recall-user';
 
 export const sections = [
   {
@@ -131,6 +135,11 @@ export const sections = [
         route: PATRON_AGENCY_ROUTE,
         label: <FormattedMessage id="ui-inn-reach.settings.patron-agency" />,
         component: PatronAgencyRoute,
+      },
+      {
+        route: INN_REACH_RECALL_USER_ROUTE,
+        label: <FormattedMessage id="ui-inn-reach.settings.inn-reach-recall-user" />,
+        component: InnReachRecallUserRoute,
       },
     ],
   },

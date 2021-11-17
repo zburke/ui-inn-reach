@@ -11,6 +11,7 @@ export * from './central-patron-type';
 export * from './central-item-type';
 export * from './folio-circulation-user';
 export * from './patron-agency';
+export * from './inn-reach-recall-user';
 export * from './transactions';
 export * from './api';
 export * from './search';
