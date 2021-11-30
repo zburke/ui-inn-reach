@@ -18,6 +18,7 @@ const ResetButton = ({ id, disabled, label, reset }) => {
   return (
     <div>
       <Button
+        data-testid="reset-button"
         buttonClass={css.resetButton}
         buttonStyle="none"
         disabled={disabled}

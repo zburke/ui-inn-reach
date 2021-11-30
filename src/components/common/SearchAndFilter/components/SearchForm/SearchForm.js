@@ -44,7 +44,7 @@ const SearchForm = ({
 
   return (
     <form
-      data-test-search-form
+      data-testid="search-form"
       className={insideFormClass}
       onSubmit={submitSearch}
     >
