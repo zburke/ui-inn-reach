@@ -29,7 +29,7 @@ import {
 } from './utils';
 
 const {
-  RECALL_INN_REACH_ITEMS_AS_USER,
+  USER_ID,
 } = INN_REACH_RECALL_USER_FIELDS;
 
 const InnReachRecallUserForm = ({
@@ -81,14 +81,14 @@ const InnReachRecallUserForm = ({
         {selectedServer.id && innReachRecallUser && !isInnReachRecallUserPending &&
           <>
             <DebouncingValidatingField
-              name={RECALL_INN_REACH_ITEMS_AS_USER}
+              name={USER_ID}
               validate={validateUserId(parentMutator)}
             >
               {({ input, meta }) => (
                 <TextField
                   {...input}
                   marginBottom0
-                  id={RECALL_INN_REACH_ITEMS_AS_USER}
+                  id={USER_ID}
                   label={<FormattedMessage id="ui-inn-reach.settings.inn-reach-recall-user.field.recall-inn-reach-items-as-user" />}
                   error={meta.submitFailed ? meta.error : undefined}
                 />
@@ -101,7 +101,7 @@ const InnReachRecallUserForm = ({
               aria-haspopup="true"
               searchLabel={<FormattedMessage id="ui-inn-reach.patron-lookup" />}
               searchButtonStyle="link"
-              selectUser={user => form.change(RECALL_INN_REACH_ITEMS_AS_USER, user.id)}
+              selectUser={user => form.change(USER_ID, user.id)}
             />
           </>
         }

@@ -28,7 +28,7 @@ import {
 } from '../../components/InnReachRecallUser';
 
 const {
-  RECALL_INN_REACH_ITEMS_AS_USER,
+  USER_ID,
 } = INN_REACH_RECALL_USER_FIELDS;
 
 const InnReachRecallUserCreateEditRoute = ({
@@ -88,7 +88,7 @@ const InnReachRecallUserCreateEditRoute = ({
   useEffect(() => {
     if (selectedServer.id && !isInnReachRecallUserPending && !isEmpty(innReachRecallUser)) {
       setInitialValues({
-        [RECALL_INN_REACH_ITEMS_AS_USER]: innReachRecallUser?.[RECALL_INN_REACH_ITEMS_AS_USER],
+        [USER_ID]: innReachRecallUser?.[USER_ID],
       });
     }
   }, [selectedServer.id, innReachRecallUser, isInnReachRecallUserPending]);
@@ -127,6 +127,7 @@ InnReachRecallUserCreateEditRoute.manifest = {
   innReachRecallUser: {
     type: 'okapi',
     path: 'inn-reach/central-servers/%{selectedServerId}/inn-reach-recall-user',
+    clientGeneratePk: false,
     pk: '',
     accumulate: true,
     fetch: false,

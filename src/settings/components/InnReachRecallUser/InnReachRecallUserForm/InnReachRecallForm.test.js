@@ -111,7 +111,7 @@ describe('InnReachRecallForm', () => {
       renderInnReachRecallForm({
         ...commonProps,
         initialValues: {
-          recallInnReachItemsAsUser: 'e2f5ebb7-9285-58f8-bc1e-608ac2080861',
+          userId: 'e2f5ebb7-9285-58f8-bc1e-608ac2080861',
         },
       });
       screen.getByText('centralServer1').click();
