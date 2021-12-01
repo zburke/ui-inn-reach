@@ -60,7 +60,9 @@ const ContributionCriteriaForm = ({
   onChangeServer,
 }) => {
   const { formatMessage } = useIntl();
-  const folioLocationOptions = useMemo(() => getFolioLocations(folioLocations), [folioLocations]);
+  const folioLocationOptions = useMemo(() => {
+    return getFolioLocations(folioLocations, selectedServer.localAgencies);
+  }, [folioLocations, selectedServer.localAgencies]);
   const statisticalCodeOptions = useMemo(() => {
     return getStatisticalCodeOptions(formatMessage, values, statisticalCodes, statisticalCodeTypes);
   }, [statisticalCodes, statisticalCodeTypes, formatMessage, values]);
@@ -119,6 +121,7 @@ const ContributionCriteriaForm = ({
             <Col sm={12}>
               <Field
                 name={LOCATIONS_IDS}
+                id={LOCATIONS_IDS}
                 component={MultiSelection}
                 dataOptions={folioLocationOptions}
                 label={<FormattedMessage id="ui-inn-reach.settings.contribution-criteria.field.locations" />}

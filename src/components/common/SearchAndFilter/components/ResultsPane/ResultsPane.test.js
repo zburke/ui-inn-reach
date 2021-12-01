@@ -4,7 +4,7 @@ import {
 } from '@folio/stripes-data-transfer-components/test/jest/helpers';
 
 import { getFiltersCount } from '../../../../../utils';
-
+import { translationsProperties } from '../../../../../../test/jest/helpers';
 import ResultsPane from './ResultsPane';
 
 jest.mock('../../../../../utils', () => ({
@@ -19,9 +19,11 @@ const renderResultsPane = (props = {
 }) => (renderWithIntl(
   <ResultsPane
     {...props}
+    filters={{}}
   >
     {RESULTS}
   </ResultsPane>,
+  translationsProperties
 ));
 
 describe('ResultsPane', () => {

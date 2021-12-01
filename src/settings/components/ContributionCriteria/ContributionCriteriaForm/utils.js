@@ -12,8 +12,21 @@ const {
   CONTRIBUTE_AS_SYSTEM_OWNED_ID,
 } = CONTRIBUTION_CRITERIA;
 
-export const getFolioLocations = (folioLocations) => {
-  return folioLocations.map(({ id, name }) => ({
+const getServerLibIdsSet = (localAgencies) => {
+  return localAgencies.reduce((accum, { folioLibraryIds }) => {
+    folioLibraryIds.forEach(libId => {
+      accum.add(libId);
+    });
+
+    return accum;
+  }, new Set());
+};
+
+export const getFolioLocations = (folioLocations, localAgencies = []) => {
+  const serverLibIdsSet = getServerLibIdsSet(localAgencies);
+  const filteredFolioLocations = folioLocations.filter(location => serverLibIdsSet.has(location.libraryId));
+
+  return filteredFolioLocations.map(({ id, name }) => ({
     label: name,
     value: id,
   }));

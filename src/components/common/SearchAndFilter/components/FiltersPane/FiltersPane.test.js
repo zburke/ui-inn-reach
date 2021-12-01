@@ -5,6 +5,7 @@ import {
 import user from '@testing-library/user-event';
 
 import FiltersPane from './FiltersPane';
+import { translationsProperties } from '../../../../../../test/jest/helpers';
 
 const FILTERS = 'Filters';
 const COLLAPSE_FILTERS_BUTTON = 'Icon';
@@ -17,6 +18,7 @@ const renderFiltersPane = (props = {
   >
     {FILTERS}
   </FiltersPane>,
+  translationsProperties
 ));
 
 describe('FiltersPane', () => {

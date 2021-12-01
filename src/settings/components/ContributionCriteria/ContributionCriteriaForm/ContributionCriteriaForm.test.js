@@ -12,11 +12,13 @@ import { CENTRAL_SERVER_ID } from '../../../../constants';
 const folioLocations = [
   {
     id: 1,
-    name: 'testLocation1',
+    name: 'Annex',
+    libraryId: '5d78803e-ca04-4b4a-aeae-2c63b924518b',
   },
   {
     id: 2,
-    name: 'testLocation2',
+    name: 'Online',
+    libraryId: 'c2549bb4-19c7-4fcc-8b52-39e612fb7dbe',
   }
 ];
 
@@ -40,11 +42,21 @@ const serverOptions = [
   {
     id: '5f552f82-91a8-4700-9814-988826d825c9',
     value: 'testName',
+    localAgencies: [
+      {
+        folioLibraryIds: ['5d78803e-ca04-4b4a-aeae-2c63b924518b'],
+      },
+    ],
     label: 'testName'
   },
   {
     id: '0b3a1862-ef3c-4ef4-beba-f6444069a5f5',
     value: 'testName2',
+    localAgencies: [
+      {
+        folioLibraryIds: ['c2549bb4-19c7-4fcc-8b52-39e612fb7dbe'],
+      },
+    ],
     label: 'testName2'
   }
 ];
@@ -124,6 +136,17 @@ describe('ContributionCriteriaForm', () => {
       isResetForm: true,
     });
     expect(onChangeFormResetState).toHaveBeenCalledWith(false);
+  });
+
+  it('should only have locations of the selected central server', () => {
+    renderContributionCriteriaForm({
+      ...commonProps,
+      selectedServer: serverOptions[0],
+    });
+    const libraryOptions = document.querySelectorAll('[id="multiselect-option-list-locationIds"]>li');
+
+    expect(libraryOptions.length).toBe(1);
+    expect(screen.getByText('Annex'));
   });
 
   describe('`FOLIO statistical code to exclude from contribution` field', () => {

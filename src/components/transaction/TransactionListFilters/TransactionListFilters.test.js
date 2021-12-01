@@ -9,14 +9,14 @@ import {
 
 const centralServers = {
   centralServers: [
-    { id: '1', name: 'central server1' },
-    { id: '2', name: 'central server2' },
+    { id: '1', name: 'central server1', centralServerCode: 'd2ir' },
+    { id: '2', name: 'central server2', centralServerCode: '1234' },
   ]
 };
 
 const centralServerOptions = [
-  { id: '1', label: 'central server1', value: 'central server1' },
-  { id: '2', label: 'central server2', value: 'central server2' },
+  { id: '1', label: 'central server1 (d2ir)', value: 'd2ir' },
+  { id: '2', label: 'central server2 (1234)', value: '1234' },
 ];
 
 const transactionStatusOptions = [

@@ -23,7 +23,6 @@ import {
 } from '../../../constants';
 import {
   applyFiltersAdapter,
-  getCentralServerOptions,
   getCheckboxFilterOptions,
 } from '../../../utils';
 import {
@@ -31,6 +30,7 @@ import {
   getCentralServerAgencyOptions,
   getCentralServerPatronTypeOptions,
   getCentralServerItemTypeOptions,
+  getCentralServerOpts,
 } from './utils';
 
 const {
@@ -71,7 +71,7 @@ const TransactionListFilters = ({
 
   const getTransactionTypeDataOptions = useMemo(() => getCheckboxFilterOptions(TYPE, Object.values(TRANSACTION_TYPES)), []);
   const transactionStatusOptions = useMemo(() => getTransactionStatusOptions(Object.values(TRANSACTION_STATUSES)), []);
-  const centralServerOptions = useMemo(() => getCentralServerOptions(servers), [servers]);
+  const centralServerOptions = useMemo(() => getCentralServerOpts(servers), [servers]);
   const centralServerAgencyOptions = useMemo(() => getCentralServerAgencyOptions(centralServerAgencies), [centralServerAgencies]);
   const centralServerPatronTypeOptions = useMemo(() => getCentralServerPatronTypeOptions(centralServerPatronTypes), [centralServerPatronTypes]);
   const centralServerItemTypeOptions = useMemo(() => getCentralServerItemTypeOptions(centralServerItemTypes), [centralServerItemTypes]);
@@ -125,7 +125,7 @@ const TransactionListFilters = ({
       />
       <MultiChoiceFilter
         name={CENTRAL_ITEM_TYPE}
-        labelId="ui-inn-reach.transaction.itemType"
+        labelId="ui-inn-reach.transaction.innReachItemType"
         activeFilters={activeFilters[CENTRAL_ITEM_TYPE]}
         dataOptions={centralServerItemTypeOptions}
         onChange={adaptedApplyFilters}

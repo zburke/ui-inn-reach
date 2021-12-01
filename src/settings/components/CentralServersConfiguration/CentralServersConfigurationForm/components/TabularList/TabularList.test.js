@@ -112,23 +112,21 @@ describe('TabularList component', () => {
     });
   });
 
-  /*
   describe('Filtering of FOLIO libraries', () => {
     it('should show all libraries', () => {
-      const librariesCount = document.querySelectorAll('[id="multiselect-option-list-localAgencies[0].FOLIOLibraries-0"]>ul>li').length;
+      const librariesCount = document.querySelectorAll('[id="multiselect-option-list-localAgencies[0].FOLIOLibraries-0"]>li').length;
 
       expect(librariesCount).toBe(7);
     });
 
     it('should show the filtered list of libraries', () => {
-      const firstLibrary = document.querySelector('[id="multiselect-option-list-localAgencies[0].FOLIOLibraries-0"]>ul>li');
+      const firstLibrary = document.querySelector('[id="multiselect-option-list-localAgencies[0].FOLIOLibraries-0"]>li');
 
       firstLibrary.click();
       userEvent.click(screen.getByRole('button', { name: 'Add a new row' }));
-      const librariesCount = document.querySelectorAll('[id="multiselect-option-list-localAgencies[1].FOLIOLibraries-1"]>ul>li').length;
+      const librariesCount = document.querySelectorAll('[id="multiselect-option-list-localAgencies[1].FOLIOLibraries-1"]>li').length;
 
       expect(librariesCount).toBe(6);
     });
   });
-  */
 });

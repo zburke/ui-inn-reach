@@ -3,13 +3,14 @@ import {
   renderWithIntl,
 } from '@folio/stripes-data-transfer-components/test/jest/helpers';
 import user from '@testing-library/user-event';
-
+import { translationsProperties } from '../../../../../../test/jest/helpers';
 import ResetButton from './ResetButton';
 
 const renderResetButton = (props = {}) => (renderWithIntl(
   <ResetButton
     {...props}
   />,
+  translationsProperties
 ));
 
 describe('ResetButton', () => {

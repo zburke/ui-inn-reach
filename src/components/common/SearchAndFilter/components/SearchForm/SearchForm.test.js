@@ -6,7 +6,7 @@ import {
 import {
   SearchField,
 } from '@folio/stripes/components';
-
+import { translationsProperties } from '../../../../../../test/jest/helpers';
 import SearchForm from './SearchForm';
 
 jest.mock('@folio/stripes/components', () => {
@@ -24,6 +24,7 @@ const renderSearchForm = ({
     applySearch={applySearch}
     changeSearch={changeSearch}
   />,
+  translationsProperties
 ));
 
 describe('SearchForm', () => {

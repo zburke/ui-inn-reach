@@ -327,9 +327,9 @@
   "transaction.transactionStatus": "Transaction status",
   "transaction.centralServer": "Central server",
   "transaction.patronAgency": "Patron agency",
+  "transaction.innReachItemType": "INN-Reach item type",
   "transaction.itemAgency": "Item agency",
   "transaction.patronType": "INN-Reach patron type",
-  "transaction.itemType": "INN-Reach item type",
 
   "title.list.transactions": "INN-Reach transactions",
   "search": "Search",
