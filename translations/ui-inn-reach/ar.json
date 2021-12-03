@@ -324,7 +324,6 @@
     "transaction-detail.item-type.action.final-check-in": "الرد النهائي",
     "transaction.itemAgency": "وكالة المادة",
     "transaction.patronType": "نوع مستفيد INN-Reach",
-    "transaction.itemType": "نوع مادة INN-Reach",
     "transaction.list.itemTitle": "{itemTitle} ({itemAgencyCode})",
     "transaction.list.patronName": "{patronName} ({patronAgencyCode})",
     "transaction.type": "نوع المعاملة",
@@ -343,5 +342,6 @@
     "transaction.field.label.transactionType.item": "المادة",
     "transaction.field.label.transactionType.patron": "المستفيد",
     "transaction.field.label.transactionType.local": "محلي",
-    "transaction.transactionStatus": "حالة المعاملة"
+    "transaction.transactionStatus": "حالة المعاملة",
+    "transaction.innReachItemType": "نوع مادة INN-Reach"
 }
