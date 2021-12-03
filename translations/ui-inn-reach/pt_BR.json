@@ -324,9 +324,8 @@
     "transaction-detail.item-type.action.final-check-in": "Devolução final",
     "transaction.itemAgency": "Item agency",
     "transaction.patronType": "INN-Reach patron type",
-    "transaction.itemType": "INN-Reach item type",
-    "transaction.list.itemTitle": "{itemTitle} ({itemAgencyCode})",
-    "transaction.list.patronName": "{patronName} ({patronAgencyCode})",
+    "transaction.list.itemTitle": "{itemTitle} ( {itemAgencyCode} )",
+    "transaction.list.patronName": "{patronName} ( {patronAgencyCode} )",
     "transaction.type": "Transaction type",
     "transaction.type.item": "Item",
     "transaction.type.patron": "Patron",
@@ -343,5 +342,6 @@
     "transaction.field.label.transactionType.item": "Item",
     "transaction.field.label.transactionType.patron": "Patron",
     "transaction.field.label.transactionType.local": "Local",
-    "transaction.transactionStatus": "Transaction status"
+    "transaction.transactionStatus": "Transaction status",
+    "transaction.innReachItemType": "INN-Reach item type"
 }
