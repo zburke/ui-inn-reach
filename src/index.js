@@ -14,6 +14,7 @@ import {
 
 import InnReachSettings from './settings';
 import TransactionDetailContainer from './components/transaction/TransactionDetails';
+import ReceiveShippedItem from './components/ReceiveShippedItem';
 import {
   sections,
 } from './constants/sections';
@@ -62,6 +63,10 @@ export default function InnReach({
           component={TransactionDetailContainer}
         />
       </Route>
+      <Route
+        path={`${path}/receive-shipped-item`}
+        component={ReceiveShippedItem}
+      />
       <Redirect to={`${path}/transactions`} />
     </Switch>
   );

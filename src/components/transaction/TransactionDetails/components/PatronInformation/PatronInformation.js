@@ -14,16 +14,16 @@ import {
   HOLD_FIELDS,
   PATRON_INFORMATION,
   TRANSACTION_FIELDS,
-  TRANSACTION_STATUSES,
+  TRANSACTION_TYPES,
 } from '../../../../../constants';
 
 const {
-  PATRON_HOLD,
-} = TRANSACTION_STATUSES;
+  PATRON,
+} = TRANSACTION_TYPES;
 
 const {
+  TYPE,
   HOLD,
-  STATUS,
   CENTRAL_SERVER_CODE,
 } = TRANSACTION_FIELDS;
 
@@ -50,7 +50,7 @@ const PatronInformation = ({
             value={
               transaction[HOLD]?.[PATRON_ID] &&
               transaction[HOLD]?.[FOLIO_PATRON_ID] &&
-              transaction[STATUS] === PATRON_HOLD
+              transaction[TYPE] === PATRON
                 ? (
                   <Link to={`/users/preview/${transaction[HOLD][FOLIO_PATRON_ID]}`}>
                     {transaction[HOLD][FOLIO_PATRON_ID]}

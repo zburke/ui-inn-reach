@@ -18,6 +18,7 @@ import {
   ResultsPane,
   ResultStatusMessage,
 } from './components';
+import NavigationMenu from '../NavigationMenu';
 
 import TransactionListFilters from '../../transaction/TransactionListFilters';
 
@@ -105,7 +106,11 @@ const SearchAndFilter = ({
     <Paneset data-test-result-list>
       {(isFiltersOpened && !isInsideListSearch) && (
         <FiltersPane toggleFilters={toggleFilters}>
-
+          <NavigationMenu
+            separator
+            history={history}
+            location={location}
+          />
           <SearchForm
             applySearch={applySearch}
             changeSearch={changeSearch}
@@ -154,7 +159,7 @@ const SearchAndFilter = ({
           id={id}
           isEmptyMessage={resultsStatusMessage}
           loading={isLoading}
-          sortDirection={sortingDirection}
+          sortDirection={`${sortingDirection}ending`}
           sortOrder={sortingField}
           totalCount={count}
           visibleColumns={visibleColumns}

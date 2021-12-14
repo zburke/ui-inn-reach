@@ -1,0 +1,12 @@
+.container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
+.footerContent {
+  max-width: 100%;
+}

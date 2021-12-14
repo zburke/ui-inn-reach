@@ -15,3 +15,4 @@ export * from './inn-reach-recall-user';
 export * from './transactions';
 export * from './api';
 export * from './search';
+export * from './receive-shipped-item';

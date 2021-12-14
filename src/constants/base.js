@@ -9,6 +9,10 @@ export const DEFAULT_PANE_WIDTH = '65%';
 export const FILL_PANE_WIDTH = 'fill';
 export const METADATA = 'metadata';
 
+export const METADATA_FIELDS = {
+  UPDATED_DATE: 'updatedDate',
+};
+
 export const CALLOUT_ERROR_TYPE = 'error';
 export const BANNER_ERROR_TYPE = 'error';
 
@@ -24,6 +28,8 @@ export const ICONS = {
   CHECK_OUT: 'check-out',
   CHECK_IN: 'check-in',
   RECEIVE: 'receive',
+  ELLIPSIS: 'ellipsis',
+  SPINNER_ELLIPSIS: 'spinner-ellipsis',
 };
 
 export const FILTER_PANE_WIDTH = '320px';
