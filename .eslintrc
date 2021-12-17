@@ -41,10 +41,6 @@
       "error",
       "multiline"
     ],
-    "react/destructuring-assignment": [
-      "error",
-      "always"
-    ],
     "react/sort-prop-types": [
       "error",
       {
