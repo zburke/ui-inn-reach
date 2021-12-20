@@ -126,6 +126,8 @@ describe('ReceiveShippedItem', () => {
     ListCheckInItems.mockClear();
     mutatorMock.transactionRecords.reset.mockClear();
     mutatorMock.receiveShippedItem.POST.mockClear();
+    mutatorMock.transactionId.replace.mockClear();
+    mutatorMock.servicePointId.replace.mockClear();
   });
 
   it('should be rendered', () => {
@@ -167,9 +169,11 @@ describe('ReceiveShippedItem', () => {
       renderReceiveItem();
       expect(mutatorMock.transactionRecords.GET).toHaveBeenCalledWith({
         params: {
-          query: itemBarcode,
+          itemBarcode,
           type: 'PATRON',
           state: 'ITEM_SHIPPED',
+          sortBy: 'updatedDate',
+          sortOrder: 'desc',
         },
       });
     });
@@ -177,7 +181,7 @@ describe('ReceiveShippedItem', () => {
     describe('transactions response processing', () => {
       it('should order the received transactions by date of modification, descending', async () => {
         await renderReceiveItem();
-        expect(mutatorMock.transactionId.replace).toHaveBeenLastCalledWith('e6f66467-b9b0-4165-8cde-ec6fe4cfb79f');
+        expect(mutatorMock.transactionId.replace).toHaveBeenLastCalledWith(transactionsMock.transactions[0].id);
       });
 
       it('should add the service point id to the redux', async () => {

@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   isEmpty,
-  orderBy,
 } from 'lodash';
 
 import {
@@ -27,13 +26,14 @@ import {
 
 import {
   CALLOUT_ERROR_TYPE,
+  DESC_ORDER,
   FILL_PANE_WIDTH,
   getReceiveShippedItemUrl,
   ICONS,
-  METADATA,
   METADATA_FIELDS,
   RECEIVED_ITEM_FIELDS,
-  SEARCH_PARAMETER,
+  SORT_ORDER_PARAMETER,
+  SORT_PARAMETER,
   TRANSACTION_FIELDS,
   TRANSACTION_STATUSES,
   TRANSACTION_TYPES,
@@ -61,6 +61,7 @@ const {
 const {
   TYPE,
   STATUS,
+  ITEM_BARCODE,
 } = TRANSACTION_FIELDS;
 
 const {
@@ -131,13 +132,14 @@ const ReceiveShippedItems = ({
     mutator.transactionRecords.reset();
     mutator.transactionRecords.GET({
       params: {
-        [SEARCH_PARAMETER]: itemBarcode.trim(),
+        [ITEM_BARCODE]: itemBarcode.trim(),
         [TYPE]: PATRON,
         [STATUS]: ITEM_SHIPPED,
+        [SORT_PARAMETER]: UPDATED_DATE,
+        [SORT_ORDER_PARAMETER]: DESC_ORDER,
       },
     })
-      .then(({ transactions }) => {
-        const transaction = orderBy(transactions, [`${METADATA}.${UPDATED_DATE}`], ['desc'])[0];
+      .then(({ transactions: [transaction] }) => {
         const servicePointId = stripes?.user?.user?.curServicePoint?.id;
 
         setIsTransactionsLoaded(true);
