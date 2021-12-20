@@ -1,8 +1,9 @@
 import React from 'react';
 import { createMemoryHistory } from 'history';
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jest/helpers';
 import { cloneDeep } from 'lodash';
+import { useStripes } from '@folio/stripes/core';
 import { translationsProperties } from '../../../../test/jest/helpers';
 import TransactionDetailContainer from './TransactionDetailContainer';
 import TransactionDetail from './TransactionDetail';
@@ -61,25 +62,51 @@ const resourcesMock = {
   },
 };
 
+const mutatorMock = {
+  servicePointId: {
+    replace: jest.fn(),
+  },
+  transactionId: {
+    replace: jest.fn(),
+  },
+  receiveUnshippedItem: {
+    POST: jest.fn(() => Promise.resolve()),
+  },
+};
+
 const historyMock = createMemoryHistory();
+const servicePointId = 'c4c90014-c8c9-4ade-8f24-b5e313319f4b';
+const itemBarcode = '12345';
 
 const renderTransactionDetailContainer = ({
   resources = resourcesMock,
+  mutator = mutatorMock,
   history = historyMock,
+  stripes,
 } = {}) => {
   return renderWithIntl(
     <TransactionDetailContainer
       resources={resources}
+      mutator={mutator}
       history={history}
       location={{ pathname: '/' }}
+      stripes={stripes}
     />,
     translationsProperties,
   );
 };
 
 describe('TransactionDetailContainer', () => {
+  let stripes;
+
+  beforeEach(() => {
+    stripes = cloneDeep(useStripes());
+    stripes.user.user.curServicePoint = { id: servicePointId };
+    TransactionDetail.mockClear();
+  });
+
   it('should be rendered', () => {
-    const { container } = renderTransactionDetailContainer();
+    const { container } = renderTransactionDetailContainer({ stripes });
 
     expect(container).toBeVisible();
   });
@@ -88,7 +115,10 @@ describe('TransactionDetailContainer', () => {
     const newResources = cloneDeep(resourcesMock);
 
     newResources.transactionView.isPending = true;
-    renderTransactionDetailContainer({ resources: newResources });
+    renderTransactionDetailContainer({
+      resources: newResources,
+      stripes,
+    });
     expect(screen.getByText('LoadingPane')).toBeVisible();
   });
 
@@ -96,9 +126,36 @@ describe('TransactionDetailContainer', () => {
     it('should navigate to the page with a list of transactions', () => {
       const history = createMemoryHistory();
 
-      renderTransactionDetailContainer({ history });
-      TransactionDetail.mock.calls[1][0].onClose();
+      renderTransactionDetailContainer({
+        history,
+        stripes,
+      });
+      TransactionDetail.mock.calls[0][0].onClose();
       expect(history.location.pathname).toBe('/innreach/transactions');
+    });
+  });
+
+  describe('receive unshipped modal', () => {
+    it('should be open', () => {
+      renderTransactionDetailContainer({ stripes });
+      act(() => { TransactionDetail.mock.calls[0][0].onTriggerUnshippedItemModal(); });
+      expect(TransactionDetail.mock.calls[1][0].isOpenUnshippedItemModal).toBeTruthy();
+    });
+
+    it('should update the transaction state', () => {
+      renderTransactionDetailContainer({ stripes });
+      TransactionDetail.mock.calls[0][0].onFetchReceiveUnshippedItem({ itemBarcode });
+      expect(mutatorMock.receiveUnshippedItem.POST).toHaveBeenLastCalledWith({ itemBarcode });
+    });
+
+    it('should write transaction id to the redux', () => {
+      renderTransactionDetailContainer({ stripes });
+      expect(mutatorMock.transactionId.replace).toHaveBeenLastCalledWith(transactionMock.id);
+    });
+
+    it('should write service point id to the redux', () => {
+      renderTransactionDetailContainer({ stripes });
+      expect(mutatorMock.servicePointId.replace).toHaveBeenCalledWith(servicePointId);
     });
   });
 });

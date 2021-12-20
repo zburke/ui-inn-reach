@@ -4,6 +4,7 @@ import {
   MenuSection,
 } from '@folio/stripes-components';
 import {
+  TRANSACTION_FIELDS,
   TRANSACTION_TYPES,
 } from '../../../../../constants';
 import {
@@ -16,17 +17,24 @@ const {
   ITEM,
 } = TRANSACTION_TYPES;
 
+const {
+  TYPE,
+} = TRANSACTION_FIELDS;
+
 const ActionMenu = ({
+  transaction,
   onToggle,
-  transactionType,
+  onReceiveUnshippedItem,
 }) => {
   let actions;
 
-  switch (transactionType) {
+  switch (transaction[TYPE]) {
     case PATRON:
       actions = (
         <PatronActions
+          transaction={transaction}
           onToggle={onToggle}
+          onReceiveUnshippedItem={onReceiveUnshippedItem}
         />
       );
       break;
@@ -49,7 +57,8 @@ const ActionMenu = ({
 };
 
 ActionMenu.propTypes = {
-  transactionType: PropTypes.string.isRequired,
+  transaction: PropTypes.object.isRequired,
+  onReceiveUnshippedItem: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
 };
 

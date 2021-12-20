@@ -23,6 +23,7 @@ const ActionItem = ({
     id={id}
     buttonStyle={buttonStyle}
     disabled={disabled}
+    buttonClass={disabled ? css.button : null}
     onClick={() => {
       onToggle();
       onClickHandler();

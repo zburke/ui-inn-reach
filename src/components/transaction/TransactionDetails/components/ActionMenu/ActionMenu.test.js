@@ -9,12 +9,13 @@ jest.mock('./components', () => ({
 }));
 
 const renderActionMenu = ({
-  transactionType,
+  transaction,
 } = {}) => {
   return renderWithIntl(
     <ActionMenu
-      transactionType={transactionType}
+      transaction={transaction}
       onToggle={jest.fn()}
+      onReceiveUnshippedItem={jest.fn()}
     />,
     translationsProperties,
   );
@@ -22,13 +23,13 @@ const renderActionMenu = ({
 
 describe('ActionMenu', () => {
   it('should render the patron actions', () => {
-    const { getByText } = renderActionMenu({ transactionType: 'PATRON' });
+    const { getByText } = renderActionMenu({ transaction: { type: 'PATRON' } });
 
     expect(getByText('PatronActions')).toBeInTheDocument();
   });
 
   it('should render the item actions', () => {
-    const { getByText } = renderActionMenu({ transactionType: 'ITEM' });
+    const { getByText } = renderActionMenu({ transaction: { type: 'ITEM' } });
 
     expect(getByText('ItemActions')).toBeInTheDocument();
   });

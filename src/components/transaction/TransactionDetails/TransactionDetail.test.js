@@ -9,6 +9,7 @@ jest.mock('./components', () => ({
   TransactionSummary: jest.fn(() => <div>TransactionSummary</div>),
   PatronInformation: jest.fn(() => <div>PatronInformation</div>),
   ItemInformation: jest.fn(() => <div>ItemInformation</div>),
+  ReceiveUnshippedItemModal: jest.fn(() => <div>ReceiveUnshippedItemModal</div>),
 }));
 
 const transactionMock = {
@@ -20,12 +21,19 @@ const transactionMock = {
 
 const renderTransactionDetail = ({
   transaction = transactionMock,
+  isOpenUnshippedItemModal = false,
+  onTriggerUnshippedItemModal,
+  onFetchReceiveUnshippedItem,
   onClose,
 } = {}) => {
   return renderWithIntl(
     <TransactionDetail
       transaction={transaction}
+      intl={{}}
+      isOpenUnshippedItemModal={isOpenUnshippedItemModal}
       onClose={onClose}
+      onTriggerUnshippedItemModal={onTriggerUnshippedItemModal}
+      onFetchReceiveUnshippedItem={onFetchReceiveUnshippedItem}
     />,
     translationsProperties,
   );
@@ -33,9 +41,13 @@ const renderTransactionDetail = ({
 
 describe('TransactionDetail', () => {
   const onClose = jest.fn();
+  const onTriggerUnshippedItemModal = jest.fn();
+  const onFetchReceiveUnshippedItem = jest.fn();
 
   const commonProps = {
     onClose,
+    onTriggerUnshippedItemModal,
+    onFetchReceiveUnshippedItem,
   };
 
   it('should be rendered', () => {
@@ -65,5 +77,13 @@ describe('TransactionDetail', () => {
     it('should have ItemInformation', () => {
       expect(screen.getByText('ItemInformation')).toBeVisible();
     });
+  });
+
+  it('should display a modal for "receive unshipped item"', () => {
+    renderTransactionDetail({
+      ...commonProps,
+      isOpenUnshippedItemModal: true,
+    });
+    expect(screen.getByText('ReceiveUnshippedItemModal')).toBeVisible();
   });
 });

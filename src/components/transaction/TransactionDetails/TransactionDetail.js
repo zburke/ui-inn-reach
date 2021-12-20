@@ -2,7 +2,10 @@ import React, {
   useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+} from 'react-intl';
+
 import {
   Pane,
   Row,
@@ -10,11 +13,13 @@ import {
   AccordionSet,
   Headline,
 } from '@folio/stripes-components';
+
 import {
   PatronInformation,
   TransactionSummary,
   ItemInformation,
   ActionMenu,
+  ReceiveUnshippedItemModal,
 } from './components';
 import {
   TRANSACTION_DETAIL_ACCORDION_STATE,
@@ -24,7 +29,6 @@ import {
 } from '../../../constants';
 
 const {
-  TYPE,
   HOLD,
 } = TRANSACTION_FIELDS;
 
@@ -34,14 +38,19 @@ const {
 
 const TransactionDetail = ({
   transaction,
+  intl,
+  isOpenUnshippedItemModal,
   onClose,
+  onTriggerUnshippedItemModal,
+  onFetchReceiveUnshippedItem,
 }) => {
   const renderActionMenu = useCallback(({ onToggle }) => (
     <ActionMenu
-      transactionType={transaction[TYPE]}
+      transaction={transaction}
       onToggle={onToggle}
+      onReceiveUnshippedItem={onTriggerUnshippedItemModal}
     />
-  ), [transaction[TYPE]]);
+  ), [transaction]);
 
   return (
     <Pane
@@ -67,13 +76,24 @@ const TransactionDetail = ({
         <PatronInformation transaction={transaction} />
         <ItemInformation transaction={transaction} />
       </AccordionSet>
+      {isOpenUnshippedItemModal &&
+        <ReceiveUnshippedItemModal
+          intl={intl}
+          onSubmit={onFetchReceiveUnshippedItem}
+          onTriggerModal={onTriggerUnshippedItemModal}
+        />
+      }
     </Pane>
   );
 };
 
 TransactionDetail.propTypes = {
+  intl: PropTypes.object.isRequired,
+  isOpenUnshippedItemModal: PropTypes.bool.isRequired,
   transaction: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
+  onFetchReceiveUnshippedItem: PropTypes.func.isRequired,
+  onTriggerUnshippedItemModal: PropTypes.func.isRequired,
 };
 
 export default TransactionDetail;
