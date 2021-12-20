@@ -2,6 +2,8 @@
 
 ## [1.3.0] (IN PROGRESS)
 
+* Use supported `uuid`. Refs UIINREACH-127.
+
 ## [1.2.0] (https://github.com/folio-org/ui-inn-reach/tree/v1.2.0) (2021-11-12)
 
 * Added recall user permissions. Refs UIINREACH-117.
