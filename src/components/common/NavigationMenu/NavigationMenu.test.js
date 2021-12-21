@@ -15,7 +15,8 @@ const pushSpy = jest.spyOn(historyMock, 'push');
 
 const transactionsPathname = '/innreach/transactions';
 const receiveItemPathname = '/innreach/receive-shipped-item';
-const search = '?state=PATRON_HOLD&type=PATRON';
+
+const searchRecievedItemTransactions = '?state=PATRON_HOLD&type=PATRON';
 
 const renderNavigationMenu = ({
   history = historyMock,
@@ -53,15 +54,15 @@ describe('NavigationMenu', () => {
         location: {
           pathname: receiveItemPathname,
           hash: '',
-          search,
-          state: search,
+          search: searchRecievedItemTransactions,
+          state: searchRecievedItemTransactions,
         },
       });
       Select.mock.calls[0][0].onChange({ target: { value: transactionsPathname } });
       expect(pushSpy).toHaveBeenLastCalledWith({
         pathname: transactionsPathname,
-        search,
-        state: search,
+        search: searchRecievedItemTransactions,
+        state: searchRecievedItemTransactions,
       });
     });
 
@@ -70,14 +71,14 @@ describe('NavigationMenu', () => {
         location: {
           pathname: transactionsPathname,
           hash: '',
-          search,
-          state: search,
+          search: searchRecievedItemTransactions,
+          state: searchRecievedItemTransactions,
         },
       });
       Select.mock.calls[0][0].onChange({ target: { value: receiveItemPathname } });
       expect(pushSpy).toHaveBeenLastCalledWith({
         pathname: receiveItemPathname,
-        state: search,
+        state: searchRecievedItemTransactions,
       });
     });
   });
@@ -100,6 +101,7 @@ describe('NavigationMenu', () => {
       expect(Select.mock.calls[0][0].dataOptions).toEqual([
         { label: 'INN-Reach transactions', value: '/innreach/transactions' },
         { label: 'Receive shipped items', value: '/innreach/receive-shipped-item' },
+        { label: 'Check out to borrowing site', value: '/innreach/check-out-to-borrowing-site' }
       ]);
     });
 

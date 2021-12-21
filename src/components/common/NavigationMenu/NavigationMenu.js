@@ -8,6 +8,7 @@ import {
 import {
   getReceiveShippedItemUrl,
   getTransactionListUrl,
+  getCheckOutToBorrowingSiteUrl,
 } from '../../../constants';
 import css from './NavigationMenu.css';
 
@@ -28,6 +29,10 @@ const NavigationMenu = ({
     {
       label: intl.formatMessage({ id: 'ui-inn-reach.shipped-items.title.receive-shipped-items' }),
       value: getReceiveShippedItemUrl(),
+    },
+    {
+      label: intl.formatMessage({ id: 'ui-inn-reach.check-out-borrowing-site.title.check-out-borrowing-site' }),
+      value: getCheckOutToBorrowingSiteUrl(),
     },
   ];
 

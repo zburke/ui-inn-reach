@@ -16,3 +16,4 @@ export * from './transactions';
 export * from './api';
 export * from './search';
 export * from './receive-shipped-item';
+export * from './checkout-shipped-items';

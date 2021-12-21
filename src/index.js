@@ -15,6 +15,7 @@ import {
 import InnReachSettings from './settings';
 import TransactionDetailContainer from './components/transaction/TransactionDetails';
 import ReceiveShippedItem from './components/ReceiveShippedItem';
+import CheckOutBorrowingSite from './components/CheckOutBorrowingSite';
 import {
   sections,
 } from './constants/sections';
@@ -66,6 +67,10 @@ export default function InnReach({
       <Route
         path={`${path}/receive-shipped-item`}
         component={ReceiveShippedItem}
+      />
+      <Route
+        path={`${path}/check-out-to-borrowing-site`}
+        component={CheckOutBorrowingSite}
       />
       <Redirect to={`${path}/transactions`} />
     </Switch>
