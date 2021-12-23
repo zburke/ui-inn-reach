@@ -6,11 +6,14 @@ import {
 import {
   MultiColumnList,
 } from '@folio/stripes-components';
+import {
+  stripesShape,
+} from '@folio/stripes/core';
 
 import {
   RECEIVED_ITEM_FIELDS,
   FOLIO_CHECK_IN_FIELDS,
-} from '../../../../constants';
+} from '../../../../../../constants';
 import {
   ItemActions,
 } from './components';
@@ -21,6 +24,9 @@ const {
   TITLE,
   PICK_UP_LOCATION,
   ACTIONS,
+  FOLIO_CHECK_IN,
+  HOLD,
+  TRANSACTION,
 } = RECEIVED_ITEM_FIELDS;
 
 const {
@@ -53,7 +59,9 @@ const columnWidths = {
 
 const ListCheckInItems = ({
   scannedItems,
+  stripes,
   intl,
+  onGetSlipTemplate,
 }) => {
   const items = scannedItems.map((item, index) => ({
     ...item,
@@ -62,13 +70,15 @@ const ListCheckInItems = ({
 
   const getItemFormatter = () => ({
     [NO]: loan => intl.formatNumber(loan[NO]),
-    [BARCODE]: loan => loan[ITEM]?.[BARCODE],
-    [TITLE]: loan => loan[ITEM]?.[TITLE],
-    [PICK_UP_LOCATION]: loan => loan[PICK_UP_LOCATION],
+    [BARCODE]: loan => loan[FOLIO_CHECK_IN][ITEM]?.[BARCODE],
+    [TITLE]: loan => loan[FOLIO_CHECK_IN][ITEM]?.[TITLE],
+    [PICK_UP_LOCATION]: loan => loan[TRANSACTION]?.[HOLD]?.[PICK_UP_LOCATION],
     [ACTIONS]: (loan) => (
       <ItemActions
         loan={loan}
         intl={intl}
+        stripes={stripes}
+        onGetSlipTemplate={onGetSlipTemplate}
       />
     ),
   });
@@ -89,6 +99,8 @@ const ListCheckInItems = ({
 ListCheckInItems.propTypes = {
   intl: PropTypes.object.isRequired,
   scannedItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  stripes: stripesShape.isRequired,
+  onGetSlipTemplate: PropTypes.func.isRequired,
 };
 
 export default ListCheckInItems;

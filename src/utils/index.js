@@ -5,3 +5,4 @@ export * from './required';
 export * from './search-utils';
 export * from './open-item-detail';
 export * from './filter-utils';
+export * from './buildTemplate';

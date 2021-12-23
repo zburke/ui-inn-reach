@@ -10,15 +10,10 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   isEmpty,
+  keyBy,
+  upperFirst,
 } from 'lodash';
 
-import {
-  Button,
-  Paneset,
-  Pane,
-  PaneFooter,
-  Icon,
-} from '@folio/stripes-components';
 import {
   stripesConnect,
   stripesShape,
@@ -26,30 +21,26 @@ import {
 
 import {
   CALLOUT_ERROR_TYPE,
+  CHECK_IN_STATUSES,
   DESC_ORDER,
-  FILL_PANE_WIDTH,
-  FILTER_PANE_WIDTH,
-  getReceiveShippedItemUrl,
-  ICONS,
   METADATA_FIELDS,
-  RECEIVED_ITEM_FIELDS,
   SORT_ORDER_PARAMETER,
   SORT_PARAMETER,
   TRANSACTION_FIELDS,
   TRANSACTION_STATUSES,
   TRANSACTION_TYPES,
+  AUGMENTED_BARCODE_TEMPLATE,
 } from '../../constants';
 import {
-  ItemForm,
-  ListCheckInItems,
+  CheckIn,
+  ConfirmStatusModal,
 } from './components';
-import {
-  NavigationMenu,
-} from '../common';
 import {
   useCallout,
 } from '../../hooks';
-import css from './ReceiveShippedItem.css';
+import {
+  convertToSlipData,
+} from './utils';
 
 const {
   UPDATED_DATE,
@@ -70,55 +61,120 @@ const {
 } = TRANSACTION_STATUSES;
 
 const {
-  TRANSACTION,
-  FOLIO_CHECK_IN,
-  HOLD,
-  PICK_UP_LOCATION,
-} = RECEIVED_ITEM_FIELDS;
+  AWAITING_PICKUP,
+  IN_TRANSIT,
+} = CHECK_IN_STATUSES;
 
 const ReceiveShippedItems = ({
   history,
   location,
   resources: {
     transactionRecords: {
-      records: transactionsData,
       isPending: isTransactionsPending,
     },
     receiveShippedItem: {
       isPending: isReceiveShippedItemPending,
     },
+    staffSlips: {
+      records: staffSlipsData,
+    },
+    servicePoints: {
+      records: servicePointsData,
+    },
   },
   mutator,
   stripes,
 }) => {
+  const [scannedItems, setScannedItems] = useState([]);
+  const [noTransaction, setNoTransaction] = useState(false);
+  const [barcodeSupplemented, setBarcodeSupplemented] = useState(false);
+  const [isHoldItem, setIsHoldItem] = useState(false);
+  const [isTransitItem, setIsTransitItem] = useState(false);
+  const [hasNextRequest, setHasNextRequest] = useState(false);
+  const [checkinData, setCheckinData] = useState(null);
+
   const showCallout = useCallout();
   const intl = useIntl();
   const itemFormRef = useRef({});
+  const barcodeRef = useRef();
   const isLoading = isTransactionsPending || isReceiveShippedItemPending;
 
-  const [scannedItems, setScannedItems] = useState([]);
-  const [isTransactionsLoaded, setIsTransactionsLoaded] = useState(false);
+  const resetData = () => {
+    if (itemFormRef.current.reset) {
+      itemFormRef.current.reset();
+    }
+    setScannedItems([]);
+  };
 
-  const addScannedItem = (checkinResp) => {
+  const handleCloseModal = () => {
+    setNoTransaction(false);
+    setBarcodeSupplemented(false);
+    setIsHoldItem(false);
+    setIsTransitItem(false);
+    setHasNextRequest(false);
+    setCheckinData(null);
+  };
+
+  const fetchRequests = (checkinResp) => {
     const {
-      [TRANSACTION]: {
-        [HOLD]: {
-          [PICK_UP_LOCATION]: pickupLocation,
-        },
+      item,
+    } = checkinResp.folioCheckIn;
+    const query = `(itemId==${item.id} and (status=="Open - Awaiting pickup" or status=="Open - Awaiting delivery"))`;
+
+    mutator.requests.reset();
+
+    return mutator.requests.GET({
+      params: {
+        query,
       },
-      [FOLIO_CHECK_IN]: folioCheckIn,
+    })
+      .then(requests => {
+        if (!isEmpty(requests)) {
+          checkinResp.nextRequest = requests[0];
+          setHasNextRequest(true);
+        }
+
+        return checkinResp;
+      });
+  };
+
+  const processResponse = (checkinResp) => {
+    const {
+      folioCheckIn: {
+        item,
+      },
+      barcodeAugmented,
     } = checkinResp;
 
-    const scannedItem = {
-      ...folioCheckIn,
-      [PICK_UP_LOCATION]: pickupLocation,
-    };
+    setCheckinData(checkinResp);
 
-    setScannedItems(prev => [scannedItem, ...prev]);
+    switch (item?.status?.name) {
+      case AWAITING_PICKUP:
+        checkinResp.isHoldItem = true;
+        setIsHoldItem(true);
+        break;
+      case IN_TRANSIT:
+        checkinResp.isTransitItem = true;
+        setIsTransitItem(true);
+        break;
+      default:
+    }
+
+    if (barcodeAugmented) setBarcodeSupplemented(true);
+
+    return checkinResp;
+  };
+
+  const addScannedItem = (checkinResp) => {
+    setScannedItems(prev => [checkinResp, ...prev]);
+
+    return checkinResp;
   };
 
   const fetchReceiveShippedItem = () => {
     mutator.receiveShippedItem.POST({})
+      .then(processResponse)
+      .then(fetchRequests)
       .then(addScannedItem)
       .catch(() => {
         showCallout({
@@ -128,8 +184,7 @@ const ReceiveShippedItems = ({
       });
   };
 
-  const fetchTransactions = (itemBarcode) => {
-    setIsTransactionsLoaded(false);
+  const fetchTransactions = ({ itemBarcode }) => {
     mutator.transactionRecords.reset();
     mutator.transactionRecords.GET({
       params: {
@@ -143,12 +198,13 @@ const ReceiveShippedItems = ({
       .then(({ transactions: [transaction] }) => {
         const servicePointId = stripes?.user?.user?.curServicePoint?.id;
 
-        setIsTransactionsLoaded(true);
         mutator.transactionId.replace(transaction?.id || '');
         mutator.servicePointId.replace(servicePointId || '');
 
         if (transaction) {
           fetchReceiveShippedItem();
+        } else {
+          setNoTransaction(true);
         }
       })
       .catch(() => {
@@ -159,64 +215,180 @@ const ReceiveShippedItems = ({
       });
   };
 
-  const handleSubmit = ({ itemBarcode }) => {
-    fetchTransactions(itemBarcode);
+  const focusBarcodeField = () => {
+    barcodeRef.current.focus();
   };
 
-  const handleSessionEnd = () => {
-    if (itemFormRef.current.reset) {
-      itemFormRef.current.reset();
+  const getSlipTmpl = (type) => {
+    const staffSlip = staffSlipsData?.find(slip => slip.name.toLowerCase() === type);
+
+    return staffSlip?.template || '';
+  };
+
+  const isPrintable = (type) => {
+    const staffSlips = staffSlipsData || [];
+    const servicePoints = servicePointsData || [];
+    const servicePointId = stripes?.user?.user?.curServicePoint?.id || '';
+    const spMap = keyBy(servicePoints, 'id');
+    const slipMap = keyBy(staffSlips, slip => slip.name.toLowerCase());
+    const servicePoint = spMap[servicePointId];
+    const staffSlip = slipMap[type];
+
+    if (!servicePoint || !staffSlip) return false;
+    const spSlip = servicePoint.staffSlips.find(slip => slip.id === staffSlip.id);
+
+    return (!spSlip || spSlip.printByDefault);
+  };
+
+  const renderAugmentedBarcodeModal = () => {
+    const {
+      folioCheckIn: {
+        staffSlipContext,
+      },
+      transaction,
+    } = checkinData;
+    const slipData = convertToSlipData({ staffSlipContext, transaction, intl });
+    const messages = [
+      <FormattedMessage id="ui-inn-reach.shipped-items.modal.message.barcode-augmented" />,
+    ];
+
+    return (
+      <ConfirmStatusModal
+        label={<FormattedMessage id="ui-inn-reach.shipped-items.modal.barcode-augmented.heading" />}
+        slipTemplate={AUGMENTED_BARCODE_TEMPLATE}
+        slipData={slipData}
+        message={messages}
+        onClose={handleCloseModal}
+        onAfterPrint={focusBarcodeField}
+      />
+    );
+  };
+
+  const renderHoldModal = () => {
+    const {
+      timezone,
+      locale,
+    } = stripes;
+    const {
+      folioCheckIn: {
+        item,
+        staffSlipContext,
+      },
+      nextRequest,
+    } = checkinData;
+    const {
+      patronComments,
+      pickupServicePoint,
+    } = nextRequest;
+    const slipData = convertToSlipData({ staffSlipContext, intl, timezone, locale, slipName: 'Hold' });
+    const messages = [
+      <FormattedMessage
+        id="ui-inn-reach.shipped-items.modal.hold.message"
+        values={{
+          title: item.title,
+          barcode: item.barcode,
+          materialType: upperFirst(item?.materialType?.name || ''),
+          pickupServicePoint: pickupServicePoint?.name || '',
+        }}
+      />,
+    ];
+
+    if (patronComments) {
+      messages.push(
+        <FormattedMessage
+          id="ui-inn-reach.shipped-items.modal.hold.comment"
+          values={{
+            comment: patronComments,
+            strong: (chunks) => (
+              <strong>
+                {chunks}
+              </strong>
+            ),
+          }}
+        />
+      );
     }
-    setScannedItems([]);
+
+    return (
+      <ConfirmStatusModal
+        showPrintButton
+        label={<FormattedMessage id="ui-inn-reach.shipped-items.modal.hold.heading" />}
+        isPrintable={isPrintable('hold')}
+        slipTemplate={getSlipTmpl('hold')}
+        slipData={slipData}
+        message={messages}
+        onAfterPrint={focusBarcodeField}
+        onClose={handleCloseModal}
+      />
+    );
+  };
+
+  const renderTransitionModal = () => {
+    const {
+      timezone,
+      locale,
+    } = stripes;
+    const {
+      folioCheckIn: {
+        item,
+        staffSlipContext,
+      },
+    } = checkinData;
+    const slipData = convertToSlipData({ staffSlipContext, intl, timezone, locale, slipName: 'Transit' });
+    const destinationServicePoint = item?.inTransitDestinationServicePoint?.name || '';
+    const messages = [
+      <FormattedMessage
+        id="ui-inn-reach.shipped-items.modal.transit.message"
+        values={{
+          title: item.title,
+          barcode: item.barcode,
+          materialType: upperFirst(item?.materialType?.name || ''),
+          servicePoint: destinationServicePoint,
+        }}
+      />,
+    ];
+
+    return (
+      <ConfirmStatusModal
+        showPrintButton
+        label={<FormattedMessage id="ui-inn-reach.shipped-items.modal.transit.heading" />}
+        slipTemplate={getSlipTmpl('transit')}
+        slipData={slipData}
+        isPrintable={isPrintable('transit')}
+        message={messages}
+        onClose={handleCloseModal}
+        onAfterPrint={focusBarcodeField}
+      />
+    );
   };
 
   return (
-    <div className={css.container}>
-      <Paneset static>
-        <Pane
-          defaultWidth={FILTER_PANE_WIDTH}
-          paneTitle={<FormattedMessage id="ui-inn-reach.shipped-items.title.receive-shipped-items" />}
-        >
-          <NavigationMenu
-            history={history}
-            location={location}
-            value={getReceiveShippedItemUrl()}
-          />
-        </Pane>
-        <Pane
-          defaultWidth={FILL_PANE_WIDTH}
-          paneTitle={<FormattedMessage id="ui-inn-reach.shipped-items.title.scan-items" />}
-        >
-          <ItemForm
-            isOpenModal={isTransactionsLoaded && !transactionsData[0]?.totalRecords}
-            isLoading={isLoading}
-            intl={intl}
-            formRef={itemFormRef}
-            onSubmit={handleSubmit}
-          />
-          {isLoading &&
-            <Icon icon={ICONS.SPINNER_ELLIPSIS} />
-          }
-          <ListCheckInItems
-            scannedItems={scannedItems}
-            intl={intl}
-          />
-        </Pane>
-      </Paneset>
-      <PaneFooter
-        innerClassName={css.footerContent}
-        renderEnd={
-          <Button
-            marginBottom0
-            buttonStyle="primary mega"
-            disabled={isEmpty(scannedItems)}
-            onClick={handleSessionEnd}
-          >
-            <FormattedMessage id="ui-inn-reach.shipped-items.button.end-session" />
-          </Button>
-        }
+    <>
+      <CheckIn
+        history={history}
+        location={location}
+        stripes={stripes}
+        isLoading={isLoading}
+        intl={intl}
+        itemFormRef={itemFormRef}
+        barcodeRef={barcodeRef}
+        scannedItems={scannedItems}
+        onGetSlipTemplate={getSlipTmpl}
+        onSessionEnd={resetData}
+        onSubmit={fetchTransactions}
       />
-    </div>
+      {noTransaction &&
+        <ConfirmStatusModal
+          label={<FormattedMessage id="ui-inn-reach.shipped-items.modal.no-transaction.heading" />}
+          message={[<FormattedMessage id="ui-inn-reach.shipped-items.modal.message.barcode-augmented" />]}
+          onClose={handleCloseModal}
+          onAfterPrint={focusBarcodeField}
+        />
+      }
+      {barcodeSupplemented && renderAugmentedBarcodeModal()}
+      {isHoldItem && !barcodeSupplemented && hasNextRequest && renderHoldModal()}
+      {isTransitItem && renderTransitionModal()}
+    </>
   );
 };
 
@@ -239,6 +411,24 @@ ReceiveShippedItems.manifest = Object.freeze({
     accumulate: true,
     throwErrors: false,
   },
+  staffSlips: {
+    type: 'okapi',
+    records: 'staffSlips',
+    path: 'staff-slips-storage/staff-slips?limit=1000',
+    throwErrors: false,
+  },
+  servicePoints: {
+    type: 'okapi',
+    records: 'servicepoints',
+    path: 'service-points?limit=1000',
+  },
+  requests: {
+    type: 'okapi',
+    records: 'requests',
+    accumulate: true,
+    path: 'circulation/requests',
+    fetch: false,
+  },
 });
 
 ReceiveShippedItems.propTypes = {
@@ -256,17 +446,26 @@ ReceiveShippedItems.propTypes = {
       GET: PropTypes.func.isRequired,
       reset: PropTypes.func.isRequired,
     }),
+    requests: PropTypes.shape({
+      GET: PropTypes.func.isRequired,
+      reset: PropTypes.func.isRequired,
+    }),
     receiveShippedItem: PropTypes.shape({
       POST: PropTypes.func.isRequired,
     }),
   }),
   resources: PropTypes.shape({
     transactionRecords: PropTypes.shape({
-      records: PropTypes.arrayOf(PropTypes.object).isRequired,
       isPending: PropTypes.bool.isRequired,
     }).isRequired,
     receiveShippedItem: PropTypes.shape({
       isPending: PropTypes.bool.isRequired,
+    }).isRequired,
+    servicePoints: PropTypes.shape({
+      records: PropTypes.arrayOf(PropTypes.object).isRequired,
+    }).isRequired,
+    staffSlips: PropTypes.shape({
+      records: PropTypes.arrayOf(PropTypes.object).isRequired,
     }).isRequired,
   }),
 };

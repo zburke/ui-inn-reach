@@ -3,13 +3,12 @@ import { screen } from '@testing-library/react';
 import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jest/helpers';
 import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import { translationsProperties } from '../../../../../test/jest/helpers';
+import { translationsProperties } from '../../../../../../../test/jest/helpers';
 import ItemForm from './ItemForm';
 
 const history = createMemoryHistory();
 
 const renderItemForm = ({
-  isOpenModal = false,
   isLoading = false,
   pristine,
   intl = { formatMessage: jest.fn() },
@@ -19,11 +18,11 @@ const renderItemForm = ({
   return renderWithIntl(
     <Router history={history}>
       <ItemForm
-        isOpenModal={isOpenModal}
         isLoading={isLoading}
         pristine={pristine}
         intl={intl}
         formRef={formRef}
+        barcodeRef={{ current: null }}
         onSubmit={handleSubmit}
       />
     </Router>,
@@ -38,20 +37,6 @@ describe('ItemForm', () => {
     const { container } = renderItemForm();
 
     expect(container).toBeVisible();
-  });
-
-  describe('modal window', () => {
-    const modalTitle = 'No matching INN-Reach transaction found for this item';
-
-    it('should be visible', () => {
-      renderItemForm({ isOpenModal: true });
-      expect(screen.getByText(modalTitle)).toBeVisible();
-    });
-
-    it('should not be visible', () => {
-      renderItemForm({ isOpenModal: false });
-      expect(screen.queryByText(modalTitle)).not.toBeInTheDocument();
-    });
   });
 
   describe('"Enter" button', () => {

@@ -1,0 +1,7 @@
+.hiddenContent {
+  display: none;
+}
+
+.qlEditor {
+  overflow-y: unset !important;
+}
