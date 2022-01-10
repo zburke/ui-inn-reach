@@ -395,7 +395,7 @@
     "shipped-items.modal.transit.message": "Route <strong>{title} ({materialType})</strong> (Barcode: {barcode}) to <strong>{servicePoint}</strong>.",
     "shipped-items.modal.message.no-transaction": "This item may not have been checked out by the owning site. Please locate the transaction for this item using the search \"INN-Reach transactions\" function on the landing page and perform a \"Receive unshipped item\" action.",
     "shipped-items.modal.message.barcode-augmented": "The agency code for this item has been appended to the barcode. You will need to use this updated barcode to perform circulation actions on this transaction",
-    "shipped-items.modal.button.close": "Close",
+    "shipped-items.modal.button.close": "Fermer",
     "shipped-items.action.print-inn-reach-barcode": "Print INN-Reach barcode",
     "shipped-items.action.print-hold-slip": "Print hold slip",
     "shipped-items.action.print-transit-slip": "Print transit slip",
