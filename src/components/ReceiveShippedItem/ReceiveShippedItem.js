@@ -380,7 +380,7 @@ const ReceiveShippedItems = ({
       {noTransaction &&
         <ConfirmStatusModal
           label={<FormattedMessage id="ui-inn-reach.shipped-items.modal.no-transaction.heading" />}
-          message={[<FormattedMessage id="ui-inn-reach.shipped-items.modal.message.barcode-augmented" />]}
+          message={[<FormattedMessage id="ui-inn-reach.shipped-items.modal.message.no-transaction" />]}
           onClose={handleCloseModal}
           onAfterPrint={focusBarcodeField}
         />
