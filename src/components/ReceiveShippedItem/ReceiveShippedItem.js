@@ -9,8 +9,6 @@ import {
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import {
-  isEmpty,
-  keyBy,
   upperFirst,
 } from 'lodash';
 
@@ -78,9 +76,6 @@ const ReceiveShippedItems = ({
     staffSlips: {
       records: staffSlipsData,
     },
-    servicePoints: {
-      records: servicePointsData,
-    },
   },
   mutator,
   stripes,
@@ -90,7 +85,6 @@ const ReceiveShippedItems = ({
   const [barcodeSupplemented, setBarcodeSupplemented] = useState(false);
   const [isHoldItem, setIsHoldItem] = useState(false);
   const [isTransitItem, setIsTransitItem] = useState(false);
-  const [hasNextRequest, setHasNextRequest] = useState(false);
   const [checkinData, setCheckinData] = useState(null);
 
   const showCallout = useCallout();
@@ -111,31 +105,7 @@ const ReceiveShippedItems = ({
     setBarcodeSupplemented(false);
     setIsHoldItem(false);
     setIsTransitItem(false);
-    setHasNextRequest(false);
     setCheckinData(null);
-  };
-
-  const fetchRequests = (checkinResp) => {
-    const {
-      item,
-    } = checkinResp.folioCheckIn;
-    const query = `(itemId==${item.id} and (status=="Open - Awaiting pickup" or status=="Open - Awaiting delivery"))`;
-
-    mutator.requests.reset();
-
-    return mutator.requests.GET({
-      params: {
-        query,
-      },
-    })
-      .then(requests => {
-        if (!isEmpty(requests)) {
-          checkinResp.nextRequest = requests[0];
-          setHasNextRequest(true);
-        }
-
-        return checkinResp;
-      });
   };
 
   const processResponse = (checkinResp) => {
@@ -174,7 +144,6 @@ const ReceiveShippedItems = ({
   const fetchReceiveShippedItem = () => {
     mutator.receiveShippedItem.POST({})
       .then(processResponse)
-      .then(fetchRequests)
       .then(addScannedItem)
       .catch(() => {
         showCallout({
@@ -225,21 +194,6 @@ const ReceiveShippedItems = ({
     return staffSlip?.template || '';
   };
 
-  const isPrintable = (type) => {
-    const staffSlips = staffSlipsData || [];
-    const servicePoints = servicePointsData || [];
-    const servicePointId = stripes?.user?.user?.curServicePoint?.id || '';
-    const spMap = keyBy(servicePoints, 'id');
-    const slipMap = keyBy(staffSlips, slip => slip.name.toLowerCase());
-    const servicePoint = spMap[servicePointId];
-    const staffSlip = slipMap[type];
-
-    if (!servicePoint || !staffSlip) return false;
-    const spSlip = servicePoint.staffSlips.find(slip => slip.id === staffSlip.id);
-
-    return (!spSlip || spSlip.printByDefault);
-  };
-
   const renderAugmentedBarcodeModal = () => {
     const {
       folioCheckIn: {
@@ -274,12 +228,11 @@ const ReceiveShippedItems = ({
         item,
         staffSlipContext,
       },
-      nextRequest,
     } = checkinData;
     const {
       patronComments,
-      pickupServicePoint,
-    } = nextRequest;
+      servicePointPickup,
+    } = staffSlipContext?.request || {};
     const slipData = convertToSlipData({ staffSlipContext, intl, timezone, locale, slipName: 'Hold' });
     const messages = [
       <FormattedMessage
@@ -288,7 +241,7 @@ const ReceiveShippedItems = ({
           title: item.title,
           barcode: item.barcode,
           materialType: upperFirst(item?.materialType?.name || ''),
-          pickupServicePoint: pickupServicePoint?.name || '',
+          pickupServicePoint: servicePointPickup || '',
         }}
       />,
     ];
@@ -312,8 +265,8 @@ const ReceiveShippedItems = ({
     return (
       <ConfirmStatusModal
         showPrintButton
+        isPrintable
         label={<FormattedMessage id="ui-inn-reach.shipped-items.modal.hold.heading" />}
-        isPrintable={isPrintable('hold')}
         slipTemplate={getSlipTmpl('hold')}
         slipData={slipData}
         message={messages}
@@ -351,11 +304,22 @@ const ReceiveShippedItems = ({
     return (
       <ConfirmStatusModal
         showPrintButton
+        isPrintable
         label={<FormattedMessage id="ui-inn-reach.shipped-items.modal.transit.heading" />}
         slipTemplate={getSlipTmpl('transit')}
         slipData={slipData}
-        isPrintable={isPrintable('transit')}
         message={messages}
+        onClose={handleCloseModal}
+        onAfterPrint={focusBarcodeField}
+      />
+    );
+  };
+
+  const renderNoTransactionModal = () => {
+    return (
+      <ConfirmStatusModal
+        label={<FormattedMessage id="ui-inn-reach.shipped-items.modal.no-transaction.heading" />}
+        message={[<FormattedMessage id="ui-inn-reach.shipped-items.modal.message.no-transaction" />]}
         onClose={handleCloseModal}
         onAfterPrint={focusBarcodeField}
       />
@@ -377,16 +341,9 @@ const ReceiveShippedItems = ({
         onSessionEnd={resetData}
         onSubmit={fetchTransactions}
       />
-      {noTransaction &&
-        <ConfirmStatusModal
-          label={<FormattedMessage id="ui-inn-reach.shipped-items.modal.no-transaction.heading" />}
-          message={[<FormattedMessage id="ui-inn-reach.shipped-items.modal.message.no-transaction" />]}
-          onClose={handleCloseModal}
-          onAfterPrint={focusBarcodeField}
-        />
-      }
+      {noTransaction && renderNoTransactionModal()}
       {barcodeSupplemented && renderAugmentedBarcodeModal()}
-      {isHoldItem && !barcodeSupplemented && hasNextRequest && renderHoldModal()}
+      {isHoldItem && !barcodeSupplemented && renderHoldModal()}
       {isTransitItem && renderTransitionModal()}
     </>
   );
@@ -417,18 +374,6 @@ ReceiveShippedItems.manifest = Object.freeze({
     path: 'staff-slips-storage/staff-slips?limit=1000',
     throwErrors: false,
   },
-  servicePoints: {
-    type: 'okapi',
-    records: 'servicepoints',
-    path: 'service-points?limit=1000',
-  },
-  requests: {
-    type: 'okapi',
-    records: 'requests',
-    accumulate: true,
-    path: 'circulation/requests',
-    fetch: false,
-  },
 });
 
 ReceiveShippedItems.propTypes = {
@@ -446,10 +391,6 @@ ReceiveShippedItems.propTypes = {
       GET: PropTypes.func.isRequired,
       reset: PropTypes.func.isRequired,
     }),
-    requests: PropTypes.shape({
-      GET: PropTypes.func.isRequired,
-      reset: PropTypes.func.isRequired,
-    }),
     receiveShippedItem: PropTypes.shape({
       POST: PropTypes.func.isRequired,
     }),
@@ -460,9 +401,6 @@ ReceiveShippedItems.propTypes = {
     }).isRequired,
     receiveShippedItem: PropTypes.shape({
       isPending: PropTypes.bool.isRequired,
-    }).isRequired,
-    servicePoints: PropTypes.shape({
-      records: PropTypes.arrayOf(PropTypes.object).isRequired,
     }).isRequired,
     staffSlips: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,

@@ -248,43 +248,20 @@ describe('ReceiveShippedItem', () => {
           expect(mutatorMock.receiveShippedItem.POST).toBeCalled();
         });
 
-        describe('fetch requests', () => {
-          it('should reset the requests data', async () => {
-            await renderWithHoldItem(stripes);
-            expect(mutatorMock.requests.reset).toHaveBeenCalled();
-          });
-
-          it('should request requests with proper parameters', async () => {
-            await renderWithHoldItem(stripes);
-            const item = receiveShippedItemMock.folioCheckIn.item;
-            const query = `(itemId==${item.id} and (status=="Open - Awaiting pickup" or status=="Open - Awaiting delivery"))`;
-
-            expect(mutatorMock.requests.GET).toHaveBeenCalledWith({ params: { query } });
-          });
-        });
-
         it('should pass the received hold item to the list', async () => {
           await renderWithHoldItem(stripes);
-          expect(CheckIn.mock.calls[4][0].scannedItems).toEqual([{
+          expect(CheckIn.mock.calls[3][0].scannedItems).toEqual([{
             ...receiveShippedItemMock,
             isHoldItem: true,
-            nextRequest: {
-              patronComments: 'INN-Reach request: Patron Agency - fl1g1, Pickup Location - cd2:Circ Desk 2:Circulation Desk -- Back Entrance:Circ Desk',
-              pickupServicePoint: { name: 'Circ Desk 2' },
-            },
           }]);
         });
 
         describe('received item', () => {
           it('should be hold', async () => {
             await renderWithHoldItem(stripes);
-            expect(CheckIn.mock.calls[4][0].scannedItems).toEqual([{
+            expect(CheckIn.mock.calls[3][0].scannedItems).toEqual([{
               ...receiveShippedItemMock,
               isHoldItem: true,
-              nextRequest: {
-                patronComments: 'INN-Reach request: Patron Agency - fl1g1, Pickup Location - cd2:Circ Desk 2:Circulation Desk -- Back Entrance:Circ Desk',
-                pickupServicePoint: { name: 'Circ Desk 2' },
-              },
             }]);
           });
 
@@ -293,26 +270,18 @@ describe('ReceiveShippedItem', () => {
             const newReceiveShippedItemMock = cloneDeep(receiveShippedItemMock);
 
             newReceiveShippedItemMock.folioCheckIn.item.status.name = 'In transit';
-            expect(CheckIn.mock.calls[4][0].scannedItems).toEqual([{
+            expect(CheckIn.mock.calls[3][0].scannedItems).toEqual([{
               ...newReceiveShippedItemMock,
               isTransitItem: true,
-              nextRequest: {
-                patronComments: 'INN-Reach request: Patron Agency - fl1g1, Pickup Location - cd2:Circ Desk 2:Circulation Desk -- Back Entrance:Circ Desk',
-                pickupServicePoint: { name: 'Circ Desk 2' },
-              },
             }]);
           });
 
           it('should be with augmented barcode', async () => {
             await renderWithAugmentedBarcode(stripes);
-            expect(CheckIn.mock.calls[5][0].scannedItems).toEqual([{
+            expect(CheckIn.mock.calls[4][0].scannedItems).toEqual([{
               ...receiveShippedItemMock,
               isHoldItem: true,
               barcodeAugmented: true,
-              nextRequest: {
-                patronComments: 'INN-Reach request: Patron Agency - fl1g1, Pickup Location - cd2:Circ Desk 2:Circulation Desk -- Back Entrance:Circ Desk',
-                pickupServicePoint: { name: 'Circ Desk 2' },
-              },
             }]);
           });
         });

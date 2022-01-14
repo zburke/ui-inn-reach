@@ -12,7 +12,6 @@ jest.mock('../../../../../../../common', () => ({
 
 const loanMock = {
   barcodeAugmented: false,
-  nextRequest: null,
   isTransitItem: false,
   folioCheckIn: {
     staffSlipContext: {
@@ -75,7 +74,7 @@ describe('ItemActions', () => {
       ...commonProps,
       loan: {
         ...loanMock,
-        nextRequest: {},
+        isHoldItem: true,
       },
     });
     expect(PrintButton.mock.calls[0][0]['data-testid']).toBe('print-hold-slip');

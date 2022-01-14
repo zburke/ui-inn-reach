@@ -14,7 +14,6 @@ jest.mock('./components', () => ({
 const scannedItemsMock = [
   {
     barcodeAugmented: false,
-    nextRequest: null,
     isTransitItem: false,
     folioCheckIn: {
       item: {

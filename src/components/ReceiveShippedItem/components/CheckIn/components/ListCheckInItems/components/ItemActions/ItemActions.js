@@ -26,7 +26,7 @@ import {
 const ItemActions = ({
   loan: {
     barcodeAugmented,
-    nextRequest,
+    isHoldItem,
     isTransitItem,
     folioCheckIn: {
       staffSlipContext
@@ -68,7 +68,7 @@ const ItemActions = ({
           <FormattedMessage id="ui-inn-reach.shipped-items.action.print-inn-reach-barcode" />
         </PrintButton>
       }
-      {nextRequest && !barcodeAugmented &&
+      {isHoldItem && !barcodeAugmented &&
         <PrintButton
           data-testid="print-hold-slip"
           role="menuitem"
