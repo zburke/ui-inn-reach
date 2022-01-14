@@ -87,7 +87,7 @@ const ItemActions = ({
           template={onGetSlipTemplate('transit')}
           dataSource={convertToSlipData({ staffSlipContext, intl, timezone, locale, slipName: 'Transit' })}
         >
-          <FormattedMessage id="ui-checkin.shipped-items.action.print-transit-slip" />
+          <FormattedMessage id="ui-inn-reach.shipped-items.action.print-transit-slip" />
         </PrintButton>
       }
     </DropdownMenu>

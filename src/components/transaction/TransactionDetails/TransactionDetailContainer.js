@@ -58,10 +58,8 @@ const TransactionDetailContainer = ({
     });
   }, [history, location.search]);
 
-  const fetchReceiveUnshippedItem = ({ itemBarcode }) => {
-    mutator.receiveUnshippedItem.POST({
-      itemBarcode,
-    })
+  const fetchReceiveUnshippedItem = () => {
+    mutator.receiveUnshippedItem.POST({})
       .then(() => {
         showCallout({
           message: <FormattedMessage id="ui-inn-reach.unshipped-item.callout.success.post.receive-unshipped-item" />,
@@ -73,6 +71,12 @@ const TransactionDetailContainer = ({
           message: <FormattedMessage id="ui-inn-reach.unshipped-item.callout.connection-problem.post.receive-unshipped-item" />,
         });
       });
+  };
+
+  const handleSubmit = ({ itemBarcode }) => {
+    setIsOpenUnshippedItemModal(false);
+    mutator.itemBarcode.replace(itemBarcode || '');
+    fetchReceiveUnshippedItem();
   };
 
   useEffect(() => {
@@ -89,7 +93,7 @@ const TransactionDetailContainer = ({
       isOpenUnshippedItemModal={isOpenUnshippedItemModal}
       onClose={backToList}
       onTriggerUnshippedItemModal={triggerUnshippedItemModal}
-      onFetchReceiveUnshippedItem={fetchReceiveUnshippedItem}
+      onFetchReceiveUnshippedItem={handleSubmit}
     />
   );
 };
@@ -97,6 +101,7 @@ const TransactionDetailContainer = ({
 TransactionDetailContainer.manifest = Object.freeze({
   servicePointId: { initialValue: '' },
   transactionId: { initialValue: '' },
+  itemBarcode: { initialValue: '' },
   transactionView: {
     type: 'okapi',
     path: 'inn-reach/transactions/:{id}',
@@ -104,7 +109,7 @@ TransactionDetailContainer.manifest = Object.freeze({
   },
   receiveUnshippedItem: {
     type: 'okapi',
-    path: 'inn-reach/transactions/%{transactionId}/receive-unshipped/%{servicePointId}',
+    path: 'inn-reach/transactions/%{transactionId}/receive-unshipped-item/%{servicePointId}/%{itemBarcode}',
     pk: '',
     clientGeneratePk: false,
     fetch: false,
@@ -128,6 +133,9 @@ TransactionDetailContainer.propTypes = {
       replace: PropTypes.func.isRequired,
     }).isRequired,
     transactionId: PropTypes.shape({
+      replace: PropTypes.func.isRequired,
+    }).isRequired,
+    itemBarcode: PropTypes.shape({
       replace: PropTypes.func.isRequired,
     }).isRequired,
     receiveUnshippedItem: PropTypes.shape({

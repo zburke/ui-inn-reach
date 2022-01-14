@@ -69,6 +69,9 @@ const mutatorMock = {
   transactionId: {
     replace: jest.fn(),
   },
+  itemBarcode: {
+    replace: jest.fn(),
+  },
   receiveUnshippedItem: {
     POST: jest.fn(() => Promise.resolve()),
   },
@@ -145,7 +148,7 @@ describe('TransactionDetailContainer', () => {
     it('should update the transaction state', () => {
       renderTransactionDetailContainer({ stripes });
       TransactionDetail.mock.calls[0][0].onFetchReceiveUnshippedItem({ itemBarcode });
-      expect(mutatorMock.receiveUnshippedItem.POST).toHaveBeenLastCalledWith({ itemBarcode });
+      expect(mutatorMock.receiveUnshippedItem.POST).toHaveBeenCalled();
     });
 
     it('should write transaction id to the redux', () => {
