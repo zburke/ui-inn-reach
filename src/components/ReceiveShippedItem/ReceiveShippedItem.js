@@ -86,12 +86,14 @@ const ReceiveShippedItems = ({
   const [isHoldItem, setIsHoldItem] = useState(false);
   const [isTransitItem, setIsTransitItem] = useState(false);
   const [checkinData, setCheckinData] = useState(null);
+  const [isAugmentedBarcodeModalAfterClose, setIsAugmentedBarcodeModalAfterClose] = useState(false);
 
   const showCallout = useCallout();
   const intl = useIntl();
   const itemFormRef = useRef({});
   const barcodeRef = useRef();
   const isLoading = isTransactionsPending || isReceiveShippedItemPending;
+  const showHoldOrTransitModal = !barcodeSupplemented || isAugmentedBarcodeModalAfterClose;
 
   const resetData = () => {
     if (itemFormRef.current.reset) {
@@ -106,6 +108,7 @@ const ReceiveShippedItems = ({
     setIsHoldItem(false);
     setIsTransitItem(false);
     setCheckinData(null);
+    setIsAugmentedBarcodeModalAfterClose(false);
   };
 
   const processResponse = (checkinResp) => {
@@ -194,6 +197,10 @@ const ReceiveShippedItems = ({
     return staffSlip?.template || '';
   };
 
+  const handleIsAugmentedBarcodeModalAfterClose = () => {
+    setIsAugmentedBarcodeModalAfterClose(true);
+  };
+
   const renderAugmentedBarcodeModal = () => {
     const {
       folioCheckIn: {
@@ -212,7 +219,7 @@ const ReceiveShippedItems = ({
         slipTemplate={AUGMENTED_BARCODE_TEMPLATE}
         slipData={slipData}
         message={messages}
-        onClose={handleCloseModal}
+        onClose={handleIsAugmentedBarcodeModalAfterClose}
         onAfterPrint={focusBarcodeField}
       />
     );
@@ -265,7 +272,7 @@ const ReceiveShippedItems = ({
     return (
       <ConfirmStatusModal
         showPrintButton
-        isPrintable
+        isPrintable={barcodeSupplemented}
         label={<FormattedMessage id="ui-inn-reach.shipped-items.modal.hold.heading" />}
         slipTemplate={getSlipTmpl('hold')}
         slipData={slipData}
@@ -304,7 +311,7 @@ const ReceiveShippedItems = ({
     return (
       <ConfirmStatusModal
         showPrintButton
-        isPrintable
+        isPrintable={barcodeSupplemented}
         label={<FormattedMessage id="ui-inn-reach.shipped-items.modal.transit.heading" />}
         slipTemplate={getSlipTmpl('transit')}
         slipData={slipData}
@@ -343,8 +350,8 @@ const ReceiveShippedItems = ({
       />
       {noTransaction && renderNoTransactionModal()}
       {barcodeSupplemented && renderAugmentedBarcodeModal()}
-      {isHoldItem && !barcodeSupplemented && renderHoldModal()}
-      {isTransitItem && renderTransitionModal()}
+      {isHoldItem && showHoldOrTransitModal && renderHoldModal()}
+      {isTransitItem && showHoldOrTransitModal && renderTransitionModal()}
     </>
   );
 };
