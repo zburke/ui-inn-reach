@@ -13,6 +13,8 @@ import {
 } from '../../../../constants';
 import { CentralServersConfigurationContext } from '../../../../contexts';
 
+jest.mock('./components/TabularList', () => jest.fn(() => <div>TabularList</div>));
+
 const data = {
   folioLibraries: [
     {

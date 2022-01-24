@@ -1,10 +1,13 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jest/helpers';
-import userEvent from '@testing-library/user-event';
-
+import MultiSelectionFilter from '@folio/stripes-smart-components/lib/SearchAndSort/components/MultiSelectionFilter';
 import MultiChoiceFilter from './MultiChoiceFilter';
 import { translationsProperties } from '../../../../../test/jest/helpers';
+
+jest.mock('@folio/stripes-smart-components/lib/SearchAndSort/components/MultiSelectionFilter', () => {
+  return jest.fn(() => <div>MultiSelectionFilter</div>);
+});
 
 const dataOptionsMock = [
   { label: 'central server1', value: 'central server1' },
@@ -33,6 +36,10 @@ const renderMultiChoiceFilter = ({
 ));
 
 describe('MultiChoiceFilter', () => {
+  beforeEach(() => {
+    MultiSelectionFilter.mockClear();
+  });
+
   it('should display the correct filter name', () => {
     renderMultiChoiceFilter();
     expect(screen.getByText('Transaction status')).toBeVisible();
@@ -42,10 +49,7 @@ describe('MultiChoiceFilter', () => {
     const onChange = jest.fn();
 
     renderMultiChoiceFilter({ onChange });
-    userEvent.click(screen.getByText('central server1'));
-    expect(onChange).toHaveBeenCalledWith({
-      name: 'state',
-      values: ['central server1'],
-    });
+    MultiSelectionFilter.mock.calls[0][0].onChange();
+    expect(onChange).toHaveBeenCalled();
   });
 });

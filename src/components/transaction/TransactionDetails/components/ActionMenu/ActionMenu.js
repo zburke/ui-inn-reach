@@ -25,6 +25,7 @@ const ActionMenu = ({
   transaction,
   onToggle,
   onReceiveUnshippedItem,
+  onReceiveItem,
 }) => {
   let actions;
 
@@ -35,6 +36,7 @@ const ActionMenu = ({
           transaction={transaction}
           onToggle={onToggle}
           onReceiveUnshippedItem={onReceiveUnshippedItem}
+          onReceiveItem={onReceiveItem}
         />
       );
       break;
@@ -58,6 +60,7 @@ const ActionMenu = ({
 
 ActionMenu.propTypes = {
   transaction: PropTypes.object.isRequired,
+  onReceiveItem: PropTypes.func.isRequired,
   onReceiveUnshippedItem: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
 };

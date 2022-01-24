@@ -433,5 +433,8 @@
   "unshipped-item.placeholder.enter-item-barcode": "Enter item barcode",
   "unshipped-item.button.submit": "Submit",
   "unshipped-item.callout.connection-problem.post.receive-unshipped-item": "There was an error updating the barcode for the transaction",
-  "unshipped-item.callout.success.post.receive-unshipped-item": "The barcode associated with the transaction has been updated"
+  "unshipped-item.callout.success.post.receive-unshipped-item": "The barcode associated with the transaction has been updated",
+
+  "receive-item.callout.success.post.receive-item": "Item has been successfully returned to owning site",
+  "receive-item.callout.connection-problem.post.receive-item": "There was a problem receiving the item"
 }

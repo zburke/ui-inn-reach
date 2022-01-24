@@ -4,10 +4,16 @@ import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/react';
+import { MultiSelection } from '@folio/stripes-components';
 import { translationsProperties } from '../../../../../test/jest/helpers';
 import { DEFAULT_VALUES } from '../../../routes/ContributionCriteriaRoute/utils';
 import ContributionCriteriaForm from './ContributionCriteriaForm';
 import { CENTRAL_SERVER_ID } from '../../../../constants';
+
+jest.mock('@folio/stripes-components', () => ({
+  ...jest.requireActual('@folio/stripes-components'),
+  MultiSelection: jest.fn(() => <div>MultiSelection</div>),
+}));
 
 const folioLocations = [
   {
@@ -115,6 +121,10 @@ describe('ContributionCriteriaForm', () => {
     onChangeServer,
   };
 
+  beforeEach(() => {
+    MultiSelection.mockClear();
+  });
+
   it('should be rendered', () => {
     const { container } = renderContributionCriteriaForm(commonProps);
 
@@ -143,10 +153,8 @@ describe('ContributionCriteriaForm', () => {
       ...commonProps,
       selectedServer: serverOptions[0],
     });
-    const libraryOptions = document.querySelectorAll('[id="multiselect-option-list-locationIds"]>li');
-
-    expect(libraryOptions.length).toBe(1);
-    expect(screen.getByText('Annex'));
+    expect(MultiSelection.mock.calls[0][0].dataOptions.length).toBe(1);
+    expect(MultiSelection.mock.calls[0][0].dataOptions[0].label).toBe('Annex');
   });
 
   describe('`FOLIO statistical code to exclude from contribution` field', () => {

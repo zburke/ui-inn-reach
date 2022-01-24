@@ -38,6 +38,7 @@ const TransactionDetailContainer = ({
   stripes,
   history,
   location,
+  onUpdateTransactionList,
 }) => {
   const transaction = transactionData[0] || {};
   const servicePointId = stripes?.user?.user?.curServicePoint?.id;
@@ -61,6 +62,7 @@ const TransactionDetailContainer = ({
   const fetchReceiveUnshippedItem = () => {
     mutator.receiveUnshippedItem.POST({})
       .then(() => {
+        onUpdateTransactionList();
         showCallout({
           message: <FormattedMessage id="ui-inn-reach.unshipped-item.callout.success.post.receive-unshipped-item" />,
         });
@@ -73,7 +75,23 @@ const TransactionDetailContainer = ({
       });
   };
 
-  const handleSubmit = ({ itemBarcode }) => {
+  const fetchReceiveItem = () => {
+    mutator.receiveItem.POST({})
+      .then(() => {
+        onUpdateTransactionList();
+        showCallout({
+          message: <FormattedMessage id="ui-inn-reach.receive-item.callout.success.post.receive-item" />,
+        });
+      })
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id="ui-inn-reach.receive-item.callout.connection-problem.post.receive-item" />,
+        });
+      });
+  };
+
+  const handleFetchReceiveUnshippedItem = ({ itemBarcode }) => {
     setIsOpenUnshippedItemModal(false);
     mutator.itemBarcode.replace(itemBarcode || '');
     fetchReceiveUnshippedItem();
@@ -93,7 +111,8 @@ const TransactionDetailContainer = ({
       isOpenUnshippedItemModal={isOpenUnshippedItemModal}
       onClose={backToList}
       onTriggerUnshippedItemModal={triggerUnshippedItemModal}
-      onFetchReceiveUnshippedItem={handleSubmit}
+      onFetchReceiveUnshippedItem={handleFetchReceiveUnshippedItem}
+      onFetchReceiveItem={fetchReceiveItem}
     />
   );
 };
@@ -116,6 +135,15 @@ TransactionDetailContainer.manifest = Object.freeze({
     accumulate: true,
     throwErrors: false,
   },
+  receiveItem: {
+    type: 'okapi',
+    path: 'inn-reach/transactions/%{transactionId}/receive-item/%{servicePointId}',
+    pk: '',
+    clientGeneratePk: false,
+    fetch: false,
+    accumulate: true,
+    throwErrors: false,
+  },
 });
 
 TransactionDetailContainer.propTypes = {
@@ -128,6 +156,7 @@ TransactionDetailContainer.propTypes = {
     }).isRequired,
   }).isRequired,
   stripes: stripesShape.isRequired,
+  onUpdateTransactionList: PropTypes.func.isRequired,
   mutator: PropTypes.shape({
     servicePointId: PropTypes.shape({
       replace: PropTypes.func.isRequired,
@@ -139,6 +168,9 @@ TransactionDetailContainer.propTypes = {
       replace: PropTypes.func.isRequired,
     }).isRequired,
     receiveUnshippedItem: PropTypes.shape({
+      POST: PropTypes.func.isRequired,
+    }),
+    receiveItem: PropTypes.shape({
       POST: PropTypes.func.isRequired,
     }),
   }),

@@ -6,10 +6,16 @@ import { Router } from 'react-router-dom';
 import TransactionListRoute from './TransactionListRoute';
 import { translationsProperties } from '../../../test/jest/helpers';
 import TransactionList from '../../components/transaction/TransactionList';
+import TransactionDetailContainer from '../../components/transaction/TransactionDetails';
 
 jest.mock('../../components/transaction/TransactionList', () => {
   return jest.fn(() => <div>TransactionList</div>);
 });
+
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  cloneElement: jest.fn(),
+}));
 
 const transactionsMock = {
   transactions: [
@@ -40,9 +46,12 @@ const params = {
   'type': ['PATRON', 'ITEM'],
 };
 
+const childrenMock = <TransactionDetailContainer render={jest.fn} />;
+
 const renderTransactionListRoute = ({
   history = createMemoryHistory(),
   mutator = mutatorMock,
+  children = childrenMock,
 } = {}) => {
   return renderWithIntl(
     <Router history={history}>
@@ -50,13 +59,19 @@ const renderTransactionListRoute = ({
         mutator={mutator}
         location={{ pathname: '/' }}
         history={history}
-      />
+      >
+        {children}
+      </TransactionListRoute>
     </Router>,
     translationsProperties,
   );
 };
 
 describe('TransactionListRoute', () => {
+  beforeEach(() => {
+    TransactionList.mockClear();
+  });
+
   it('should render TransactionList', async () => {
     await act(async () => { renderTransactionListRoute(); });
     expect(screen.getByText('TransactionList')).toBeVisible();
@@ -65,6 +80,11 @@ describe('TransactionListRoute', () => {
   it('should not pass any transactions ', async () => {
     await act(async () => { renderTransactionListRoute(); });
     expect(TransactionList.mock.calls[0][0].transactions).toEqual([]);
+  });
+
+  it('should use React.cloneElement method for children prop', async () => {
+    await act(async () => { renderTransactionListRoute(); });
+    expect(React.cloneElement).toHaveBeenCalled();
   });
 
   describe('when we select filters', () => {
@@ -77,7 +97,7 @@ describe('TransactionListRoute', () => {
     });
 
     it('should pass the correct transactions list', () => {
-      expect(TransactionList.mock.calls[12][0].transactions).toEqual(transactionsMock.transactions);
+      expect(TransactionList.mock.calls[4][0].transactions).toEqual(transactionsMock.transactions);
     });
 
     it('should call a GET request with the correct path', () => {
@@ -85,11 +105,11 @@ describe('TransactionListRoute', () => {
     });
 
     it('should path the correct count of the transactions', async () => {
-      expect(TransactionList.mock.calls[12][0].transactionsCount).toEqual(transactionsMock.totalRecords);
+      expect(TransactionList.mock.calls[4][0].transactionsCount).toEqual(transactionsMock.totalRecords);
     });
 
     it('should trigger a GET request with the correct offset number', async () => {
-      await act(async () => { TransactionList.mock.calls[27][0].onNeedMoreData(); });
+      await act(async () => { TransactionList.mock.calls[4][0].onNeedMoreData(); });
       expect(mutatorMock.transactionRecords.GET).toHaveBeenLastCalledWith({
         params: {
           ...params,

@@ -24,6 +24,7 @@ const renderTransactionDetail = ({
   isOpenUnshippedItemModal = false,
   onTriggerUnshippedItemModal,
   onFetchReceiveUnshippedItem,
+  onFetchReceiveItem,
   onClose,
 } = {}) => {
   return renderWithIntl(
@@ -34,6 +35,7 @@ const renderTransactionDetail = ({
       onClose={onClose}
       onTriggerUnshippedItemModal={onTriggerUnshippedItemModal}
       onFetchReceiveUnshippedItem={onFetchReceiveUnshippedItem}
+      onFetchReceiveItem={onFetchReceiveItem}
     />,
     translationsProperties,
   );
@@ -43,11 +45,13 @@ describe('TransactionDetail', () => {
   const onClose = jest.fn();
   const onTriggerUnshippedItemModal = jest.fn();
   const onFetchReceiveUnshippedItem = jest.fn();
+  const onFetchReceiveItem = jest.fn();
 
   const commonProps = {
     onClose,
     onTriggerUnshippedItemModal,
     onFetchReceiveUnshippedItem,
+    onFetchReceiveItem,
   };
 
   it('should be rendered', () => {

@@ -43,12 +43,14 @@ const TransactionDetail = ({
   onClose,
   onTriggerUnshippedItemModal,
   onFetchReceiveUnshippedItem,
+  onFetchReceiveItem,
 }) => {
   const renderActionMenu = useCallback(({ onToggle }) => (
     <ActionMenu
       transaction={transaction}
       onToggle={onToggle}
       onReceiveUnshippedItem={onTriggerUnshippedItemModal}
+      onReceiveItem={onFetchReceiveItem}
     />
   ), [transaction]);
 
@@ -92,6 +94,7 @@ TransactionDetail.propTypes = {
   isOpenUnshippedItemModal: PropTypes.bool.isRequired,
   transaction: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
+  onFetchReceiveItem: PropTypes.func.isRequired,
   onFetchReceiveUnshippedItem: PropTypes.func.isRequired,
   onTriggerUnshippedItemModal: PropTypes.func.isRequired,
 };

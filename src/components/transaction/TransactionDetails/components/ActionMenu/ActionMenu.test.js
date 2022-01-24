@@ -16,6 +16,7 @@ const renderActionMenu = ({
       transaction={transaction}
       onToggle={jest.fn()}
       onReceiveUnshippedItem={jest.fn()}
+      onReceiveItem={jest.fn()}
     />,
     translationsProperties,
   );

@@ -61,7 +61,7 @@ export default function InnReach({
       >
         <Route
           path={`${path}/transactions/:id/view`}
-          component={TransactionDetailContainer}
+          render={props => <TransactionDetailContainer {...props} />}
         />
       </Route>
       <Route

@@ -16,6 +16,7 @@ const {
 const {
   PATRON_HOLD,
   TRANSFER,
+  ITEM_SHIPPED,
 } = TRANSACTION_STATUSES;
 
 const PatronActions = ({
@@ -37,7 +38,7 @@ const PatronActions = ({
         onClickHandler={onCheckOut}
       />
       <ActionItem
-        disabled
+        disabled={transaction[STATUS] !== ITEM_SHIPPED}
         icon={ICONS.RECEIVE}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.patron-type.action.receive-item"
         onToggle={onToggle}

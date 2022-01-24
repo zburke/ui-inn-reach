@@ -6,10 +6,16 @@ import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jes
 import StripesFinalFormWrapper from '@folio/stripes-final-form/lib/StripesFinalFormWrapper';
 import userEvent from '@testing-library/user-event';
 
+import { MultiSelection } from '@folio/stripes-components';
 import TabularList from './TabularList';
 import { translationsProperties } from '../../../../../../../test/jest/helpers';
 import { validateLocalAgency } from '../../utils';
 import { DEFAULT_VALUES } from '../../../../../routes/CentralServersConfigurationRoute/CentralServersConfigurationCreateEditContainer';
+
+jest.mock('@folio/stripes-components', () => ({
+  ...jest.requireActual('@folio/stripes-components'),
+  MultiSelection: jest.fn(() => <div>MultiSelection</div>),
+}));
 
 const validate = (values) => ({
   ...validateLocalAgency(values.localAgencies),
@@ -30,7 +36,9 @@ const librariesTypeOptions = [
 ];
 
 describe('TabularList component', () => {
-  beforeEach(() => (
+  beforeEach(() => {
+    MultiSelection.mockClear();
+
     renderWithIntl(
       <MemoryRouter>
         <StripesFinalFormWrapper
@@ -42,12 +50,12 @@ describe('TabularList component', () => {
         />
       </MemoryRouter>,
       translationsProperties,
-    )
-  ));
+    );
+  });
 
   it('should display first and second fields of the row', () => {
     expect(document.querySelector('[id="localAgencies[0].localAgency-0"]')).toBeVisible();
-    expect(document.querySelector('[id="localAgencies[0].FOLIOLibraries-0"]')).toBeVisible();
+    expect(screen.getByTestId('row').contains(screen.getByText('MultiSelection'))).toBeTruthy();
   });
 
   it('should display "add" button', () => {
@@ -109,24 +117,6 @@ describe('TabularList component', () => {
       userEvent.click(screen.getByRole('button', { name: 'Add a new row' }));
       userEvent.click(screen.getByRole('button', { name: 'Remove fields for row 1' }));
       expect(screen.getAllByTestId('row')).toHaveLength(1);
-    });
-  });
-
-  describe('Filtering of FOLIO libraries', () => {
-    it('should show all libraries', () => {
-      const librariesCount = document.querySelectorAll('[id="multiselect-option-list-localAgencies[0].FOLIOLibraries-0"]>li').length;
-
-      expect(librariesCount).toBe(7);
-    });
-
-    it('should show the filtered list of libraries', () => {
-      const firstLibrary = document.querySelector('[id="multiselect-option-list-localAgencies[0].FOLIOLibraries-0"]>li');
-
-      firstLibrary.click();
-      userEvent.click(screen.getByRole('button', { name: 'Add a new row' }));
-      const librariesCount = document.querySelectorAll('[id="multiselect-option-list-localAgencies[1].FOLIOLibraries-1"]>li').length;
-
-      expect(librariesCount).toBe(6);
     });
   });
 });

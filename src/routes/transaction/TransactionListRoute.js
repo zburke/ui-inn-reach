@@ -1,5 +1,6 @@
 import React, {
   useCallback,
+  cloneElement,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -48,10 +49,15 @@ const TransactionListRoute = ({
     recordsCount: transactionsCount,
     isLoading,
     onNeedMoreData,
+    onUpdateList: onUpdateTransactionList,
     refreshList,
   } = useList(false, loadTransactions, loadTransactionsCB, RESULT_COUNT_INCREMENT);
 
   useLocationReset(history, location, getTransactionListUrl(), refreshList);
+
+  const additionalProps = {
+    render: props => children.props.render({ ...props, onUpdateTransactionList }),
+  };
 
   return (
     <TransactionList
@@ -61,7 +67,7 @@ const TransactionListRoute = ({
       resetData={resetData}
       onNeedMoreData={onNeedMoreData}
     >
-      {children}
+      {cloneElement(children, additionalProps)}
     </TransactionList>
   );
 };

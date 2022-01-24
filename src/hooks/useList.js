@@ -28,7 +28,7 @@ const useList = (isLoadingRightAway, queryLoadRecords, loadRecordsCB, resultCoun
   const [recordsOffset, setRecordsOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const loadRecords = useCallback(offset => {
+  const loadRecords = useCallback((offset, updateList) => {
     setIsLoading(true);
     const queryParams = queryString.parse(location.search);
     const filtersCount = getFiltersCount(queryParams);
@@ -40,6 +40,7 @@ const useList = (isLoadingRightAway, queryLoadRecords, loadRecordsCB, resultCoun
 
     return loadRecordsPromise.then(recordsResponse => {
       if (!offset) setRecordsCount(recordsResponse?.totalRecords);
+      if (updateList) return recordsResponse && setRecords(recordsResponse.transactions);
 
       return recordsResponse && loadRecordsCB(setRecords, recordsResponse);
     }).finally(() => setIsLoading(false));
@@ -52,6 +53,10 @@ const useList = (isLoadingRightAway, queryLoadRecords, loadRecordsCB, resultCoun
       .then(() => {
         setRecordsOffset(newOffset);
       });
+  };
+
+  const onUpdateList = () => {
+    loadRecords(recordsOffset, true);
   };
 
   const refreshList = useCallback(() => {
@@ -72,6 +77,7 @@ const useList = (isLoadingRightAway, queryLoadRecords, loadRecordsCB, resultCoun
     recordsCount,
     isLoading,
     onNeedMoreData,
+    onUpdateList,
     refreshList,
   };
 };
