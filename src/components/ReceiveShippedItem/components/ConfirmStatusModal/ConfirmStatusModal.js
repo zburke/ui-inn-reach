@@ -28,8 +28,11 @@ const ConfirmStatusModal = ({
   slipTemplate,
   slipData,
   message,
+  checkboxLabel,
   onAfterPrint,
+  onBeforePrint,
   onClose,
+  onClickClose,
 }) => {
   const [isPrint, setIsPrint] = useState(isPrintable);
 
@@ -56,7 +59,7 @@ const ConfirmStatusModal = ({
             buttonStyle="primary"
             dataSource={slipData}
             template={slipTemplate}
-            onBeforePrint={onClose}
+            onBeforePrint={onBeforePrint || onClose}
             onAfterPrint={onAfterPrint}
           >
             <FormattedMessage id="ui-inn-reach.shipped-items.modal.button.close" />
@@ -66,7 +69,7 @@ const ConfirmStatusModal = ({
             marginBottom0
             data-testid="close-button"
             buttonStyle="primary"
-            onClick={onClose}
+            onClick={onClickClose || onClose}
           >
             <FormattedMessage id="ui-inn-reach.shipped-items.modal.button.close" />
           </Button>
@@ -90,7 +93,7 @@ const ConfirmStatusModal = ({
             <Checkbox
               checked={isPrint}
               name="printBarcodeSlip"
-              label={<FormattedMessage id="ui-inn-reach.shipped-items.field.print-barcode-slip" />}
+              label={checkboxLabel || <FormattedMessage id="ui-inn-reach.shipped-items.field.print-slip" />}
               value={isPrint + ''}
               onChange={triggerPrintBarcodeSlip}
             />
@@ -105,12 +108,15 @@ ConfirmStatusModal.propTypes = {
   label: PropTypes.node.isRequired,
   message: PropTypes.node.isRequired,
   onClose: PropTypes.func.isRequired,
+  checkboxLabel: PropTypes.node,
   isPrintable: PropTypes.bool,
   open: PropTypes.bool,
   showPrintButton: PropTypes.bool,
   slipData: PropTypes.object,
   slipTemplate: PropTypes.string,
   onAfterPrint: PropTypes.func,
+  onBeforePrint: PropTypes.func,
+  onClickClose: PropTypes.func,
 };
 
 ConfirmStatusModal.defaultProps = {

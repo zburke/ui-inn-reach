@@ -401,9 +401,10 @@
   "shipped-items.action.print-inn-reach-barcode": "Print INN-Reach barcode",
   "shipped-items.action.print-hold-slip": "Print hold slip",
   "shipped-items.action.print-transit-slip": "Print transit slip",
-  "shipped-items.field.print-barcode-slip": "Print barcode slip",
   "shipped-items.callout.connection-problem.get.transactions": "Unable to get data due to a module error. Please try again. If a problem persists please contact your system administrator",
   "shipped-items.callout.connection-problem.put.receive-shipped-item": "There was a problem receiving the item",
+  "shipped-items.field.print-slip": "Print slip",
+  "shipped-items.field.print-barcode-slip": "Print barcode slip",
 
   "check-out-borrowing-site.title.check-out-borrowing-site": "Check out to borrowing site",
   "check-out-borrowing-site.title.scan-items": "Scan Items",
