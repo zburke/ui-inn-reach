@@ -68,7 +68,7 @@ const ItemActions = ({
           <FormattedMessage id="ui-inn-reach.shipped-items.action.print-inn-reach-barcode" />
         </PrintButton>
       }
-      {isHoldItem && !barcodeAugmented &&
+      {isHoldItem &&
         <PrintButton
           data-testid="print-hold-slip"
           role="menuitem"
@@ -79,7 +79,7 @@ const ItemActions = ({
           <FormattedMessage id="ui-inn-reach.shipped-items.action.print-hold-slip" />
         </PrintButton>
       }
-      {isTransitItem && !barcodeAugmented &&
+      {isTransitItem &&
         <PrintButton
           data-testid="print-transit-slip"
           role="menuitem"

@@ -58,15 +58,42 @@ describe('ItemActions', () => {
     expect(container).toBeVisible();
   });
 
-  it('should display "Print INN-Reach barcode" button', () => {
-    renderItemActions({
-      ...commonProps,
-      loan: {
-        ...loanMock,
-        barcodeAugmented: true,
-      },
+  describe('when barcode augmented', () => {
+    it('should display the "Print INN-Reach barcode" button', () => {
+      renderItemActions({
+        ...commonProps,
+        loan: {
+          ...loanMock,
+          barcodeAugmented: true,
+          isHoldItem: true,
+        },
+      });
+      expect(PrintButton.mock.calls[0][0]['data-testid']).toBe('print-inn-reach-barcode');
     });
-    expect(PrintButton.mock.calls[0][0]['data-testid']).toBe('print-inn-reach-barcode');
+
+    it('should display the "Print hold slip" button', () => {
+      renderItemActions({
+        ...commonProps,
+        loan: {
+          ...loanMock,
+          barcodeAugmented: true,
+          isHoldItem: true,
+        },
+      });
+      expect(PrintButton.mock.calls[1][0]['data-testid']).toBe('print-hold-slip');
+    });
+
+    it('should display the "Print transit slip" button', () => {
+      renderItemActions({
+        ...commonProps,
+        loan: {
+          ...loanMock,
+          barcodeAugmented: true,
+          isTransitItem: true,
+        },
+      });
+      expect(PrintButton.mock.calls[1][0]['data-testid']).toBe('print-transit-slip');
+    });
   });
 
   it('should display "Print hold slip" button', () => {
