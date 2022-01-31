@@ -331,12 +331,12 @@
     "transaction.type.patron": "المستفيد",
     "transaction.type.local": "محلي",
     "transaction.status": "حالة المعاملة",
-    "settings.inn-reach-recall-user": "INN-Reach recall user",
-    "settings.inn-reach-recall-user.title": "INN-Reach recall user settings",
+    "settings.inn-reach-recall-user": "مستخدم استدعاء INN-Reach",
+    "settings.inn-reach-recall-user.title": "إعدادات مستخدم إستدعاء INN-Reach",
     "settings.inn-reach-recall-user.button.save": "حفظ",
-    "settings.inn-reach-recall-user.field.recall-inn-reach-items-as-user": "Recall INN-Reach items as user",
-    "settings.inn-reach-recall-user.create.success": "INN-Reach recall user settings created successfully",
-    "settings.inn-reach-recall-user.update.success": "INN-Reach recall user settings updated successfully",
+    "settings.inn-reach-recall-user.field.recall-inn-reach-items-as-user": "استدعاء مواد INN-Reach كمستخدم",
+    "settings.inn-reach-recall-user.create.success": "تم إنشاء إعدادات مستخدم استدعاء INN-Reach بنجاح",
+    "settings.inn-reach-recall-user.update.success": "تم تحديث إعدادات مستخدم استدعاء INN-Reach بنجاح",
     "settings.inn-reach-recall-user.callout.connectionProblem.create": "تعذر إنشاء البيانات بسبب خطأ في الوحدة. يرجى إعادة المحاولة مرة أخرى. إذا استمرت المشكلة، يرجى الاتصال بمدير النظام",
     "settings.inn-reach-recall-user.callout.connectionProblem.update": "تعذر تحديث البيانات بسبب خطأ في الوحدة. يرجى إعادة المحاولة مرة أخرى. إذا استمرت المشكلة، يرجى الاتصال بمدير النظام",
     "transaction.field.label.transactionType.item": "المادة",
@@ -399,5 +399,8 @@
     "shipped-items.action.print-inn-reach-barcode": "طباعة باركود INN-Reach",
     "shipped-items.action.print-hold-slip": "طباعة كعب الحجز",
     "shipped-items.action.print-transit-slip": "طباعة كعب النقل",
-    "shipped-items.field.print-barcode-slip": "طباعة كعب الباركود"
+    "shipped-items.field.print-barcode-slip": "طباعة كعب الباركود",
+    "shipped-items.field.print-slip": "طباعة الكعب",
+    "receive-item.callout.success.post.receive-item": "تمت إعادة المادة بنجاح إلى الموقع المقتني",
+    "receive-item.callout.connection-problem.post.receive-item": "حدثت مشكلة أثناء استلام المادة"
 }

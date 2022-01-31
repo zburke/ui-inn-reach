@@ -399,5 +399,8 @@
     "shipped-items.action.print-inn-reach-barcode": "打印INN-Reach条码",
     "shipped-items.action.print-hold-slip": "打印预约单",
     "shipped-items.action.print-transit-slip": "打印转运单",
-    "shipped-items.field.print-barcode-slip": "打印条码单"
+    "shipped-items.field.print-barcode-slip": "打印条码单",
+    "shipped-items.field.print-slip": "打印单",
+    "receive-item.callout.success.post.receive-item": "单件已成功归还到拥有站点",
+    "receive-item.callout.connection-problem.post.receive-item": "接收单件时出现问题"
 }
