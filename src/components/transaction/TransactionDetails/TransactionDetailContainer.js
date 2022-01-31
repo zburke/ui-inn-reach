@@ -46,6 +46,7 @@ const TransactionDetailContainer = ({
   const showCallout = useCallout();
   const intl = useIntl();
 
+  const [unshippedItem, setUnshippedItem] = useState(null);
   const [isOpenUnshippedItemModal, setIsOpenUnshippedItemModal] = useState(false);
 
   const triggerUnshippedItemModal = () => {
@@ -59,9 +60,16 @@ const TransactionDetailContainer = ({
     });
   }, [history, location.search]);
 
+  const reset = () => {
+    setUnshippedItem(null);
+    setIsOpenUnshippedItemModal(false);
+  };
+
   const fetchReceiveUnshippedItem = () => {
     mutator.receiveUnshippedItem.POST({})
-      .then(() => {
+      .then(response => {
+        setIsOpenUnshippedItemModal(false);
+        setUnshippedItem(response);
         onUpdateTransactionList();
         showCallout({
           message: <FormattedMessage id="ui-inn-reach.unshipped-item.callout.success.post.receive-unshipped-item" />,
@@ -92,7 +100,6 @@ const TransactionDetailContainer = ({
   };
 
   const handleFetchReceiveUnshippedItem = ({ itemBarcode }) => {
-    setIsOpenUnshippedItemModal(false);
     mutator.itemBarcode.replace(itemBarcode || '');
     fetchReceiveUnshippedItem();
   };
@@ -109,10 +116,12 @@ const TransactionDetailContainer = ({
       transaction={transaction}
       intl={intl}
       isOpenUnshippedItemModal={isOpenUnshippedItemModal}
+      unshippedItem={unshippedItem}
       onClose={backToList}
       onTriggerUnshippedItemModal={triggerUnshippedItemModal}
       onFetchReceiveUnshippedItem={handleFetchReceiveUnshippedItem}
       onFetchReceiveItem={fetchReceiveItem}
+      onReset={reset}
     />
   );
 };

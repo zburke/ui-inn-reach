@@ -4,6 +4,10 @@ import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jes
 import { translationsProperties } from '../../../../test/jest/helpers';
 import TransactionDetail from './TransactionDetail';
 
+jest.mock('../../common/AugmentedBarcodeModal', () => {
+  return jest.fn(() => <div>AugmentedBarcodeModal</div>);
+});
+
 jest.mock('./components', () => ({
   ...jest.requireActual('./components'),
   TransactionSummary: jest.fn(() => <div>TransactionSummary</div>),
@@ -22,20 +26,24 @@ const transactionMock = {
 const renderTransactionDetail = ({
   transaction = transactionMock,
   isOpenUnshippedItemModal = false,
+  unshippedItem = {},
   onTriggerUnshippedItemModal,
   onFetchReceiveUnshippedItem,
   onFetchReceiveItem,
   onClose,
+  onReset,
 } = {}) => {
   return renderWithIntl(
     <TransactionDetail
       transaction={transaction}
       intl={{}}
       isOpenUnshippedItemModal={isOpenUnshippedItemModal}
+      unshippedItem={unshippedItem}
       onClose={onClose}
       onTriggerUnshippedItemModal={onTriggerUnshippedItemModal}
       onFetchReceiveUnshippedItem={onFetchReceiveUnshippedItem}
       onFetchReceiveItem={onFetchReceiveItem}
+      onReset={onReset}
     />,
     translationsProperties,
   );
@@ -46,12 +54,14 @@ describe('TransactionDetail', () => {
   const onTriggerUnshippedItemModal = jest.fn();
   const onFetchReceiveUnshippedItem = jest.fn();
   const onFetchReceiveItem = jest.fn();
+  const onReset = jest.fn();
 
   const commonProps = {
     onClose,
     onTriggerUnshippedItemModal,
     onFetchReceiveUnshippedItem,
     onFetchReceiveItem,
+    onReset,
   };
 
   it('should be rendered', () => {
@@ -89,5 +99,13 @@ describe('TransactionDetail', () => {
       isOpenUnshippedItemModal: true,
     });
     expect(screen.getByText('ReceiveUnshippedItemModal')).toBeVisible();
+  });
+
+  it('should display the "Augmented Barcode" modal', () => {
+    renderTransactionDetail({
+      ...commonProps,
+      unshippedItem: { barcodeAugmented: true },
+    });
+    expect(screen.getByText('AugmentedBarcodeModal')).toBeVisible();
   });
 });

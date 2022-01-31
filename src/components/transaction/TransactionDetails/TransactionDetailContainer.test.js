@@ -55,6 +55,8 @@ const transactionMock = {
   type: 'ITEM',
 };
 
+const receiveUnshippedItemMock = { foo: '123' };
+
 const resourcesMock = {
   transactionView: {
     records: [transactionMock],
@@ -73,7 +75,7 @@ const mutatorMock = {
     replace: jest.fn(),
   },
   receiveUnshippedItem: {
-    POST: jest.fn(() => Promise.resolve()),
+    POST: jest.fn(() => Promise.resolve(receiveUnshippedItemMock)),
   },
   receiveItem: {
     POST: jest.fn(() => Promise.resolve()),
@@ -136,6 +138,34 @@ describe('TransactionDetailContainer', () => {
     expect(screen.getByText('LoadingPane')).toBeVisible();
   });
 
+  it('should write transaction id to the redux', () => {
+    renderTransactionDetailContainer(commonProps);
+    expect(mutatorMock.transactionId.replace).toHaveBeenLastCalledWith(transactionMock.id);
+  });
+
+  it('should write service point id to the redux', () => {
+    renderTransactionDetailContainer({ ...commonProps, stripes });
+    expect(mutatorMock.servicePointId.replace).toHaveBeenCalledWith(servicePointId);
+  });
+
+  describe('reset', () => {
+    beforeEach(() => {
+      renderTransactionDetailContainer(commonProps);
+    });
+
+    it('should close the unshippedItem modal', async () => {
+      await act(async () => { TransactionDetail.mock.calls[0][0].onTriggerUnshippedItemModal(); });
+      await act(async () => { TransactionDetail.mock.calls[1][0].onReset(); });
+      expect(TransactionDetail.mock.calls[2][0].isOpenUnshippedItemModal).toBeFalsy();
+    });
+
+    it('should dump the unshippedItem state', async () => {
+      await act(async () => { TransactionDetail.mock.calls[0][0].onFetchReceiveUnshippedItem({ itemBarcode }); });
+      await act(async () => { TransactionDetail.mock.calls[1][0].onReset(); });
+      expect(TransactionDetail.mock.calls[2][0].unshippedItem).toBeNull();
+    });
+  });
+
   describe('closing the current page', () => {
     it('should navigate to the page with a list of transactions', () => {
       const history = createMemoryHistory();
@@ -149,46 +179,50 @@ describe('TransactionDetailContainer', () => {
     });
   });
 
-  describe('receive unshipped modal', () => {
-    it('should be open', () => {
+  it('should open "unshipped item" modal', () => {
+    renderTransactionDetailContainer(commonProps);
+    act(() => { TransactionDetail.mock.calls[0][0].onTriggerUnshippedItemModal(); });
+    expect(TransactionDetail.mock.calls[1][0].isOpenUnshippedItemModal).toBeTruthy();
+  });
+
+  describe('receive unshipped item', () => {
+    beforeEach(async () => {
       renderTransactionDetailContainer(commonProps);
-      act(() => { TransactionDetail.mock.calls[0][0].onTriggerUnshippedItemModal(); });
-      expect(TransactionDetail.mock.calls[1][0].isOpenUnshippedItemModal).toBeTruthy();
+      await act(async () => { TransactionDetail.mock.calls[0][0].onFetchReceiveUnshippedItem({ itemBarcode }); });
+    });
+
+    it('should write item barcode to the redux', () => {
+      expect(mutatorMock.itemBarcode.replace).toHaveBeenCalledWith(itemBarcode);
     });
 
     it('should update the transaction state', () => {
-      renderTransactionDetailContainer(commonProps);
-      TransactionDetail.mock.calls[0][0].onFetchReceiveUnshippedItem({ itemBarcode });
       expect(mutatorMock.receiveUnshippedItem.POST).toHaveBeenCalled();
     });
 
-    it('should update the transaction list', async () => {
-      renderTransactionDetailContainer(commonProps);
-      await TransactionDetail.mock.calls[0][0].onFetchReceiveUnshippedItem({ itemBarcode });
+    it('should close the "unshipped item" modal', () => {
+      expect(TransactionDetail.mock.calls[1][0].isOpenUnshippedItemModal).toBeFalsy();
+    });
+
+    it('should pass the unshipped item data', () => {
+      expect(TransactionDetail.mock.calls[1][0].unshippedItem).toEqual(receiveUnshippedItemMock);
+    });
+
+    it('should update the transaction list', () => {
       expect(onUpdateTransactionList).toHaveBeenCalled();
-    });
-
-    it('should write transaction id to the redux', () => {
-      renderTransactionDetailContainer(commonProps);
-      expect(mutatorMock.transactionId.replace).toHaveBeenLastCalledWith(transactionMock.id);
-    });
-
-    it('should write service point id to the redux', () => {
-      renderTransactionDetailContainer({ ...commonProps, stripes });
-      expect(mutatorMock.servicePointId.replace).toHaveBeenCalledWith(servicePointId);
     });
   });
 
   describe('receive item', () => {
-    it('should update the transaction state', () => {
+    beforeEach(() => {
       renderTransactionDetailContainer(commonProps);
       TransactionDetail.mock.calls[0][0].onFetchReceiveItem();
+    });
+
+    it('should update the transaction state', () => {
       expect(mutatorMock.receiveItem.POST).toHaveBeenCalled();
     });
 
-    it('should update the transaction list', async () => {
-      renderTransactionDetailContainer(commonProps);
-      TransactionDetail.mock.calls[0][0].onFetchReceiveItem();
+    it('should update the transaction list', () => {
       expect(onUpdateTransactionList).toHaveBeenCalled();
     });
   });

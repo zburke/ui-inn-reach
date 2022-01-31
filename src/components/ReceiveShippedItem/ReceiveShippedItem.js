@@ -27,7 +27,6 @@ import {
   TRANSACTION_FIELDS,
   TRANSACTION_STATUSES,
   TRANSACTION_TYPES,
-  AUGMENTED_BARCODE_TEMPLATE,
 } from '../../constants';
 import {
   CheckIn,
@@ -39,6 +38,9 @@ import {
 import {
   convertToSlipData,
 } from './utils';
+import {
+  AugmentedBarcodeModal,
+} from '../common';
 
 const {
   UPDATED_DATE,
@@ -202,26 +204,10 @@ const ReceiveShippedItems = ({
   };
 
   const renderAugmentedBarcodeModal = () => {
-    const {
-      folioCheckIn: {
-        staffSlipContext,
-      },
-      transaction,
-    } = checkinData;
-    const slipData = convertToSlipData({ staffSlipContext, transaction, intl });
-    const messages = [
-      <FormattedMessage id="ui-inn-reach.shipped-items.modal.message.barcode-augmented" />,
-    ];
-
     return (
-      <ConfirmStatusModal
-        isPrintable
-        showPrintButton
-        label={<FormattedMessage id="ui-inn-reach.shipped-items.modal.barcode-augmented.heading" />}
-        checkboxLabel={<FormattedMessage id="ui-inn-reach.shipped-items.field.print-barcode-slip" />}
-        slipTemplate={AUGMENTED_BARCODE_TEMPLATE}
-        slipData={slipData}
-        message={messages}
+      <AugmentedBarcodeModal
+        {...checkinData}
+        intl={intl}
         onClose={handleCloseModal}
         onClickClose={handleIsAugmentedBarcodeModalAfterClose}
         onBeforePrint={handleIsAugmentedBarcodeModalAfterClose}
