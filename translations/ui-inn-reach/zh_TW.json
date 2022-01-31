@@ -399,5 +399,8 @@
     "shipped-items.action.print-inn-reach-barcode": "Print INN-Reach barcode",
     "shipped-items.action.print-hold-slip": "Print hold slip",
     "shipped-items.action.print-transit-slip": "Print transit slip",
-    "shipped-items.field.print-barcode-slip": "Print barcode slip"
+    "shipped-items.field.print-barcode-slip": "Print barcode slip",
+    "shipped-items.field.print-slip": "列印單據",
+    "receive-item.callout.success.post.receive-item": "成功還入館藏",
+    "receive-item.callout.connection-problem.post.receive-item": "收到館藏時發生問題"
 }
