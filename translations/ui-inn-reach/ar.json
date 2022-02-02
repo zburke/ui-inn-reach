@@ -401,6 +401,6 @@
     "shipped-items.action.print-transit-slip": "طباعة كعب النقل",
     "shipped-items.field.print-barcode-slip": "طباعة كعب الباركود",
     "shipped-items.field.print-slip": "طباعة الكعب",
-    "receive-item.callout.success.post.receive-item": "تمت إعادة المادة بنجاح إلى الموقع المقتني",
+    "receive-item.callout.success.post.receive-item": "تمت استلام المادة بنجاح",
     "receive-item.callout.connection-problem.post.receive-item": "حدثت مشكلة أثناء استلام المادة"
 }
