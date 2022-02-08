@@ -7,7 +7,8 @@ import {
 export const FOLIO_TO_INN_REACH_LOCATIONS_ROUTE = 'folio-to-inn-reach-locations';
 
 export const FOLIO_TO_INN_REACH_LOCATION_FIELDS = {
-  TABULAR_LIST: 'tabularList',
+  LIBRARIES_TABULAR_LIST: 'librariesTabularList',
+  LOCATIONS_TABULAR_LIST: 'locationsTabularList',
   LEFT_COLUMN: 'leftColumn',
   MAPPING_TYPE: 'mappingType',
   LIBRARY: 'library',

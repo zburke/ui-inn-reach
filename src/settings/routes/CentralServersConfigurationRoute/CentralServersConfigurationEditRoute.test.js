@@ -56,7 +56,6 @@ const values = {
       localAgency: 'PERK',
       FOLIOLibraries: [
         {
-          id: 'c3c85d4c-e6fc-4905-bd12-abfa730584e3',
           label: 'Bostock',
           value: 'c3c85d4c-e6fc-4905-bd12-abfa730584e3',
         },
@@ -147,7 +146,6 @@ describe('CentralServersConfigurationEditRoute component', () => {
 
   it('should load central server record on first render', () => {
     renderEditRoute();
-
     expect(CentralServersConfigurationCreateEditContainer.mock.calls[1][0]).toHaveProperty('initialValues', values);
   });
 

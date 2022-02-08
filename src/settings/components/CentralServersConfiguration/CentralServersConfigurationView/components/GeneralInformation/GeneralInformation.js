@@ -47,17 +47,17 @@ const GeneralInformation = ({
 
   const visibleColumns = [
     LOCAL_AGENCIES_FIELDS.CODE,
-    LOCAL_AGENCIES_FIELDS.FOLIO_LIBRARY_IDs,
+    LOCAL_AGENCIES_FIELDS.FOLIO_LIBRARY_IDS,
   ];
 
   const columnMapping = {
     [LOCAL_AGENCIES_FIELDS.CODE]: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.local-agency.field.code" />,
-    [LOCAL_AGENCIES_FIELDS.FOLIO_LIBRARY_IDs]: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.local-agency.field.libraries" />,
+    [LOCAL_AGENCIES_FIELDS.FOLIO_LIBRARY_IDS]: <FormattedMessage id="ui-inn-reach.settings.central-server-configuration.local-agency.field.libraries" />,
   };
 
   const resultsFormatter = {
     [LOCAL_AGENCIES_FIELDS.CODE]: (data) => (data[LOCAL_AGENCIES_FIELDS.CODE] || <NoValue />),
-    [LOCAL_AGENCIES_FIELDS.FOLIO_LIBRARY_IDs]: (data) => getFormattedFolioLibraries(data.folioLibraryIds, folioLibraries),
+    [LOCAL_AGENCIES_FIELDS.FOLIO_LIBRARY_IDS]: (data) => getFormattedFolioLibraries(data.folioLibraryIds, folioLibraries),
   };
 
   return (

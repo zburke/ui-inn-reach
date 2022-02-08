@@ -10,7 +10,7 @@ export const getConvertedLocalAgenciesToCreateEdit = (localAgencies = []) => {
     if (localAgency && !isEmpty(FOLIOLibraries)) {
       const localAgencyData = {
         [LOCAL_AGENCIES_FIELDS.CODE]: localAgency,
-        [LOCAL_AGENCIES_FIELDS.FOLIO_LIBRARY_IDs]: FOLIOLibraries.map(library => library.value),
+        [LOCAL_AGENCIES_FIELDS.FOLIO_LIBRARY_IDS]: FOLIOLibraries.map(library => library.value),
       };
 
       if (id) {
@@ -33,7 +33,6 @@ export const getConvertedLocalAgencies = (localAgencies, folioLibraries) => {
 
   return localAgencies.map(({ id, code, folioLibraryIds }) => {
     const FOLIOLibraries = folioLibraryIds.map(libraryId => ({
-      id: libraryId,
       label: folioLibrariesMap.get(libraryId)?.name,
       value: libraryId,
     }));

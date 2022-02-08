@@ -2,6 +2,7 @@ import React from 'react';
 import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jest/helpers';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
+import StripesFinalFormWrapper from '@folio/stripes-final-form/lib/StripesFinalFormWrapper';
 import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/react';
 import { translationsProperties } from '../../../../../test/jest/helpers';
@@ -25,42 +26,59 @@ const serverOptions = [
   {
     id: '6e2b3e23-8d58-4cd3-985d-b4eb2e9a2ec9',
     label: 'testName2',
-    value: 'testName2'
+    value: 'testName2',
+    localAgencies: [
+      {
+        code: 'fl1g1',
+        folioLibraryIds: ['5d78803e-ca04-4b4a-aeae-2c63b924518b', '05d23bb3-a1a2-40e6-ba85-c8fb9bd38d80'],
+      },
+      {
+        code: 'fl1g2',
+        folioLibraryIds: ['c2549bb4-19c7-4fcc-8b52-39e612fb7dbe'],
+      },
+    ],
   }
 ];
 
 const serverLibraryOptions = [
   NO_VALUE_LIBRARY_OPTION,
   {
-    id: '0939ebc4-cf37-4968-841e-912c0c02eacf',
-    label: 'newLib (QWER)',
-    value: 'newLib',
+    code: 'd2i01',
+    id: '05d23bb3-a1a2-40e6-ba85-c8fb9bd38d80',
+    label: 'D2IR Local 1 (d2i01)',
+    value: 'D2IR Local 1',
   },
   {
-    id: '9e3ccd90-8d64-4c52-8ee8-f09f5d4ebb56',
-    label: 'test library (l)',
-    value: 'test library',
+    code: 'DI',
+    id: '5d78803e-ca04-4b4a-aeae-2c63b924518b',
+    label: 'Datalogisk Institut (DI)',
+    value: 'Datalogisk Institut',
+  },
+  {
+    code: 'E',
+    id: 'c2549bb4-19c7-4fcc-8b52-39e612fb7dbe',
+    label: 'Online (E)',
+    value: 'Online',
   },
 ];
 
 const innReachLocations = [
   {
-    id: '7ab09535-7ba8-40e7-8b14-4c7f6c171820',
-    code: 'assa',
+    id: 'c625c7e0-02c9-4264-a899-d329c2e032c9',
+    code: 'smgen',
+    value: 'smgen',
   },
   {
-    id: 'feafa30d-0b0c-43e3-a283-5344bd0ae5ab',
-    code: 'bbb',
+    id: 'a6742e42-a8a8-4e92-9cf8-885b77ec9236',
+    code: 'wpgen',
+    value: 'wpgen',
   },
-  {
-    id: '7fab623d-1947-4413-b315-eae9ba9bb0c0',
-    code: 'test',
-  }
 ];
 
 const selectedServerMock = {
   id: serverOptions[1].id,
   name: serverOptions[1].label,
+  localAgencies: serverOptions[1].localAgencies,
 };
 
 const mappingTypesOptions = [
@@ -81,10 +99,18 @@ const mappingTypesOptions = [
   }
 ];
 
+const opts = {
+  navigationCheck: true,
+  subscription: {
+    values: true,
+    pristine: true,
+    invalid: true,
+  },
+};
+
 const renderFolioToInnReachLocationsForm = ({
   selectedServer = {},
   mappingType = '',
-  isPristine = true,
   initialValues = {},
   isResetForm = false,
   history = createMemoryHistory(),
@@ -94,19 +120,20 @@ const renderFolioToInnReachLocationsForm = ({
   isMappingsPending = false,
   leftColumnName = FOLIO_LIBRARY,
   isShowTabularList = false,
-  onChangePristineState,
   onChangeFormResetState,
   onChangeMappingType,
   onChangeLibrary,
 } = {}) => {
   return renderWithIntl(
     <Router history={history}>
-      <FolioToInnReachLocationsForm
+      <StripesFinalFormWrapper
+        Form={FolioToInnReachLocationsForm}
+        formOptions={opts}
+        initialValues={initialValues}
         selectedServer={selectedServer}
         mappingType={mappingType}
         serverLibraryOptions={serverLibraryOptions}
         innReachLocations={innReachLocations}
-        isPristine={isPristine}
         serverOptions={serverOptions}
         isMappingsPending={isMappingsPending}
         leftColumnName={leftColumnName}
@@ -115,11 +142,9 @@ const renderFolioToInnReachLocationsForm = ({
         formatMessage={({ id }) => id}
         librariesMappingType="Libraries"
         locationsMappingType="Locations"
-        initialValues={initialValues}
         isResetForm={isResetForm}
         values={values}
         onSubmit={handleSubmit}
-        onChangePristineState={onChangePristineState}
         onChangeFormResetState={onChangeFormResetState}
         onChangeServer={onChangeServer}
         onChangeMappingType={onChangeMappingType}
@@ -132,7 +157,6 @@ const renderFolioToInnReachLocationsForm = ({
 
 describe('FolioToInnReachLocationsForm', () => {
   const onChangeFormResetState = jest.fn();
-  const onChangePristineState = jest.fn();
   const handleSubmit = jest.fn();
   const onChangeServer = jest.fn();
   const onChangeLibrary = jest.fn();
@@ -140,7 +164,6 @@ describe('FolioToInnReachLocationsForm', () => {
 
   const commonProps = {
     onChangeFormResetState,
-    onChangePristineState,
     handleSubmit,
     onChangeServer,
     onChangeLibrary,
@@ -177,23 +200,28 @@ describe('FolioToInnReachLocationsForm', () => {
     it('should be active for the "libraries" mapping type', async () => {
       renderFolioToInnReachLocationsForm({
         ...commonProps,
-        isPristine: false,
         selectedServer: selectedServerMock,
         mappingType: mappingTypesOptions[1].value,
         isShowTabularList: true,
         initialValues: {
-          tabularList: [
+          librariesTabularList0: [
             {
-              [FOLIO_LOCATION]: 'newLib (QWER)',
+              [FOLIO_LOCATION]: 'D2IR Local 1 (d2i01)',
             },
             {
-              [FOLIO_LOCATION]: 'test library (l)',
+              [FOLIO_LOCATION]: 'Datalogisk Institut (DI)',
+            },
+          ],
+          librariesTabularList1: [
+            {
+              [FOLIO_LOCATION]: 'Online (E)',
             },
           ],
         },
       });
-      document.getElementById('option-tabularList[0].innReachLocations-0-2-bbb').click();
-      document.getElementById('option-tabularList[1].innReachLocations-1-3-test').click();
+      document.getElementById('option-librariesTabularList0[0].innReachLocations-0-1-smgen').click();
+      document.getElementById('option-librariesTabularList0[1].innReachLocations-1-1-smgen').click();
+      document.getElementById('option-librariesTabularList1[0].innReachLocations-0-2-wpgen').click();
 
       await waitFor(() => {
         expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled();
@@ -204,23 +232,22 @@ describe('FolioToInnReachLocationsForm', () => {
       renderFolioToInnReachLocationsForm({
         ...commonProps,
         leftColumnName: FOLIO_LOCATION,
-        isPristine: false,
         selectedServer: selectedServerMock,
         mappingType: mappingTypesOptions[2].value,
         isShowTabularList: true,
         initialValues: {
-          tabularList: [
+          locationsTabularList: [
             {
-              [FOLIO_LOCATION]: 'newLib (QWER)',
+              [FOLIO_LOCATION]: 'D2IR Local 1 (d2i01)',
             },
             {
-              [FOLIO_LOCATION]: 'test library (l)',
+              [FOLIO_LOCATION]: 'Datalogisk Institut (DI)',
             },
           ],
         },
       });
 
-      document.getElementById('option-tabularList[0].innReachLocations-0-2-bbb').click();
+      document.getElementById('option-locationsTabularList[0].innReachLocations-0-1-smgen').click();
 
       await waitFor(() => {
         expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled();

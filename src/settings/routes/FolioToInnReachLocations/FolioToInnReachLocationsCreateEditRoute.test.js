@@ -34,7 +34,7 @@ const servers = [
       },
       {
         code: '4ffeg',
-        folioLibraryIds: ['0939ebc4-cf37-4968-841e-912c0c02eacf', '9e3ccd90-8d64-4c52-8ee8-f09f5d4ebb56'],
+        folioLibraryIds: ['c2549bb4-19c7-4fcc-8b52-39e612fb7dbe'],
         id: '5ffa6f06-8f09-4f32-991d-ed78b70f3e1e',
       }
     ],
@@ -93,6 +93,12 @@ const loclibs = [
     code: 'l',
     name: 'test library',
   },
+  {
+    id: 'c2549bb4-19c7-4fcc-8b52-39e612fb7dbe',
+    campusId: '470ff1dd-937a-4195-bf9e-06bcfcd135df',
+    code: 'E',
+    name: 'Online',
+  },
 ];
 
 const innReachLocations = [
@@ -115,7 +121,7 @@ const innReachLocations = [
 ];
 
 const recordForLocationMappings = {
-  tabularList: [
+  locationsTabularList: [
     {
       folioLocation: 'folioName5 (code5)',
       innReachLocations: 'test',
@@ -129,7 +135,7 @@ const recordForLocationMappings = {
 };
 
 const recordForLibrariesMappings = {
-  tabularList: [
+  librariesTabularList0: [
     {
       folioLibrary: 'newLib (QWER)',
       innReachLocations: 'test',
@@ -138,6 +144,12 @@ const recordForLibrariesMappings = {
     {
       folioLibrary: 'test library (l)',
       code: 'l',
+    },
+  ],
+  librariesTabularList1: [
+    {
+      folioLibrary: 'Online (E)',
+      code: 'E',
     },
   ],
 };
@@ -273,7 +285,13 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
           label: 'test library (l)',
           value: 'test library',
           code: 'l',
-        }
+        },
+        {
+          id: 'c2549bb4-19c7-4fcc-8b52-39e612fb7dbe',
+          label: 'Online (E)',
+          value: 'Online',
+          code: 'E',
+        },
       ]);
     });
   });
@@ -284,16 +302,22 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
       act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Libraries'); });
       expect(FolioToInnReachLocationsForm.mock.calls[5][0].initialValues).toEqual({
-        tabularList: [
+        librariesTabularList0: [
           {
-            folioLibrary: 'newLib (QWER)',
-            code: 'QWER',
+            'code': 'QWER',
+            'folioLibrary': 'newLib (QWER)',
           },
           {
-            folioLibrary: 'test library (l)',
-            code: 'l',
-          }
-        ]
+            'code': 'l',
+            'folioLibrary': 'test library (l)',
+          },
+        ],
+        librariesTabularList1: [
+          {
+            'code': 'E',
+            'folioLibrary': 'Online (E)',
+          },
+        ],
       });
     });
 
@@ -322,7 +346,7 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[0][0].onChangeMappingType('Locations'); });
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeLibrary(loclibs[1].name); });
       expect(FolioToInnReachLocationsForm.mock.calls[5][0].initialValues).toEqual({
-        tabularList: [
+        locationsTabularList: [
           {
             folioLocation: 'folioName5 (code5)',
             code: 'code5',
@@ -363,7 +387,8 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
 
     it('should make GET request for library mappings', async () => {
       renderFolioToInnReachLocationsCreateEditRoute({ history });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[0][0].onChangeMappingType('Libraries'); });
+      act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Libraries'); });
       expect(mutatorMock.libraryMappings.GET).toHaveBeenCalled();
     });
   });
@@ -407,8 +432,10 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
 
     it('should make PUT for libraryMappings', async () => {
       renderFolioToInnReachLocationsCreateEditRoute({ history });
-      act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeMappingType('Libraries'); });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onSubmit(recordForLibrariesMappings); });
+      act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
+      act(() => { FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Libraries'); });
+
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[2][0].onSubmit(recordForLibrariesMappings); });
       expect(mutatorMock.libraryMappings.PUT).toHaveBeenCalledWith({
         libraryMappings: [
           {

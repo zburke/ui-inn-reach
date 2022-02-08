@@ -18,8 +18,10 @@ import {
 } from '../../../hooks';
 import {
   CALLOUT_ERROR_TYPE,
+  CENTRAL_SERVER_CONFIGURATION_FIELDS,
   CENTRAL_SERVERS_LIMITING,
   FOLIO_TO_INN_REACH_LOCATION_FIELDS,
+  LOCAL_AGENCIES_FIELDS,
   NO_VALUE_LIBRARY_OPTION,
   NO_VALUE_OPTION_VALUE,
 } from '../../../constants';
@@ -41,8 +43,17 @@ import {
 } from '../../../utils';
 
 const {
-  TABULAR_LIST,
+  LIBRARIES_TABULAR_LIST,
+  LOCATIONS_TABULAR_LIST,
 } = FOLIO_TO_INN_REACH_LOCATION_FIELDS;
+
+const {
+  LOCAL_AGENCIES,
+} = CENTRAL_SERVER_CONFIGURATION_FIELDS;
+
+const {
+  FOLIO_LIBRARY_IDS,
+} = LOCAL_AGENCIES_FIELDS;
 
 const FolioToInnReachLocationsCreateEditRoute = ({
   resources: {
@@ -86,8 +97,6 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   const [libraryMappings, setLibraryMappings] = useState([]);
   const [locationMappings, setLocationMappings] = useState([]);
   const [isMappingsPending, setIsMappingsPending] = useState(false);
-  const [locationMappingsMap, setLocationMappingsMap] = useState(null);
-  const [librariesMappingsMap, setLibrariesMappingsMap] = useState(null);
 
   const serverOptions = useMemo(() => getCentralServerOptions(servers), [servers]);
   const librariesMappingType = formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field-value.libraries' });
@@ -141,8 +150,6 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   const reset = () => {
     setServerLibraries([]);
     setServerLibraryOptions([]);
-    setLibrariesMappingsMap(null);
-    setLocationMappingsMap(null);
     resetCentralServer();
     resetData();
     setMappingType('');
@@ -212,9 +219,9 @@ const FolioToInnReachLocationsCreateEditRoute = ({
       finalRecord = {
         locationMappings: getFinalLocationMappings({
           folioLocations,
-          tabularListMap: getTabularListMap(record.tabularList),
+          tabularListMap: getTabularListMap(record),
           innReachLocationsMap: getInnReachLocationsMapCodeFirst(innReachLocations),
-          locationMappingsMap,
+          locationMappingsMap: getLocationMappingsMap(locationMappings),
         }),
       };
 
@@ -237,9 +244,9 @@ const FolioToInnReachLocationsCreateEditRoute = ({
       finalRecord = {
         libraryMappings: getFinalLibraryMappings({
           folioLibraries,
-          tabularListMap: getTabularListMap(record.tabularList),
+          tabularListMap: getTabularListMap(record),
           innReachLocationsMap: getInnReachLocationsMapCodeFirst(innReachLocations),
-          librariesMappingsMap,
+          librariesMappingsMap: getLibrariesMappingsMap(libraryMappings),
         }),
       };
 
@@ -264,43 +271,44 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   useEffect(() => {
     if (!isMappingsPending && mappingType === librariesMappingType) {
       if (isEmpty(libraryMappings)) {
-        setInitialValues({
-          [TABULAR_LIST]: getLeftColumnLibraries(serverLibraries),
-        });
+        const librariesInitialValues = selectedServer[LOCAL_AGENCIES].reduce((accum, localAgency, index) => {
+          accum[`${LIBRARIES_TABULAR_LIST}${index}`] = getLeftColumnLibraries(serverLibraries, localAgency[FOLIO_LIBRARY_IDS]);
+
+          return accum;
+        }, {});
+
+        setInitialValues(librariesInitialValues);
       } else {
-        const libMappingsMap = getLibrariesMappingsMap(libraryMappings);
-
-        setLibrariesMappingsMap(libMappingsMap);
-
-        setInitialValues({
-          [TABULAR_LIST]: getLibrariesTabularList({
-            libMappingsMap,
+        const librariesInitialValues = selectedServer[LOCAL_AGENCIES].reduce((accum, localAgency, index) => {
+          accum[`${LIBRARIES_TABULAR_LIST}${index}`] = getLibrariesTabularList({
+            libMappingsMap: getLibrariesMappingsMap(libraryMappings),
             serverLibraries,
             innReachLocations,
-          }),
-        });
+            folioLibraryIds: localAgency[FOLIO_LIBRARY_IDS],
+          });
+
+          return accum;
+        }, {});
+
+        setInitialValues(librariesInitialValues);
       }
     }
-  }, [libraryMappings, isMappingsPending]);
+  }, [libraryMappings, isMappingsPending, selectedServer]);
 
   useEffect(() => {
     if (!isMappingsPending && mappingType === locationsMappingType) {
       if (isEmpty(locationMappings)) {
         setInitialValues({
-          [TABULAR_LIST]: getLeftColumnLocations({
+          [LOCATIONS_TABULAR_LIST]: getLeftColumnLocations({
             selectedLibraryId,
             folioLocations,
             folioLibraries,
           }),
         });
       } else {
-        const locMappingsMap = getLocationMappingsMap(locationMappings);
-
-        setLocationMappingsMap(locMappingsMap);
-
         setInitialValues({
-          [TABULAR_LIST]: getTabularListForLocations({
-            locMappingsMap,
+          [LOCATIONS_TABULAR_LIST]: getTabularListForLocations({
+            locMappingsMap: getLocationMappingsMap(locationMappings),
             selectedLibraryId,
             folioLocations,
             innReachLocations,
