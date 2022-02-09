@@ -402,5 +402,6 @@
     "shipped-items.field.print-barcode-slip": "طباعة كعب الباركود",
     "shipped-items.field.print-slip": "طباعة الكعب",
     "receive-item.callout.success.post.receive-item": "تمت استلام المادة بنجاح",
-    "receive-item.callout.connection-problem.post.receive-item": "حدثت مشكلة أثناء استلام المادة"
+    "receive-item.callout.connection-problem.post.receive-item": "حدثت مشكلة أثناء استلام المادة",
+    "settings.folio-to-inn-reach-locations.list-title.local-agency-code": "رمز الوكالة المحلية"
 }
