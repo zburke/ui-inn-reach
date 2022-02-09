@@ -402,5 +402,6 @@
     "shipped-items.field.print-barcode-slip": "打印条码单",
     "shipped-items.field.print-slip": "打印单",
     "receive-item.callout.success.post.receive-item": "单件已成功归还到拥有站点",
-    "receive-item.callout.connection-problem.post.receive-item": "接收单件时出现问题"
+    "receive-item.callout.connection-problem.post.receive-item": "接收单件时出现问题",
+    "settings.folio-to-inn-reach-locations.list-title.local-agency-code": "Local agency code"
 }
