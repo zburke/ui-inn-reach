@@ -25,26 +25,19 @@ const TableStyleList = ({
   requiredRightCol,
   rootClassName,
   validate,
-  onProcessDataOptions,
 }) => {
-  const getDefaultList = ({ fields }) => fields.map((name, index) => {
-    const options = onProcessDataOptions
-      ? onProcessDataOptions(fields, index, dataOptions)
-      : dataOptions;
-
-    return (
-      <DefaultRow
-        key={index}
-        name={name}
-        index={index}
-        leftFieldName={leftFieldName}
-        rightFieldName={rightFieldName}
-        dataOptions={options}
-        ariaLabel={ariaLabel}
-        validate={validate}
-      />
-    );
-  });
+  const getDefaultList = ({ fields }) => fields.map((name, index) => (
+    <DefaultRow
+      key={index}
+      name={name}
+      index={index}
+      leftFieldName={leftFieldName}
+      rightFieldName={rightFieldName}
+      dataOptions={dataOptions}
+      ariaLabel={ariaLabel}
+      validate={validate}
+    />
+  ));
 
   return (
     <Col
@@ -83,7 +76,6 @@ TableStyleList.propTypes = {
   rightTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   rootClassName: PropTypes.string,
   validate: PropTypes.func,
-  onProcessDataOptions: PropTypes.func,
 };
 
 export default TableStyleList;

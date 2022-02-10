@@ -201,6 +201,17 @@ const resourcesMock = {
   },
 };
 
+const locationMappingsResponceMock = {
+  locationMappings: [
+    {
+      id: '95fd9c8b-ed1b-4661-9079-c467c289463c',
+      innReachLocationId: 'a6742e42-a8a8-4e92-9cf8-885b77ec9236',
+      locationId: '3c13a6a1-f282-448f-a662-bbc81d82d674',
+    },
+  ],
+  totalRecords: 1,
+};
+
 const mutatorMock = {
   selectedServerId: {
     replace: jest.fn(),
@@ -213,7 +224,7 @@ const mutatorMock = {
     PUT: jest.fn(() => Promise.resolve()),
   },
   locationMappings: {
-    GET: jest.fn(() => Promise.resolve()),
+    GET: jest.fn(() => Promise.resolve(locationMappingsResponceMock)),
     PUT: jest.fn(() => Promise.resolve()),
   },
 };
@@ -240,6 +251,7 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
     ConfirmationModal.mockClear();
     FolioToInnReachLocationsForm.mockClear();
     history = createMemoryHistory();
+    mutatorMock.locationMappings.GET.mockClear();
   });
 
   it('should be rendered', () => {
@@ -343,9 +355,10 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
           selectedLibraryId: loclibs[1].id,
         },
       });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[0][0].onChangeMappingType('Locations'); });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeLibrary(loclibs[1].name); });
-      expect(FolioToInnReachLocationsForm.mock.calls[5][0].initialValues).toEqual({
+      act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Locations'); });
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[2][0].onChangeLibrary(loclibs[3].name); });
+      expect(FolioToInnReachLocationsForm.mock.calls[8][0].initialValues).toEqual({
         locationsTabularList: [
           {
             folioLocation: 'folioName5 (code5)',
@@ -372,9 +385,10 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
         },
         mutator: newMutator,
       });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[0][0].onChangeMappingType('Locations'); });
-      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeLibrary(loclibs[1].name); });
-      expect(FolioToInnReachLocationsForm.mock.calls[5][0].initialValues).toEqual(recordForLocationMappings);
+      act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Locations'); });
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[2][0].onChangeLibrary(loclibs[3].name); });
+      expect(FolioToInnReachLocationsForm.mock.calls[8][0].initialValues).toEqual(recordForLocationMappings);
     });
   });
 
@@ -406,6 +420,20 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
       act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeLibrary(loclibs[1].name); });
       expect(mutatorMock.locationMappings.GET).toHaveBeenCalled();
+    });
+
+    it('should make GET request for location mappings the multiple times', async () => {
+      renderFolioToInnReachLocationsCreateEditRoute({
+        history,
+        resources: {
+          ...resourcesMock,
+          selectedLibraryId: loclibs[1].id,
+        },
+      });
+      act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Locations'); });
+      await act(async () => { await FolioToInnReachLocationsForm.mock.calls[2][0].onChangeLibrary(loclibs[3].name); });
+      expect(mutatorMock.locationMappings.GET).toHaveBeenCalledTimes(3);
     });
   });
 

@@ -120,7 +120,7 @@ const ContributionInfo = ({
             </KeyValue>
           </Col>
           <Col xs={4}>
-            <KeyValue label={<FormattedMessage id="ui-inn-reach.settings.manage-contribution.label.contribution-cancelled-by" />}>
+            <KeyValue label={<FormattedMessage id="ui-inn-reach.settings.manage-contribution.label.total" />}>
               {currentContribution[TOTAL_FOLIO_INSTANCE_RECORDS]
                 && <FormattedNumber value={currentContribution[TOTAL_FOLIO_INSTANCE_RECORDS]} />}
             </KeyValue>

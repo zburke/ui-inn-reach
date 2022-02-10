@@ -22,11 +22,12 @@ import {
   LOCAL_AGENCIES_FIELDS,
 } from '../../../../constants';
 import {
-  getLocationsForEachTableRow,
   getInnReachLocationOptions,
   getUniqueLocationsForEachTable,
-  validate,
 } from './utils';
+import {
+  required,
+} from '../../../../utils';
 import {
   TableStyleList,
 } from '../../common';
@@ -104,6 +105,49 @@ const FolioToInnReachLocationsForm = ({
     return <PaneFooter renderEnd={saveButton} />;
   };
 
+  const getLibraryTabularLists = () => {
+    return selectedServer[LOCAL_AGENCIES].map((localAgency, index) => {
+      const filteredInnReachLocationOptions = getUniqueLocationsForEachTable(innReachLocationOptions, values, index);
+
+      return (
+        <section key={index}>
+          <Headline
+            tag="h2"
+            margin="none"
+            className={css.tabularListTitle}
+          >
+            {`${formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.list-title.local-agency-code' })}:
+             ${localAgency[CODE]}`}
+          </Headline>
+          <TableStyleList
+            requiredRightCol
+            fieldArrayName={`${LIBRARIES_TABULAR_LIST}${index}`}
+            rootClassName={css.tabularList}
+            leftTitle={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.libraries" />}
+            rightTitle={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
+            leftFieldName={FOLIO_LIBRARY}
+            rightFieldName={INN_REACH_LOCATIONS}
+            dataOptions={filteredInnReachLocationOptions}
+            ariaLabel={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
+            validate={required}
+          />
+        </section>
+      );
+    });
+  };
+
+  const getLocationTabularList = () => (
+    <TableStyleList
+      fieldArrayName={LOCATIONS_TABULAR_LIST}
+      leftTitle={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.locations" />}
+      rightTitle={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
+      leftFieldName={FOLIO_LOCATION}
+      rightFieldName={INN_REACH_LOCATIONS}
+      dataOptions={innReachLocationOptions}
+      ariaLabel={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
+    />
+  );
+
   return (
     <Pane
       defaultWidth={DEFAULT_PANE_WIDTH}
@@ -140,46 +184,8 @@ const FolioToInnReachLocationsForm = ({
         {isMappingsPending && <Loading />}
         {isShowTabularList && (
           mappingType === librariesMappingType
-            ? selectedServer[LOCAL_AGENCIES].map((localAgency, index) => {
-              const filteredInnReachLocationOptions = getUniqueLocationsForEachTable(innReachLocationOptions, values, index);
-
-              return (
-                <section key={index}>
-                  <Headline
-                    tag="h2"
-                    margin="none"
-                    className={css.tabularListTitle}
-                  >
-                    {`${formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.list-title.local-agency-code' })}:
-                     ${localAgency[CODE]}`}
-                  </Headline>
-                  <TableStyleList
-                    requiredRightCol
-                    fieldArrayName={`${LIBRARIES_TABULAR_LIST}${index}`}
-                    rootClassName={css.tabularList}
-                    leftTitle={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.libraries" />}
-                    rightTitle={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
-                    leftFieldName={FOLIO_LIBRARY}
-                    rightFieldName={INN_REACH_LOCATIONS}
-                    dataOptions={filteredInnReachLocationOptions}
-                    ariaLabel={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
-                    validate={(value, allValues) => validate(value, allValues, index)}
-                    onProcessDataOptions={getLocationsForEachTableRow}
-                  />
-                </section>
-              );
-            })
-            : <TableStyleList
-                fieldArrayName={LOCATIONS_TABULAR_LIST}
-                leftTitle={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.locations" />}
-                rightTitle={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
-                leftFieldName={FOLIO_LOCATION}
-                rightFieldName={INN_REACH_LOCATIONS}
-                dataOptions={innReachLocationOptions}
-                ariaLabel={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
-                validate={validate}
-                onProcessDataOptions={getLocationsForEachTableRow}
-            />
+            ? getLibraryTabularLists()
+            : getLocationTabularList()
         )}
       </form>
     </Pane>
