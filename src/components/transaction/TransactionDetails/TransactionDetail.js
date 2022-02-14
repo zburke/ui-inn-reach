@@ -22,9 +22,6 @@ import {
   ReceiveUnshippedItemModal,
 } from './components';
 import {
-  AugmentedBarcodeModal,
-} from '../../common';
-import {
   TRANSACTION_DETAIL_ACCORDION_STATE,
   FILL_PANE_WIDTH,
   HOLD_FIELDS,
@@ -41,18 +38,19 @@ const {
 
 const TransactionDetail = ({
   transaction,
+  isOpenItemHoldModal,
+  isOpenInTransitModal,
+  isOpenAugmentedBarcodeModal,
   intl,
   isOpenUnshippedItemModal,
-  unshippedItem,
   onClose,
   onTriggerUnshippedItemModal,
   onFetchReceiveUnshippedItem,
   onFetchReceiveItem,
-  onReset,
+  onRenderAugmentedBarcodeModal,
+  onRenderHoldModal,
+  onRenderTransitModal,
 }) => {
-  const {
-    barcodeAugmented,
-  } = unshippedItem || {};
   const renderActionMenu = useCallback(({ onToggle }) => (
     <ActionMenu
       transaction={transaction}
@@ -67,14 +65,6 @@ const TransactionDetail = ({
       intl={intl}
       onSubmit={onFetchReceiveUnshippedItem}
       onTriggerModal={onTriggerUnshippedItemModal}
-    />
-  );
-
-  const renderAugmentedBarcodeModal = () => (
-    <AugmentedBarcodeModal
-      {...unshippedItem}
-      intl={intl}
-      onClose={onReset}
     />
   );
 
@@ -103,20 +93,26 @@ const TransactionDetail = ({
         <ItemInformation transaction={transaction} />
       </AccordionSet>
       {isOpenUnshippedItemModal && renderReceiveUnshippedItemModal()}
-      {barcodeAugmented && renderAugmentedBarcodeModal()}
+      {isOpenAugmentedBarcodeModal && onRenderAugmentedBarcodeModal()}
+      {isOpenItemHoldModal && onRenderHoldModal()}
+      {isOpenInTransitModal && onRenderTransitModal()}
     </Pane>
   );
 };
 
 TransactionDetail.propTypes = {
   intl: PropTypes.object.isRequired,
+  isOpenAugmentedBarcodeModal: PropTypes.bool.isRequired,
+  isOpenInTransitModal: PropTypes.bool.isRequired,
+  isOpenItemHoldModal: PropTypes.bool.isRequired,
   isOpenUnshippedItemModal: PropTypes.bool.isRequired,
   transaction: PropTypes.object.isRequired,
-  unshippedItem: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   onFetchReceiveItem: PropTypes.func.isRequired,
   onFetchReceiveUnshippedItem: PropTypes.func.isRequired,
-  onReset: PropTypes.func.isRequired,
+  onRenderAugmentedBarcodeModal: PropTypes.func.isRequired,
+  onRenderHoldModal: PropTypes.func.isRequired,
+  onRenderTransitModal: PropTypes.func.isRequired,
   onTriggerUnshippedItemModal: PropTypes.func.isRequired,
 };
 

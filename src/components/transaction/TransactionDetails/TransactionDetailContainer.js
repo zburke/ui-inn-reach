@@ -20,11 +20,17 @@ import {
 } from 'react-intl';
 import TransactionDetail from './TransactionDetail';
 import {
+  AugmentedBarcodeModal,
+  HoldModal,
+  InTransitModal,
+} from '../../common';
+import {
   CALLOUT_ERROR_TYPE,
   getTransactionListUrl,
 } from '../../../constants';
 import {
   useCallout,
+  useReceiveItemModals,
 } from '../../../hooks';
 
 const TransactionDetailContainer = ({
@@ -32,6 +38,9 @@ const TransactionDetailContainer = ({
     transactionView: {
       records: transactionData,
       isPending: isTransactionPending,
+    },
+    staffSlips: {
+      records: staffSlips,
     },
   },
   mutator,
@@ -46,8 +55,19 @@ const TransactionDetailContainer = ({
   const showCallout = useCallout();
   const intl = useIntl();
 
-  const [unshippedItem, setUnshippedItem] = useState(null);
   const [isOpenUnshippedItemModal, setIsOpenUnshippedItemModal] = useState(false);
+
+  const {
+    isOpenAugmentedBarcodeModal,
+    isOpenItemHoldModal,
+    isOpenInTransitModal,
+    checkinData,
+    onSetCheckinData,
+    onGetSlipTmpl,
+    onProcessModals,
+    onSetAugmentedBarcodeModalAfterClose,
+    onCloseModal,
+  } = useReceiveItemModals(staffSlips);
 
   const triggerUnshippedItemModal = () => {
     setIsOpenUnshippedItemModal(prevModalState => !prevModalState);
@@ -60,21 +80,19 @@ const TransactionDetailContainer = ({
     });
   }, [history, location.search]);
 
-  const reset = () => {
-    setUnshippedItem(null);
-    setIsOpenUnshippedItemModal(false);
-  };
-
   const fetchReceiveUnshippedItem = () => {
     mutator.receiveUnshippedItem.POST({})
       .then(response => {
         setIsOpenUnshippedItemModal(false);
-        setUnshippedItem(response);
+        onSetCheckinData(response);
         onUpdateTransactionList();
         showCallout({
           message: <FormattedMessage id="ui-inn-reach.unshipped-item.callout.success.post.receive-unshipped-item" />,
         });
+
+        return response;
       })
+      .then(onProcessModals)
       .catch(() => {
         showCallout({
           type: CALLOUT_ERROR_TYPE,
@@ -104,6 +122,36 @@ const TransactionDetailContainer = ({
     fetchReceiveUnshippedItem();
   };
 
+  const renderAugmentedBarcodeModal = () => (
+    <AugmentedBarcodeModal
+      {...checkinData}
+      intl={intl}
+      onClose={onCloseModal}
+      onClickClose={onSetAugmentedBarcodeModalAfterClose}
+      onBeforePrint={onSetAugmentedBarcodeModalAfterClose}
+    />
+  );
+
+  const renderHoldModal = () => (
+    <HoldModal
+      stripes={stripes}
+      checkinData={checkinData}
+      intl={intl}
+      onGetSlipTmpl={onGetSlipTmpl}
+      onClose={onCloseModal}
+    />
+  );
+
+  const renderTransitModal = () => (
+    <InTransitModal
+      stripes={stripes}
+      checkinData={checkinData}
+      intl={intl}
+      onGetSlipTmpl={onGetSlipTmpl}
+      onClose={onCloseModal}
+    />
+  );
+
   useEffect(() => {
     mutator.servicePointId.replace(servicePointId || '');
     mutator.transactionId.replace(transaction.id || '');
@@ -114,14 +162,18 @@ const TransactionDetailContainer = ({
   return (
     <TransactionDetail
       transaction={transaction}
+      isOpenAugmentedBarcodeModal={isOpenAugmentedBarcodeModal}
+      isOpenItemHoldModal={isOpenItemHoldModal}
+      isOpenInTransitModal={isOpenInTransitModal}
       intl={intl}
       isOpenUnshippedItemModal={isOpenUnshippedItemModal}
-      unshippedItem={unshippedItem}
       onClose={backToList}
       onTriggerUnshippedItemModal={triggerUnshippedItemModal}
       onFetchReceiveUnshippedItem={handleFetchReceiveUnshippedItem}
       onFetchReceiveItem={fetchReceiveItem}
-      onReset={reset}
+      onRenderAugmentedBarcodeModal={renderAugmentedBarcodeModal}
+      onRenderHoldModal={renderHoldModal}
+      onRenderTransitModal={renderTransitModal}
     />
   );
 };
@@ -153,6 +205,12 @@ TransactionDetailContainer.manifest = Object.freeze({
     accumulate: true,
     throwErrors: false,
   },
+  staffSlips: {
+    type: 'okapi',
+    records: 'staffSlips',
+    path: 'staff-slips-storage/staff-slips?limit=1000',
+    throwErrors: false,
+  },
 });
 
 TransactionDetailContainer.propTypes = {
@@ -162,6 +220,9 @@ TransactionDetailContainer.propTypes = {
     transactionView: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
       isPending: PropTypes.bool.isRequired,
+    }).isRequired,
+    staffSlips: PropTypes.shape({
+      records: PropTypes.arrayOf(PropTypes.object).isRequired,
     }).isRequired,
   }).isRequired,
   stripes: stripesShape.isRequired,

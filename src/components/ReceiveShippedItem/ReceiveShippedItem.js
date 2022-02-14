@@ -8,9 +8,6 @@ import {
 } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import {
-  upperFirst,
-} from 'lodash';
 
 import {
   stripesConnect,
@@ -19,7 +16,6 @@ import {
 
 import {
   CALLOUT_ERROR_TYPE,
-  CHECK_IN_STATUSES,
   DESC_ORDER,
   METADATA_FIELDS,
   SORT_ORDER_PARAMETER,
@@ -29,18 +25,18 @@ import {
   TRANSACTION_TYPES,
 } from '../../constants';
 import {
+  AugmentedBarcodeModal,
+  HoldModal,
+  InTransitModal,
+} from '../common';
+import {
   CheckIn,
   ConfirmStatusModal,
 } from './components';
 import {
   useCallout,
+  useReceiveItemModals,
 } from '../../hooks';
-import {
-  convertToSlipData,
-} from './utils';
-import {
-  AugmentedBarcodeModal,
-} from '../common';
 
 const {
   UPDATED_DATE,
@@ -60,11 +56,6 @@ const {
   ITEM_SHIPPED,
 } = TRANSACTION_STATUSES;
 
-const {
-  AWAITING_PICKUP,
-  IN_TRANSIT,
-} = CHECK_IN_STATUSES;
-
 const ReceiveShippedItems = ({
   history,
   location,
@@ -76,7 +67,7 @@ const ReceiveShippedItems = ({
       isPending: isReceiveShippedItemPending,
     },
     staffSlips: {
-      records: staffSlipsData,
+      records: staffSlips,
     },
   },
   mutator,
@@ -84,18 +75,28 @@ const ReceiveShippedItems = ({
 }) => {
   const [scannedItems, setScannedItems] = useState([]);
   const [noTransaction, setNoTransaction] = useState(false);
-  const [barcodeSupplemented, setBarcodeSupplemented] = useState(false);
-  const [isHoldItem, setIsHoldItem] = useState(false);
-  const [isTransitItem, setIsTransitItem] = useState(false);
-  const [checkinData, setCheckinData] = useState(null);
-  const [isAugmentedBarcodeModalAfterClose, setIsAugmentedBarcodeModalAfterClose] = useState(false);
 
   const showCallout = useCallout();
   const intl = useIntl();
   const itemFormRef = useRef({});
   const barcodeRef = useRef();
   const isLoading = isTransactionsPending || isReceiveShippedItemPending;
-  const showHoldOrTransitModal = !barcodeSupplemented || isAugmentedBarcodeModalAfterClose;
+
+  const focusBarcodeField = () => {
+    barcodeRef.current.focus();
+  };
+
+  const {
+    isOpenAugmentedBarcodeModal,
+    isOpenItemHoldModal,
+    isOpenInTransitModal,
+    checkinData,
+    onSetCheckinData,
+    onGetSlipTmpl,
+    onProcessModals,
+    onSetAugmentedBarcodeModalAfterClose,
+    onCloseModal,
+  } = useReceiveItemModals(staffSlips);
 
   const resetData = () => {
     if (itemFormRef.current.reset) {
@@ -104,40 +105,8 @@ const ReceiveShippedItems = ({
     setScannedItems([]);
   };
 
-  const handleCloseModal = () => {
+  const closeNoTransactionModal = () => {
     setNoTransaction(false);
-    setBarcodeSupplemented(false);
-    setIsHoldItem(false);
-    setIsTransitItem(false);
-    setCheckinData(null);
-    setIsAugmentedBarcodeModalAfterClose(false);
-  };
-
-  const processResponse = (checkinResp) => {
-    const {
-      folioCheckIn: {
-        item,
-      },
-      barcodeAugmented,
-    } = checkinResp;
-
-    setCheckinData(checkinResp);
-
-    switch (item?.status?.name) {
-      case AWAITING_PICKUP:
-        checkinResp.isHoldItem = true;
-        setIsHoldItem(true);
-        break;
-      case IN_TRANSIT:
-        checkinResp.isTransitItem = true;
-        setIsTransitItem(true);
-        break;
-      default:
-    }
-
-    if (barcodeAugmented) setBarcodeSupplemented(true);
-
-    return checkinResp;
   };
 
   const addScannedItem = (checkinResp) => {
@@ -148,7 +117,12 @@ const ReceiveShippedItems = ({
 
   const fetchReceiveShippedItem = () => {
     mutator.receiveShippedItem.POST({})
-      .then(processResponse)
+      .then(checkinResp => {
+        onSetCheckinData(checkinResp);
+
+        return checkinResp;
+      })
+      .then(onProcessModals)
       .then(addScannedItem)
       .catch(() => {
         showCallout({
@@ -189,139 +163,48 @@ const ReceiveShippedItems = ({
       });
   };
 
-  const focusBarcodeField = () => {
-    barcodeRef.current.focus();
-  };
-
-  const getSlipTmpl = (type) => {
-    const staffSlip = staffSlipsData?.find(slip => slip.name.toLowerCase() === type);
-
-    return staffSlip?.template || '';
-  };
-
-  const handleIsAugmentedBarcodeModalAfterClose = () => {
-    setIsAugmentedBarcodeModalAfterClose(true);
-  };
-
-  const renderAugmentedBarcodeModal = () => {
-    return (
-      <AugmentedBarcodeModal
-        {...checkinData}
-        intl={intl}
-        onClose={handleCloseModal}
-        onClickClose={handleIsAugmentedBarcodeModalAfterClose}
-        onBeforePrint={handleIsAugmentedBarcodeModalAfterClose}
-      />
-    );
-  };
-
-  const renderHoldModal = () => {
-    const {
-      timezone,
-      locale,
-    } = stripes;
-    const {
-      folioCheckIn: {
-        item,
-        staffSlipContext,
-      },
-    } = checkinData;
-    const {
-      patronComments,
-      servicePointPickup,
-    } = staffSlipContext?.request || {};
-    const slipData = convertToSlipData({ staffSlipContext, intl, timezone, locale, slipName: 'Hold' });
-    const messages = [
-      <FormattedMessage
-        id="ui-inn-reach.shipped-items.modal.hold.message"
-        values={{
-          title: item.title,
-          barcode: item.barcode,
-          materialType: upperFirst(item?.materialType?.name || ''),
-          pickupServicePoint: servicePointPickup || '',
-        }}
-      />,
-    ];
-
-    if (patronComments) {
-      messages.push(
-        <FormattedMessage
-          id="ui-inn-reach.shipped-items.modal.hold.comment"
-          values={{
-            comment: patronComments,
-            strong: (chunks) => (
-              <strong>
-                {chunks}
-              </strong>
-            ),
-          }}
-        />
-      );
-    }
-
-    return (
-      <ConfirmStatusModal
-        isPrintable
-        showPrintButton
-        label={<FormattedMessage id="ui-inn-reach.shipped-items.modal.hold.heading" />}
-        slipTemplate={getSlipTmpl('hold')}
-        slipData={slipData}
-        message={messages}
-        onAfterPrint={focusBarcodeField}
-        onClose={handleCloseModal}
-      />
-    );
-  };
-
-  const renderTransitionModal = () => {
-    const {
-      timezone,
-      locale,
-    } = stripes;
-    const {
-      folioCheckIn: {
-        item,
-        staffSlipContext,
-      },
-    } = checkinData;
-    const slipData = convertToSlipData({ staffSlipContext, intl, timezone, locale, slipName: 'Transit' });
-    const destinationServicePoint = item?.inTransitDestinationServicePoint?.name || '';
-    const messages = [
-      <FormattedMessage
-        id="ui-inn-reach.shipped-items.modal.transit.message"
-        values={{
-          title: item.title,
-          barcode: item.barcode,
-          materialType: upperFirst(item?.materialType?.name || ''),
-          servicePoint: destinationServicePoint,
-        }}
-      />,
-    ];
-
-    return (
-      <ConfirmStatusModal
-        isPrintable
-        showPrintButton
-        label={<FormattedMessage id="ui-inn-reach.shipped-items.modal.transit.heading" />}
-        slipTemplate={getSlipTmpl('transit')}
-        slipData={slipData}
-        message={messages}
-        onClose={handleCloseModal}
-        onAfterPrint={focusBarcodeField}
-      />
-    );
-  };
-
   const renderNoTransactionModal = () => {
     return (
       <ConfirmStatusModal
         label={<FormattedMessage id="ui-inn-reach.shipped-items.modal.no-transaction.heading" />}
         message={[<FormattedMessage id="ui-inn-reach.shipped-items.modal.message.no-transaction" />]}
-        onClose={handleCloseModal}
+        onClose={closeNoTransactionModal}
         onAfterPrint={focusBarcodeField}
       />
     );
   };
+
+  const renderAugmentedBarcodeModal = () => (
+    <AugmentedBarcodeModal
+      {...checkinData}
+      intl={intl}
+      onClose={onCloseModal}
+      onClickClose={onSetAugmentedBarcodeModalAfterClose}
+      onBeforePrint={onSetAugmentedBarcodeModalAfterClose}
+    />
+  );
+
+  const renderHoldModal = () => (
+    <HoldModal
+      stripes={stripes}
+      checkinData={checkinData}
+      intl={intl}
+      onGetSlipTmpl={onGetSlipTmpl}
+      onFocusBarcodeField={focusBarcodeField}
+      onClose={onCloseModal}
+    />
+  );
+
+  const renderTransitModal = () => (
+    <InTransitModal
+      stripes={stripes}
+      checkinData={checkinData}
+      intl={intl}
+      onGetSlipTmpl={onGetSlipTmpl}
+      onClose={onCloseModal}
+      onFocusBarcodeField={focusBarcodeField}
+    />
+  );
 
   return (
     <>
@@ -334,14 +217,14 @@ const ReceiveShippedItems = ({
         itemFormRef={itemFormRef}
         barcodeRef={barcodeRef}
         scannedItems={scannedItems}
-        onGetSlipTemplate={getSlipTmpl}
+        onGetSlipTemplate={onGetSlipTmpl}
         onSessionEnd={resetData}
         onSubmit={fetchTransactions}
       />
       {noTransaction && renderNoTransactionModal()}
-      {barcodeSupplemented && renderAugmentedBarcodeModal()}
-      {isHoldItem && showHoldOrTransitModal && renderHoldModal()}
-      {isTransitItem && showHoldOrTransitModal && renderTransitionModal()}
+      {isOpenAugmentedBarcodeModal && renderAugmentedBarcodeModal()}
+      {isOpenItemHoldModal && renderHoldModal()}
+      {isOpenInTransitModal && renderTransitModal()}
     </>
   );
 };
