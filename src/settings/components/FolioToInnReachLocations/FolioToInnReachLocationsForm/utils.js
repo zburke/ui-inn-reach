@@ -13,8 +13,7 @@ const {
 export const getInnReachLocationOptions = (innReachLocations) => {
   return innReachLocations.reduce((accum, { id, code }) => {
     const option = {
-      id,
-      value: code,
+      value: id,
       label: code,
     };
 
@@ -24,13 +23,53 @@ export const getInnReachLocationOptions = (innReachLocations) => {
   }, [NO_VALUE_LOCATION_OPTION]);
 };
 
-export const getUniqueLocationsForEachTable = (innReachLocationOptions, values, currentTableIndex) => {
+const getFetchedLocationsToExcludeSet = (pickedLocationsByAgencyCodeMap, curAgencyCode) => {
+  const fetchedLocationsToExcludeSet = new Set();
+
+  pickedLocationsByAgencyCodeMap.forEach((locationsSet, key) => {
+    if (key !== curAgencyCode) {
+      locationsSet.forEach(location => {
+        fetchedLocationsToExcludeSet.add(location);
+      });
+    }
+  });
+
+  return fetchedLocationsToExcludeSet;
+};
+
+export const getUniqueLocationsForEachTable = ({
+  innReachLocationOptions,
+  values,
+  currentTableIndex,
+  pickedLocationsByAgencyCodeMap,
+  curAgencyCode,
+}) => {
+  const fetchedLocationsToExcludeSet = getFetchedLocationsToExcludeSet(pickedLocationsByAgencyCodeMap, curAgencyCode);
   const excludeCurTable = (_, key) => !key.endsWith(currentTableIndex);
-  const selectedLocationsOfOtherTables = filter(values, excludeCurTable)
+  const selectedLocationsOfOtherTablesOfLibrariesLevel = filter(values, excludeCurTable)
     .flat()
     .filter(row => row[INN_REACH_LOCATIONS])
     .map(row => row[INN_REACH_LOCATIONS]);
-  const excludeSelectedLocations = ({ value: location }) => !selectedLocationsOfOtherTables.includes(location);
+
+  const selectedLocationsOfOtherTablesOfLibrariesLevelSet = new Set(selectedLocationsOfOtherTablesOfLibrariesLevel);
+
+  const excludeSelectedLocations = ({ value: locationId }) => {
+    return !(
+      selectedLocationsOfOtherTablesOfLibrariesLevelSet.has(locationId) ||
+      fetchedLocationsToExcludeSet.has(locationId)
+    );
+  };
+
+  return innReachLocationOptions.filter(excludeSelectedLocations);
+};
+
+export const getInnReachLocationsForLocationsMappingType = ({
+  innReachLocationOptions,
+  pickedLocationsByAgencyCodeMap,
+  curAgencyCode,
+}) => {
+  const fetchedLocationsToExcludeSet = getFetchedLocationsToExcludeSet(pickedLocationsByAgencyCodeMap, curAgencyCode);
+  const excludeSelectedLocations = ({ value: locationId }) => !fetchedLocationsToExcludeSet.has(locationId);
 
   return innReachLocationOptions.filter(excludeSelectedLocations);
 };

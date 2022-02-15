@@ -66,12 +66,12 @@ const innReachLocations = [
   {
     id: 'c625c7e0-02c9-4264-a899-d329c2e032c9',
     code: 'smgen',
-    value: 'smgen',
+    value: 'c625c7e0-02c9-4264-a899-d329c2e032c9',
   },
   {
     id: 'a6742e42-a8a8-4e92-9cf8-885b77ec9236',
     code: 'wpgen',
-    value: 'wpgen',
+    value: 'a6742e42-a8a8-4e92-9cf8-885b77ec9236',
   },
 ];
 
@@ -110,6 +110,8 @@ const opts = {
 
 const renderFolioToInnReachLocationsForm = ({
   selectedServer = {},
+  selectedLibraryId = '',
+  pickedLocationsByAgencyCodeMap = new Map(),
   mappingType = '',
   initialValues = {},
   isResetForm = false,
@@ -131,6 +133,8 @@ const renderFolioToInnReachLocationsForm = ({
         formOptions={opts}
         initialValues={initialValues}
         selectedServer={selectedServer}
+        selectedLibraryId={selectedLibraryId}
+        pickedLocationsByAgencyCodeMap={pickedLocationsByAgencyCodeMap}
         mappingType={mappingType}
         serverLibraryOptions={serverLibraryOptions}
         innReachLocations={innReachLocations}
@@ -219,9 +223,9 @@ describe('FolioToInnReachLocationsForm', () => {
           ],
         },
       });
-      document.getElementById('option-librariesTabularList0[0].innReachLocations-0-1-smgen').click();
-      document.getElementById('option-librariesTabularList0[1].innReachLocations-1-1-smgen').click();
-      document.getElementById('option-librariesTabularList1[0].innReachLocations-0-2-wpgen').click();
+      document.getElementById('option-librariesTabularList0[0].innReachLocations-0-1-c625c7e0-02c9-4264-a899-d329c2e032c9').click();
+      document.getElementById('option-librariesTabularList0[1].innReachLocations-1-1-c625c7e0-02c9-4264-a899-d329c2e032c9').click();
+      document.getElementById('option-librariesTabularList1[0].innReachLocations-0-2-a6742e42-a8a8-4e92-9cf8-885b77ec9236').click();
 
       await waitFor(() => {
         expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled();
@@ -234,6 +238,7 @@ describe('FolioToInnReachLocationsForm', () => {
         leftColumnName: FOLIO_LOCATION,
         selectedServer: selectedServerMock,
         mappingType: mappingTypesOptions[2].value,
+        selectedLibraryId: 'c2549bb4-19c7-4fcc-8b52-39e612fb7dbe',
         isShowTabularList: true,
         initialValues: {
           locationsTabularList: [
@@ -247,7 +252,7 @@ describe('FolioToInnReachLocationsForm', () => {
         },
       });
 
-      document.getElementById('option-locationsTabularList[0].innReachLocations-0-1-smgen').click();
+      document.getElementById('option-locationsTabularList[0].innReachLocations-0-1-c625c7e0-02c9-4264-a899-d329c2e032c9').click();
 
       await waitFor(() => {
         expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled();

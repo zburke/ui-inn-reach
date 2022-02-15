@@ -23,6 +23,7 @@ import {
 } from '../../../../constants';
 import {
   getInnReachLocationOptions,
+  getInnReachLocationsForLocationsMappingType,
   getUniqueLocationsForEachTable,
 } from './utils';
 import {
@@ -53,9 +54,11 @@ const {
 
 const FolioToInnReachLocationsForm = ({
   selectedServer,
+  selectedLibraryId,
   mappingType,
   innReachLocations,
   serverOptions,
+  pickedLocationsByAgencyCodeMap,
   serverLibraryOptions,
   mappingTypesOptions,
   formatMessage,
@@ -107,7 +110,13 @@ const FolioToInnReachLocationsForm = ({
 
   const getLibraryTabularLists = () => {
     return selectedServer[LOCAL_AGENCIES].map((localAgency, index) => {
-      const filteredInnReachLocationOptions = getUniqueLocationsForEachTable(innReachLocationOptions, values, index);
+      const filteredInnReachLocationOptions = getUniqueLocationsForEachTable({
+        innReachLocationOptions,
+        values,
+        currentTableIndex: index,
+        pickedLocationsByAgencyCodeMap,
+        curAgencyCode: localAgency[CODE],
+      });
 
       return (
         <section key={index}>
@@ -136,17 +145,28 @@ const FolioToInnReachLocationsForm = ({
     });
   };
 
-  const getLocationTabularList = () => (
-    <TableStyleList
-      fieldArrayName={LOCATIONS_TABULAR_LIST}
-      leftTitle={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.locations" />}
-      rightTitle={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
-      leftFieldName={FOLIO_LOCATION}
-      rightFieldName={INN_REACH_LOCATIONS}
-      dataOptions={innReachLocationOptions}
-      ariaLabel={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
-    />
-  );
+  const getLocationTabularList = () => {
+    const localAgency = selectedServer[LOCAL_AGENCIES].find(({ folioLibraryIds }) => {
+      return folioLibraryIds.includes(selectedLibraryId);
+    });
+    const filteredInnReachLocationOptions = getInnReachLocationsForLocationsMappingType({
+      innReachLocationOptions,
+      pickedLocationsByAgencyCodeMap,
+      curAgencyCode: localAgency[CODE],
+    });
+
+    return (
+      <TableStyleList
+        fieldArrayName={LOCATIONS_TABULAR_LIST}
+        leftTitle={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.locations" />}
+        rightTitle={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
+        leftFieldName={FOLIO_LOCATION}
+        rightFieldName={INN_REACH_LOCATIONS}
+        dataOptions={filteredInnReachLocationOptions}
+        ariaLabel={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
+      />
+    );
+  };
 
   return (
     <Pane
@@ -206,6 +226,7 @@ FolioToInnReachLocationsForm.propTypes = {
   mappingType: PropTypes.string.isRequired,
   mappingTypesOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   pristine: PropTypes.bool.isRequired,
+  selectedLibraryId: PropTypes.string.isRequired,
   selectedServer: PropTypes.object.isRequired,
   serverLibraryOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -214,6 +235,7 @@ FolioToInnReachLocationsForm.propTypes = {
   onChangeLibrary: PropTypes.func.isRequired,
   onChangeMappingType: PropTypes.func.isRequired,
   onChangeServer: PropTypes.func.isRequired,
+  pickedLocationsByAgencyCodeMap: PropTypes.object,
 };
 
 export default stripesFinalForm({

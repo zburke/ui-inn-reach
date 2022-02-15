@@ -47,34 +47,14 @@ const getCampusId = ({
   return folioLibraries.find(library => library.id === selectedLibraryId).campusId;
 };
 
-const getInnReachLocationsMap = (innReachLocations) => {
-  const innReachLocationMap = new Map();
-
-  innReachLocations.forEach(({ id, code }) => {
-    innReachLocationMap.set(id, code);
-  });
-
-  return innReachLocationMap;
-};
-
-export const getInnReachLocationsMapCodeFirst = (innReachLocations) => {
-  return innReachLocations.reduce((accum, { id, code }) => {
-    accum.set(code, id);
-
-    return accum;
-  }, new Map());
-};
-
 export const getFinalLocationMappings = ({
   folioLocations,
   tabularListMap,
-  innReachLocationsMap,
   locationMappingsMap,
 }) => {
   return folioLocations.reduce((accum, { id, code }) => {
     if (tabularListMap.has(code)) {
-      const innReachLocCode = tabularListMap.get(code);
-      const innReachLocationId = innReachLocationsMap.get(innReachLocCode);
+      const innReachLocationId = tabularListMap.get(code);
 
       if (innReachLocationId) { // if there is an Inn-Reach code in the right column
         let entityId;
@@ -107,13 +87,11 @@ export const getFinalLocationMappings = ({
 export const getFinalLibraryMappings = ({
   folioLibraries,
   tabularListMap,
-  innReachLocationsMap,
   librariesMappingsMap,
 }) => {
   return folioLibraries.reduce((accum, { id, code }) => {
     if (tabularListMap.has(code)) {
-      const innReachLocCode = tabularListMap.get(code);
-      const innReachLocationId = innReachLocationsMap.get(innReachLocCode);
+      const innReachLocationId = tabularListMap.get(code);
 
       if (innReachLocationId) { // if there is an Inn-Reach code in the right column
         let entityId;
@@ -205,10 +183,8 @@ export const getTabularListForLocations = ({
   locMappingsMap,
   selectedLibraryId,
   folioLocations,
-  innReachLocations,
   folioLibraries,
 }) => {
-  const innReachLocationsMap = getInnReachLocationsMap(innReachLocations);
   const selectedLibraryCampusId = getCampusId({ selectedLibraryId, folioLibraries });
 
   return folioLocations.reduce((accum, { id, name, code, campusId }) => {
@@ -222,7 +198,7 @@ export const getTabularListForLocations = ({
       if (isCodeSelected) {
         const innReachLocationId = locMappingsMap.get(id).innReachLocationId;
 
-        option[INN_REACH_LOCATIONS] = innReachLocationsMap.get(innReachLocationId);
+        option[INN_REACH_LOCATIONS] = innReachLocationId;
       }
 
       accum.push(option);
@@ -235,10 +211,8 @@ export const getTabularListForLocations = ({
 export const getLibrariesTabularList = ({
   serverLibraries,
   libMappingsMap,
-  innReachLocations,
   folioLibraryIds,
 }) => {
-  const innReachLocationsMap = getInnReachLocationsMap(innReachLocations);
   const folioLibraryIdsSet = getFolioLibraryIdsSet(folioLibraryIds);
 
   return serverLibraries
@@ -253,7 +227,7 @@ export const getLibrariesTabularList = ({
       if (isCodeSelected) {
         const innReachLocationId = libMappingsMap.get(id).innReachLocationId;
 
-        option[INN_REACH_LOCATIONS] = innReachLocationsMap.get(innReachLocationId);
+        option[INN_REACH_LOCATIONS] = innReachLocationId;
       }
 
       return option;

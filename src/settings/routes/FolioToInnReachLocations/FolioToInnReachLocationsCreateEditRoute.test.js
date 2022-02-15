@@ -124,7 +124,7 @@ const recordForLocationMappings = {
   locationsTabularList: [
     {
       folioLocation: 'folioName5 (code5)',
-      innReachLocations: 'test',
+      innReachLocations: '7fab623d-1947-4413-b315-eae9ba9bb0c0',
       code: 'code5',
     },
     {
@@ -138,7 +138,6 @@ const recordForLibrariesMappings = {
   librariesTabularList0: [
     {
       folioLibrary: 'newLib (QWER)',
-      innReachLocations: 'test',
       code: 'QWER',
     },
     {
@@ -150,30 +149,10 @@ const recordForLibrariesMappings = {
     {
       folioLibrary: 'Online (E)',
       code: 'E',
+      innReachLocations: 'a6742e42-a8a8-4e92-9cf8-885b77ec9236',
     },
   ],
 };
-
-const locationMappings = [
-  {
-    id: '2',
-    locationId: 'ff357dab-1446-4e34-a78c-cf0478a10c75',
-    innReachLocationId: '7fab623d-1947-4413-b315-eae9ba9bb0c0',
-  },
-];
-
-const libraryMappings = [
-  {
-    id: '1',
-    libraryId: '70cf3473-77f2-4f5c-92c3-6489e65769e4',
-    innReachLocationId: 'feafa30d-0b0c-43e3-a283-5344bd0ae5ab',
-  },
-  {
-    id: '2',
-    libraryId: '0939ebc4-cf37-4968-841e-912c0c02eacf',
-    innReachLocationId: '7fab623d-1947-4413-b315-eae9ba9bb0c0',
-  },
-];
 
 const resourcesMock = {
   selectedLibraryId: '',
@@ -201,15 +180,28 @@ const resourcesMock = {
   },
 };
 
-const locationMappingsResponceMock = {
+const locationMappingsResponseMock = {
   locationMappings: [
     {
       id: '95fd9c8b-ed1b-4661-9079-c467c289463c',
-      innReachLocationId: 'a6742e42-a8a8-4e92-9cf8-885b77ec9236',
-      locationId: '3c13a6a1-f282-448f-a662-bbc81d82d674',
+      innReachLocationId: '7fab623d-1947-4413-b315-eae9ba9bb0c0',
+      locationId: 'ff357dab-1446-4e34-a78c-cf0478a10c75',
     },
   ],
   totalRecords: 1,
+};
+
+const libraryMappingsResponseMock = {
+  libraryMappings: [
+    {
+      id: 'b3bba7f9-256f-4068-bcdc-371811d6b0ce',
+      innReachLocationId: 'a6742e42-a8a8-4e92-9cf8-885b77ec9236',
+    },
+    {
+      id: 'c474923e-4218-44f4-9613-72a70eb52b7b',
+      innReachLocationId: 'c625c7e0-02c9-4264-a899-d329c2e032c9',
+    },
+  ],
 };
 
 const mutatorMock = {
@@ -220,11 +212,11 @@ const mutatorMock = {
     replace: jest.fn(),
   },
   libraryMappings: {
-    GET: jest.fn(() => Promise.resolve()),
+    GET: jest.fn(() => Promise.resolve(libraryMappingsResponseMock)),
     PUT: jest.fn(() => Promise.resolve()),
   },
   locationMappings: {
-    GET: jest.fn(() => Promise.resolve(locationMappingsResponceMock)),
+    GET: jest.fn(() => Promise.resolve(locationMappingsResponseMock)),
     PUT: jest.fn(() => Promise.resolve()),
   },
 };
@@ -313,7 +305,7 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
       renderFolioToInnReachLocationsCreateEditRoute({ history });
       act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Libraries'); });
-      expect(FolioToInnReachLocationsForm.mock.calls[5][0].initialValues).toEqual({
+      expect(FolioToInnReachLocationsForm.mock.calls[6][0].initialValues).toEqual({
         librariesTabularList0: [
           {
             'code': 'QWER',
@@ -334,7 +326,20 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
     });
 
     it('should be with the folio libraries and the inn reach locations', async () => {
-      const getLibraryMappings = jest.fn(() => Promise.resolve({ libraryMappings }));
+      const getLibraryMappings = jest.fn(() => Promise.resolve({
+        libraryMappings: [
+          {
+            id: 'b3bba7f9-256f-4068-bcdc-371811d6b0ce',
+            innReachLocationId: 'a6742e42-a8a8-4e92-9cf8-885b77ec9236',
+            libraryId: 'c2549bb4-19c7-4fcc-8b52-39e612fb7dbe',
+          },
+          {
+            id: 'c474923e-4218-44f4-9613-72a70eb52b7b',
+            innReachLocationId: 'c625c7e0-02c9-4264-a899-d329c2e032c9',
+            libraryId: '5d78803e-ca04-4b4a-aeae-2c63b924518b',
+          },
+        ],
+      }));
       const newMutator = cloneDeep(mutatorMock);
 
       newMutator.libraryMappings.GET = getLibraryMappings;
@@ -344,16 +349,30 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
       });
       act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Libraries'); });
-      expect(FolioToInnReachLocationsForm.mock.calls[5][0].initialValues).toEqual(recordForLibrariesMappings);
+      expect(FolioToInnReachLocationsForm.mock.calls[6][0].initialValues).toEqual(recordForLibrariesMappings);
     });
 
     it('should be with the folio locations only', async () => {
+      const getLocationMappings = jest.fn(() => Promise.resolve({
+        locationMappings: [
+          {
+            id: '95fd9c8b-ed1b-4661-9079-c467c289463c',
+            locationId: 'ff357dab-1446-4e34-a78c-cf0478a10c75',
+          },
+        ],
+        totalRecords: 1,
+      }));
+      const newMutator = cloneDeep(mutatorMock);
+
+      newMutator.locationMappings.GET = getLocationMappings;
+
       renderFolioToInnReachLocationsCreateEditRoute({
         history,
         resources: {
           ...resourcesMock,
           selectedLibraryId: loclibs[1].id,
         },
+        mutator: newMutator,
       });
       act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Locations'); });
@@ -373,7 +392,7 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
     });
 
     it('should be with the folio locations and the inn reach locations', async () => {
-      const getLocationMappings = jest.fn(() => Promise.resolve({ locationMappings }));
+      const getLocationMappings = jest.fn(() => Promise.resolve(locationMappingsResponseMock));
       const newMutator = cloneDeep(mutatorMock);
 
       newMutator.locationMappings.GET = getLocationMappings;
@@ -433,7 +452,7 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
       act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Locations'); });
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[2][0].onChangeLibrary(loclibs[3].name); });
-      expect(mutatorMock.locationMappings.GET).toHaveBeenCalledTimes(3);
+      expect(mutatorMock.locationMappings.GET).toHaveBeenCalledTimes(4);
     });
   });
 
@@ -467,8 +486,8 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
       expect(mutatorMock.libraryMappings.PUT).toHaveBeenCalledWith({
         libraryMappings: [
           {
-            libraryId: '0939ebc4-cf37-4968-841e-912c0c02eacf',
-            innReachLocationId: '7fab623d-1947-4413-b315-eae9ba9bb0c0'
+            libraryId: 'c2549bb4-19c7-4fcc-8b52-39e612fb7dbe',
+            innReachLocationId: 'a6742e42-a8a8-4e92-9cf8-885b77ec9236'
           }
         ]
       });

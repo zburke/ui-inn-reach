@@ -26,7 +26,6 @@ import {
   NO_VALUE_OPTION_VALUE,
 } from '../../../constants';
 import {
-  getInnReachLocationsMapCodeFirst,
   getLeftColumnLibraries,
   getLeftColumnLocations,
   getLibrariesTabularList,
@@ -98,7 +97,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   const [locationMappings, setLocationMappings] = useState([]);
   const [isMappingsPending, setIsMappingsPending] = useState(false);
   const [isBatchMappingsPending, setIsBatchMappingsPending] = useState(false);
-  const [innReachLocationsForLocationsMappingType, setInnReachLocationsForLocationsMappingType] = useState([]);
+  const [pickedLocationsByAgencyCodeMap, setPickedLocationsByAgencyCodeMap] = useState(null);
 
   const serverOptions = useMemo(() => getCentralServerOptions(servers), [servers]);
   const librariesMappingType = formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.field-value.libraries' });
@@ -122,12 +121,13 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     },
   ];
 
+  const isMappingsLoading = isMappingsPending || isBatchMappingsPending;
+
   const isShowTabularList = (
     !isEmpty(selectedServer) &&
-    !isMappingsPending &&
+    !isMappingsLoading &&
     ((mappingType === locationsMappingType && !!selectedLibraryId) || mappingType === librariesMappingType)
   );
-  const isMappingsLoading = [isMappingsPending, isBatchMappingsPending].includes(true);
 
   const changeFormResetState = (value) => {
     setIsResetForm(value);
@@ -157,27 +157,29 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     resetData();
     setMappingType('');
     resetLibraryStates();
-    setInnReachLocationsForLocationsMappingType([]);
+    setPickedLocationsByAgencyCodeMap(null);
   };
 
   const fetchLibraryMappings = () => {
-    mutator.libraryMappings.GET()
-      .then(response => setLibraryMappings(response.libraryMappings))
-      .catch(() => setLibraryMappings([]))
-      .finally(() => setIsMappingsPending(false));
+    return mutator.libraryMappings.GET()
+      .then(response => {
+        setLibraryMappings(response.libraryMappings);
+
+        return response.libraryMappings;
+      })
+      .catch(() => setLibraryMappings([]));
   };
 
   const fetchLocationMappings = () => {
+    setIsMappingsPending(true);
     mutator.locationMappings.GET()
       .then(response => setLocationMappings(response.locationMappings))
       .catch(() => setLocationMappings([]))
       .finally(() => setIsMappingsPending(false));
   };
 
-  const fetchBatchLocationMappings = (libraryId) => {
-    const libraryIds = selectedServer.localAgencies
-      .filter(localAgency => !localAgency.folioLibraryIds.includes(libraryId))
-      .flatMap(localAgency => localAgency.folioLibraryIds);
+  const fetchBatchLocationMappings = () => {
+    const libraryIds = selectedServer.localAgencies.flatMap(localAgency => localAgency.folioLibraryIds);
 
     const requests = libraryIds.map(libId => {
       const path = `inn-reach/central-servers/${selectedServer.id}/libraries/${libId}/locations/location-mappings`;
@@ -185,7 +187,8 @@ const FolioToInnReachLocationsCreateEditRoute = ({
       return mutator.locationMappings.GET({ path });
     });
 
-    return Promise.all(requests);
+    return Promise.all(requests)
+      .then(response => response.flatMap(resp => resp.locationMappings));
   };
 
   const handleServerChange = (selectedServerName) => {
@@ -201,6 +204,47 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     setServerLibraryOptions([NO_VALUE_LIBRARY_OPTION, ...formattedLibraries]);
   };
 
+  const processLibraryId = (libraryId, agencyCodeToLibraryMap, selectedLocationsByAgencyCodeMap, innReachLocationId) => {
+    const code = agencyCodeToLibraryMap.get(libraryId);
+
+    if (selectedLocationsByAgencyCodeMap.has(code)) {
+      selectedLocationsByAgencyCodeMap.get(code).add(innReachLocationId);
+    } else {
+      selectedLocationsByAgencyCodeMap.set(code, new Set([innReachLocationId]));
+    }
+  };
+
+  const fetchBatchMappings = () => {
+    setIsBatchMappingsPending(true);
+    Promise.all([fetchLibraryMappings(), fetchBatchLocationMappings()])
+      .then(response => {
+        const allMappings = response.flat();
+        const agencyCodeToLibraryMap = new Map();
+        const selectedLocationsByAgencyCodeMap = new Map();
+
+        selectedServer.localAgencies.forEach(({ code, folioLibraryIds }) => {
+          folioLibraryIds.forEach(libId => {
+            agencyCodeToLibraryMap.set(libId, code);
+          });
+        });
+
+        allMappings.forEach(({ libraryId, innReachLocationId, locationId }) => {
+          if (libraryId) {
+            processLibraryId(libraryId, agencyCodeToLibraryMap, selectedLocationsByAgencyCodeMap, innReachLocationId);
+          }
+
+          if (locationId) {
+            const libId = folioLocations.find(location => location.id === locationId)?.libraryId;
+
+            processLibraryId(libId, agencyCodeToLibraryMap, selectedLocationsByAgencyCodeMap, innReachLocationId);
+          }
+        });
+
+        setPickedLocationsByAgencyCodeMap(selectedLocationsByAgencyCodeMap);
+      })
+      .finally(() => setIsBatchMappingsPending(false));
+  };
+
   const changeMappingType = (selectedMappingType) => {
     if (selectedMappingType === mappingType) return;
 
@@ -209,8 +253,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     setMappingType(selectedMappingType);
 
     if (selectedMappingType === librariesMappingType) {
-      setIsMappingsPending(true);
-      fetchLibraryMappings();
+      fetchBatchMappings();
     }
   };
 
@@ -224,22 +267,8 @@ const FolioToInnReachLocationsCreateEditRoute = ({
     mutator.selectedLibraryId.replace(libraryId);
 
     if (!isNoValueOption) {
-      setInnReachLocationsForLocationsMappingType([]);
-      setIsBatchMappingsPending(true);
-      fetchBatchLocationMappings(libraryId)
-        .then(responce => {
-          const innReachLocationId = responce
-            .flatMap(resp => resp.locationMappings)
-            .map(mapping => mapping.innReachLocationId);
-
-          const innReachLocationIdSet = new Set(innReachLocationId);
-          const locationOptions = innReachLocations.filter(option => !innReachLocationIdSet.has(option.id));
-
-          setInnReachLocationsForLocationsMappingType(locationOptions);
-        })
-        .finally(() => setIsBatchMappingsPending(false));
       setInitialValues({});
-      setIsMappingsPending(true);
+      fetchBatchMappings();
       fetchLocationMappings();
     }
   };
@@ -252,7 +281,6 @@ const FolioToInnReachLocationsCreateEditRoute = ({
         locationMappings: getFinalLocationMappings({
           folioLocations,
           tabularListMap: getTabularListMap(record),
-          innReachLocationsMap: getInnReachLocationsMapCodeFirst(innReachLocations),
           locationMappingsMap: getLocationMappingsMap(locationMappings),
         }),
       };
@@ -277,7 +305,6 @@ const FolioToInnReachLocationsCreateEditRoute = ({
         libraryMappings: getFinalLibraryMappings({
           folioLibraries,
           tabularListMap: getTabularListMap(record),
-          innReachLocationsMap: getInnReachLocationsMapCodeFirst(innReachLocations),
           librariesMappingsMap: getLibrariesMappingsMap(libraryMappings),
         }),
       };
@@ -301,7 +328,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   };
 
   useEffect(() => {
-    if (!isMappingsPending && mappingType === librariesMappingType) {
+    if (!isBatchMappingsPending && mappingType === librariesMappingType) {
       if (isEmpty(libraryMappings)) {
         const librariesInitialValues = selectedServer[LOCAL_AGENCIES].reduce((accum, localAgency, index) => {
           accum[`${LIBRARIES_TABULAR_LIST}${index}`] = getLeftColumnLibraries(serverLibraries, localAgency[FOLIO_LIBRARY_IDS]);
@@ -315,7 +342,6 @@ const FolioToInnReachLocationsCreateEditRoute = ({
           accum[`${LIBRARIES_TABULAR_LIST}${index}`] = getLibrariesTabularList({
             libMappingsMap: getLibrariesMappingsMap(libraryMappings),
             serverLibraries,
-            innReachLocations,
             folioLibraryIds: localAgency[FOLIO_LIBRARY_IDS],
           });
 
@@ -325,7 +351,7 @@ const FolioToInnReachLocationsCreateEditRoute = ({
         setInitialValues(librariesInitialValues);
       }
     }
-  }, [libraryMappings, isMappingsPending, selectedServer]);
+  }, [libraryMappings, isBatchMappingsPending, selectedServer]);
 
   useEffect(() => {
     if (!isMappingsPending && mappingType === locationsMappingType) {
@@ -343,7 +369,6 @@ const FolioToInnReachLocationsCreateEditRoute = ({
             locMappingsMap: getLocationMappingsMap(locationMappings),
             selectedLibraryId,
             folioLocations,
-            innReachLocations,
             folioLibraries,
           }),
         });
@@ -363,11 +388,13 @@ const FolioToInnReachLocationsCreateEditRoute = ({
   return (
     <FolioToInnReachLocationsForm
       selectedServer={selectedServer}
+      selectedLibraryId={selectedLibraryId}
       mappingType={mappingType}
       serverLibraryOptions={serverLibraryOptions}
-      innReachLocations={mappingType === locationsMappingType ? innReachLocationsForLocationsMappingType : innReachLocations}
+      innReachLocations={innReachLocations}
       serverOptions={serverOptions}
       isMappingsPending={isMappingsLoading}
+      pickedLocationsByAgencyCodeMap={pickedLocationsByAgencyCodeMap}
       isShowTabularList={isShowTabularList}
       mappingTypesOptions={mappingTypesOptions}
       formatMessage={formatMessage}
