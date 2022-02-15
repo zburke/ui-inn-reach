@@ -25,10 +25,12 @@ const renderTransactionDetail = ({
   isOpenInTransitModal = false,
   isOpenAugmentedBarcodeModal = false,
   isOpenUnshippedItemModal = false,
+  onCheckoutBorrowingSite,
   onTriggerUnshippedItemModal,
   onFetchReceiveUnshippedItem,
   onFetchReceiveItem,
   onClose,
+  onReset,
   onRenderAugmentedBarcodeModal,
   onRenderHoldModal,
   onRenderTransitModal,
@@ -45,6 +47,8 @@ const renderTransactionDetail = ({
       onTriggerUnshippedItemModal={onTriggerUnshippedItemModal}
       onFetchReceiveUnshippedItem={onFetchReceiveUnshippedItem}
       onFetchReceiveItem={onFetchReceiveItem}
+      onCheckoutBorrowingSite={onCheckoutBorrowingSite}
+      onReset={onReset}
       onRenderAugmentedBarcodeModal={onRenderAugmentedBarcodeModal}
       onRenderHoldModal={onRenderHoldModal}
       onRenderTransitModal={onRenderTransitModal}
@@ -58,6 +62,8 @@ describe('TransactionDetail', () => {
   const onTriggerUnshippedItemModal = jest.fn();
   const onFetchReceiveUnshippedItem = jest.fn();
   const onFetchReceiveItem = jest.fn();
+  const onCheckoutBorrowingSite = jest.fn();
+  const onReset = jest.fn();
   const onRenderAugmentedBarcodeModal = jest.fn(() => <div>AugmentedBarcodeModal</div>);
   const onRenderHoldModal = jest.fn(() => <div>HoldModal</div>);
   const onRenderTransitModal = jest.fn(() => <div>TransitModal</div>);
@@ -67,6 +73,8 @@ describe('TransactionDetail', () => {
     onTriggerUnshippedItemModal,
     onFetchReceiveUnshippedItem,
     onFetchReceiveItem,
+    onCheckoutBorrowingSite,
+    onReset,
     onRenderAugmentedBarcodeModal,
     onRenderHoldModal,
     onRenderTransitModal,

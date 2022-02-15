@@ -3,12 +3,20 @@ import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jes
 import { translationsProperties } from '../../../../../../../../test/jest/helpers';
 import ItemActions from './ItemActions';
 
+const transactionMock = {
+  state: 'ITEM_HOLD',
+};
+
 const renderItemActions = ({
+  transaction = transactionMock,
   onToggle = jest.fn(),
+  onCheckoutBorrowingSite = jest.fn(),
 } = {}) => {
   return renderWithIntl(
     <ItemActions
+      transaction={transaction}
       onToggle={onToggle}
+      onCheckoutBorrowingSite={onCheckoutBorrowingSite}
     />,
     translationsProperties,
   );

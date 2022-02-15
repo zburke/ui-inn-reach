@@ -429,6 +429,7 @@
   "check-out-borrowing-site.button.end-session": "End session",
   "check-out-borrowing-site.callout.connection-problem.get.transactions": "Unable to get data due to a module error. Please try again. If a problem persists please contact your system administrator",
   "check-out-borrowing-site.callout.connection-problem.post.check-out-borrowing-site": "There was a problem checking out the item",
+  "check-out-borrowing-site.callout.success.post.check-out-borrowing-site": "Item has been successfully checked out",
 
   "unshipped-item.modal.title": "Receive unshipped item",
   "unshipped-item.placeholder.enter-item-barcode": "Enter item barcode",
