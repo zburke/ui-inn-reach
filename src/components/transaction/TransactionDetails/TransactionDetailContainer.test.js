@@ -72,6 +72,16 @@ const resourcesMock = {
   },
 };
 
+const receiveItemMock = {
+  barcodeAugmented: true,
+  folioCheckIn: {
+    inHouseUse: false,
+    item: {},
+    staffSlipContext: {},
+    transaction: {},
+  },
+};
+
 const mutatorMock = {
   servicePointId: {
     replace: jest.fn(),
@@ -86,7 +96,7 @@ const mutatorMock = {
     POST: jest.fn(() => Promise.resolve(receiveUnshippedItemMock)),
   },
   receiveItem: {
-    POST: jest.fn(() => Promise.resolve()),
+    POST: jest.fn(() => Promise.resolve(receiveItemMock)),
   },
   checkoutBorroingSiteItem: {
     POST: jest.fn(() => Promise.resolve()),
@@ -239,6 +249,14 @@ describe('TransactionDetailContainer', () => {
 
     it('should update the transaction list', () => {
       expect(onUpdateTransactionList).toHaveBeenCalled();
+    });
+
+    it('should pass the "receive item" data', () => {
+      expect(onSetCheckinData).toHaveBeenLastCalledWith(receiveItemMock);
+    });
+
+    it('should process the response for modals', () => {
+      expect(onProcessModals).toHaveBeenLastCalledWith(receiveItemMock);
     });
   });
 

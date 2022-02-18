@@ -86,9 +86,9 @@ HoldModal.propTypes = {
   intl: PropTypes.object.isRequired,
   stripes: stripesShape.isRequired,
   onClose: PropTypes.func.isRequired,
-  onFocusBarcodeField: PropTypes.func.isRequired,
   onGetSlipTmpl: PropTypes.func.isRequired,
   checkinData: PropTypes.object,
+  onFocusBarcodeField: PropTypes.func,
 };
 
 export default HoldModal;

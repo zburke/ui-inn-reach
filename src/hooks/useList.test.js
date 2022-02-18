@@ -55,8 +55,10 @@ describe('useList hook', () => {
       await act(async () => { onUpdateList(); });
     });
 
-    it('should fetch records ', () => {
-      expect(queryLoadRecords).toHaveBeenCalled();
+    it('should fetch records with an offset equal to 0', () => {
+      const offset = 0;
+
+      expect(queryLoadRecords).toHaveBeenCalledWith(offset, true);
     });
 
     it('should not call loadRecordsCB callback', () => {
@@ -77,6 +79,14 @@ describe('useList hook', () => {
 
     it('should call loadRecordsCB callback', () => {
       expect(loadRecordsCB).toHaveBeenCalled();
+    });
+
+    it('should increment the offset by 100', async () => {
+      const { onNeedMoreData } = result.current;
+
+      expect(queryLoadRecords).toHaveBeenCalledWith(100, true);
+      await act(async () => { onNeedMoreData(); });
+      expect(queryLoadRecords).toHaveBeenCalledWith(200, true);
     });
   });
 });

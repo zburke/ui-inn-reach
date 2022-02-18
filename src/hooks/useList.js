@@ -2,6 +2,7 @@ import {
   useState,
   useCallback,
   useEffect,
+  useRef,
 } from 'react';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
@@ -25,8 +26,8 @@ const useList = (isLoadingRightAway, queryLoadRecords, loadRecordsCB, resultCoun
   const location = useLocation();
   const [records, setRecords] = useState([]);
   const [recordsCount, setRecordsCount] = useState(0);
-  const [recordsOffset, setRecordsOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const recordsOffsetRef = useRef(0);
 
   const loadRecords = useCallback((offset, updateList) => {
     setIsLoading(true);
@@ -47,21 +48,18 @@ const useList = (isLoadingRightAway, queryLoadRecords, loadRecordsCB, resultCoun
   }, [isLoadingRightAway, loadRecordsCB, location.search, queryLoadRecords]);
 
   const onNeedMoreData = () => {
-    const newOffset = recordsOffset + resultCountIncrement;
-
-    loadRecords(newOffset)
-      .then(() => {
-        setRecordsOffset(newOffset);
-      });
+    recordsOffsetRef.current += resultCountIncrement;
+    loadRecords(recordsOffsetRef.current);
   };
 
   const onUpdateList = () => {
-    loadRecords(recordsOffset, true);
+    recordsOffsetRef.current = 0;
+    loadRecords(0, true);
   };
 
   const refreshList = useCallback(() => {
     setRecords([]);
-    setRecordsOffset(0);
+    recordsOffsetRef.current = 0;
     loadRecords(0);
   }, [loadRecords]);
 

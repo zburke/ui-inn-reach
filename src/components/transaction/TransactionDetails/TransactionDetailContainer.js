@@ -131,12 +131,16 @@ const TransactionDetailContainer = ({
 
   const fetchReceiveItem = () => {
     mutator.receiveItem.POST({})
-      .then(() => {
+      .then(response => {
+        onSetCheckinData(response);
         onUpdateTransactionList();
         showCallout({
           message: <FormattedMessage id="ui-inn-reach.receive-item.callout.success.post.receive-item" />,
         });
+
+        return response;
       })
+      .then(onProcessModals)
       .catch(() => {
         showCallout({
           type: CALLOUT_ERROR_TYPE,
