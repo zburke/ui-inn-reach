@@ -403,5 +403,6 @@
     "shipped-items.field.print-slip": "طباعة الكعب",
     "receive-item.callout.success.post.receive-item": "تمت استلام المادة بنجاح",
     "receive-item.callout.connection-problem.post.receive-item": "حدثت مشكلة أثناء استلام المادة",
-    "settings.folio-to-inn-reach-locations.list-title.local-agency-code": "رمز الوكالة المحلية"
+    "settings.folio-to-inn-reach-locations.list-title.local-agency-code": "رمز الوكالة المحلية",
+    "check-out-borrowing-site.callout.success.post.check-out-borrowing-site": "تمت إعارة المادة بنجاح"
 }
