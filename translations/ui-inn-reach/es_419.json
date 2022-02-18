@@ -403,5 +403,6 @@
     "shipped-items.field.print-slip": "Print slip",
     "receive-item.callout.success.post.receive-item": "Item has been successfully received",
     "receive-item.callout.connection-problem.post.receive-item": "There was a problem receiving the item",
-    "settings.folio-to-inn-reach-locations.list-title.local-agency-code": "Local agency code"
+    "settings.folio-to-inn-reach-locations.list-title.local-agency-code": "Local agency code",
+    "check-out-borrowing-site.callout.success.post.check-out-borrowing-site": "El ejemplar ha sido prestado exitosamente"
 }
