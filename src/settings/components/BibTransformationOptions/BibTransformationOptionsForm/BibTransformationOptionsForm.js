@@ -64,13 +64,12 @@ const BibTransformationOptionsForm = ({
 
   useEffect(() => {
     const tabularList = values[MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS];
+    const isCreatingNewConfig = isEqual(
+      initialValues[MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS],
+      DEFAULT_INITIAL_VALUES[MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS]
+    );
 
     if (isConfigActive) {
-      const isCreatingNewConfig = isEqual(
-        initialValues[MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS],
-        DEFAULT_INITIAL_VALUES[MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS]
-      );
-
       if (isCreatingNewConfig) {
         const isSomeIdentifierTypeFilledIn = tabularList.some(row => row[RESOURCE_IDENTIFIER_TYPE_ID]);
 
@@ -80,11 +79,22 @@ const BibTransformationOptionsForm = ({
       } else {
         setCanSave(false);
       }
-    } else {
-      form.reset();
-      setCanSave(false);
+
+      return;
     }
-  }, [values, isConfigActive]);
+
+    if (!isConfigActive) {
+      if (!isCreatingNewConfig) {
+        if (pristine) {
+          setCanSave(false);
+        } else {
+          setCanSave(true);
+        }
+      } else {
+        setCanSave(false);
+      }
+    }
+  }, [values, pristine, isConfigActive]);
 
   const getFooter = () => {
     const saveButton = (
@@ -125,7 +135,7 @@ const BibTransformationOptionsForm = ({
               className={isConfigActive ? css.mbSm : css.mbMd}
               checked={isConfigActive}
               label={<FormattedMessage id="ui-inn-reach.settings.bib-transformation.field.modify-MARC" />}
-              onChange={onChangeConfigState}
+              onChange={onChangeConfigState(form)}
             />
             {isConfigActive &&
               <TabularList

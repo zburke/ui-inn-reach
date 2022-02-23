@@ -31,6 +31,7 @@ import {
 
 const {
   CONFIG_IS_ACTIVE,
+  MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS,
 } = BIB_TRANSFORMATION_FIELDS;
 
 const BibTransformationOptionsCreateEditRoute = ({
@@ -109,8 +110,14 @@ const BibTransformationOptionsCreateEditRoute = ({
       });
   };
 
-  const handleChangeConfigState = (event) => {
-    setIsConfigActive(event.target.checked);
+  const handleChangeConfigState = (form) => (event) => {
+    const isChecked = event.target.checked;
+
+    if (!isChecked) {
+      form.change(MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS, initialValues[MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS]);
+    }
+
+    setIsConfigActive(isChecked);
   };
 
   useEffect(() => {
