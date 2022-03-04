@@ -21,7 +21,7 @@ const transactionsMock = {
   transactions: [
     { state: 'ITEM_HOLD', type: 'ITEM' },
   ],
-  totalRecords: 1,
+  totalRecords: 100,
 };
 
 const mutatorMock = {

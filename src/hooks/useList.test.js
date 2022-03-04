@@ -9,7 +9,7 @@ jest.mock('react-router-dom', () => ({
 
 const recordsMock = {
   transactions: [{ id: '1' }],
-  totalRecords: 1,
+  totalRecords: 200,
 };
 
 const loadRecordsCB = jest.fn((setTransactions, transactionsResponse) => {
@@ -87,6 +87,14 @@ describe('useList hook', () => {
       expect(queryLoadRecords).toHaveBeenCalledWith(100, true);
       await act(async () => { onNeedMoreData(); });
       expect(queryLoadRecords).toHaveBeenCalledWith(200, true);
+    });
+
+    it('should not load the records when the recordsOffsetRef.current > recordsCount', async () => {
+      const { onNeedMoreData } = result.current;
+
+      await act(async () => { onNeedMoreData(); });
+      await act(async () => { onNeedMoreData(); });
+      expect(queryLoadRecords).not.toHaveBeenCalledWith(300, true);
     });
   });
 });

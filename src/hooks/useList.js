@@ -49,6 +49,8 @@ const useList = (isLoadingRightAway, queryLoadRecords, loadRecordsCB, resultCoun
 
   const onNeedMoreData = () => {
     recordsOffsetRef.current += resultCountIncrement;
+    if (recordsOffsetRef.current > recordsCount) return;
+
     loadRecords(recordsOffsetRef.current);
   };
 
