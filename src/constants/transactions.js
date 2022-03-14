@@ -15,6 +15,7 @@ export const TRANSACTION_STATUSES = {
   CLAIMS_RETURNED: 'CLAIMS_RETURNED',
   RECALL: 'RECALL',
   FINAL_CHECKIN: 'FINAL_CHECKIN',
+  OWNER_RENEW: 'OWNER_RENEW',
 };
 
 export const TRANSACTION_TYPES = {
@@ -50,6 +51,11 @@ export const HOLD_FIELDS = {
   FOLIO_LOAN_ID: 'folioLoanId',
   FOLIO_PATRON_BARCODE: 'folioPatronBarcode',
   FOLIO_ITEM_BARCODE: 'folioItemBarcode',
+  DUE_DATE_TIME: 'dueDateTime',
+};
+
+export const INVENTORY_ITEM_FIELDS = {
+  EFFECTIVE_LOCATION: 'effectiveLocation',
 };
 
 export const TRANSACTION_FIELDS = {
@@ -63,6 +69,18 @@ export const TRANSACTION_FIELDS = {
   ITEM_TITLE: HOLD_FIELDS.TITLE,
   PATRON_NAME: HOLD_FIELDS.PATRON_NAME,
   TIME: HOLD_FIELDS.TRANSACTION_TIME,
+};
+
+export const CREATED_DATE_OP = 'createdDateOp';
+
+export const CREATED_DATE_OPERATIONS = {
+  LESS: 'less',
+  LESS_OR_EQUAL: 'lessOrEqual',
+  EQUAL: 'equal',
+  NOT_EQUAL: 'notEqual',
+  GREATER: 'greater',
+  GREATER_OR_EQUAL: 'greaterOrEqual',
+  BETWEEN: 'between',
 };
 
 export const TRANSACTION_LIST_DEFAULT_SORT_FIELD = TRANSACTION_FIELDS.TIME;

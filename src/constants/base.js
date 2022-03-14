@@ -8,6 +8,7 @@ export const SETTINGS_PANE_WIDTH = '15%';
 export const DEFAULT_PANE_WIDTH = '65%';
 export const FILL_PANE_WIDTH = 'fill';
 export const METADATA = 'metadata';
+export const NO_ITEMS_FOUND = 'noItemsFound';
 
 export const METADATA_FIELDS = {
   UPDATED_DATE: 'updatedDate',
@@ -20,6 +21,7 @@ export const ICONS = {
   ADD: 'plus-sign',
   EDIT: 'edit',
   DELETE: 'trash',
+  DOWNLOAD: 'download',
   ARROW_UP: 'arrow-up',
   ARROW_DOWN: 'arrow-down',
   TIMES_CIRCLE: 'times-circle',

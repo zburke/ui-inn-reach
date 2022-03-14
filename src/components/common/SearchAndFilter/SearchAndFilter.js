@@ -3,6 +3,9 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import {
+  FormattedMessage,
+} from 'react-intl';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
@@ -27,6 +30,19 @@ import {
   useLocationSorting,
   useToggle,
 } from '../../../hooks';
+import ActionItem from '../ActionItem';
+import {
+  ReportModal,
+} from '../../../routes/transaction/components';
+import {
+  ICONS,
+  OVERDUE,
+  OWNING_SITE_OVERDUE_FIELDS,
+} from '../../../constants';
+
+const {
+  MINIMUM_DAYS_OVERDUE,
+} = OWNING_SITE_OVERDUE_FIELDS;
 
 const SearchAndFilter = ({
   history,
@@ -34,6 +50,7 @@ const SearchAndFilter = ({
   location,
   onNeedMoreData,
   resetData,
+  showOverdueReportModal,
   children,
   visibleColumns,
   columnMapping,
@@ -46,6 +63,8 @@ const SearchAndFilter = ({
   isPreRenderAllData,
   isInsideListSearch,
   id,
+  onGenerateReport,
+  onToggleOverdueReportModal,
 }) => {
   const [
     filters,
@@ -102,6 +121,33 @@ const SearchAndFilter = ({
     }
   />;
 
+  const handleOverdueReport = (record) => {
+    onGenerateReport(OVERDUE, record);
+    onToggleOverdueReportModal();
+  };
+
+  const renderActionMenu = ({ onToggle }) => {
+    return (
+      <ActionItem
+        id="export-owning-site-overdue-report"
+        icon={ICONS.DOWNLOAD}
+        buttonTextTranslationKey="ui-inn-reach.reports.owning-site-overdue.label"
+        onClickHandler={onToggleOverdueReportModal}
+        onToggle={onToggle}
+      />
+    );
+  };
+
+  const renderOverdueReportModal = () => (
+    <ReportModal
+      heading={<FormattedMessage id="ui-inn-reach.reports.modal.title.maximum-days-overdue" />}
+      fieldLabel={<FormattedMessage id="ui-inn-reach.reports.modal.field.maximum-days-overdue" />}
+      fieldName={MINIMUM_DAYS_OVERDUE}
+      onSubmit={handleOverdueReport}
+      onTriggerModal={onToggleOverdueReportModal}
+    />
+  );
+
   return (
     <Paneset data-test-result-list>
       {(isFiltersOpened && !isInsideListSearch) && (
@@ -134,6 +180,7 @@ const SearchAndFilter = ({
         filters={getResultsPaneFilters}
         isFiltersOpened={isFiltersOpened}
         renderLastMenu={renderLastMenu}
+        renderActionMenu={renderActionMenu}
         title={resultsPaneTitle}
         toggleFiltersPane={toggleFilters}
       >
@@ -169,6 +216,7 @@ const SearchAndFilter = ({
         />
       </ResultsPane>
       { children }
+      {showOverdueReportModal && renderOverdueReportModal()}
     </Paneset>
   );
 };
@@ -182,9 +230,12 @@ SearchAndFilter.propTypes = {
   resetData: PropTypes.func.isRequired,
   resultsFormatter: PropTypes.object.isRequired,
   resultsPaneTitle: PropTypes.object.isRequired,
+  showOverdueReportModal: PropTypes.bool.isRequired,
   visibleColumns: PropTypes.array.isRequired,
+  onGenerateReport: PropTypes.func.isRequired,
   onNeedMoreData: PropTypes.func.isRequired,
   onRowClick: PropTypes.func.isRequired,
+  onToggleOverdueReportModal: PropTypes.func.isRequired,
   children: PropTypes.node,
   contentData: PropTypes.arrayOf(PropTypes.object),
   count: PropTypes.number,

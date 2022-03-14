@@ -20,6 +20,7 @@ const renderResultsPane = (props = {
   <ResultsPane
     {...props}
     filters={{}}
+    renderActionMenu={jest.fn(() => <div>renderActionMenu</div>)}
   >
     {RESULTS}
   </ResultsPane>,

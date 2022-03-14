@@ -24,9 +24,56 @@ const transactionsMock = {
   totalRecords: 100,
 };
 
+const centralServersMock = {
+  centralServers: [
+    {
+      id: 'b19a50d5-6757-4ba9-91a5-0c00fbb67962',
+      centralServerCode: 'd2ir',
+    }
+  ]
+};
+
+const localServersMock = {
+  localServerList: [
+    {
+      agencyList: [
+        {
+          agencyCode: 'moag1',
+          description: 'Mobi Mobius Agency 1',
+        }
+      ]
+    }
+  ]
+};
+
+const itemsMock = {
+  items: [
+    {
+      id: 'f8b6d973-60d4-41ce-a57b-a3884471a6d6',
+      barcode: 'A14811392645',
+      callNumber: 'K1 .M44',
+      effectiveLocation: {
+        id: 'fcd64ce1-6995-48f0-840e-89ffa2288371',
+        name: 'Main Library',
+      }
+    }
+  ]
+};
+
 const mutatorMock = {
   transactionRecords: {
     GET: jest.fn(() => Promise.resolve(transactionsMock)),
+    reset: jest.fn(),
+  },
+  centralServerRecords: {
+    GET: jest.fn(() => Promise.resolve(centralServersMock)),
+  },
+  localServers: {
+    GET: jest.fn(() => Promise.resolve(localServersMock)),
+  },
+  items: {
+    GET: jest.fn(() => Promise.resolve(itemsMock)),
+    reset: jest.fn(),
   },
 };
 
@@ -114,6 +161,58 @@ describe('TransactionListRoute', () => {
         params: {
           ...params,
           offset: 100,
+        },
+      });
+    });
+  });
+
+  describe('generate report', () => {
+    const transactionsMock2 = {
+      transactions: [
+        {
+          id: 'b42629b5-738b-4054-9764-3b4380c0b10f',
+          centralServerCode: 'd2ir',
+          hold: {
+            folioItemBarcode: 'A14811392645',
+            patronAgencyCode: 'moag1',
+            folioItemId: 'f8b6d973-60d4-41ce-a57b-a3884471a6d6',
+          }
+        }
+      ]
+    };
+    const record = { minDaysOverdue: 2 };
+    const newMutator = {
+      ...mutatorMock,
+      transactionRecords: {
+        GET: jest.fn(() => Promise.resolve(transactionsMock2)),
+        reset: jest.fn(),
+      },
+    };
+
+    beforeEach(async () => {
+      await act(async () => {
+        renderTransactionListRoute({
+          mutator: newMutator,
+        });
+      });
+      await act(async () => { TransactionList.mock.calls[3][0].onGenerateReport('overdue', record); });
+    });
+
+    it('should call the central server records', () => {
+      expect(mutatorMock.centralServerRecords.GET).toHaveBeenCalled();
+    });
+
+    it('should call the local servers', () => {
+      expect(mutatorMock.localServers.GET).toHaveBeenCalledWith({
+        path: 'inn-reach/central-servers/b19a50d5-6757-4ba9-91a5-0c00fbb67962/d2r/contribution/localservers',
+      });
+    });
+
+    it('should call the items', () => {
+      expect(mutatorMock.items.GET).toHaveBeenCalledWith({
+        params: {
+          limit: 1000,
+          query: 'barcode==A14811392645',
         },
       });
     });

@@ -98,6 +98,7 @@ const resultsFormatter = {
 const TransactionListView = ({
   isLoading,
   onNeedMoreData,
+  showOverdueReportModal,
   resetData,
   history,
   match,
@@ -105,6 +106,8 @@ const TransactionListView = ({
   transactions,
   transactionsCount,
   children,
+  onGenerateReport,
+  onToggleOverdueReportModal,
 }) => {
   const openTransactionDetails = useCallback(
     (e, meta) => {
@@ -129,9 +132,12 @@ const TransactionListView = ({
       resetData={resetData}
       resultsFormatter={resultsFormatter}
       resultsPaneTitle={resultsPaneTitle}
+      showOverdueReportModal={showOverdueReportModal}
       visibleColumns={visibleColumns}
+      onGenerateReport={onGenerateReport}
       onNeedMoreData={onNeedMoreData}
       onRowClick={openTransactionDetails}
+      onToggleOverdueReportModal={onToggleOverdueReportModal}
     >
       {children}
     </SearchAndFilter>
@@ -143,7 +149,10 @@ TransactionListView.propTypes = {
   location: ReactRouterPropTypes.location.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   resetData: PropTypes.func.isRequired,
+  showOverdueReportModal: PropTypes.bool.isRequired,
+  onGenerateReport: PropTypes.func.isRequired,
   onNeedMoreData: PropTypes.func.isRequired,
+  onToggleOverdueReportModal: PropTypes.func.isRequired,
   children: PropTypes.node,
   isLoading: PropTypes.bool,
   transactions: PropTypes.arrayOf(PropTypes.object),

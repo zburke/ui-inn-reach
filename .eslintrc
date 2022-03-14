@@ -24,6 +24,7 @@
   "rules": {
     "arrow-body-style": "off",
     "import/no-extraneous-dependencies": "off",
+    "import/no-cycle": 0,
     "jsx-quotes": "off",
     "react/forbid-prop-types": "off",
     "import/prefer-default-export": "off",

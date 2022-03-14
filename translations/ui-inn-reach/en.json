@@ -438,5 +438,20 @@
   "unshipped-item.callout.success.post.receive-unshipped-item": "The barcode associated with the transaction has been updated",
 
   "receive-item.callout.connection-problem.post.receive-item": "There was a problem receiving the item",
-  "receive-item.callout.success.post.receive-item": "Item has been successfully received"
+  "receive-item.callout.success.post.receive-item": "Item has been successfully received",
+
+  "reports.owning-site-overdue.label": "Owning site overdue report (CSV)",
+  "reports.callout.export-in-progress": "Export in progress",
+  "reports.callout.no-items-found": "No items found.",
+  "reports.modal.title.maximum-days-overdue": "Owning site overdue report",
+  "reports.modal.field.maximum-days-overdue": "Minimum days overdue",
+  "reports.modal.button.save-and-close": "Save & close",
+  "reports.modal.button.cancel": "Cancel",
+  "reports.hold.patronId": "INN-Reach Patron ID",
+  "reports.effectiveLocation": "Item's Effective Location",
+  "reports.callNumber": "Call #",
+  "reports.hold.folioItemBarcode": "Item Barcode",
+  "reports.hold.title": "Item Title",
+  "reports.patronAgencyCode": "Patron Agency",
+  "reports.hold.dueDateTime": "Loan Due Date"
 }

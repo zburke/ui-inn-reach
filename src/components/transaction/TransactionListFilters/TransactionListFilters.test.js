@@ -35,7 +35,8 @@ const transactionStatusOptions = [
   { label: 'BORROWER_RENEW', value: 'BORROWER_RENEW' },
   { label: 'CLAIMS_RETURNED', value: 'CLAIMS_RETURNED' },
   { label: 'RECALL', value: 'RECALL' },
-  { label: 'FINAL_CHECKIN', value: 'FINAL_CHECKIN' }
+  { label: 'FINAL_CHECKIN', value: 'FINAL_CHECKIN' },
+  { label: 'OWNER_RENEW', value: 'OWNER_RENEW' }
 ];
 
 const centralServerAgencies = {

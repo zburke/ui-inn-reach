@@ -25,6 +25,7 @@ const ResultsPane = ({
   subTitle,
   count,
   renderLastMenu,
+  renderActionMenu,
   toggleFiltersPane,
   isFiltersOpened,
   filters,
@@ -71,6 +72,7 @@ const ResultsPane = ({
       padContent={false}
       paneSub={subTitle || paneSub}
       paneTitle={title}
+      actionMenu={renderActionMenu}
     >
       {children}
     </Pane>
@@ -80,6 +82,7 @@ const ResultsPane = ({
 ResultsPane.propTypes = {
   children: PropTypes.node.isRequired,
   filters: PropTypes.object.isRequired,
+  renderActionMenu: PropTypes.func.isRequired,
   title: PropTypes.node.isRequired,
   count: PropTypes.number,
   isFiltersOpened: PropTypes.bool,

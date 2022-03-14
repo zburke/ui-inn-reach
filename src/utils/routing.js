@@ -1,6 +1,4 @@
-import {
-  CENTRAL_SERVER_CONFIGURATIONS_PATH,
-} from '../constants';
+const CENTRAL_SERVER_CONFIGURATIONS_PATH = 'settings/innreach/central-server-configurations';
 
 export const getCentralServerConfigurationListUrl = () => `${CENTRAL_SERVER_CONFIGURATIONS_PATH}`;
 export const getCentralServerConfigurationViewUrl = (id) => `${CENTRAL_SERVER_CONFIGURATIONS_PATH}/${id}/view`;
