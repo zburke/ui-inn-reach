@@ -441,17 +441,22 @@
   "receive-item.callout.success.post.receive-item": "Item has been successfully received",
 
   "reports.owning-site-overdue.label": "Owning site overdue report (CSV)",
+  "reports.requested-too-long.label": "Requested too long report (CSV)",
   "reports.callout.export-in-progress": "Export in progress",
   "reports.callout.no-items-found": "No items found.",
-  "reports.modal.title.maximum-days-overdue": "Owning site overdue report",
-  "reports.modal.field.maximum-days-overdue": "Minimum days overdue",
+  "reports.modal.title.owning-site-overdue-report": "Owning site overdue report",
+  "reports.modal.title.requested-too-long-report": "Requested too long report",
+  "reports.modal.field.minimum-days-overdue": "Minimum days overdue",
+  "reports.modal.field.minimum-days-requested": "Minimum days requested",
   "reports.modal.button.save-and-close": "Save & close",
   "reports.modal.button.cancel": "Cancel",
   "reports.hold.patronId": "INN-Reach Patron ID",
   "reports.effectiveLocation": "Item's Effective Location",
-  "reports.callNumber": "Call #",
+  "reports.callNumber": "Item call number",
   "reports.hold.folioItemBarcode": "Item Barcode",
   "reports.hold.title": "Item Title",
   "reports.patronAgencyCode": "Patron Agency",
-  "reports.hold.dueDateTime": "Loan Due Date"
+  "reports.hold.dueDateTime": "Loan Due Date",
+  "reports.itemAgencyCode": "Item Location",
+  "reports.createdDate": "Date Requested"
 }

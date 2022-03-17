@@ -71,7 +71,15 @@ export const TRANSACTION_FIELDS = {
   TIME: HOLD_FIELDS.TRANSACTION_TIME,
 };
 
-export const CREATED_DATE_OP = 'createdDateOp';
+export const TRANSACTION_OPERATIONS = {
+  CREATED_DATE_OP: 'createdDateOp',
+  UPDATED_DATE_OP: 'updatedDateOp',
+  HOLD_CREATED_DATE_OP: 'holdCreatedDateOp',
+  HOLD_UPDATED_DATE_OP: 'holdUpdatedDateOp',
+  DUE_DATE_OP: 'dueDateOp',
+};
+
+export const DUE_DATE = 'dueDate';
 
 export const CREATED_DATE_OPERATIONS = {
   LESS: 'less',

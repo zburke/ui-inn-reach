@@ -22,6 +22,7 @@ const {
 } = TRANSACTION_FIELDS;
 
 export const OVERDUE = 'overdue';
+export const SHOW_OVERDUE_REPORT_MODAL = 'showOverdueReportModal';
 
 export const OVERDUE_COLUMNS_FOR_CSV = [
   `${HOLD}.${PATRON_ID}`,

@@ -20,7 +20,6 @@ import {
   useLocationReset,
   useList,
   useCallout,
-  useToggle,
 } from '../../hooks';
 import TransactionList from '../../components/transaction/TransactionList';
 import {
@@ -35,6 +34,12 @@ import {
   TRANSACTION_FIELDS,
   OVERDUE,
   OVERDUE_COLUMNS_FOR_CSV,
+  METADATA,
+  METADATA_FIELDS,
+  REQUESTED_TOO_LONG,
+  REQUESTED_TOO_LONG_COLUMNS_FOR_CSV,
+  SHOW_OVERDUE_REPORT_MODAL,
+  SHOW_REQUESTED_TOO_LONG_REPORT_MODAL,
 } from '../../constants';
 import {
   getParams,
@@ -43,9 +48,11 @@ import CsvReport from './CsvReport';
 import {
   fetchBatchItems,
   fetchLocalServers,
+  formatDateAndTime,
   getAgencyCodeMap,
   getLoansMap,
   getOverdueParams,
+  getRequestedTooLongParams,
 } from './utils';
 
 const {
@@ -53,6 +60,7 @@ const {
 } = TRANSACTION_FIELDS;
 
 const {
+  ITEM_AGENCY_CODE,
   PATRON_AGENCY_CODE,
   CALL_NUMBER,
 } = HOLD_FIELDS;
@@ -60,6 +68,10 @@ const {
 const {
   EFFECTIVE_LOCATION,
 } = INVENTORY_ITEM_FIELDS;
+
+const {
+  CREATED_DATE,
+} = METADATA_FIELDS;
 
 const resetData = () => {};
 
@@ -73,9 +85,19 @@ const TransactionListRoute = ({
   const intl = useIntl();
 
   const [exportInProgress, setExportInProgress] = useState(false);
-  const [showOverdueReportModal, toggleOverdueReportModal] = useToggle(false);
+  const [statesOfModalReports, setStatesOfModalReports] = useState({
+    [SHOW_OVERDUE_REPORT_MODAL]: false,
+    [SHOW_REQUESTED_TOO_LONG_REPORT_MODAL]: false,
+  });
 
   const csvReport = useMemo(() => new CsvReport({ intl }), [intl]);
+
+  const toggleStatesOfModalReports = (modalName) => {
+    setStatesOfModalReports(prev => ({
+      ...prev,
+      [modalName]: !prev[modalName],
+    }));
+  };
 
   const loadTransactions = (offset) => mutator.transactionRecords.GET({
     params: {
@@ -123,6 +145,29 @@ const TransactionListRoute = ({
     });
   };
 
+  const getRequestedTooLongLoansToCsv = async (loans) => {
+    const localServers = await fetchLocalServers(mutator, loans);
+    const agencyCodeMap = getAgencyCodeMap(localServers);
+    const items = await fetchBatchItems(mutator, loans);
+    const loansMap = getLoansMap(loans);
+
+    return items.map(item => {
+      const itemData = loansMap.get(item.id);
+      const patronAgencyCode = itemData[HOLD][PATRON_AGENCY_CODE];
+      const itemAgencyCode = itemData[HOLD][ITEM_AGENCY_CODE];
+      const itemAgencyDescription = agencyCodeMap.get(itemAgencyCode);
+      const patronAgencyDescription = agencyCodeMap.get(patronAgencyCode);
+
+      return {
+        ...loansMap.get(item.id),
+        [ITEM_AGENCY_CODE]: `${itemAgencyDescription}(${itemAgencyCode})`,
+        [CALL_NUMBER]: item[CALL_NUMBER],
+        [PATRON_AGENCY_CODE]: `${patronAgencyDescription} (${patronAgencyCode})`,
+        [CREATED_DATE]: formatDateAndTime(item[METADATA][CREATED_DATE], intl.formatTime),
+      };
+    });
+  };
+
   const generateReport = (type, record) => {
     if (exportInProgress) return;
 
@@ -134,6 +179,10 @@ const TransactionListRoute = ({
       getLoansToCsv = getOverdueLoansToCsv;
       reportColumns = OVERDUE_COLUMNS_FOR_CSV;
       params = getOverdueParams(record);
+    } else if (type === REQUESTED_TOO_LONG) {
+      getLoansToCsv = getRequestedTooLongLoansToCsv;
+      reportColumns = REQUESTED_TOO_LONG_COLUMNS_FOR_CSV;
+      params = getRequestedTooLongParams(record);
     }
 
     setExportInProgress(true);
@@ -157,9 +206,9 @@ const TransactionListRoute = ({
       transactions={transactions}
       transactionsCount={transactionsCount}
       resetData={resetData}
-      showOverdueReportModal={showOverdueReportModal}
+      statesOfModalReports={statesOfModalReports}
       onGenerateReport={generateReport}
-      onToggleOverdueReportModal={toggleOverdueReportModal}
+      onToggleStatesOfModalReports={toggleStatesOfModalReports}
       onNeedMoreData={onNeedMoreData}
     >
       {cloneElement(children, additionalProps)}

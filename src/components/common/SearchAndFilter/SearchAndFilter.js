@@ -38,7 +38,15 @@ import {
   ICONS,
   OVERDUE,
   OWNING_SITE_OVERDUE_FIELDS,
+  REQUESTED_TOO_LONG,
+  REQUESTED_TOO_LONG_FIELDS,
+  SHOW_OVERDUE_REPORT_MODAL,
+  SHOW_REQUESTED_TOO_LONG_REPORT_MODAL,
 } from '../../../constants';
+
+const {
+  MINIMUM_DAYS_REQUESTED,
+} = REQUESTED_TOO_LONG_FIELDS;
 
 const {
   MINIMUM_DAYS_OVERDUE,
@@ -50,7 +58,10 @@ const SearchAndFilter = ({
   location,
   onNeedMoreData,
   resetData,
-  showOverdueReportModal,
+  statesOfModalReports: {
+    [SHOW_OVERDUE_REPORT_MODAL]: showOverdueReportModal,
+    [SHOW_REQUESTED_TOO_LONG_REPORT_MODAL]: showRequestedTooLongReportModal,
+  },
   children,
   visibleColumns,
   columnMapping,
@@ -64,7 +75,7 @@ const SearchAndFilter = ({
   isInsideListSearch,
   id,
   onGenerateReport,
-  onToggleOverdueReportModal,
+  onToggleStatesOfModalReports,
 }) => {
   const [
     filters,
@@ -123,28 +134,60 @@ const SearchAndFilter = ({
 
   const handleOverdueReport = (record) => {
     onGenerateReport(OVERDUE, record);
-    onToggleOverdueReportModal();
+    onToggleStatesOfModalReports(SHOW_OVERDUE_REPORT_MODAL);
+  };
+
+  const handleRequestedTooLongReport = (record) => {
+    onGenerateReport(REQUESTED_TOO_LONG, record);
+    onToggleStatesOfModalReports(SHOW_REQUESTED_TOO_LONG_REPORT_MODAL);
+  };
+
+  const toggleOverdueModal = () => {
+    onToggleStatesOfModalReports(SHOW_OVERDUE_REPORT_MODAL);
+  };
+
+  const toggleRequestedTooLongModal = () => {
+    onToggleStatesOfModalReports(SHOW_REQUESTED_TOO_LONG_REPORT_MODAL);
   };
 
   const renderActionMenu = ({ onToggle }) => {
     return (
-      <ActionItem
-        id="export-owning-site-overdue-report"
-        icon={ICONS.DOWNLOAD}
-        buttonTextTranslationKey="ui-inn-reach.reports.owning-site-overdue.label"
-        onClickHandler={onToggleOverdueReportModal}
-        onToggle={onToggle}
-      />
+      <>
+        <ActionItem
+          id="export-owning-site-overdue-report"
+          icon={ICONS.DOWNLOAD}
+          buttonTextTranslationKey="ui-inn-reach.reports.owning-site-overdue.label"
+          onClickHandler={toggleOverdueModal}
+          onToggle={onToggle}
+        />
+        <ActionItem
+          id="export-requested-too-long-report"
+          icon={ICONS.DOWNLOAD}
+          buttonTextTranslationKey="ui-inn-reach.reports.requested-too-long.label"
+          onClickHandler={toggleRequestedTooLongModal}
+          onToggle={onToggle}
+        />
+      </>
     );
   };
 
   const renderOverdueReportModal = () => (
     <ReportModal
-      heading={<FormattedMessage id="ui-inn-reach.reports.modal.title.maximum-days-overdue" />}
-      fieldLabel={<FormattedMessage id="ui-inn-reach.reports.modal.field.maximum-days-overdue" />}
+      heading={<FormattedMessage id="ui-inn-reach.reports.modal.title.owning-site-overdue-report" />}
+      fieldLabel={<FormattedMessage id="ui-inn-reach.reports.modal.field.minimum-days-overdue" />}
       fieldName={MINIMUM_DAYS_OVERDUE}
       onSubmit={handleOverdueReport}
-      onTriggerModal={onToggleOverdueReportModal}
+      onTriggerModal={toggleOverdueModal}
+    />
+  );
+
+  const renderRequestedTooLongReportModal = () => (
+    <ReportModal
+      heading={<FormattedMessage id="ui-inn-reach.reports.modal.title.requested-too-long-report" />}
+      fieldLabel={<FormattedMessage id="ui-inn-reach.reports.modal.field.minimum-days-requested" />}
+      fieldName={MINIMUM_DAYS_REQUESTED}
+      onSubmit={handleRequestedTooLongReport}
+      onTriggerModal={toggleRequestedTooLongModal}
     />
   );
 
@@ -217,6 +260,7 @@ const SearchAndFilter = ({
       </ResultsPane>
       { children }
       {showOverdueReportModal && renderOverdueReportModal()}
+      {showRequestedTooLongReportModal && renderRequestedTooLongReportModal()}
     </Paneset>
   );
 };
@@ -230,12 +274,12 @@ SearchAndFilter.propTypes = {
   resetData: PropTypes.func.isRequired,
   resultsFormatter: PropTypes.object.isRequired,
   resultsPaneTitle: PropTypes.object.isRequired,
-  showOverdueReportModal: PropTypes.bool.isRequired,
+  statesOfModalReports: PropTypes.object.isRequired,
   visibleColumns: PropTypes.array.isRequired,
   onGenerateReport: PropTypes.func.isRequired,
   onNeedMoreData: PropTypes.func.isRequired,
   onRowClick: PropTypes.func.isRequired,
-  onToggleOverdueReportModal: PropTypes.func.isRequired,
+  onToggleStatesOfModalReports: PropTypes.func.isRequired,
   children: PropTypes.node,
   contentData: PropTypes.arrayOf(PropTypes.object),
   count: PropTypes.number,

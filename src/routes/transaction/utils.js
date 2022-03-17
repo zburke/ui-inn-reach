@@ -6,22 +6,33 @@ import {
 } from '../../utils';
 import {
   ASC_ORDER,
-  CREATED_DATE_OP,
   CREATED_DATE_OPERATIONS,
+  DUE_DATE,
   HOLD_FIELDS,
   METADATA_FIELDS,
   OWNING_SITE_OVERDUE_FIELDS,
+  REQUESTED_TOO_LONG_FIELDS,
   SORT_ORDER_PARAMETER,
   SORT_PARAMETER,
   TRANSACTION_FIELDS,
   TRANSACTION_LIST_DEFAULT_SORT_FIELD,
+  TRANSACTION_OPERATIONS,
   TRANSACTION_STATUSES,
   TRANSACTION_TYPES,
 } from '../../constants';
 
 const {
+  DUE_DATE_OP,
+  UPDATED_DATE_OP,
+} = TRANSACTION_OPERATIONS;
+
+const {
   MINIMUM_DAYS_OVERDUE,
 } = OWNING_SITE_OVERDUE_FIELDS;
+
+const {
+  MINIMUM_DAYS_REQUESTED,
+} = REQUESTED_TOO_LONG_FIELDS;
 
 const {
   HOLD,
@@ -32,11 +43,11 @@ const {
 
 const {
   FOLIO_ITEM_ID,
-  FOLIO_ITEM_BARCODE,
 } = HOLD_FIELDS;
 
 const {
   ITEM,
+  PATRON,
 } = TRANSACTION_TYPES;
 
 const {
@@ -45,6 +56,8 @@ const {
   ITEM_SHIPPED,
   ITEM_IN_TRANSIT,
   BORROWER_RENEW,
+  PATRON_HOLD,
+  TRANSFER,
 } = TRANSACTION_STATUSES;
 
 const {
@@ -73,7 +86,9 @@ export const getAgencyCodeMap = (localServers) => {
 
 export const getLoansMap = (loans) => {
   return loans.reduce((accum, loan) => {
-    accum.set(loan[HOLD][FOLIO_ITEM_ID], loan);
+    if (loan[HOLD][FOLIO_ITEM_ID]) {
+      accum.set(loan[HOLD][FOLIO_ITEM_ID], loan);
+    }
 
     return accum;
   }, new Map());
@@ -116,7 +131,7 @@ export const fetchLocalServers = async (mutator, loans) => {
 export const fetchBatchItems = async (mutator, loans) => {
   // Split the list of items into small chunks to create a short enough query string
   // that we can avoid request with error
-  const CHUNK_SIZE = 100;
+  const CHUNK_SIZE = 77;
   const LIMIT = 1000;
   const chunkedItems = chunk(loans, CHUNK_SIZE);
 
@@ -124,7 +139,7 @@ export const fetchBatchItems = async (mutator, loans) => {
 
   const allRequests = chunkedItems.map(itemChunk => {
     const query = itemChunk
-      .map(item => `barcode==${item[HOLD][FOLIO_ITEM_BARCODE]}`)
+      .map(item => `id==${item[HOLD][FOLIO_ITEM_ID]}`)
       .join(' or ');
 
     return mutator.items.GET({ params: { limit: LIMIT, query } });
@@ -145,7 +160,24 @@ export const getOverdueParams = (record) => {
     [SORT_ORDER_PARAMETER]: ASC_ORDER,
     [TYPE]: ITEM,
     [STATUS]: [ITEM_RECEIVED, BORROWER_RENEW, OWNER_RENEW, ITEM_IN_TRANSIT, ITEM_SHIPPED],
-    [UPDATED_DATE]: roundHours(overdueDate).toISOString(),
-    [CREATED_DATE_OP]: LESS,
+    [DUE_DATE]: roundHours(overdueDate).toISOString(),
+    [DUE_DATE_OP]: LESS,
+  };
+};
+
+export const getRequestedTooLongParams = (record) => {
+  const date = new Date();
+  const TOMORROW = 1;
+
+  date.setDate(date.getDate() - record[MINIMUM_DAYS_REQUESTED] + TOMORROW);
+  date.setHours(0, 0, 0, 0);
+
+  return {
+    [SORT_PARAMETER]: TRANSACTION_LIST_DEFAULT_SORT_FIELD,
+    [SORT_ORDER_PARAMETER]: ASC_ORDER,
+    [TYPE]: PATRON,
+    [STATUS]: [PATRON_HOLD, TRANSFER],
+    [UPDATED_DATE]: date.toISOString(),
+    [UPDATED_DATE_OP]: LESS,
   };
 };

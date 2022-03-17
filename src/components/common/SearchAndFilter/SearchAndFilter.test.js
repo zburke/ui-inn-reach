@@ -34,7 +34,7 @@ jest.mock('../../../routes/transaction/components', () => ({
 
 const renderSearchAndFilter = ({
   isLoading = false,
-  showOverdueReportModal = false,
+  statesOfModalReports = {},
   children,
   visibleColumns = [],
   columnMapping = {},
@@ -50,13 +50,13 @@ const renderSearchAndFilter = ({
   onRowClick,
   resetData,
   onGenerateReport,
-  onToggleOverdueReportModal,
+  onToggleStatesOfModalReports,
 }) => (renderWithIntl(
   <Router history={createMemoryHistory()}>
     <SearchAndFilter
       location={{ pathname: '/', hash: '', search: '' }}
       isLoading={isLoading}
-      showOverdueReportModal={showOverdueReportModal}
+      statesOfModalReports={statesOfModalReports}
       visibleColumns={visibleColumns}
       columnMapping={columnMapping}
       resultsFormatter={resultsFormatter}
@@ -71,7 +71,7 @@ const renderSearchAndFilter = ({
       onNeedMoreData={onNeedMoreData}
       onRowClick={onRowClick}
       onGenerateReport={onGenerateReport}
-      onToggleOverdueReportModal={onToggleOverdueReportModal}
+      onToggleStatesOfModalReports={onToggleStatesOfModalReports}
     >
       {children}
     </SearchAndFilter>
@@ -82,17 +82,21 @@ const renderSearchAndFilter = ({
 describe('SearchAndFilter', () => {
   const onNeedMoreData = jest.fn();
   const onGenerateReport = jest.fn();
-  const onToggleOverdueReportModal = jest.fn();
+  const onToggleStatesOfModalReports = jest.fn();
   const onRowClick = jest.fn();
   const resetData = jest.fn();
 
   const commonProps = {
     onNeedMoreData,
     onGenerateReport,
-    onToggleOverdueReportModal,
+    onToggleStatesOfModalReports,
     onRowClick,
     resetData,
   };
+
+  beforeEach(() => {
+    ReportModal.mockClear();
+  });
 
   it('should be rendered', () => {
     const { container } = renderSearchAndFilter(commonProps);
@@ -109,27 +113,58 @@ describe('SearchAndFilter', () => {
   });
 
   describe('ReportModal', () => {
-    beforeEach(() => {
-      renderSearchAndFilter({
-        ...commonProps,
-        showOverdueReportModal: true,
+    describe('"owning site overdue" modal', () => {
+      beforeEach(() => {
+        renderSearchAndFilter({
+          ...commonProps,
+          statesOfModalReports: {
+            showOverdueReportModal: true,
+          },
+        });
+      });
+
+      it('should be visible', () => {
+        expect(ReportModal.mock.calls[1][0].fieldName).toBe('minDaysOverdue');
+      });
+
+      it('should generate report', () => {
+        const record = { minDaysOverdue: 2 };
+
+        ReportModal.mock.calls[1][0].onSubmit(record);
+        expect(onGenerateReport).toHaveBeenCalledWith('overdue', record);
+      });
+
+      it('should close the modal', () => {
+        ReportModal.mock.calls[1][0].onTriggerModal();
+        expect(onToggleStatesOfModalReports).toHaveBeenCalledWith('showOverdueReportModal');
       });
     });
 
-    it('should be visible', () => {
-      expect(screen.getByText('ReportModal')).toBeVisible();
-    });
+    describe('"owning site overdue" modal', () => {
+      beforeEach(() => {
+        renderSearchAndFilter({
+          ...commonProps,
+          statesOfModalReports: {
+            showRequestedTooLongReportModal: true,
+          },
+        });
+      });
 
-    it('should generate report', () => {
-      const record = { minDaysOverdue: 2 };
+      it('should be visible', () => {
+        expect(ReportModal.mock.calls[1][0].fieldName).toBe('minDaysRequested');
+      });
 
-      ReportModal.mock.calls[1][0].onSubmit(record);
-      expect(onGenerateReport).toHaveBeenCalledWith('overdue', record);
-    });
+      it('should generate report', () => {
+        const record = { minDaysRequested: 2 };
 
-    it('should close the modal', () => {
-      ReportModal.mock.calls[1][0].onTriggerModal();
-      expect(onToggleOverdueReportModal).toHaveBeenCalled();
+        ReportModal.mock.calls[1][0].onSubmit(record);
+        expect(onGenerateReport).toHaveBeenCalledWith('requestedTooLong', record);
+      });
+
+      it('should close the modal', () => {
+        ReportModal.mock.calls[1][0].onTriggerModal();
+        expect(onToggleStatesOfModalReports).toHaveBeenCalledWith('showRequestedTooLongReportModal');
+      });
     });
   });
 });

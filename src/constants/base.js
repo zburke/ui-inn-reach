@@ -11,6 +11,7 @@ export const METADATA = 'metadata';
 export const NO_ITEMS_FOUND = 'noItemsFound';
 
 export const METADATA_FIELDS = {
+  CREATED_DATE: 'createdDate',
   UPDATED_DATE: 'updatedDate',
 };
 

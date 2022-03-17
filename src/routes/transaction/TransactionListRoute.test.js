@@ -7,6 +7,10 @@ import TransactionListRoute from './TransactionListRoute';
 import { translationsProperties } from '../../../test/jest/helpers';
 import TransactionList from '../../components/transaction/TransactionList';
 import TransactionDetailContainer from '../../components/transaction/TransactionDetails';
+import {
+  getOverdueParams,
+  getRequestedTooLongParams,
+} from './utils';
 
 jest.mock('../../components/transaction/TransactionList', () => {
   return jest.fn(() => <div>TransactionList</div>);
@@ -15,6 +19,12 @@ jest.mock('../../components/transaction/TransactionList', () => {
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
   cloneElement: jest.fn(),
+}));
+
+jest.mock('./utils', () => ({
+  ...jest.requireActual('./utils'),
+  getOverdueParams: jest.fn(),
+  getRequestedTooLongParams: jest.fn(),
 }));
 
 const transactionsMock = {
@@ -94,6 +104,27 @@ const params = {
 };
 
 const childrenMock = <TransactionDetailContainer render={jest.fn} />;
+
+const executeCommonTests = () => {
+  it('should call the central server records', () => {
+    expect(mutatorMock.centralServerRecords.GET).toHaveBeenCalled();
+  });
+
+  it('should call the local servers', () => {
+    expect(mutatorMock.localServers.GET).toHaveBeenCalledWith({
+      path: 'inn-reach/central-servers/b19a50d5-6757-4ba9-91a5-0c00fbb67962/d2r/contribution/localservers',
+    });
+  });
+
+  it('should call the items', () => {
+    expect(mutatorMock.items.GET).toHaveBeenCalledWith({
+      params: {
+        limit: 1000,
+        query: 'id==f8b6d973-60d4-41ce-a57b-a3884471a6d6',
+      },
+    });
+  });
+};
 
 const renderTransactionListRoute = ({
   history = createMemoryHistory(),
@@ -180,7 +211,6 @@ describe('TransactionListRoute', () => {
         }
       ]
     };
-    const record = { minDaysOverdue: 2 };
     const newMutator = {
       ...mutatorMock,
       transactionRecords: {
@@ -195,25 +225,55 @@ describe('TransactionListRoute', () => {
           mutator: newMutator,
         });
       });
-      await act(async () => { TransactionList.mock.calls[3][0].onGenerateReport('overdue', record); });
     });
 
-    it('should call the central server records', () => {
-      expect(mutatorMock.centralServerRecords.GET).toHaveBeenCalled();
-    });
+    describe('generate report for "owning site overdue"', () => {
+      const record = { minDaysOverdue: 2 };
 
-    it('should call the local servers', () => {
-      expect(mutatorMock.localServers.GET).toHaveBeenCalledWith({
-        path: 'inn-reach/central-servers/b19a50d5-6757-4ba9-91a5-0c00fbb67962/d2r/contribution/localservers',
+      beforeEach(async () => {
+        await act(async () => { TransactionList.mock.calls[3][0].onGenerateReport('overdue', record); });
+      });
+
+      executeCommonTests();
+
+      it('should call getOverdueParams function', () => {
+        expect(getOverdueParams).toHaveBeenCalledWith(record);
       });
     });
 
-    it('should call the items', () => {
-      expect(mutatorMock.items.GET).toHaveBeenCalledWith({
-        params: {
-          limit: 1000,
-          query: 'barcode==A14811392645',
-        },
+    describe('generate report for "requested too long"', () => {
+      const record = { minDaysRequested: 2 };
+
+      beforeEach(async () => {
+        await act(async () => { TransactionList.mock.calls[3][0].onGenerateReport('requestedTooLong', record); });
+      });
+
+      executeCommonTests();
+
+      it('should call getRequestedTooLongParams function', () => {
+        expect(getRequestedTooLongParams).toHaveBeenCalledWith(record);
+      });
+    });
+  });
+
+  describe('toggling states of modal reports', () => {
+    beforeEach(async () => {
+      await act(async () => { renderTransactionListRoute(); });
+    });
+
+    it('should display "Owning site overdue" modal', async () => {
+      await act(async () => { TransactionList.mock.calls[3][0].onToggleStatesOfModalReports('showOverdueReportModal'); });
+      expect(TransactionList.mock.calls[4][0].statesOfModalReports).toEqual({
+        showOverdueReportModal: true,
+        showRequestedTooLongReportModal: false,
+      });
+    });
+
+    it('should display "Owning site overdue" modal', async () => {
+      await act(async () => { TransactionList.mock.calls[3][0].onToggleStatesOfModalReports('showRequestedTooLongReportModal'); });
+      expect(TransactionList.mock.calls[4][0].statesOfModalReports).toEqual({
+        showOverdueReportModal: false,
+        showRequestedTooLongReportModal: true,
       });
     });
   });
