@@ -85,7 +85,7 @@ const ManageContribution = ({
   };
 
   const handleCancelContribution = () => {
-    mutator.jobs.DELETE({ id: currentContribution.jobId })
+    mutator.jobs.DELETE({})
       .then(() => {
         setIsCurrentContributionPending(true);
         showCallout({
@@ -208,7 +208,7 @@ ManageContribution.manifest = Object.freeze({
   },
   jobs: {
     type: 'okapi',
-    path: 'instance-storage/instances/iteration',
+    path: 'inn-reach/central-servers/%{selectedServerId}/contributions/current',
     clientGeneratePk: false,
     accumulate: true,
     fetch: false,

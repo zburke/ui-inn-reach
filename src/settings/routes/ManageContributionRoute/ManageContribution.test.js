@@ -200,7 +200,7 @@ describe('renderManageContributionRoute component', () => {
     });
 
     it('should be canceled the contribution process', () => {
-      expect(newMutator.jobs.DELETE).toHaveBeenCalledWith({ id: contributionCancelled.jobId });
+      expect(newMutator.jobs.DELETE).toHaveBeenCalledWith({});
     });
 
     it('should fetch the current contribution state', () => {
