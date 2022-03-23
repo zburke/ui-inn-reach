@@ -42,6 +42,9 @@ import {
   REQUESTED_TOO_LONG_FIELDS,
   SHOW_OVERDUE_REPORT_MODAL,
   SHOW_REQUESTED_TOO_LONG_REPORT_MODAL,
+  SHOW_PAGED_TOO_LONG_REPORT_MODAL,
+  PAGED_TOO_LONG_FIELDS,
+  PAGED_TOO_LONG,
 } from '../../../constants';
 
 const {
@@ -52,6 +55,10 @@ const {
   MINIMUM_DAYS_OVERDUE,
 } = OWNING_SITE_OVERDUE_FIELDS;
 
+const {
+  MINIMUM_DAYS_PAGED,
+} = PAGED_TOO_LONG_FIELDS;
+
 const SearchAndFilter = ({
   history,
   isLoading,
@@ -61,6 +68,7 @@ const SearchAndFilter = ({
   statesOfModalReports: {
     [SHOW_OVERDUE_REPORT_MODAL]: showOverdueReportModal,
     [SHOW_REQUESTED_TOO_LONG_REPORT_MODAL]: showRequestedTooLongReportModal,
+    [SHOW_PAGED_TOO_LONG_REPORT_MODAL]: showPagedTooLongReportModal,
   },
   children,
   visibleColumns,
@@ -122,13 +130,13 @@ const SearchAndFilter = ({
 
   const resultsStatusMessage = <ResultStatusMessage
     {
-      ...{
-        filters,
-        isFiltersOpened,
-        isLoading,
-        toggleFilters,
-        isPreRenderAllData,
-      }
+    ...{
+      filters,
+      isFiltersOpened,
+      isLoading,
+      toggleFilters,
+      isPreRenderAllData,
+    }
     }
   />;
 
@@ -142,12 +150,21 @@ const SearchAndFilter = ({
     onToggleStatesOfModalReports(SHOW_REQUESTED_TOO_LONG_REPORT_MODAL);
   };
 
+  const handlePagedTooLongReport = (record) => {
+    onGenerateReport(PAGED_TOO_LONG, record);
+    onToggleStatesOfModalReports(SHOW_PAGED_TOO_LONG_REPORT_MODAL);
+  };
+
   const toggleOverdueModal = () => {
     onToggleStatesOfModalReports(SHOW_OVERDUE_REPORT_MODAL);
   };
 
   const toggleRequestedTooLongModal = () => {
     onToggleStatesOfModalReports(SHOW_REQUESTED_TOO_LONG_REPORT_MODAL);
+  };
+
+  const togglePagedTooLongModal = () => {
+    onToggleStatesOfModalReports(SHOW_PAGED_TOO_LONG_REPORT_MODAL);
   };
 
   const renderActionMenu = ({ onToggle }) => {
@@ -165,6 +182,13 @@ const SearchAndFilter = ({
           icon={ICONS.DOWNLOAD}
           buttonTextTranslationKey="ui-inn-reach.reports.requested-too-long.label"
           onClickHandler={toggleRequestedTooLongModal}
+          onToggle={onToggle}
+        />
+        <ActionItem
+          id="export-paged-too-long-report"
+          icon={ICONS.DOWNLOAD}
+          buttonTextTranslationKey="ui-inn-reach.reports.paged-too-long.label"
+          onClickHandler={togglePagedTooLongModal}
           onToggle={onToggle}
         />
       </>
@@ -191,6 +215,16 @@ const SearchAndFilter = ({
     />
   );
 
+  const renderPagedTooLongReportModal = () => (
+    <ReportModal
+      heading={<FormattedMessage id="ui-inn-reach.reports.modal.title.paged-too-long-report" />}
+      fieldLabel={<FormattedMessage id="ui-inn-reach.reports.modal.field.minimum-days-paged" />}
+      fieldName={MINIMUM_DAYS_PAGED}
+      onSubmit={handlePagedTooLongReport}
+      onTriggerModal={togglePagedTooLongModal}
+    />
+  );
+
   return (
     <Paneset data-test-result-list>
       {(isFiltersOpened && !isInsideListSearch) && (
@@ -213,7 +247,7 @@ const SearchAndFilter = ({
             reset={resetFilters}
           />
 
-          { getFilters() }
+          {getFilters()}
 
         </FiltersPane>
       )}
@@ -258,9 +292,10 @@ const SearchAndFilter = ({
           onRowClick={onRowClick}
         />
       </ResultsPane>
-      { children }
+      {children}
       {showOverdueReportModal && renderOverdueReportModal()}
       {showRequestedTooLongReportModal && renderRequestedTooLongReportModal()}
+      {showPagedTooLongReportModal && renderPagedTooLongReportModal()}
     </Paneset>
   );
 };

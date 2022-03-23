@@ -10,6 +10,7 @@ import TransactionDetailContainer from '../../components/transaction/Transaction
 import {
   getOverdueParams,
   getRequestedTooLongParams,
+  getOwningSitePagedTooLongParams,
 } from './utils';
 
 jest.mock('../../components/transaction/TransactionList', () => {
@@ -25,6 +26,7 @@ jest.mock('./utils', () => ({
   ...jest.requireActual('./utils'),
   getOverdueParams: jest.fn(),
   getRequestedTooLongParams: jest.fn(),
+  getOwningSitePagedTooLongParams: jest.fn(),
 }));
 
 const transactionsMock = {
@@ -61,6 +63,7 @@ const itemsMock = {
     {
       id: 'f8b6d973-60d4-41ce-a57b-a3884471a6d6',
       barcode: 'A14811392645',
+      hrid: '1234567',
       callNumber: 'K1 .M44',
       effectiveLocation: {
         id: 'fcd64ce1-6995-48f0-840e-89ffa2288371',
@@ -254,6 +257,20 @@ describe('TransactionListRoute', () => {
         expect(getRequestedTooLongParams).toHaveBeenCalledWith(record);
       });
     });
+
+    describe('generate report for "owning site paged too long"', () => {
+      const record = { minDaysPaged: 2 };
+
+      beforeEach(async () => {
+        await act(async () => { TransactionList.mock.calls[3][0].onGenerateReport('pagedTooLong', record); });
+      });
+
+      executeCommonTests();
+
+      it('should call getOwningSitePagedTooLongParams function', () => {
+        expect(getOwningSitePagedTooLongParams).toHaveBeenCalledWith(record);
+      });
+    });
   });
 
   describe('toggling states of modal reports', () => {
@@ -266,6 +283,7 @@ describe('TransactionListRoute', () => {
       expect(TransactionList.mock.calls[4][0].statesOfModalReports).toEqual({
         showOverdueReportModal: true,
         showRequestedTooLongReportModal: false,
+        showPagedTooLongReportModal: false,
       });
     });
 
@@ -274,6 +292,16 @@ describe('TransactionListRoute', () => {
       expect(TransactionList.mock.calls[4][0].statesOfModalReports).toEqual({
         showOverdueReportModal: false,
         showRequestedTooLongReportModal: true,
+        showPagedTooLongReportModal: false,
+      });
+    });
+
+    it('should display "Owning site paged too long" modal', async () => {
+      await act(async () => { TransactionList.mock.calls[3][0].onToggleStatesOfModalReports('showPagedTooLongReportModal'); });
+      expect(TransactionList.mock.calls[4][0].statesOfModalReports).toEqual({
+        showOverdueReportModal: false,
+        showRequestedTooLongReportModal: false,
+        showPagedTooLongReportModal: true,
       });
     });
   });

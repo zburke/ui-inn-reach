@@ -19,11 +19,13 @@ import {
   TRANSACTION_OPERATIONS,
   TRANSACTION_STATUSES,
   TRANSACTION_TYPES,
+  PAGED_TOO_LONG_FIELDS,
 } from '../../constants';
 
 const {
   DUE_DATE_OP,
   UPDATED_DATE_OP,
+  CREATED_DATE_OP,
 } = TRANSACTION_OPERATIONS;
 
 const {
@@ -33,6 +35,10 @@ const {
 const {
   MINIMUM_DAYS_REQUESTED,
 } = REQUESTED_TOO_LONG_FIELDS;
+
+const {
+  MINIMUM_DAYS_PAGED,
+} = PAGED_TOO_LONG_FIELDS;
 
 const {
   HOLD,
@@ -48,6 +54,7 @@ const {
 const {
   ITEM,
   PATRON,
+  LOCAL,
 } = TRANSACTION_TYPES;
 
 const {
@@ -58,6 +65,8 @@ const {
   BORROWER_RENEW,
   PATRON_HOLD,
   TRANSFER,
+  ITEM_HOLD,
+  LOCAL_HOLD,
 } = TRANSACTION_STATUSES;
 
 const {
@@ -179,5 +188,22 @@ export const getRequestedTooLongParams = (record) => {
     [STATUS]: [PATRON_HOLD, TRANSFER],
     [UPDATED_DATE]: date.toISOString(),
     [UPDATED_DATE_OP]: LESS,
+  };
+};
+
+export const getOwningSitePagedTooLongParams = (record) => {
+  const date = new Date();
+  const TOMORROW = 1;
+
+  date.setDate(date.getDate() - record[MINIMUM_DAYS_PAGED] + TOMORROW);
+  date.setHours(0, 0, 0, 0);
+
+  return {
+    [SORT_PARAMETER]: TRANSACTION_LIST_DEFAULT_SORT_FIELD,
+    [SORT_ORDER_PARAMETER]: ASC_ORDER,
+    [TYPE]: [ITEM, LOCAL],
+    [STATUS]: [ITEM_HOLD, LOCAL_HOLD, TRANSFER],
+    [CREATED_DATE_OP]: date.toISOString(),
+    [CREATED_DATE_OP]: LESS,
   };
 };

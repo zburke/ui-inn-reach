@@ -40,6 +40,10 @@ import {
   REQUESTED_TOO_LONG_COLUMNS_FOR_CSV,
   SHOW_OVERDUE_REPORT_MODAL,
   SHOW_REQUESTED_TOO_LONG_REPORT_MODAL,
+  PAGED_TOO_LONG_COLUMNS_FOR_CSV,
+  PAGED_TOO_LONG,
+  SHOW_PAGED_TOO_LONG_REPORT_MODAL,
+  PAGED_TOO_LONG_COLUMN_TRANSLATIONS,
 } from '../../constants';
 import {
   getParams,
@@ -53,8 +57,18 @@ import {
   getLoansMap,
   getOverdueParams,
   getRequestedTooLongParams,
+  getOwningSitePagedTooLongParams,
 } from './utils';
 
+const {
+  PAGED_ITEM_HRID,
+  PAGED_EFFECTIVE_LOCATION,
+  PAGED_CALL_NUMBER,
+  PAGED_BARCODE,
+  PAGED_TITLE,
+  PAGED_PATRON_AGENCY_CODE,
+  PAGED_DATE,
+} = PAGED_TOO_LONG_COLUMN_TRANSLATIONS;
 const {
   HOLD,
 } = TRANSACTION_FIELDS;
@@ -63,6 +77,9 @@ const {
   ITEM_AGENCY_CODE,
   PATRON_AGENCY_CODE,
   CALL_NUMBER,
+  BARCODE,
+  HRID,
+  TITLE,
 } = HOLD_FIELDS;
 
 const {
@@ -71,6 +88,7 @@ const {
 
 const {
   CREATED_DATE,
+  UPDATED_DATE,
 } = METADATA_FIELDS;
 
 const resetData = () => {};
@@ -88,6 +106,7 @@ const TransactionListRoute = ({
   const [statesOfModalReports, setStatesOfModalReports] = useState({
     [SHOW_OVERDUE_REPORT_MODAL]: false,
     [SHOW_REQUESTED_TOO_LONG_REPORT_MODAL]: false,
+    [SHOW_PAGED_TOO_LONG_REPORT_MODAL]: false,
   });
 
   const csvReport = useMemo(() => new CsvReport({ intl }), [intl]);
@@ -168,6 +187,29 @@ const TransactionListRoute = ({
     });
   };
 
+  const getPagedTooLongLoansToCsv = async (loans) => {
+    const localServers = await fetchLocalServers(mutator, loans);
+    const agencyCodeMap = getAgencyCodeMap(localServers);
+    const items = await fetchBatchItems(mutator, loans);
+    const loansMap = getLoansMap(loans);
+
+    return items.map(item => {
+      const itemData = loansMap.get(item.id);
+      const patronAgencyCode = itemData[HOLD][PATRON_AGENCY_CODE];
+      const patronAgencyDescription = agencyCodeMap.get(patronAgencyCode);
+
+      return {
+        [PAGED_ITEM_HRID]: item[HRID],
+        [PAGED_EFFECTIVE_LOCATION]: item[EFFECTIVE_LOCATION].name,
+        [PAGED_CALL_NUMBER]: item[CALL_NUMBER],
+        [PAGED_BARCODE]: item[BARCODE],
+        [PAGED_TITLE]: item[TITLE],
+        [PAGED_PATRON_AGENCY_CODE]: `${patronAgencyDescription} (${patronAgencyCode})`,
+        [PAGED_DATE]: formatDateAndTime(item[METADATA][UPDATED_DATE], intl.formatTime),
+      };
+    });
+  };
+
   const generateReport = (type, record) => {
     if (exportInProgress) return;
 
@@ -183,6 +225,10 @@ const TransactionListRoute = ({
       getLoansToCsv = getRequestedTooLongLoansToCsv;
       reportColumns = REQUESTED_TOO_LONG_COLUMNS_FOR_CSV;
       params = getRequestedTooLongParams(record);
+    } else if (type === PAGED_TOO_LONG) {
+      getLoansToCsv = getPagedTooLongLoansToCsv;
+      reportColumns = PAGED_TOO_LONG_COLUMNS_FOR_CSV;
+      params = getOwningSitePagedTooLongParams(record);
     }
 
     setExportInProgress(true);

@@ -442,12 +442,15 @@
 
   "reports.owning-site-overdue.label": "Owning site overdue report (CSV)",
   "reports.requested-too-long.label": "Requested too long report (CSV)",
+  "reports.paged-too-long.label": "Owning site paged too long report (CSV)",
   "reports.callout.export-in-progress": "Export in progress",
   "reports.callout.no-items-found": "No items found.",
   "reports.modal.title.owning-site-overdue-report": "Owning site overdue report",
   "reports.modal.title.requested-too-long-report": "Requested too long report",
+  "reports.modal.title.paged-too-long-report": "Owning site paged too long report",
   "reports.modal.field.minimum-days-overdue": "Minimum days overdue",
   "reports.modal.field.minimum-days-requested": "Minimum days requested",
+  "reports.modal.field.minimum-days-paged": "Minimum days paged",
   "reports.modal.button.save-and-close": "Save & close",
   "reports.modal.button.cancel": "Cancel",
   "reports.hold.patronId": "INN-Reach Patron ID",
@@ -458,5 +461,13 @@
   "reports.patronAgencyCode": "Patron Agency",
   "reports.hold.dueDateTime": "Loan Due Date",
   "reports.itemAgencyCode": "Item Location",
-  "reports.createdDate": "Date Requested"
+  "reports.createdDate": "Date Requested",
+
+  "reports.paged.effectiveLocation": "Item Effective Location",
+  "reports.paged.callNumber": "Call Number",
+  "reports.paged.barcode": "Item Barcode",
+  "reports.paged.title": "Title",
+  "reports.paged.requestingPatronAgencyCode": "Requesting Patron Agency",
+  "reports.paged.itemId": "Item HRID",
+  "reports.paged.date": "Paged Date"
 }
