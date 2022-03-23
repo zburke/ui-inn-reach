@@ -56,14 +56,6 @@ export const HOLD_FIELDS = {
   HRID: 'hrid',
 };
 
-export const HOLD_METADATA_FIELDS = {
-  UPDATED_DATE: 'updatedDate',
-};
-
-export const INVENTORY_ITEM_FIELDS = {
-  EFFECTIVE_LOCATION: 'effectiveLocation',
-};
-
 export const TRANSACTION_FIELDS = {
   ID: 'id',
   CENTRAL_SERVER_CODE: 'centralServerCode',

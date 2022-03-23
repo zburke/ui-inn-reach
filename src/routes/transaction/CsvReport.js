@@ -1,22 +1,10 @@
 import {
-  forOwn,
-} from 'lodash';
-
-import {
   exportToCsv,
 } from '@folio/stripes-components';
 
 import {
   NO_ITEMS_FOUND,
-  TRANSACTION_FIELDS,
 } from '../../constants';
-import {
-  formatDateAndTime,
-} from './utils';
-
-const {
-  HOLD,
-} = TRANSACTION_FIELDS;
 
 class CsvReport {
   constructor(options) {
@@ -79,36 +67,10 @@ class CsvReport {
     } else { throw new Error(NO_ITEMS_FOUND); }
   }
 
-  parseDates(record) {
-    const result = {
-      ...record,
-      [HOLD]: {
-        ...record[HOLD],
-      },
-    };
-
-    forOwn(record[HOLD], (value, key) => {
-      if (key.match(/date/i)) {
-        result[HOLD][key] = formatDateAndTime(value, this.formatTime);
-      } else {
-        result[HOLD][key] = value;
-      }
-    });
-
-    return result;
-  }
-
-  parse(records) {
-    return records.map(record => {
-      return this.parseDates(record);
-    });
-  }
-
   toCSV(records) {
     const onlyFields = this.columnsMap;
-    const parsedRecords = this.parse(records);
 
-    exportToCsv(parsedRecords, { onlyFields });
+    exportToCsv(records, { onlyFields });
   }
 }
 

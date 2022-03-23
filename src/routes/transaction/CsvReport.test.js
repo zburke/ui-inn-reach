@@ -18,8 +18,6 @@ jest.mock('@folio/stripes-components', () => ({
 
 const setUpSpy = jest.spyOn(scvReport, 'setUp');
 const toCSVSpy = jest.spyOn(scvReport, 'toCSV');
-const parseSpy = jest.spyOn(scvReport, 'parse');
-const parseDatesSpy = jest.spyOn(scvReport, 'parseDates');
 
 const transactionsMock = {
   transactions: [
@@ -81,8 +79,6 @@ describe('CsvReport', () => {
     exportToCsv.mockClear();
     setUpSpy.mockClear();
     toCSVSpy.mockClear();
-    parseSpy.mockClear();
-    parseDatesSpy.mockClear();
   });
 
   describe('generate method', () => {
@@ -107,37 +103,6 @@ describe('CsvReport', () => {
 
       it('should call the toCSV method', () => {
         expect(toCSVSpy).toHaveBeenCalledWith(loansMock);
-      });
-
-      it('should call the parse method', () => {
-        expect(parseSpy).toHaveBeenCalledWith([
-          {
-            'callNumber': 'K1 .M44',
-            'centralServerCode': 'd2ir',
-            'effectiveLocation': 'Main Library',
-            'hold': {
-              'folioItemBarcode': 'A14811392645',
-              'folioItemId': 'f8b6d973-60d4-41ce-a57b-a3884471a6d6',
-              'patronAgencyCode': 'moag1'
-            },
-            'id': 'b42629b5-738b-4054-9764-3b4380c0b10f',
-            'patronAgencyCode': 'Mobi Mobius Agency 1 (moag1)'
-          }]);
-      });
-
-      it('should call the parseDates method', () => {
-        expect(parseDatesSpy).toHaveBeenCalledWith({
-          'callNumber': 'K1 .M44',
-          'centralServerCode': 'd2ir',
-          'effectiveLocation': 'Main Library',
-          'hold': {
-            'folioItemBarcode': 'A14811392645',
-            'folioItemId': 'f8b6d973-60d4-41ce-a57b-a3884471a6d6',
-            'patronAgencyCode': 'moag1',
-          },
-          'id': 'b42629b5-738b-4054-9764-3b4380c0b10f',
-          'patronAgencyCode': 'Mobi Mobius Agency 1 (moag1)',
-        });
       });
 
       it('should call the exportToCsv function', () => {
