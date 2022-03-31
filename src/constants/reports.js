@@ -14,6 +14,7 @@ export const REPORT_FIELDS = {
   ITEM_HRID: 'itemHRID',
   PAGED_DATE: 'pagedDate',
   REQUESTING_PATRON_AGENCY: 'requestingPatronAgency',
+  DATE_SHIPPED: 'dateShipped',
 };
 
 const {
@@ -32,6 +33,7 @@ const {
   ITEM_HRID,
   PAGED_DATE,
   REQUESTING_PATRON_AGENCY,
+  DATE_SHIPPED,
 } = REPORT_FIELDS;
 
 export const REPORT_TYPES = {
@@ -39,6 +41,7 @@ export const REPORT_TYPES = {
   REQUESTED_TOO_LONG: 'requestedTooLong',
   RETURNED_TOO_LONG: 'returnedTooLong',
   PAGED_TOO_LONG: 'pagedTooLong',
+  IN_TRANSIT_TOO_LONG: 'inTransitTooLong',
 };
 
 export const REPORT_MODALS = {
@@ -46,6 +49,7 @@ export const REPORT_MODALS = {
   SHOW_REQUESTED_TOO_LONG_REPORT_MODAL: 'showRequestedTooLongReportModal',
   SHOW_OVERDUE_REPORT_MODAL: 'showOverdueReportModal',
   SHOW_PAGED_TOO_LONG_REPORT_MODAL: 'showPagedTooLongReportModal',
+  SHOW_IN_TRANSIT_TOO_LONG_REPORT_MODAL: 'showInTransitTooLongReportModal',
 };
 
 export const FIELDS_OF_REPORT_MODALS = {
@@ -53,6 +57,7 @@ export const FIELDS_OF_REPORT_MODALS = {
   MINIMUM_DAYS_REQUESTED: 'minDaysRequested',
   MINIMUM_DAYS_RETURNED: 'minDaysReturned',
   MINIMUM_DAYS_PAGED: 'minDaysPaged',
+  MINIMUM_DAYS_SHIPPED: 'minimumDaysShipped',
 };
 
 export const COLUMN_NAMES_FOR_OVERDUE_REPORT = [
@@ -93,4 +98,14 @@ export const COLUMN_NAMES_FOR_PAGED_TOO_LONG_REPORT = [
   ITEM_TITLE,
   REQUESTING_PATRON_AGENCY,
   PAGED_DATE,
+];
+
+export const COLUMN_NAMES_FOR_IN_TRANSIT_TOO_LONG_REPORT = [
+  ITEM_LOCATION,
+  ITEM_CALL_NUMBER,
+  ITEM_BARCODE,
+  ITEM_TITLE,
+  PATRON_HOME_LIBRARY,
+  REQUESTING_PATRON_ID,
+  DATE_SHIPPED,
 ];

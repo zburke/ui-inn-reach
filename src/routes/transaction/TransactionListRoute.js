@@ -39,6 +39,7 @@ import {
   REPORT_TYPES,
   REPORT_MODALS,
   COLUMN_NAMES_FOR_PAGED_TOO_LONG_REPORT,
+  COLUMN_NAMES_FOR_IN_TRANSIT_TOO_LONG_REPORT,
 } from '../../constants';
 import {
   getParams,
@@ -52,6 +53,7 @@ import {
   getParamsForRequestedTooLongReport,
   getParamsForReturnedTooLongReport,
   getParamsForOwningSitePagedTooLongReport,
+  getParamsForInTransitTooLongReport,
 } from './utils';
 
 const {
@@ -59,6 +61,7 @@ const {
   REQUESTED_TOO_LONG,
   RETURNED_TOO_LONG,
   PAGED_TOO_LONG,
+  IN_TRANSIT_TOO_LONG,
 } = REPORT_TYPES;
 
 const {
@@ -92,6 +95,7 @@ const {
   REQUESTING_PATRON_AGENCY,
   EFFECTIVE_LOCATION,
   PAGED_DATE,
+  DATE_SHIPPED,
 } = REPORT_FIELDS;
 
 const {
@@ -99,6 +103,7 @@ const {
   SHOW_REQUESTED_TOO_LONG_REPORT_MODAL,
   SHOW_RETURNED_TOO_LONG_REPORT_MODAL,
   SHOW_PAGED_TOO_LONG_REPORT_MODAL,
+  SHOW_IN_TRANSIT_TOO_LONG_REPORT_MODAL,
 } = REPORT_MODALS;
 
 const resetData = () => {};
@@ -118,6 +123,7 @@ const TransactionListRoute = ({
     [SHOW_REQUESTED_TOO_LONG_REPORT_MODAL]: false,
     [SHOW_RETURNED_TOO_LONG_REPORT_MODAL]: false,
     [SHOW_PAGED_TOO_LONG_REPORT_MODAL]: false,
+    [SHOW_IN_TRANSIT_TOO_LONG_REPORT_MODAL]: false,
   });
 
   const csvReport = useMemo(() => new CsvReport({ intl }), [intl]);
@@ -263,6 +269,34 @@ const TransactionListRoute = ({
     });
   };
 
+  const getCsvDataForInTransitTooLongReport = async (loans) => {
+    const {
+      agencyCodeMap,
+      loansMap,
+      items,
+    } = await getData(mutator, loans);
+
+    return items.map(item => {
+      const {
+        itemAgencyCode,
+        itemAgencyDescription,
+        patronAgencyCode,
+        patronAgencyDescription,
+        holdData,
+      } = getAgencyData(loansMap, item, agencyCodeMap);
+
+      return {
+        [ITEM_LOCATION]: `${itemAgencyDescription}(${itemAgencyCode})`,
+        [ITEM_CALL_NUMBER]: item[CALL_NUMBER],
+        [ITEM_BARCODE]: holdData[FOLIO_ITEM_BARCODE],
+        [ITEM_TITLE]: holdData[TITLE],
+        [PATRON_HOME_LIBRARY]: `${patronAgencyDescription} (${patronAgencyCode})`,
+        [REQUESTING_PATRON_ID]: holdData[PATRON_ID],
+        [DATE_SHIPPED]: formatDateAndTime(item[METADATA][UPDATED_DATE], intl.formatTime),
+      };
+    });
+  };
+
   const generateReport = (type, record) => {
     if (exportInProgress) return;
 
@@ -290,6 +324,11 @@ const TransactionListRoute = ({
         getLoansToCsv = getPagedTooLongLoansToCsv;
         reportColumns = COLUMN_NAMES_FOR_PAGED_TOO_LONG_REPORT;
         params = getParamsForOwningSitePagedTooLongReport(record);
+        break;
+      case IN_TRANSIT_TOO_LONG:
+        getLoansToCsv = getCsvDataForInTransitTooLongReport;
+        reportColumns = COLUMN_NAMES_FOR_IN_TRANSIT_TOO_LONG_REPORT;
+        params = getParamsForInTransitTooLongReport(record);
         break;
       default:
     }

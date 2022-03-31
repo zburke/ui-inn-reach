@@ -461,16 +461,19 @@
   "reports.requested-too-long.label": "Requested too long report (CSV)",
   "reports.returned-too-long.label": "Returned too long report (CSV)",
   "reports.paged-too-long.label": "Owning site paged too long report (CSV)",
+  "reports.in-transit-too-long.label": "In-transit too long report (CSV)",
   "reports.callout.export-in-progress": "Export in progress",
   "reports.callout.no-items-found": "No items found.",
   "reports.modal.title.owning-site-overdue-report": "Owning site overdue report",
   "reports.modal.title.requested-too-long-report": "Requested too long report",
   "reports.modal.title.returned-too-long-report": "Returned too long report",
   "reports.modal.title.paged-too-long-report": "Owning site paged too long report",
+  "reports.modal.title.in-transit-too-long-report": "In-transit too long report",
   "reports.modal.field.minimum-days-overdue": "Minimum days overdue",
   "reports.modal.field.minimum-days-requested": "Minimum days requested",
   "reports.modal.field.minimum-days-returned": "Minimum days returned",
   "reports.modal.field.minimum-days-paged": "Minimum days paged",
+  "reports.modal.field.minimum-days-shipped": "Minimum days shipped",
   "reports.modal.button.save-and-close": "Save & close",
   "reports.modal.button.cancel": "Cancel",
   "reports.patronIdField": "INN-Reach Patron ID",
@@ -487,5 +490,6 @@
   "reports.requestingPatronId": "Requesting Patron ID",
   "reports.requestingPatronAgency": "Requesting Patron Agency",
   "reports.itemHRID": "Item HRID",
-  "reports.pagedDate": "Paged Date"
+  "reports.pagedDate": "Paged Date",
+  "reports.dateShipped": "Date Shipped"
 }

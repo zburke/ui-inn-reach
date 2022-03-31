@@ -46,6 +46,7 @@ const {
   SHOW_REQUESTED_TOO_LONG_REPORT_MODAL,
   SHOW_RETURNED_TOO_LONG_REPORT_MODAL,
   SHOW_PAGED_TOO_LONG_REPORT_MODAL,
+  SHOW_IN_TRANSIT_TOO_LONG_REPORT_MODAL,
 } = REPORT_MODALS;
 
 const {
@@ -53,6 +54,7 @@ const {
   MINIMUM_DAYS_OVERDUE,
   MINIMUM_DAYS_REQUESTED,
   MINIMUM_DAYS_PAGED,
+  MINIMUM_DAYS_SHIPPED,
 } = FIELDS_OF_REPORT_MODALS;
 
 const {
@@ -60,6 +62,7 @@ const {
   REQUESTED_TOO_LONG,
   RETURNED_TOO_LONG,
   PAGED_TOO_LONG,
+  IN_TRANSIT_TOO_LONG,
 } = REPORT_TYPES;
 
 const SearchAndFilter = ({
@@ -73,6 +76,7 @@ const SearchAndFilter = ({
     [SHOW_REQUESTED_TOO_LONG_REPORT_MODAL]: showRequestedTooLongReportModal,
     [SHOW_RETURNED_TOO_LONG_REPORT_MODAL]: showReturnedTooLongReportModal,
     [SHOW_PAGED_TOO_LONG_REPORT_MODAL]: showPagedTooLongReportModal,
+    [SHOW_IN_TRANSIT_TOO_LONG_REPORT_MODAL]: showInTransitTooLongReportModal,
   },
   children,
   visibleColumns,
@@ -164,6 +168,11 @@ const SearchAndFilter = ({
     onToggleStatesOfModalReports(SHOW_PAGED_TOO_LONG_REPORT_MODAL);
   };
 
+  const handleInTransitTooLongReport = (record) => {
+    onGenerateReport(IN_TRANSIT_TOO_LONG, record);
+    onToggleStatesOfModalReports(SHOW_IN_TRANSIT_TOO_LONG_REPORT_MODAL);
+  };
+
   const toggleOverdueModal = () => {
     onToggleStatesOfModalReports(SHOW_OVERDUE_REPORT_MODAL);
   };
@@ -178,6 +187,10 @@ const SearchAndFilter = ({
 
   const togglePagedTooLongModal = () => {
     onToggleStatesOfModalReports(SHOW_PAGED_TOO_LONG_REPORT_MODAL);
+  };
+
+  const toggleInTransitTooLongModal = () => {
+    onToggleStatesOfModalReports(SHOW_IN_TRANSIT_TOO_LONG_REPORT_MODAL);
   };
 
   const renderActionMenu = ({ onToggle }) => {
@@ -209,6 +222,13 @@ const SearchAndFilter = ({
           icon={ICONS.DOWNLOAD}
           buttonTextTranslationKey="ui-inn-reach.reports.paged-too-long.label"
           onClickHandler={togglePagedTooLongModal}
+          onToggle={onToggle}
+        />
+        <ActionItem
+          id="export-in-transit-too-long-report"
+          icon={ICONS.DOWNLOAD}
+          buttonTextTranslationKey="ui-inn-reach.reports.in-transit-too-long.label"
+          onClickHandler={toggleInTransitTooLongModal}
           onToggle={onToggle}
         />
       </>
@@ -252,6 +272,16 @@ const SearchAndFilter = ({
       fieldName={MINIMUM_DAYS_PAGED}
       onSubmit={handlePagedTooLongReport}
       onTriggerModal={togglePagedTooLongModal}
+    />
+  );
+
+  const renderInTransitTooLongReportModal = () => (
+    <ReportModal
+      heading={<FormattedMessage id="ui-inn-reach.reports.modal.title.in-transit-too-long-report" />}
+      fieldLabel={<FormattedMessage id="ui-inn-reach.reports.modal.field.minimum-days-shipped" />}
+      fieldName={MINIMUM_DAYS_SHIPPED}
+      onSubmit={handleInTransitTooLongReport}
+      onTriggerModal={toggleInTransitTooLongModal}
     />
   );
 
@@ -327,6 +357,7 @@ const SearchAndFilter = ({
       {showRequestedTooLongReportModal && renderRequestedTooLongReportModal()}
       {showReturnedTooLongReportModal && renderReturnedTooLongReportModal()}
       {showPagedTooLongReportModal && renderPagedTooLongReportModal()}
+      {showInTransitTooLongReportModal && renderInTransitTooLongReportModal()}
     </Paneset>
   );
 };

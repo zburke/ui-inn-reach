@@ -12,6 +12,7 @@ import {
   getParamsForRequestedTooLongReport,
   getParamsForReturnedTooLongReport,
   getParamsForOwningSitePagedTooLongReport,
+  getParamsForInTransitTooLongReport,
 } from './utils';
 
 jest.mock('../../components/transaction/TransactionList', () => {
@@ -29,6 +30,7 @@ jest.mock('./utils', () => ({
   getParamsForRequestedTooLongReport: jest.fn(),
   getParamsForReturnedTooLongReport: jest.fn(),
   getParamsForOwningSitePagedTooLongReport: jest.fn(),
+  getParamsForInTransitTooLongReport: jest.fn(),
 }));
 
 const transactionsMock = {
@@ -274,6 +276,20 @@ describe('TransactionListRoute', () => {
       });
     });
 
+    describe('generate report for "In-transit too long"', () => {
+      const record = { minDaysReturned: 2 };
+
+      beforeEach(async () => {
+        await act(async () => { TransactionList.mock.calls[3][0].onGenerateReport('inTransitTooLong', record); });
+      });
+
+      executeCommonTests();
+
+      it('should call getParamsForInTransitTooLongReport function', () => {
+        expect(getParamsForInTransitTooLongReport).toHaveBeenCalledWith(record);
+      });
+    });
+
     describe('generate report for "owning site paged too long"', () => {
       const record = { minDaysPaged: 2 };
 
@@ -301,6 +317,7 @@ describe('TransactionListRoute', () => {
         showRequestedTooLongReportModal: false,
         showReturnedTooLongReportModal: false,
         showPagedTooLongReportModal: false,
+        showInTransitTooLongReportModal: false,
       });
     });
 
@@ -311,6 +328,7 @@ describe('TransactionListRoute', () => {
         showRequestedTooLongReportModal: true,
         showReturnedTooLongReportModal: false,
         showPagedTooLongReportModal: false,
+        showInTransitTooLongReportModal: false,
       });
     });
 
@@ -321,6 +339,7 @@ describe('TransactionListRoute', () => {
         showRequestedTooLongReportModal: false,
         showReturnedTooLongReportModal: true,
         showPagedTooLongReportModal: false,
+        showInTransitTooLongReportModal: false,
       });
     });
 
@@ -331,6 +350,18 @@ describe('TransactionListRoute', () => {
         showRequestedTooLongReportModal: false,
         showReturnedTooLongReportModal: false,
         showPagedTooLongReportModal: true,
+        showInTransitTooLongReportModal: false,
+      });
+    });
+
+    it('should display "In-transit too long" modal', async () => {
+      await act(async () => { TransactionList.mock.calls[3][0].onToggleStatesOfModalReports('showInTransitTooLongReportModal'); });
+      expect(TransactionList.mock.calls[4][0].statesOfModalReports).toEqual({
+        showOverdueReportModal: false,
+        showRequestedTooLongReportModal: false,
+        showReturnedTooLongReportModal: false,
+        showPagedTooLongReportModal: false,
+        showInTransitTooLongReportModal: true,
       });
     });
   });

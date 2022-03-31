@@ -31,6 +31,7 @@ const {
   MINIMUM_DAYS_OVERDUE,
   MINIMUM_DAYS_REQUESTED,
   MINIMUM_DAYS_PAGED,
+  MINIMUM_DAYS_SHIPPED,
 } = FIELDS_OF_REPORT_MODALS;
 
 const {
@@ -211,6 +212,16 @@ export const getParamsForOwningSitePagedTooLongReport = (record) => {
     [STATUS]: [ITEM_HOLD, LOCAL_HOLD, TRANSFER],
     [CREATED_DATE_OP]: getLastModifiedDate(record[MINIMUM_DAYS_PAGED]),
     [CREATED_DATE_OP]: LESS,
+  };
+};
+
+export const getParamsForInTransitTooLongReport = (record) => {
+  return {
+    ...GENERAL_PARAMS,
+    [TYPE]: PATRON,
+    [STATUS]: [ITEM_SHIPPED],
+    [UPDATED_DATE]: getLastModifiedDate(record[MINIMUM_DAYS_SHIPPED]),
+    [UPDATED_DATE_OP]: LESS,
   };
 };
 
