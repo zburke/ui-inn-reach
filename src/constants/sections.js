@@ -15,6 +15,7 @@ import {
   FolioCirculationUserRoute,
   PatronAgencyRoute,
   InnReachRecallUserRoute,
+  VisiblePatronIdRoute,
 } from '../settings/routes';
 import {
   MATERIAL_TYPE_ROUTE,
@@ -54,6 +55,9 @@ import {
 import {
   INN_REACH_RECALL_USER_ROUTE,
 } from './inn-reach-recall-user';
+import {
+  VISIBLE_PATRON_ID_ROUTE,
+} from './visible-patron-id';
 
 export const sections = [
   {
@@ -140,6 +144,11 @@ export const sections = [
         route: INN_REACH_RECALL_USER_ROUTE,
         label: <FormattedMessage id="ui-inn-reach.settings.inn-reach-recall-user" />,
         component: InnReachRecallUserRoute,
+      },
+      {
+        route: VISIBLE_PATRON_ID_ROUTE,
+        label: <FormattedMessage id="ui-inn-reach.settings.visible-patron-id" />,
+        component: VisiblePatronIdRoute,
       },
     ],
   },

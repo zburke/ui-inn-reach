@@ -12,3 +12,4 @@ export { default as CentralItemTypeRoute } from './CentralItemTypeRoute';
 export { default as FolioCirculationUserRoute } from './FolioCirculationUserRoute';
 export { default as PatronAgencyRoute } from './PatronAgency';
 export { default as InnReachRecallUserRoute } from './InnReachRecallUserRoute';
+export { default as VisiblePatronIdRoute } from './VisiblePatronIdRoute';
