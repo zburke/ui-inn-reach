@@ -491,5 +491,8 @@
   "reports.requestingPatronAgency": "Requesting Patron Agency",
   "reports.itemHRID": "Item HRID",
   "reports.pagedDate": "Paged Date",
-  "reports.dateShipped": "Date Shipped"
+  "reports.dateShipped": "Date Shipped",
+
+  "check-out-to-patron.callout.connection-problem.post.check-out-to-patron": "There was a problem checking out the item",
+  "check-out-to-patron.callout.success.post.check-out-to-patron": "Item has been successfully checked out"
 }

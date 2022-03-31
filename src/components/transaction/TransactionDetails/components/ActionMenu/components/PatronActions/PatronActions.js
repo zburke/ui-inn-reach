@@ -4,6 +4,7 @@ import {
   ActionItem,
 } from '../../../../../../common';
 import {
+  HOLD_FIELDS,
   ICONS,
   TRANSACTION_FIELDS,
   TRANSACTION_STATUSES,
@@ -11,18 +12,25 @@ import {
 
 const {
   STATUS,
+  HOLD,
 } = TRANSACTION_FIELDS;
 
 const {
   PATRON_HOLD,
   TRANSFER,
   ITEM_SHIPPED,
+  ITEM_RECEIVED,
+  RECEIVE_UNANNOUNCED,
 } = TRANSACTION_STATUSES;
+
+const {
+  FOLIO_LOAN_ID,
+} = HOLD_FIELDS;
 
 const PatronActions = ({
   transaction,
   onToggle,
-  onCheckOut,
+  onCheckOutToPatron,
   onReceiveItem,
   onReceiveUnshippedItem,
   onReturnItem,
@@ -31,11 +39,14 @@ const PatronActions = ({
   return (
     <>
       <ActionItem
-        disabled
+        disabled={!(
+          !transaction[HOLD][FOLIO_LOAN_ID] &&
+          [ITEM_RECEIVED, RECEIVE_UNANNOUNCED].includes(transaction[STATUS])
+        )}
         icon={ICONS.CHECK_OUT}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.patron-type.action.check-out"
         onToggle={onToggle}
-        onClickHandler={onCheckOut}
+        onClickHandler={onCheckOutToPatron}
       />
       <ActionItem
         disabled={transaction[STATUS] !== ITEM_SHIPPED}
@@ -71,12 +82,12 @@ const PatronActions = ({
 
 PatronActions.propTypes = {
   transaction: PropTypes.object.isRequired,
+  onCheckOutToPatron: PropTypes.func.isRequired,
+  onReceiveItem: PropTypes.func.isRequired,
+  onReceiveUnshippedItem: PropTypes.func.isRequired,
+  onReturnItem: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
   onCancelHold: PropTypes.func,
-  onCheckOut: PropTypes.func,
-  onReceiveItem: PropTypes.func,
-  onReceiveUnshippedItem: PropTypes.func,
-  onReturnItem: PropTypes.func,
 };
 
 export default PatronActions;

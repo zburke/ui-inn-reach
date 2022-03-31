@@ -11,6 +11,8 @@ jest.mock('./components', () => ({
 const renderActionMenu = ({
   transaction,
 } = {}) => {
+  const onCheckOutToPatron = jest.fn();
+
   return renderWithIntl(
     <ActionMenu
       transaction={transaction}
@@ -18,6 +20,7 @@ const renderActionMenu = ({
       onReceiveUnshippedItem={jest.fn()}
       onReceiveItem={jest.fn()}
       onCheckoutBorrowingSite={jest.fn()}
+      onCheckOutToPatron={onCheckOutToPatron}
     />,
     translationsProperties,
   );

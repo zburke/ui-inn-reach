@@ -1,32 +1,71 @@
 import React from 'react';
+import { screen } from '@testing-library/react';
 import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jest/helpers';
 import { translationsProperties } from '../../../../../../../../test/jest/helpers';
 import PatronActions from './PatronActions';
 
 const transactionMock = {
   state: 'PATRON_HOLD',
+  hold: {
+    folioLoanId: '',
+  },
 };
 
 const renderPatronActions = ({
   transaction = transactionMock,
   onToggle = jest.fn(),
   onReceiveUnshippedItem = jest.fn(),
+  onReceiveItem = jest.fn(),
+  onReturnItem = jest.fn(),
+  onCheckOutToPatron = jest.fn(),
 } = {}) => {
   return renderWithIntl(
     <PatronActions
       transaction={transaction}
       onToggle={onToggle}
       onReceiveUnshippedItem={onReceiveUnshippedItem}
+      onReceiveItem={onReceiveItem}
+      onReturnItem={onReturnItem}
+      onCheckOutToPatron={onCheckOutToPatron}
     />,
     translationsProperties,
   );
 };
 
 describe('PatronActions component', () => {
-  it('should render "check out" action', () => {
-    const { getByText } = renderPatronActions();
+  describe('check out to patron', () => {
+    it('should be enabled with ITEM_RECEIVED state', () => {
+      renderPatronActions({
+        transaction: {
+          ...transactionMock,
+          state: 'ITEM_RECEIVED',
+        },
+      });
+      expect(screen.getByRole('button', { name: 'Icon Check out to patron' })).toBeEnabled();
+    });
 
-    expect(getByText('Check out to patron')).toBeVisible();
+    it('should be enabled with RECEIVE_UNANNOUNCED state', () => {
+      renderPatronActions({
+        transaction: {
+          ...transactionMock,
+          state: 'RECEIVE_UNANNOUNCED',
+        },
+      });
+      expect(screen.getByRole('button', { name: 'Icon Check out to patron' })).toBeEnabled();
+    });
+
+    it('should be disabled with FOLIO loan', () => {
+      renderPatronActions({
+        transaction: {
+          ...transactionMock,
+          state: 'ITEM_RECEIVED',
+          hold: {
+            folioLoanId: '184d6771-1d06-4af5-a854-9c2e26e38c15',
+          },
+        },
+      });
+      expect(screen.getByRole('button', { name: 'Icon Check out to patron' })).toBeDisabled();
+    });
   });
 
   it('should render "Receive item" action', () => {
@@ -45,6 +84,7 @@ describe('PatronActions component', () => {
     it('should be enabled', () => {
       const { getByText } = renderPatronActions({
         transaction: {
+          ...transactionMock,
           state: 'PATRON_HOLD',
         },
       });
@@ -55,6 +95,7 @@ describe('PatronActions component', () => {
     it('should be enabled', () => {
       const { getByText } = renderPatronActions({
         transaction: {
+          ...transactionMock,
           state: 'TRANSFER',
         },
       });

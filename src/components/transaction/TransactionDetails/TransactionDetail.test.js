@@ -26,6 +26,7 @@ const renderTransactionDetail = ({
   isOpenAugmentedBarcodeModal = false,
   isOpenUnshippedItemModal = false,
   onCheckoutBorrowingSite,
+  onCheckOutToPatron,
   onTriggerUnshippedItemModal,
   onFetchReceiveUnshippedItem,
   onFetchReceiveItem,
@@ -48,6 +49,7 @@ const renderTransactionDetail = ({
       onFetchReceiveUnshippedItem={onFetchReceiveUnshippedItem}
       onFetchReceiveItem={onFetchReceiveItem}
       onCheckoutBorrowingSite={onCheckoutBorrowingSite}
+      onCheckOutToPatron={onCheckOutToPatron}
       onReset={onReset}
       onRenderAugmentedBarcodeModal={onRenderAugmentedBarcodeModal}
       onRenderHoldModal={onRenderHoldModal}
@@ -63,6 +65,7 @@ describe('TransactionDetail', () => {
   const onFetchReceiveUnshippedItem = jest.fn();
   const onFetchReceiveItem = jest.fn();
   const onCheckoutBorrowingSite = jest.fn();
+  const onCheckOutToPatron = jest.fn();
   const onReset = jest.fn();
   const onRenderAugmentedBarcodeModal = jest.fn(() => <div>AugmentedBarcodeModal</div>);
   const onRenderHoldModal = jest.fn(() => <div>HoldModal</div>);
@@ -74,6 +77,7 @@ describe('TransactionDetail', () => {
     onFetchReceiveUnshippedItem,
     onFetchReceiveItem,
     onCheckoutBorrowingSite,
+    onCheckOutToPatron,
     onReset,
     onRenderAugmentedBarcodeModal,
     onRenderHoldModal,
@@ -114,6 +118,7 @@ describe('TransactionDetail', () => {
       ...commonProps,
       isOpenUnshippedItemModal: true,
     });
+
     expect(screen.getByText('ReceiveUnshippedItemModal')).toBeVisible();
   });
 

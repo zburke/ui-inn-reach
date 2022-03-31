@@ -101,6 +101,9 @@ const mutatorMock = {
   checkoutBorroingSiteItem: {
     POST: jest.fn(() => Promise.resolve()),
   },
+  checkOutToPatron: {
+    POST: jest.fn(() => Promise.resolve()),
+  },
 };
 
 const historyMock = createMemoryHistory();
@@ -268,6 +271,21 @@ describe('TransactionDetailContainer', () => {
 
     it('should update the transaction state', () => {
       expect(mutatorMock.checkoutBorroingSiteItem.POST).toHaveBeenCalled();
+    });
+
+    it('should update the transaction list', () => {
+      expect(onUpdateTransactionList).toHaveBeenCalled();
+    });
+  });
+
+  describe('checkout to patron', () => {
+    beforeEach(() => {
+      renderTransactionDetailContainer(commonProps);
+      TransactionDetail.mock.calls[0][0].onCheckOutToPatron();
+    });
+
+    it('should update the transaction state', () => {
+      expect(mutatorMock.checkOutToPatron.POST).toHaveBeenCalled();
     });
 
     it('should update the transaction list', () => {
