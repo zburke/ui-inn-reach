@@ -2,7 +2,7 @@ import queryString from 'query-string';
 
 import {
   SEARCH_PARAMETER,
-  ASC_ORDER,
+  DESC_ORDER,
   SORT_PARAMETER,
   SORT_ORDER_PARAMETER,
   TRANSACTION_FIELDS,
@@ -59,7 +59,7 @@ export const getParams = (searchString, defaultSortField) => {
   return {
     [SEARCH_PARAMETER]: queryParams[SEARCH_PARAMETER],
     [SORT_PARAMETER]: queryParams[SORT_PARAMETER] || defaultSortField,
-    [SORT_ORDER_PARAMETER]: queryParams[SORT_ORDER_PARAMETER] || ASC_ORDER,
+    [SORT_ORDER_PARAMETER]: queryParams[SORT_ORDER_PARAMETER] || DESC_ORDER,
     [TYPE]: queryParams[TYPE],
     [STATUS]: queryParams[STATUS],
     [CENTRAL_SERVER_CODE]: queryParams[CENTRAL_SERVER_CODE],
