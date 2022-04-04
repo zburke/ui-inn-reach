@@ -316,12 +316,12 @@
 
   "settings.visible-patron-id.title": "Visible patron ID",
   "settings.visible-patron-id.button.save": "Save",
-  "settings.visible-patron-id.label.patron-ids": "Patron id(s) for checkout scanning",
   "settings.visible-patron-id.field.BARCODE": "Barcode",
   "settings.visible-patron-id.field.EXTERNAL_SYSTEM_ID": "External system ID",
   "settings.visible-patron-id.field.FOLIO_RECORD_NUMBER": "FOLIO record number (UUID)",
   "settings.visible-patron-id.field.USERNAME": "Username",
   "settings.visible-patron-id.field.user-custom-fields": "User custom fields",
+  "settings.visible-patron-id.label.select-user-fields": "Select user fields to match on for \"Visible Patron ID\"",
   "settings.visible-patron-id.no-valid-fields-are-defined": "No matching custom fields have been configured",
   "settings.visible-patron-id.placeholder.none": "None",
   "settings.visible-patron-id.validate.select-to-continue": "Please select to continue",

@@ -100,7 +100,7 @@ const VisiblePatronIdForm = ({
             {({ meta }) => (
               <>
                 <Label required>
-                  <FormattedMessage id="ui-inn-reach.settings.visible-patron-id.label.patron-ids" />
+                  <FormattedMessage id="ui-inn-reach.settings.visible-patron-id.label.select-user-fields" />
                 </Label>
                 {meta.error &&
                   <MessageBanner type="error">
