@@ -439,7 +439,6 @@
     "settings.visible-patron-id": "Visible patron ID",
     "settings.visible-patron-id.title": "Visible patron ID",
     "settings.visible-patron-id.button.save": "Save",
-    "settings.visible-patron-id.label.patron-ids": "Patron id(s) for checkout scanning",
     "settings.visible-patron-id.field.BARCODE": "Barcode",
     "settings.visible-patron-id.field.EXTERNAL_SYSTEM_ID": "External system ID",
     "settings.visible-patron-id.field.FOLIO_RECORD_NUMBER": "FOLIO record number (UUID)",
@@ -457,5 +456,6 @@
     "reports.modal.field.minimum-days-shipped": "Minimum days shipped",
     "reports.dateShipped": "Date Shipped",
     "check-out-to-patron.callout.connection-problem.post.check-out-to-patron": "There was a problem checking out the item",
-    "check-out-to-patron.callout.success.post.check-out-to-patron": "Item has been successfully checked out"
+    "check-out-to-patron.callout.success.post.check-out-to-patron": "Item has been successfully checked out",
+    "settings.visible-patron-id.label.select-user-fields": "Select user fields to match on for \"Visible Patron ID\""
 }
