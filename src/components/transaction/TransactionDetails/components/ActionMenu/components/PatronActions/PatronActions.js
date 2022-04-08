@@ -63,7 +63,7 @@ const PatronActions = ({
         onClickHandler={onReceiveUnshippedItem}
       />
       <ActionItem
-        disabled
+        disabled={![ITEM_RECEIVED, RECEIVE_UNANNOUNCED].includes(transaction[STATUS])}
         icon={ICONS.CHECK_IN}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.patron-type.action.return-item"
         onToggle={onToggle}

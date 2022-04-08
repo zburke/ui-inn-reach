@@ -46,6 +46,7 @@ const TransactionDetail = ({
   onClose,
   onCheckoutBorrowingSite,
   onCheckOutToPatron,
+  onReturnItem,
   onTriggerUnshippedItemModal,
   onFetchReceiveUnshippedItem,
   onFetchReceiveItem,
@@ -61,6 +62,7 @@ const TransactionDetail = ({
       onReceiveItem={onFetchReceiveItem}
       onCheckoutBorrowingSite={onCheckoutBorrowingSite}
       onCheckOutToPatron={onCheckOutToPatron}
+      onReturnItem={onReturnItem}
     />
   ), [transaction]);
 
@@ -119,6 +121,7 @@ TransactionDetail.propTypes = {
   onRenderAugmentedBarcodeModal: PropTypes.func.isRequired,
   onRenderHoldModal: PropTypes.func.isRequired,
   onRenderTransitModal: PropTypes.func.isRequired,
+  onReturnItem: PropTypes.func.isRequired,
   onTriggerUnshippedItemModal: PropTypes.func.isRequired,
 };
 

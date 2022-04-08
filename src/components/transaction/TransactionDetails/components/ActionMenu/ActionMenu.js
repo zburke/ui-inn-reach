@@ -26,6 +26,7 @@ const ActionMenu = ({
   onToggle,
   onReceiveUnshippedItem,
   onReceiveItem,
+  onReturnItem,
   onCheckoutBorrowingSite,
   onCheckOutToPatron,
 }) => {
@@ -40,6 +41,7 @@ const ActionMenu = ({
           onReceiveUnshippedItem={onReceiveUnshippedItem}
           onReceiveItem={onReceiveItem}
           onCheckOutToPatron={onCheckOutToPatron}
+          onReturnItem={onReturnItem}
         />
       );
       break;
@@ -69,6 +71,7 @@ ActionMenu.propTypes = {
   onCheckoutBorrowingSite: PropTypes.func.isRequired,
   onReceiveItem: PropTypes.func.isRequired,
   onReceiveUnshippedItem: PropTypes.func.isRequired,
+  onReturnItem: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
 };
 

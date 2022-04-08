@@ -104,6 +104,9 @@ const mutatorMock = {
   checkOutToPatron: {
     POST: jest.fn(() => Promise.resolve()),
   },
+  returnPatronHoldItem: {
+    POST: jest.fn(() => Promise.resolve()),
+  },
 };
 
 const historyMock = createMemoryHistory();
@@ -160,6 +163,7 @@ describe('TransactionDetailContainer', () => {
     stripes = cloneDeep(useStripes());
     stripes.user.user.curServicePoint = { id: servicePointId };
     TransactionDetail.mockClear();
+    mutatorMock.returnPatronHoldItem.POST.mockClear();
   });
 
   it('should be rendered', () => {
@@ -271,6 +275,21 @@ describe('TransactionDetailContainer', () => {
 
     it('should update the transaction state', () => {
       expect(mutatorMock.checkoutBorroingSiteItem.POST).toHaveBeenCalled();
+    });
+
+    it('should update the transaction list', () => {
+      expect(onUpdateTransactionList).toHaveBeenCalled();
+    });
+  });
+
+  describe('return patron hold item', () => {
+    beforeEach(() => {
+      renderTransactionDetailContainer(commonProps);
+      TransactionDetail.mock.calls[0][0].onReturnItem();
+    });
+
+    it('should update the transaction state', () => {
+      expect(mutatorMock.returnPatronHoldItem.POST).toHaveBeenCalled();
     });
 
     it('should update the transaction list', () => {

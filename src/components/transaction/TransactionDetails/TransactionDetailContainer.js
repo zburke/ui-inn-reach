@@ -129,6 +129,22 @@ const TransactionDetailContainer = ({
       });
   };
 
+  const onReturnPatronHoldItem = () => {
+    mutator.returnPatronHoldItem.POST({})
+      .then(() => {
+        onUpdateTransactionList();
+        showCallout({
+          message: <FormattedMessage id="ui-inn-reach.return-patron-hold-item.callout.success.post.return-patron-hold-item" />,
+        });
+      })
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id="ui-inn-reach.return-patron-hold-item.callout.connection-problem.post.return-patron-hold-item" />,
+        });
+      });
+  };
+
   const fetchCheckOutToPatron = () => {
     mutator.checkOutToPatron.POST({})
       .then(() => {
@@ -224,6 +240,7 @@ const TransactionDetailContainer = ({
       onClose={backToList}
       onCheckoutBorrowingSite={onCheckoutBorroingSite}
       onCheckOutToPatron={fetchCheckOutToPatron}
+      onReturnItem={onReturnPatronHoldItem}
       onTriggerUnshippedItemModal={triggerUnshippedItemModal}
       onFetchReceiveUnshippedItem={handleFetchReceiveUnshippedItem}
       onFetchReceiveItem={fetchReceiveItem}
@@ -264,6 +281,14 @@ TransactionDetailContainer.manifest = Object.freeze({
   checkoutBorroingSiteItem: {
     type: 'okapi',
     path: 'inn-reach/transactions/%{itemBarcode}/check-out-item/%{servicePointId}',
+    pk: '',
+    clientGeneratePk: false,
+    fetch: false,
+    accumulate: true,
+  },
+  returnPatronHoldItem: {
+    type: 'okapi',
+    path: 'inn-reach/transactions/%{transactionId}/patronhold/return-item/%{servicePointId}',
     pk: '',
     clientGeneratePk: false,
     fetch: false,
@@ -313,6 +338,9 @@ TransactionDetailContainer.propTypes = {
       POST: PropTypes.func.isRequired,
     }),
     receiveItem: PropTypes.shape({
+      POST: PropTypes.func.isRequired,
+    }),
+    returnPatronHoldItem: PropTypes.shape({
       POST: PropTypes.func.isRequired,
     }),
     checkoutBorroingSiteItem: PropTypes.shape({
