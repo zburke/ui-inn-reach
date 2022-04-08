@@ -29,6 +29,7 @@ const ActionMenu = ({
   onReturnItem,
   onCheckoutBorrowingSite,
   onCheckOutToPatron,
+  onCancelPatronHold,
 }) => {
   let actions;
 
@@ -42,6 +43,7 @@ const ActionMenu = ({
           onReceiveItem={onReceiveItem}
           onCheckOutToPatron={onCheckOutToPatron}
           onReturnItem={onReturnItem}
+          onCancelPatronHold={onCancelPatronHold}
         />
       );
       break;
@@ -67,6 +69,7 @@ const ActionMenu = ({
 
 ActionMenu.propTypes = {
   transaction: PropTypes.object.isRequired,
+  onCancelPatronHold: PropTypes.func.isRequired,
   onCheckOutToPatron: PropTypes.func.isRequired,
   onCheckoutBorrowingSite: PropTypes.func.isRequired,
   onReceiveItem: PropTypes.func.isRequired,

@@ -47,6 +47,7 @@ const TransactionDetail = ({
   onCheckoutBorrowingSite,
   onCheckOutToPatron,
   onReturnItem,
+  onCancelPatronHold,
   onTriggerUnshippedItemModal,
   onFetchReceiveUnshippedItem,
   onFetchReceiveItem,
@@ -63,6 +64,7 @@ const TransactionDetail = ({
       onCheckoutBorrowingSite={onCheckoutBorrowingSite}
       onCheckOutToPatron={onCheckOutToPatron}
       onReturnItem={onReturnItem}
+      onCancelPatronHold={onCancelPatronHold}
     />
   ), [transaction]);
 
@@ -113,6 +115,7 @@ TransactionDetail.propTypes = {
   isOpenItemHoldModal: PropTypes.bool.isRequired,
   isOpenUnshippedItemModal: PropTypes.bool.isRequired,
   transaction: PropTypes.object.isRequired,
+  onCancelPatronHold: PropTypes.func.isRequired,
   onCheckOutToPatron: PropTypes.func.isRequired,
   onCheckoutBorrowingSite: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,

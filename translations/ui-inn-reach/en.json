@@ -497,5 +497,9 @@
   "check-out-to-patron.callout.success.post.check-out-to-patron": "Item has been successfully checked out",
 
   "return-patron-hold-item.callout.success.post.return-patron-hold-item": "Item has been successfully returned",
-  "return-patron-hold-item.callout.connection-problem.post.return-patron-hold-item": "There was a problem returning the item"
+  "return-patron-hold-item.callout.connection-problem.post.return-patron-hold-item": "There was a problem returning the item",
+
+  "cancel-patron-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
+  "cancel-patron-hold.callout.connection-problem.post.cancel-hold": "There was a problem canceling the item",
+  "cancel-patron-hold.callout.success.post.cancel-hold": "Item has been successfully canceled"
 }

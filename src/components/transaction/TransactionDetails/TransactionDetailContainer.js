@@ -181,6 +181,43 @@ const TransactionDetailContainer = ({
       });
   };
 
+  const fetchCancelPatronHold = (response) => {
+    mutator.cancelPatronHold.POST({
+      cancellationReasonId: response.id,
+      cancellationAdditionalInformation: 'Cancelled by staff',
+    })
+      .then(() => {
+        onUpdateTransactionList();
+        showCallout({
+          message: <FormattedMessage id="ui-inn-reach.cancel-patron-hold.callout.success.post.cancel-hold" />,
+        });
+      })
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id="ui-inn-reach.cancel-patron-hold.callout.connection-problem.post.cancel-hold" />,
+        });
+      });
+  };
+
+  const handleCancelPatronHold = () => {
+    mutator.cancellationReasons.GET()
+      .then(response => {
+        if (response?.length === 1) {
+          return response[0];
+        }
+
+        throw new Error();
+      })
+      .then(fetchCancelPatronHold)
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id="ui-inn-reach.cancel-patron-hold.callout.connection-problem.get.cancellation-reasons" />,
+        });
+      });
+  };
+
   useEffect(() => {
     mutator.servicePointId.replace(servicePointId || '');
     mutator.transactionId.replace(transaction.id || '');
@@ -241,6 +278,7 @@ const TransactionDetailContainer = ({
       onCheckoutBorrowingSite={onCheckoutBorroingSite}
       onCheckOutToPatron={fetchCheckOutToPatron}
       onReturnItem={onReturnPatronHoldItem}
+      onCancelPatronHold={handleCancelPatronHold}
       onTriggerUnshippedItemModal={triggerUnshippedItemModal}
       onFetchReceiveUnshippedItem={handleFetchReceiveUnshippedItem}
       onFetchReceiveItem={fetchReceiveItem}
@@ -308,6 +346,22 @@ TransactionDetailContainer.manifest = Object.freeze({
     path: 'staff-slips-storage/staff-slips?limit=1000',
     throwErrors: false,
   },
+  cancellationReasons: {
+    type: 'okapi',
+    records: 'cancellationReasons',
+    path: 'cancellation-reason-storage/cancellation-reasons?query=name=="Other"&limit=100',
+    fetch: false,
+    accumulate: true,
+    throwErrors: false,
+  },
+  cancelPatronHold: {
+    type: 'okapi',
+    path: 'inn-reach/transactions/%{transactionId}/patronhold/cancel',
+    pk: '',
+    clientGeneratePk: false,
+    fetch: false,
+    accumulate: true,
+  },
 });
 
 TransactionDetailContainer.propTypes = {
@@ -348,6 +402,12 @@ TransactionDetailContainer.propTypes = {
     }),
     checkOutToPatron: PropTypes.shape({
       POST: PropTypes.func.isRequired,
+    }),
+    cancelPatronHold: PropTypes.shape({
+      POST: PropTypes.func.isRequired,
+    }),
+    cancellationReasons: PropTypes.shape({
+      GET: PropTypes.func.isRequired,
     }),
   }),
 };

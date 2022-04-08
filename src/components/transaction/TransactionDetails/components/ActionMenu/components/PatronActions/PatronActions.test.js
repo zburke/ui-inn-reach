@@ -18,6 +18,7 @@ const renderPatronActions = ({
   onReceiveItem = jest.fn(),
   onReturnItem = jest.fn(),
   onCheckOutToPatron = jest.fn(),
+  onCancelPatronHold = jest.fn(),
 } = {}) => {
   return renderWithIntl(
     <PatronActions
@@ -27,6 +28,7 @@ const renderPatronActions = ({
       onReceiveItem={onReceiveItem}
       onReturnItem={onReturnItem}
       onCheckOutToPatron={onCheckOutToPatron}
+      onCancelPatronHold={onCancelPatronHold}
     />,
     translationsProperties,
   );
@@ -110,9 +112,51 @@ describe('PatronActions component', () => {
     expect(getByText('Return item')).toBeVisible();
   });
 
-  it('should render "Cancel hold" action', () => {
-    const { getByText } = renderPatronActions();
+  describe('Cancel patron hold', () => {
+    it('should render "Cancel hold" action', () => {
+      const { getByText } = renderPatronActions();
 
-    expect(getByText('Cancel hold')).toBeVisible();
+      expect(getByText('Cancel hold')).toBeVisible();
+    });
+
+    it('should be enabled with PATRON_HOLD state', () => {
+      renderPatronActions({
+        transaction: {
+          ...transactionMock,
+          state: 'PATRON_HOLD',
+        },
+      });
+      expect(screen.getByRole('button', { name: 'Icon Cancel hold' })).toBeEnabled();
+    });
+
+    it('should be enabled with ITEM_RECEIVED state', () => {
+      renderPatronActions({
+        transaction: {
+          ...transactionMock,
+          state: 'ITEM_RECEIVED',
+        },
+      });
+      expect(screen.getByRole('button', { name: 'Icon Cancel hold' })).toBeEnabled();
+    });
+
+    it('should be enabled with RECEIVE_UNANNOUNCED state', () => {
+      renderPatronActions({
+        transaction: {
+          ...transactionMock,
+          state: 'RECEIVE_UNANNOUNCED',
+        },
+      });
+      expect(screen.getByRole('button', { name: 'Icon Cancel hold' })).toBeEnabled();
+    });
+
+    it('should be disabled with any other status', () => {
+      renderPatronActions({
+        transaction: {
+          ...transactionMock,
+          state: 'any other status',
+        },
+      });
+      expect(screen.getByRole('button', { name: 'Icon Cancel hold' })).toBeDisabled();
+    });
   });
 });
