@@ -9,6 +9,10 @@ import {
 } from '../../../constants';
 
 const {
+  BARCODE,
+  EXTERNAL_SYSTEM_ID,
+  FOLIO_RECORD_NUMBER,
+  USERNAME,
   CUSTOM,
   USER_CUSTOM_FIELDS,
 } = VISIBLE_PATRON_ID_FIELDS;
@@ -52,18 +56,20 @@ export const getPayload = (record) => {
 };
 
 export const getPrimaryValues = (response, customFieldPatronOptions) => {
-  const primaryValues = {};
+  const primaryValues = {
+    [BARCODE]: false,
+    [EXTERNAL_SYSTEM_ID]: false,
+    [FOLIO_RECORD_NUMBER]: false,
+    [USERNAME]: false,
+    [CUSTOM]: [],
+  };
 
   if (response[USER_C_FIELDS]) {
     response[USER_C_FIELDS].forEach(refId => {
       const customField = customFieldPatronOptions.find(field => field.value === refId);
 
       if (customField) {
-        if (primaryValues[CUSTOM]) {
-          primaryValues[CUSTOM].push(customField);
-        } else {
-          primaryValues[CUSTOM] = [customField];
-        }
+        primaryValues[CUSTOM].push(customField);
       }
     });
   }
