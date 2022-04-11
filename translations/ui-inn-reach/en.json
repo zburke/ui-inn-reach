@@ -394,6 +394,9 @@
   "transaction-detail.item-type.action.recall-item": "Recall item",
   "transaction-detail.item-type.action.cancel-hold": "Cancel hold",
   "transaction-detail.item-type.action.final-check-in": "Final check-in",
+  "transaction-detail.local-type.action.check-out": "Check out to local patron",
+  "transaction-detail.local-type.action.cancel-hold": "Cancel hold",
+  "transaction-detail.local-type.action.transfer-hold": "Transfer hold to another item",
 
   "shipped-items.title.receive-shipped-items": "Receive shipped items",
   "shipped-items.title.scan-items": "Scan items",
