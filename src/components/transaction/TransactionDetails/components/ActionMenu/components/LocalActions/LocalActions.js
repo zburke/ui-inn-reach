@@ -7,7 +7,7 @@ import {
   ICONS,
 } from '../../../../../../../constants';
 
-const ItemActions = ({
+const LocalActions = ({
   transaction,
   onToggle,
   onCheckout,
@@ -41,7 +41,7 @@ const ItemActions = ({
   );
 };
 
-ItemActions.propTypes = {
+LocalActions.propTypes = {
   transaction: PropTypes.object.isRequired,
   onToggle: PropTypes.func.isRequired,
   onCancelHold: PropTypes.func,
@@ -49,4 +49,4 @@ ItemActions.propTypes = {
   onTransferHold: PropTypes.func,
 };
 
-export default ItemActions;
+export default LocalActions;

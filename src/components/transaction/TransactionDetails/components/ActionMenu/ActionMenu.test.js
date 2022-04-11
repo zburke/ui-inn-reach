@@ -6,6 +6,7 @@ import ActionMenu from './ActionMenu';
 jest.mock('./components', () => ({
   PatronActions: jest.fn(() => <div>PatronActions</div>),
   ItemActions: jest.fn(() => <div>ItemActions</div>),
+  LocalActions: jest.fn(() => <div>LocalActions</div>),
 }));
 
 const renderActionMenu = ({
@@ -37,5 +38,11 @@ describe('ActionMenu', () => {
     const { getByText } = renderActionMenu({ transaction: { type: 'ITEM' } });
 
     expect(getByText('ItemActions')).toBeInTheDocument();
+  });
+
+  it('should render the local actions', () => {
+    const { getByText } = renderActionMenu({ transaction: { type: 'LOCAL' } });
+
+    expect(getByText('LocalActions')).toBeInTheDocument();
   });
 });
