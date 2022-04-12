@@ -119,6 +119,7 @@ const TabularList = ({
                   component={TextArea}
                   rows={TEXTAREA_ROWS_NUMBER}
                   type="text"
+                  parse={v => v}
                   aria-label={formatMessage({ id: 'ui-inn-reach.settings.bib-transformation.field.ignore-prefixes' })}
                   placeholder={formatMessage({ id: 'ui-inn-reach.settings.bib-transformation.placeholder.ignore-prefixes' })}
                 />
