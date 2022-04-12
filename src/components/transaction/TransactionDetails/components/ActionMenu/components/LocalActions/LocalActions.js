@@ -19,21 +19,21 @@ const LocalActions = ({
       <ActionItem
         disabled
         icon={ICONS.CHECK_OUT}
-        buttonTextTranslationKey="ui-inn-reach.transaction-detail.patron-type.action.check-out"
+        buttonTextTranslationKey="ui-inn-reach.transaction-detail.local-type.action.check-out"
         onToggle={onToggle}
         onClickHandler={onCheckout}
       />
       <ActionItem
         disabled
         icon={ICONS.TRANSFER}
-        buttonTextTranslationKey="ui-inn-reach.transaction-detail.item-type.action.transfer-hold"
+        buttonTextTranslationKey="ui-inn-reach.transaction-detail.local-type.action.transfer-hold"
         onToggle={onToggle}
         onClickHandler={onTransferHold}
       />
       <ActionItem
         disabled
         icon={ICONS.TIMES_CIRCLE}
-        buttonTextTranslationKey="ui-inn-reach.transaction-detail.patron-type.action.cancel-hold"
+        buttonTextTranslationKey="ui-inn-reach.transaction-detail.local-type.action.cancel-hold"
         onToggle={onToggle}
         onClickHandler={onCancelHold}
       />
