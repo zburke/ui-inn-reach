@@ -457,5 +457,10 @@
     "reports.dateShipped": "Data de envio",
     "check-out-to-patron.callout.connection-problem.post.check-out-to-patron": "Ocorreu um problema ao emprestar o exemplar",
     "check-out-to-patron.callout.success.post.check-out-to-patron": "O exemplar foi emprestado com sucesso",
-    "settings.visible-patron-id.label.select-user-fields": "Selecione campos de usuário para coincidência para \"Visible Patron ID\"."
+    "settings.visible-patron-id.label.select-user-fields": "Selecione campos de usuário para coincidência para \"Visible Patron ID\".",
+    "return-patron-hold-item.callout.success.post.return-patron-hold-item": "Item has been successfully returned",
+    "return-patron-hold-item.callout.connection-problem.post.return-patron-hold-item": "There was a problem returning the item",
+    "cancel-patron-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
+    "cancel-patron-hold.callout.connection-problem.post.cancel-hold": "There was a problem canceling the item",
+    "cancel-patron-hold.callout.success.post.cancel-hold": "Item has been successfully canceled"
 }
