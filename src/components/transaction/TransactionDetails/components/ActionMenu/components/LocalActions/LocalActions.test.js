@@ -21,11 +21,11 @@ const renderLocalActions = ({
 };
 
 describe('LocalActions component', () => {
-  // it('should render "check out" action', () => {
-  //   const { getByText } = renderLocalActions();
+  it('should render "check out" action', () => {
+    const { getByText } = renderLocalActions();
 
-  //   expect(getByText('Check out to borrowing site')).toBeVisible();
-  // });
+    expect(getByText('Check out to local patron')).toBeVisible();
+  });
 
   it('should render "Transfer hold to another item" action', () => {
     const { getByText } = renderLocalActions();
