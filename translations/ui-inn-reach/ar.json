@@ -457,5 +457,10 @@
     "reports.dateShipped": "تاريخ الشحن",
     "check-out-to-patron.callout.connection-problem.post.check-out-to-patron": "حدثت مشكلة أثناء إعارة المادة",
     "check-out-to-patron.callout.success.post.check-out-to-patron": "تمت إعارة المادة بنجاح",
-    "settings.visible-patron-id.label.select-user-fields": "حدد حقول المستخدم لمطابقتها مع \"معرف المستفيد المرئي\""
+    "settings.visible-patron-id.label.select-user-fields": "حدد حقول المستخدم لمطابقتها مع \"معرف المستفيد المرئي\"",
+    "return-patron-hold-item.callout.success.post.return-patron-hold-item": "تمت إعادة المادة بنجاح",
+    "return-patron-hold-item.callout.connection-problem.post.return-patron-hold-item": "حدثت مشكلة أثناء إعادة المادة",
+    "cancel-patron-hold.callout.connection-problem.get.cancellation-reasons": "لا يمكن استعادة أسباب الإلغاء!",
+    "cancel-patron-hold.callout.connection-problem.post.cancel-hold": "حدثت مشكلة أثناء إلغاء المادة",
+    "cancel-patron-hold.callout.success.post.cancel-hold": "تم إلغاء المادة بنجاح"
 }
