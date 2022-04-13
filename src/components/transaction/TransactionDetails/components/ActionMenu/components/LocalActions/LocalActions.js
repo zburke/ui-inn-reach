@@ -8,7 +8,6 @@ import {
 } from '../../../../../../../constants';
 
 const LocalActions = ({
-  transaction,
   onToggle,
   onCheckout,
   onTransferHold,
@@ -42,7 +41,6 @@ const LocalActions = ({
 };
 
 LocalActions.propTypes = {
-  transaction: PropTypes.object.isRequired,
   onToggle: PropTypes.func.isRequired,
   onCancelHold: PropTypes.func,
   onCheckout: PropTypes.func,
