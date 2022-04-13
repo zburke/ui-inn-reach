@@ -10,11 +10,13 @@ import {
 import {
   PatronActions,
   ItemActions,
+  LocalActions,
 } from './components';
 
 const {
   PATRON,
   ITEM,
+  LOCAL
 } = TRANSACTION_TYPES;
 
 const {
@@ -53,6 +55,14 @@ const ActionMenu = ({
           transaction={transaction}
           onToggle={onToggle}
           onCheckoutBorrowingSite={onCheckoutBorrowingSite}
+        />
+      );
+      break;
+    case LOCAL:
+      actions = (
+        <LocalActions
+          transaction={transaction}
+          onToggle={onToggle}
         />
       );
       break;
