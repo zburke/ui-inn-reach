@@ -348,7 +348,7 @@
     "available-actions": "available actions",
     "shipped-items.title.receive-shipped-items": "Receive shipped items",
     "shipped-items.title.scan-items": "Scan items",
-    "shipped-items.placeholder.scan-or-enter-item-barcode": "Scan or enter item barcode",
+    "shipped-items.placeholder.scan-or-enter-item-barcode": "Exemplarbarcode scannen oder eingeben",
     "shipped-items.button.enter": "Enter",
     "shipped-items.button.end-session": "End session",
     "shipped-items.column.no": "No.",
@@ -457,5 +457,10 @@
     "reports.dateShipped": "Date Shipped",
     "check-out-to-patron.callout.connection-problem.post.check-out-to-patron": "There was a problem checking out the item",
     "check-out-to-patron.callout.success.post.check-out-to-patron": "Item has been successfully checked out",
-    "settings.visible-patron-id.label.select-user-fields": "Select user fields to match on for \"Visible Patron ID\""
+    "settings.visible-patron-id.label.select-user-fields": "Select user fields to match on for \"Visible Patron ID\"",
+    "return-patron-hold-item.callout.success.post.return-patron-hold-item": "Item has been successfully returned",
+    "return-patron-hold-item.callout.connection-problem.post.return-patron-hold-item": "There was a problem returning the item",
+    "cancel-patron-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
+    "cancel-patron-hold.callout.connection-problem.post.cancel-hold": "There was a problem canceling the item",
+    "cancel-patron-hold.callout.success.post.cancel-hold": "Item has been successfully canceled"
 }

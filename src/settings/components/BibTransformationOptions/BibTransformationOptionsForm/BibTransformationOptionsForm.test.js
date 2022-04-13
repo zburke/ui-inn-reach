@@ -126,6 +126,23 @@ describe('BibTransformationOptionsForm', () => {
       expect(getByRole('button', { name: 'Save' })).toBeEnabled();
     });
 
+    it('should be enabled when adding a value to the "Ignore prefixes field"', () => {
+      const { getByRole } = renderBibTransformationOptionsForm({
+        ...commonProps,
+        isConfigActive: true,
+        initialValues: {
+          [MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS]: [
+            {
+              [RESOURCE_IDENTIFIER_TYPE_ID]: 'd09901a7-1407-42d5-a680-e4d83fe93c5d',
+            },
+          ],
+        },
+      });
+
+      userEvent.type(getByRole('textbox', { name: 'Ignore prefixes' }), '123');
+      expect(getByRole('button', { name: 'Save' })).toBeEnabled();
+    });
+
     it('should be enabled when the config exists and is closed', () => {
       const { getByRole } = renderBibTransformationOptionsForm({
         ...commonProps,
@@ -180,7 +197,7 @@ describe('BibTransformationOptionsForm', () => {
       expect(getByRole('button', { name: 'Save' })).toBeDisabled();
     });
 
-    it('should be disabled when the config does not exist and is closed, but "Strip fields and subfields" field have changes', () => {
+    it('should be enabled when the config does not exist and is closed, but "Strip fields and subfields" field have changes', () => {
       const { getByRole } = renderBibTransformationOptionsForm({
         ...commonProps,
         isConfigActive: false,
@@ -188,7 +205,7 @@ describe('BibTransformationOptionsForm', () => {
       });
 
       userEvent.type(getByRole('textbox', { name: 'Strip fields and subfields' }), '123');
-      expect(getByRole('button', { name: 'Save' })).toBeDisabled();
+      expect(getByRole('button', { name: 'Save' })).toBeEnabled();
     });
   });
 });
