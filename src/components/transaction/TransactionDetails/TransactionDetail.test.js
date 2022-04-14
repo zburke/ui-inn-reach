@@ -28,6 +28,7 @@ const renderTransactionDetail = ({
   onCheckoutBorrowingSite,
   onCheckOutToPatron,
   onTriggerUnshippedItemModal,
+  onFetchRecallItem,
   onFetchReceiveUnshippedItem,
   onFetchReceiveItem,
   onClose,
@@ -46,6 +47,7 @@ const renderTransactionDetail = ({
       intl={{}}
       onClose={onClose}
       onTriggerUnshippedItemModal={onTriggerUnshippedItemModal}
+      onFetchRecallItem={onFetchRecallItem}
       onFetchReceiveUnshippedItem={onFetchReceiveUnshippedItem}
       onFetchReceiveItem={onFetchReceiveItem}
       onCheckoutBorrowingSite={onCheckoutBorrowingSite}
@@ -62,6 +64,7 @@ const renderTransactionDetail = ({
 describe('TransactionDetail', () => {
   const onClose = jest.fn();
   const onTriggerUnshippedItemModal = jest.fn();
+  const onFetchRecallItem = jest.fn();
   const onFetchReceiveUnshippedItem = jest.fn();
   const onFetchReceiveItem = jest.fn();
   const onCheckoutBorrowingSite = jest.fn();
@@ -74,6 +77,7 @@ describe('TransactionDetail', () => {
   const commonProps = {
     onClose,
     onTriggerUnshippedItemModal,
+    onFetchRecallItem,
     onFetchReceiveUnshippedItem,
     onFetchReceiveItem,
     onCheckoutBorrowingSite,

@@ -82,6 +82,16 @@ const receiveItemMock = {
   },
 };
 
+const recallItemMock = {
+  barcodeAugmented: true,
+  folioCheckIn: {
+    inHouseUse: false,
+    item: {},
+    staffSlipContext: {},
+    transaction: {},
+  },
+};
+
 const mutatorMock = {
   servicePointId: {
     replace: jest.fn(),
@@ -97,6 +107,9 @@ const mutatorMock = {
   },
   receiveItem: {
     POST: jest.fn(() => Promise.resolve(receiveItemMock)),
+  },
+  recallItem: {
+    POST: jest.fn(() => Promise.resolve(recallItemMock)),
   },
   checkoutBorroingSiteItem: {
     POST: jest.fn(() => Promise.resolve()),
@@ -262,6 +275,29 @@ describe('TransactionDetailContainer', () => {
       expect(onProcessModals).toHaveBeenLastCalledWith(receiveItemMock);
     });
   });
+
+  // describe('recall item', () => {
+  //   beforeEach(() => {
+  //     renderTransactionDetailContainer(commonProps);
+  //     TransactionDetail.mock.calls[0][0].onFetchRecallItem();
+  //   });
+
+  //   it('should update the transaction state', () => {
+  //     expect(mutatorMock.recallItem.POST).toHaveBeenCalled();
+  //   });
+
+  //   it('should update the transaction list', () => {
+  //     expect(onUpdateTransactionList).toHaveBeenCalled();
+  //   });
+
+  //   it('should pass the "recall item" data', () => {
+  //     expect(onSetCheckinData).toHaveBeenLastCalledWith(recallItemMock);
+  //   });
+
+  //   it('should process the response for modals', () => {
+  //     expect(onProcessModals).toHaveBeenLastCalledWith(recallItemMock);
+  //   });
+  // });
 
   describe('checkout to borrowing site item', () => {
     beforeEach(() => {

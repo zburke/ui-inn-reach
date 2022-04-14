@@ -145,6 +145,26 @@ const TransactionDetailContainer = ({
       });
   };
 
+  const fetchRecallItem = () => {
+    mutator.receiveItem.POST({})
+      .then(response => {
+        onSetCheckinData(response);
+        onUpdateTransactionList();
+        showCallout({
+          message: <FormattedMessage id="ui-inn-reach.recall-item.callout.success.post.recall-item" />,
+        });
+
+        return response;
+      })
+      .then(onProcessModals)
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id="ui-inn-reach.recall-item.callout.connection-problem.post.recall-item" />,
+        });
+      });
+  };
+
   const fetchReceiveItem = () => {
     mutator.receiveItem.POST({})
       .then(response => {
@@ -225,6 +245,7 @@ const TransactionDetailContainer = ({
       onCheckoutBorrowingSite={onCheckoutBorroingSite}
       onCheckOutToPatron={fetchCheckOutToPatron}
       onTriggerUnshippedItemModal={triggerUnshippedItemModal}
+      onFetchRecallItem={fetchRecallItem}
       onFetchReceiveUnshippedItem={handleFetchReceiveUnshippedItem}
       onFetchReceiveItem={fetchReceiveItem}
       onRenderAugmentedBarcodeModal={renderAugmentedBarcodeModal}
@@ -246,6 +267,15 @@ TransactionDetailContainer.manifest = Object.freeze({
   receiveUnshippedItem: {
     type: 'okapi',
     path: 'inn-reach/transactions/%{transactionId}/receive-unshipped-item/%{servicePointId}/%{itemBarcode}',
+    pk: '',
+    clientGeneratePk: false,
+    fetch: false,
+    accumulate: true,
+    throwErrors: false,
+  },
+  recallItem: {
+    type: 'okapi',
+    path: 'inn-reach/transactions/%{transactionId}/recall-item/%{servicePointId}/%{itemBarcode}',
     pk: '',
     clientGeneratePk: false,
     fetch: false,
@@ -310,6 +340,9 @@ TransactionDetailContainer.propTypes = {
       replace: PropTypes.func.isRequired,
     }).isRequired,
     receiveUnshippedItem: PropTypes.shape({
+      POST: PropTypes.func.isRequired,
+    }),
+    recallItem: PropTypes.shape({
       POST: PropTypes.func.isRequired,
     }),
     receiveItem: PropTypes.shape({
