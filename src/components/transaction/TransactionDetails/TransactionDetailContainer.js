@@ -200,6 +200,25 @@ const TransactionDetailContainer = ({
       });
   };
 
+  const fetchCancelItemHold = (response) => {
+    mutator.cancelItemHold.POST({
+      cancellationReasonId: response.id,
+      cancellationAdditionalInformation: 'Owning site cancels request',
+    })
+      .then(() => {
+        onUpdateTransactionList();
+        showCallout({
+          message: <FormattedMessage id="ui-inn-reach.cancel-item-hold.callout.success.post.cancel-item-hold" />,
+        });
+      })
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id="ui-inn-reach.cancel-item-hold.callout.connection-problem.post.cancel-item-hold" />,
+        });
+      });
+  };
+
   const handleCancelPatronHold = () => {
     mutator.cancellationReasons.GET()
       .then(response => {
@@ -213,7 +232,25 @@ const TransactionDetailContainer = ({
       .catch(() => {
         showCallout({
           type: CALLOUT_ERROR_TYPE,
-          message: <FormattedMessage id="ui-inn-reach.cancel-patron-hold.callout.connection-problem.get.cancellation-reasons" />,
+          message: <FormattedMessage id="ui-inn-reach.cancel-item-hold.callout.connection-problem.get.cancellation-reasons" />,
+        });
+      });
+  };
+
+  const handleCancelItemHold = () => {
+    mutator.cancellationReasons.GET()
+      .then(response => {
+        if (response?.length === 1) {
+          return response[0];
+        }
+
+        throw new Error();
+      })
+      .then(fetchCancelItemHold)
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id="ui-inn-reach.cancel-item-hold.callout.connection-problem.post.cancel-item-hold" />,
         });
       });
   };
@@ -279,6 +316,7 @@ const TransactionDetailContainer = ({
       onCheckOutToPatron={fetchCheckOutToPatron}
       onReturnItem={onReturnPatronHoldItem}
       onCancelPatronHold={handleCancelPatronHold}
+      onCancelItemHold={handleCancelItemHold}
       onTriggerUnshippedItemModal={triggerUnshippedItemModal}
       onFetchReceiveUnshippedItem={handleFetchReceiveUnshippedItem}
       onFetchReceiveItem={fetchReceiveItem}
@@ -362,6 +400,14 @@ TransactionDetailContainer.manifest = Object.freeze({
     fetch: false,
     accumulate: true,
   },
+  cancelItemHold: {
+    type: 'okapi',
+    path: 'inn-reach/transactions/%{transactionId}/itemhold/cancel',
+    pk: '',
+    clientGeneratePk: false,
+    fetch: false,
+    accumulate: true,
+  },
 });
 
 TransactionDetailContainer.propTypes = {
@@ -404,6 +450,9 @@ TransactionDetailContainer.propTypes = {
       POST: PropTypes.func.isRequired,
     }),
     cancelPatronHold: PropTypes.shape({
+      POST: PropTypes.func.isRequired,
+    }),
+    cancelItemHold: PropTypes.shape({
       POST: PropTypes.func.isRequired,
     }),
     cancellationReasons: PropTypes.shape({
