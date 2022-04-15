@@ -191,7 +191,11 @@ describe('BibTransformationOptionsCreateEditRoute component', () => {
       act(() => { BibTransformationOptionsForm.mock.calls[0][0].onChangeConfigState(form)({ target: { checked: false } }); });
       expect(form.change).toHaveBeenLastCalledWith(
         'modifiedFieldsForContributedRecords',
-        [{ resourceIdentifierTypeId: undefined }]
+        [{
+          resourceIdentifierTypeId: undefined,
+          stripPrefix: false,
+          ignorePrefixes: '',
+        }],
       );
     });
   });

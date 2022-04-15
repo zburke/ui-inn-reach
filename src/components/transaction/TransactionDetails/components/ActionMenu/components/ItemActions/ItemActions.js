@@ -27,7 +27,7 @@ const ItemActions = ({
   onCheckoutBorrowingSite,
   onTransferHold,
   onRecallItem,
-  onCancelHold,
+  onCancelItemHold,
   onFinalCheckIn,
 }) => {
   return (
@@ -58,11 +58,11 @@ const ItemActions = ({
         onClickHandler={onRecallItem}
       />
       <ActionItem
-        disabled
+        disabled={![ITEM_HOLD].includes(transaction[STATUS])}
         icon={ICONS.TIMES_CIRCLE}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.item-type.action.cancel-hold"
         onToggle={onToggle}
-        onClickHandler={onCancelHold}
+        onClickHandler={onCancelItemHold}
       />
       <ActionItem
         disabled
@@ -77,9 +77,9 @@ const ItemActions = ({
 
 ItemActions.propTypes = {
   transaction: PropTypes.object.isRequired,
+  onCancelItemHold: PropTypes.object.isRequired,
+  onCheckoutBorrowingSite: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
-  onCancelHold: PropTypes.func,
-  onCheckoutBorrowingSite: PropTypes.func,
   onFinalCheckIn: PropTypes.func,
   onRecallItem: PropTypes.func,
   onTransferHold: PropTypes.func,

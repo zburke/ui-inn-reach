@@ -129,6 +129,22 @@ const TransactionDetailContainer = ({
       });
   };
 
+  const onReturnPatronHoldItem = () => {
+    mutator.returnPatronHoldItem.POST({})
+      .then(() => {
+        onUpdateTransactionList();
+        showCallout({
+          message: <FormattedMessage id="ui-inn-reach.return-patron-hold-item.callout.success.post.return-patron-hold-item" />,
+        });
+      })
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id="ui-inn-reach.return-patron-hold-item.callout.connection-problem.post.return-patron-hold-item" />,
+        });
+      });
+  };
+
   const fetchCheckOutToPatron = () => {
     mutator.checkOutToPatron.POST({})
       .then(() => {
@@ -181,6 +197,80 @@ const TransactionDetailContainer = ({
         showCallout({
           type: CALLOUT_ERROR_TYPE,
           message: <FormattedMessage id="ui-inn-reach.receive-item.callout.connection-problem.post.receive-item" />,
+        });
+      });
+  };
+
+  const fetchCancelPatronHold = (response) => {
+    mutator.cancelPatronHold.POST({
+      cancellationReasonId: response.id,
+      cancellationAdditionalInformation: 'Cancelled by staff',
+    })
+      .then(() => {
+        onUpdateTransactionList();
+        showCallout({
+          message: <FormattedMessage id="ui-inn-reach.cancel-patron-hold.callout.success.post.cancel-hold" />,
+        });
+      })
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id="ui-inn-reach.cancel-patron-hold.callout.connection-problem.post.cancel-hold" />,
+        });
+      });
+  };
+
+  const fetchCancelItemHold = (response) => {
+    mutator.cancelItemHold.POST({
+      cancellationReasonId: response.id,
+      cancellationAdditionalInformation: 'Owning site cancels request',
+    })
+      .then(() => {
+        onUpdateTransactionList();
+        showCallout({
+          message: <FormattedMessage id="ui-inn-reach.cancel-item-hold.callout.success.post.cancel-item-hold" />,
+        });
+      })
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id="ui-inn-reach.cancel-item-hold.callout.connection-problem.post.cancel-item-hold" />,
+        });
+      });
+  };
+
+  const handleCancelPatronHold = () => {
+    mutator.cancellationReasons.GET()
+      .then(response => {
+        if (response?.length === 1) {
+          return response[0];
+        }
+
+        throw new Error();
+      })
+      .then(fetchCancelPatronHold)
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id="ui-inn-reach.cancel-item-hold.callout.connection-problem.get.cancellation-reasons" />,
+        });
+      });
+  };
+
+  const handleCancelItemHold = () => {
+    mutator.cancellationReasons.GET()
+      .then(response => {
+        if (response?.length === 1) {
+          return response[0];
+        }
+
+        throw new Error();
+      })
+      .then(fetchCancelItemHold)
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id="ui-inn-reach.cancel-item-hold.callout.connection-problem.post.cancel-item-hold" />,
         });
       });
   };
@@ -244,6 +334,9 @@ const TransactionDetailContainer = ({
       onClose={backToList}
       onCheckoutBorrowingSite={onCheckoutBorroingSite}
       onCheckOutToPatron={fetchCheckOutToPatron}
+      onReturnItem={onReturnPatronHoldItem}
+      onCancelPatronHold={handleCancelPatronHold}
+      onCancelItemHold={handleCancelItemHold}
       onTriggerUnshippedItemModal={triggerUnshippedItemModal}
       onFetchRecallItem={fetchRecallItem}
       onFetchReceiveUnshippedItem={handleFetchReceiveUnshippedItem}
@@ -299,6 +392,14 @@ TransactionDetailContainer.manifest = Object.freeze({
     fetch: false,
     accumulate: true,
   },
+  returnPatronHoldItem: {
+    type: 'okapi',
+    path: 'inn-reach/transactions/%{transactionId}/patronhold/return-item/%{servicePointId}',
+    pk: '',
+    clientGeneratePk: false,
+    fetch: false,
+    accumulate: true,
+  },
   checkOutToPatron: {
     type: 'okapi',
     path: 'inn-reach/transactions/%{transactionId}/patronhold/check-out-item/%{servicePointId}',
@@ -312,6 +413,30 @@ TransactionDetailContainer.manifest = Object.freeze({
     records: 'staffSlips',
     path: 'staff-slips-storage/staff-slips?limit=1000',
     throwErrors: false,
+  },
+  cancellationReasons: {
+    type: 'okapi',
+    records: 'cancellationReasons',
+    path: 'cancellation-reason-storage/cancellation-reasons?query=name=="Other"&limit=100',
+    fetch: false,
+    accumulate: true,
+    throwErrors: false,
+  },
+  cancelPatronHold: {
+    type: 'okapi',
+    path: 'inn-reach/transactions/%{transactionId}/patronhold/cancel',
+    pk: '',
+    clientGeneratePk: false,
+    fetch: false,
+    accumulate: true,
+  },
+  cancelItemHold: {
+    type: 'okapi',
+    path: 'inn-reach/transactions/%{transactionId}/itemhold/cancel',
+    pk: '',
+    clientGeneratePk: false,
+    fetch: false,
+    accumulate: true,
   },
 });
 
@@ -348,11 +473,23 @@ TransactionDetailContainer.propTypes = {
     receiveItem: PropTypes.shape({
       POST: PropTypes.func.isRequired,
     }),
+    returnPatronHoldItem: PropTypes.shape({
+      POST: PropTypes.func.isRequired,
+    }),
     checkoutBorroingSiteItem: PropTypes.shape({
       POST: PropTypes.func.isRequired,
     }),
     checkOutToPatron: PropTypes.shape({
       POST: PropTypes.func.isRequired,
+    }),
+    cancelPatronHold: PropTypes.shape({
+      POST: PropTypes.func.isRequired,
+    }),
+    cancelItemHold: PropTypes.shape({
+      POST: PropTypes.func.isRequired,
+    }),
+    cancellationReasons: PropTypes.shape({
+      GET: PropTypes.func.isRequired,
     }),
   }),
 };

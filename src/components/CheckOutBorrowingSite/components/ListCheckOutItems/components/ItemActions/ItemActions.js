@@ -18,15 +18,25 @@ const ItemActions = ({
   loan,
   intl,
 }) => {
-  const trigger = ({ getTriggerProps, triggerRef }) => (
-    <IconButton
-      {...getTriggerProps()}
-      icon={ICONS.ELLIPSIS}
-      aria-label={intl.formatMessage({ id: 'ui-inn-reach.check-out-borrowing-site.actions-menu' })}
-      id={`available-actions-button-${loan.rowIndex}`}
-      ref={triggerRef}
-    />
-  );
+  const trigger = ({ getTriggerProps, triggerRef }) => {
+    const {
+      'aria-expanded': ariaExpanded,
+      'aria-haspopup': ariaHaspopup,
+      ...rest
+    } = getTriggerProps();
+
+    return (
+      <IconButton
+        {...rest}
+        aria-expanded={ariaExpanded.toString()}
+        aria-haspopup={ariaHaspopup.toString()}
+        icon={ICONS.ELLIPSIS}
+        aria-label={intl.formatMessage({ id: 'ui-inn-reach.check-out-borrowing-site.actions-menu' })}
+        id={`available-actions-button-${loan.rowIndex}`}
+        ref={triggerRef}
+      />
+    );
+  };
 
   const menu = ({ onToggle }) => (
     <DropdownMenu

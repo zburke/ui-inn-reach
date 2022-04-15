@@ -6,21 +6,22 @@ import ActionMenu from './ActionMenu';
 jest.mock('./components', () => ({
   PatronActions: jest.fn(() => <div>PatronActions</div>),
   ItemActions: jest.fn(() => <div>ItemActions</div>),
+  LocalActions: jest.fn(() => <div>LocalActions</div>),
 }));
 
 const renderActionMenu = ({
   transaction,
 } = {}) => {
-  const onCheckOutToPatron = jest.fn();
-
   return renderWithIntl(
     <ActionMenu
       transaction={transaction}
       onToggle={jest.fn()}
       onReceiveUnshippedItem={jest.fn()}
       onReceiveItem={jest.fn()}
+      onReturnItem={jest.fn()}
       onCheckoutBorrowingSite={jest.fn()}
-      onCheckOutToPatron={onCheckOutToPatron}
+      onCheckOutToPatron={jest.fn()}
+      onCancelPatronHold={jest.fn()}
     />,
     translationsProperties,
   );
@@ -37,5 +38,11 @@ describe('ActionMenu', () => {
     const { getByText } = renderActionMenu({ transaction: { type: 'ITEM' } });
 
     expect(getByText('ItemActions')).toBeInTheDocument();
+  });
+
+  it('should render the local actions', () => {
+    const { getByText } = renderActionMenu({ transaction: { type: 'LOCAL' } });
+
+    expect(getByText('LocalActions')).toBeInTheDocument();
   });
 });

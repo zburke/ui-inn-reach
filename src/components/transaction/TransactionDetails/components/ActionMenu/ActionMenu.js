@@ -10,11 +10,13 @@ import {
 import {
   PatronActions,
   ItemActions,
+  LocalActions,
 } from './components';
 
 const {
   PATRON,
   ITEM,
+  LOCAL
 } = TRANSACTION_TYPES;
 
 const {
@@ -27,8 +29,11 @@ const ActionMenu = ({
   onRecallItem,
   onReceiveUnshippedItem,
   onReceiveItem,
+  onReturnItem,
   onCheckoutBorrowingSite,
   onCheckOutToPatron,
+  onCancelPatronHold,
+  onCancelItemHold,
 }) => {
   let actions;
 
@@ -41,6 +46,8 @@ const ActionMenu = ({
           onReceiveUnshippedItem={onReceiveUnshippedItem}
           onReceiveItem={onReceiveItem}
           onCheckOutToPatron={onCheckOutToPatron}
+          onReturnItem={onReturnItem}
+          onCancelPatronHold={onCancelPatronHold}
         />
       );
       break;
@@ -51,6 +58,15 @@ const ActionMenu = ({
           onToggle={onToggle}
           onCheckoutBorrowingSite={onCheckoutBorrowingSite}
           onRecallItem={onRecallItem}
+          onCancelItemHold={onCancelItemHold}
+        />
+      );
+      break;
+    case LOCAL:
+      actions = (
+        <LocalActions
+          transaction={transaction}
+          onToggle={onToggle}
         />
       );
       break;
@@ -67,11 +83,14 @@ const ActionMenu = ({
 
 ActionMenu.propTypes = {
   transaction: PropTypes.object.isRequired,
+  onCancelItemHold: PropTypes.func.isRequired,
+  onCancelPatronHold: PropTypes.func.isRequired,
   onCheckOutToPatron: PropTypes.func.isRequired,
   onCheckoutBorrowingSite: PropTypes.func.isRequired,
   onRecallItem: PropTypes.func.isRequired,
   onReceiveItem: PropTypes.func.isRequired,
   onReceiveUnshippedItem: PropTypes.func.isRequired,
+  onReturnItem: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
 };
 

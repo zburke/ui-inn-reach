@@ -1,5 +1,6 @@
 import React, {
   useEffect,
+  useState,
 } from 'react';
 import {
   isEqual,
@@ -51,11 +52,18 @@ const VisiblePatronIdForm = ({
   isCheckedUserCustomField,
   form,
   invalid,
-  pristine,
+  initialValues,
+  values,
   onChangeServer,
   onChangeUserCustomCheckbox,
 }) => {
   const { formatMessage } = useIntl();
+
+  const [canSave, setCanSave] = useState(false);
+
+  useEffect(() => {
+    setCanSave(invalid || isEqual(initialValues, values));
+  }, [invalid, initialValues, values]);
 
   useEffect(() => {
     if (!isCheckedUserCustomField) {
@@ -69,7 +77,7 @@ const VisiblePatronIdForm = ({
         marginBottom0
         buttonStyle="primary mega"
         type="submit"
-        disabled={invalid || pristine}
+        disabled={canSave}
         onClick={form.submit}
       >
         <FormattedMessage id="ui-inn-reach.settings.visible-patron-id.button.save" />
@@ -100,7 +108,7 @@ const VisiblePatronIdForm = ({
             {({ meta }) => (
               <>
                 <Label required>
-                  <FormattedMessage id="ui-inn-reach.settings.visible-patron-id.label.patron-ids" />
+                  <FormattedMessage id="ui-inn-reach.settings.visible-patron-id.label.select-user-fields" />
                 </Label>
                 {meta.error &&
                   <MessageBanner type="error">
@@ -145,12 +153,13 @@ const VisiblePatronIdForm = ({
 VisiblePatronIdForm.propTypes = {
   customFieldPatronOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   form: PropTypes.object.isRequired,
+  initialValues: PropTypes.object.isRequired,
   invalid: PropTypes.bool.isRequired,
   isCheckedUserCustomField: PropTypes.bool.isRequired,
   isVisiblePatronIdConfigurationPending: PropTypes.bool.isRequired,
-  pristine: PropTypes.bool.isRequired,
   selectedServer: PropTypes.object.isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  values: PropTypes.object.isRequired,
   onChangeServer: PropTypes.func.isRequired,
   onChangeUserCustomCheckbox: PropTypes.func.isRequired,
   visiblePatronIdConfiguration: PropTypes.object,
@@ -162,5 +171,6 @@ export default stripesFinalForm({
   validate: validateVisiblePatronIdFields,
   subscription: {
     invalid: true,
+    values: true,
   },
 })(VisiblePatronIdForm);

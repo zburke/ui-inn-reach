@@ -34,7 +34,7 @@ const PatronActions = ({
   onReceiveItem,
   onReceiveUnshippedItem,
   onReturnItem,
-  onCancelHold,
+  onCancelPatronHold,
 }) => {
   return (
     <>
@@ -63,18 +63,18 @@ const PatronActions = ({
         onClickHandler={onReceiveUnshippedItem}
       />
       <ActionItem
-        disabled
+        disabled={![ITEM_RECEIVED, RECEIVE_UNANNOUNCED].includes(transaction[STATUS])}
         icon={ICONS.CHECK_IN}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.patron-type.action.return-item"
         onToggle={onToggle}
         onClickHandler={onReturnItem}
       />
       <ActionItem
-        disabled
+        disabled={![PATRON_HOLD, ITEM_RECEIVED, RECEIVE_UNANNOUNCED].includes(transaction[STATUS])}
         icon={ICONS.TIMES_CIRCLE}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.patron-type.action.cancel-hold"
         onToggle={onToggle}
-        onClickHandler={onCancelHold}
+        onClickHandler={onCancelPatronHold}
       />
     </>
   );
@@ -82,12 +82,12 @@ const PatronActions = ({
 
 PatronActions.propTypes = {
   transaction: PropTypes.object.isRequired,
+  onCancelPatronHold: PropTypes.func.isRequired,
   onCheckOutToPatron: PropTypes.func.isRequired,
   onReceiveItem: PropTypes.func.isRequired,
   onReceiveUnshippedItem: PropTypes.func.isRequired,
-  onReturnItem: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
-  onCancelHold: PropTypes.func,
+  onReturnItem: PropTypes.func,
 };
 
 export default PatronActions;

@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { hot } from 'react-hot-loader';
 
 import {
   Route,
@@ -26,4 +25,4 @@ CentralItemTypeRoute.propTypes = {
   match: ReactRouterPropTypes.match.isRequired,
 };
 
-export default hot(module)(CentralItemTypeRoute);
+export default CentralItemTypeRoute;

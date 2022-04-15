@@ -316,12 +316,12 @@
 
   "settings.visible-patron-id.title": "Visible patron ID",
   "settings.visible-patron-id.button.save": "Save",
-  "settings.visible-patron-id.label.patron-ids": "Patron id(s) for checkout scanning",
   "settings.visible-patron-id.field.BARCODE": "Barcode",
   "settings.visible-patron-id.field.EXTERNAL_SYSTEM_ID": "External system ID",
   "settings.visible-patron-id.field.FOLIO_RECORD_NUMBER": "FOLIO record number (UUID)",
   "settings.visible-patron-id.field.USERNAME": "Username",
   "settings.visible-patron-id.field.user-custom-fields": "User custom fields",
+  "settings.visible-patron-id.label.select-user-fields": "Select user fields to match on for \"Visible Patron ID\"",
   "settings.visible-patron-id.no-valid-fields-are-defined": "No matching custom fields have been configured",
   "settings.visible-patron-id.placeholder.none": "None",
   "settings.visible-patron-id.validate.select-to-continue": "Please select to continue",
@@ -394,6 +394,9 @@
   "transaction-detail.item-type.action.recall-item": "Recall item",
   "transaction-detail.item-type.action.cancel-hold": "Cancel hold",
   "transaction-detail.item-type.action.final-check-in": "Final check-in",
+  "transaction-detail.local-type.action.check-out": "Check out to local patron",
+  "transaction-detail.local-type.action.cancel-hold": "Cancel hold",
+  "transaction-detail.local-type.action.transfer-hold": "Transfer hold to another item",
 
   "shipped-items.title.receive-shipped-items": "Receive shipped items",
   "shipped-items.title.scan-items": "Scan items",
@@ -497,5 +500,16 @@
   "reports.dateShipped": "Date Shipped",
 
   "check-out-to-patron.callout.connection-problem.post.check-out-to-patron": "There was a problem checking out the item",
-  "check-out-to-patron.callout.success.post.check-out-to-patron": "Item has been successfully checked out"
+  "check-out-to-patron.callout.success.post.check-out-to-patron": "Item has been successfully checked out",
+
+  "return-patron-hold-item.callout.success.post.return-patron-hold-item": "Item has been successfully returned",
+  "return-patron-hold-item.callout.connection-problem.post.return-patron-hold-item": "There was a problem returning the item",
+
+  "cancel-patron-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
+  "cancel-patron-hold.callout.connection-problem.post.cancel-hold": "There was a problem canceling the item",
+  "cancel-patron-hold.callout.success.post.cancel-hold": "Item has been successfully canceled",
+
+  "cancel-item-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
+  "cancel-item-hold.callout.success.post.cancel-item-hold": "Item has been successfully canceled",
+  "cancel-item-hold.callout.connection-problem.post.cancel-item-hold": "There was a problem canceling the item"
 }

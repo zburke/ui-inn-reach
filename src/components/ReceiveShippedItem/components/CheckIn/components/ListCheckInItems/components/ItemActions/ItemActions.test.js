@@ -32,7 +32,7 @@ const renderItemActions = ({
   return renderWithIntl(
     <ItemActions
       loan={loan}
-      intl={{ formatMessage: () => null }}
+      intl={{ formatMessage: jest.fn() }}
       stripes={stripes}
       onGetSlipTemplate={onGetSlipTemplate}
     />,
