@@ -462,5 +462,11 @@
     "return-patron-hold-item.callout.connection-problem.post.return-patron-hold-item": "حدثت مشكلة أثناء إعادة المادة",
     "cancel-patron-hold.callout.connection-problem.get.cancellation-reasons": "لا يمكن استعادة أسباب الإلغاء!",
     "cancel-patron-hold.callout.connection-problem.post.cancel-hold": "حدثت مشكلة أثناء إلغاء المادة",
-    "cancel-patron-hold.callout.success.post.cancel-hold": "تم إلغاء المادة بنجاح"
+    "cancel-patron-hold.callout.success.post.cancel-hold": "تم إلغاء المادة بنجاح",
+    "transaction-detail.local-type.action.check-out": "إعارة إلى مستفيد محلي",
+    "transaction-detail.local-type.action.cancel-hold": "إلغاء الحجز",
+    "transaction-detail.local-type.action.transfer-hold": "نقل الحجز إلى مادة أخرى",
+    "cancel-item-hold.callout.connection-problem.get.cancellation-reasons": "لا يمكن استعادة أسباب الإلغاء!",
+    "cancel-item-hold.callout.success.post.cancel-item-hold": "تم إلغاء المادة بنجاح",
+    "cancel-item-hold.callout.connection-problem.post.cancel-item-hold": "حدثت مشكلة أثناء إلغاء المادة"
 }

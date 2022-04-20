@@ -462,5 +462,11 @@
     "return-patron-hold-item.callout.connection-problem.post.return-patron-hold-item": "There was a problem returning the item",
     "cancel-patron-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
     "cancel-patron-hold.callout.connection-problem.post.cancel-hold": "There was a problem canceling the item",
-    "cancel-patron-hold.callout.success.post.cancel-hold": "Item has been successfully canceled"
+    "cancel-patron-hold.callout.success.post.cancel-hold": "Item has been successfully canceled",
+    "transaction-detail.local-type.action.check-out": "Check out to local patron",
+    "transaction-detail.local-type.action.cancel-hold": "Cancel hold",
+    "transaction-detail.local-type.action.transfer-hold": "Transfer hold to another item",
+    "cancel-item-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
+    "cancel-item-hold.callout.success.post.cancel-item-hold": "Item has been successfully canceled",
+    "cancel-item-hold.callout.connection-problem.post.cancel-item-hold": "There was a problem canceling the item"
 }
