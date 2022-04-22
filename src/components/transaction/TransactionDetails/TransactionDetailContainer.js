@@ -162,17 +162,13 @@ const TransactionDetailContainer = ({
   };
 
   const fetchRecallItem = () => {
-    mutator.receiveItem.POST({})
-      .then(response => {
-        onSetCheckinData(response);
+    mutator.recallItem.POST({})
+      .then(() => {
         onUpdateTransactionList();
         showCallout({
           message: <FormattedMessage id="ui-inn-reach.recall-item.callout.success.post.recall-item" />,
         });
-
-        return response;
       })
-      .then(onProcessModals)
       .catch(() => {
         showCallout({
           type: CALLOUT_ERROR_TYPE,
@@ -368,7 +364,7 @@ TransactionDetailContainer.manifest = Object.freeze({
   },
   recallItem: {
     type: 'okapi',
-    path: 'inn-reach/transactions/%{transactionId}/recall-item/%{servicePointId}/%{itemBarcode}',
+    path: 'inn-reach/transactions/%{transactionId}/itemhold/recall',
     pk: '',
     clientGeneratePk: false,
     fetch: false,
