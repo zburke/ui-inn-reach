@@ -208,7 +208,7 @@
     "settings.manage-contribution.location-mapping-status.valid": "Valid",
     "settings.manage-contribution.location-mapping-status.invalid": "Invalid",
     "settings.manage-contribution.label.status": "Initial contribution status",
-    "settings.manage-contribution.label.matrial-mapping-status": "Material to item type mapping",
+    "settings.manage-contribution.label.matrial-mapping-status": "Mappatura da materiale a tipo di elemento",
     "settings.manage-contribution.label.locations-mapping-status": "FOLIO to INN-Reach locations",
     "settings.manage-contribution.label.contribution-started": "Contribution started",
     "settings.manage-contribution.label.contribution-started-by": "Started by",
@@ -389,7 +389,7 @@
     "shipped-items.modal.no-transaction.heading": "No matching INN-Reach transaction found for this item",
     "shipped-items.modal.barcode-augmented.heading": "Questo barcode è già stato usato",
     "shipped-items.modal.hold.heading": "Awaiting pickup for a request",
-    "shipped-items.modal.hold.comment": "<strong>Patron comments:</strong> {comment}",
+    "shipped-items.modal.hold.comment": "<strong>Commenti dell'utente:</strong> {comment}",
     "shipped-items.modal.hold.message": "Place <strong>{title} ({materialType})</strong> (Barcode: {barcode}) on Hold Shelf at <strong>{pickupServicePoint}</strong> for request.",
     "shipped-items.modal.transit.heading": "In transit",
     "shipped-items.modal.transit.message": "Route <strong>{title} ({materialType})</strong> (Barcode: {barcode}) to <strong>{servicePoint}</strong>.",
@@ -462,5 +462,11 @@
     "return-patron-hold-item.callout.connection-problem.post.return-patron-hold-item": "There was a problem returning the item",
     "cancel-patron-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
     "cancel-patron-hold.callout.connection-problem.post.cancel-hold": "There was a problem canceling the item",
-    "cancel-patron-hold.callout.success.post.cancel-hold": "Item has been successfully canceled"
+    "cancel-patron-hold.callout.success.post.cancel-hold": "Item has been successfully canceled",
+    "transaction-detail.local-type.action.check-out": "Check out to local patron",
+    "transaction-detail.local-type.action.cancel-hold": "Cancel hold",
+    "transaction-detail.local-type.action.transfer-hold": "Transfer hold to another item",
+    "cancel-item-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
+    "cancel-item-hold.callout.success.post.cancel-item-hold": "Item has been successfully canceled",
+    "cancel-item-hold.callout.connection-problem.post.cancel-item-hold": "There was a problem canceling the item"
 }
