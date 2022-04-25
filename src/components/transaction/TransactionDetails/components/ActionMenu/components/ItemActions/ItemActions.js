@@ -77,7 +77,7 @@ const ItemActions = ({
 
 ItemActions.propTypes = {
   transaction: PropTypes.object.isRequired,
-  onCancelItemHold: PropTypes.object.isRequired,
+  onCancelItemHold: PropTypes.func.isRequired,
   onCheckoutBorrowingSite: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
   onFinalCheckIn: PropTypes.func,

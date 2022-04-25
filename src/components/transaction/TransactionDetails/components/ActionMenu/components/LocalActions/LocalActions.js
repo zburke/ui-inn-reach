@@ -5,13 +5,24 @@ import {
 } from '../../../../../../common';
 import {
   ICONS,
+  TRANSACTION_FIELDS,
+  TRANSACTION_STATUSES,
 } from '../../../../../../../constants';
 
+const {
+  STATUS,
+} = TRANSACTION_FIELDS;
+
+const {
+  LOCAL_HOLD
+} = TRANSACTION_STATUSES;
+
 const LocalActions = ({
+  transaction,
   onToggle,
   onCheckout,
   onTransferHold,
-  onCancelHold,
+  onCancelLocalHold,
 }) => {
   return (
     <>
@@ -30,19 +41,20 @@ const LocalActions = ({
         onClickHandler={onTransferHold}
       />
       <ActionItem
-        disabled
+        disabled={transaction[STATUS] !== LOCAL_HOLD}
         icon={ICONS.TIMES_CIRCLE}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.local-type.action.cancel-hold"
         onToggle={onToggle}
-        onClickHandler={onCancelHold}
+        onClickHandler={onCancelLocalHold}
       />
     </>
   );
 };
 
 LocalActions.propTypes = {
+  transaction: PropTypes.object.isRequired,
+  onCancelLocalHold: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
-  onCancelHold: PropTypes.func,
   onCheckout: PropTypes.func,
   onTransferHold: PropTypes.func,
 };
