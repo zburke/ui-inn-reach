@@ -116,6 +116,9 @@ const mutatorMock = {
   cancelItemHold: {
     POST: jest.fn(() => Promise.resolve()),
   },
+  cancelLocalHold: {
+    POST: jest.fn(() => Promise.resolve()),
+  },
 };
 
 const historyMock = createMemoryHistory();
@@ -176,6 +179,7 @@ describe('TransactionDetailContainer', () => {
     mutatorMock.cancellationReasons.GET.mockClear();
     mutatorMock.cancelPatronHold.POST.mockClear();
     mutatorMock.cancelItemHold.POST.mockClear();
+    mutatorMock.cancelLocalHold.POST.mockClear();
   });
 
   it('should be rendered', () => {
@@ -366,6 +370,48 @@ describe('TransactionDetailContainer', () => {
     });
   });
 
+  describe('cancel local hold', () => {
+    it('should cause cancellation reasons', () => {
+      renderTransactionDetailContainer(commonProps);
+      TransactionDetail.mock.calls[0][0].onCancelLocalHold();
+      expect(mutatorMock.cancellationReasons.GET).toHaveBeenCalled();
+    });
+
+    it('should update the transaction state', async () => {
+      renderTransactionDetailContainer(commonProps);
+      await act(async () => { TransactionDetail.mock.calls[0][0].onCancelLocalHold(); });
+      expect(mutatorMock.cancelLocalHold.POST).toHaveBeenCalledWith({
+        cancellationReasonId: 'b548b182-55c2-4741-b169-616d9cd995a8',
+        cancellationAdditionalInformation: 'Owning site cancels request',
+      });
+    });
+
+    it('should not update the transaction state if the response has more than one reason', () => {
+      const newMutator = {
+        ...mutatorMock,
+        cancellationReasons: {
+          GET: jest.fn(() => Promise.resolve([
+            { id: 'b548b182-55c2-4741-b169-616d9cd995a8' },
+            { id: 'p248b182-87v2-8442-c149-616d9cd995m4' },
+          ])),
+        },
+      };
+
+      renderTransactionDetailContainer({
+        ...commonProps,
+        mutator: newMutator,
+      });
+      TransactionDetail.mock.calls[0][0].onCancelLocalHold();
+      expect(mutatorMock.cancelLocalHold.POST).not.toBeCalled();
+    });
+
+    it('should update the transaction list', () => {
+      renderTransactionDetailContainer(commonProps);
+      TransactionDetail.mock.calls[0][0].onCancelLocalHold();
+      expect(onUpdateTransactionList).toHaveBeenCalled();
+    });
+  });
+
   describe('cancel item hold', () => {
     it('should cause cancellation reasons', () => {
       renderTransactionDetailContainer(commonProps);
@@ -397,7 +443,7 @@ describe('TransactionDetailContainer', () => {
         ...commonProps,
         mutator: newMutator,
       });
-      TransactionDetail.mock.calls[0][0].onCancelPatronHold();
+      TransactionDetail.mock.calls[0][0].onCancelItemHold();
       expect(mutatorMock.cancelItemHold.POST).not.toBeCalled();
     });
 

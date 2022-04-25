@@ -33,6 +33,7 @@ const ActionMenu = ({
   onCheckOutToPatron,
   onCancelPatronHold,
   onCancelItemHold,
+  onCancelLocalHold,
 }) => {
   let actions;
 
@@ -64,6 +65,7 @@ const ActionMenu = ({
       actions = (
         <LocalActions
           transaction={transaction}
+          onCancelLocalHold={onCancelLocalHold}
           onToggle={onToggle}
         />
       );
@@ -82,6 +84,7 @@ const ActionMenu = ({
 ActionMenu.propTypes = {
   transaction: PropTypes.object.isRequired,
   onCancelItemHold: PropTypes.func.isRequired,
+  onCancelLocalHold: PropTypes.func.isRequired,
   onCancelPatronHold: PropTypes.func.isRequired,
   onCheckOutToPatron: PropTypes.func.isRequired,
   onCheckoutBorrowingSite: PropTypes.func.isRequired,

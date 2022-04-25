@@ -22,6 +22,8 @@ const renderActionMenu = ({
       onCheckoutBorrowingSite={jest.fn()}
       onCheckOutToPatron={jest.fn()}
       onCancelPatronHold={jest.fn()}
+      onCancelItemHold={jest.fn()}
+      onCancelLocalHold={jest.fn()}
     />,
     translationsProperties,
   );
