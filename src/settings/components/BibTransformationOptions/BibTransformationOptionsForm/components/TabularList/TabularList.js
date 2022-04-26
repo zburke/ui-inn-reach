@@ -26,8 +26,8 @@ import {
 import TabularListTitles from './components/TabularListTitles';
 import SwapButtons from './components/SwapButtons';
 import {
-  required,
-} from '../../../../../../utils';
+  validateIdentifierTypeFields,
+} from '../../utils';
 import css from './TabularList.css';
 
 const {
@@ -92,7 +92,6 @@ const TabularList = ({
               >
                 <Field
                   marginBottom0
-                  required
                   id={`${name}.${RESOURCE_IDENTIFIER_TYPE_ID}-${index}`}
                   name={`${name}.${RESOURCE_IDENTIFIER_TYPE_ID}`}
                   aria-label={formatMessage({ id: 'ui-inn-reach.settings.bib-transformation.field.identifier-type' })}
@@ -100,7 +99,7 @@ const TabularList = ({
                   dataOptions={identifierTypeOptions}
                   placeholder={formatMessage({ id: 'ui-inn-reach.settings.bib-transformation.placeholder.identifier-type' })}
                   selectClass={css.selectControl}
-                  validate={required}
+                  validate={validateIdentifierTypeFields}
                 />
               </Col>
               <Col className={classNames(css.tabularCol, css.customColSmWidth)}>

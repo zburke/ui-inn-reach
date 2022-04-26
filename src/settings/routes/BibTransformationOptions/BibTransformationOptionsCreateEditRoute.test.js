@@ -42,6 +42,7 @@ const identifierTypes = [
 ];
 
 const record = {
+  configIsActive: true,
   modifiedFieldsForContributedRecords: [
     {
       resourceIdentifierTypeId: 'd09901a7-1407-42d5-a680-e4d83fe93c5d',
@@ -164,9 +165,14 @@ describe('BibTransformationOptionsCreateEditRoute component', () => {
 
   describe('handleSubmit', () => {
     it('should make a POST request', async () => {
-      renderBibTransformationOptionsCreateEditRoute();
-      await act(async () => { await BibTransformationOptionsForm.mock.calls[0][0].onSubmit(record); });
-      expect(mutatorMock.marcTransformationOptions.POST).toHaveBeenCalledWith(finalRecord);
+      const newMutator = cloneDeep(mutatorMock);
+
+      newMutator.marcTransformationOptions.GET = jest.fn(() => Promise.resolve());
+      renderBibTransformationOptionsCreateEditRoute({ mutator: newMutator });
+      await act(async () => { await BibTransformationOptionsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
+      await act(async () => { await BibTransformationOptionsForm.mock.calls[3][0].onChangeConfigState({ change: jest.fn() })({ target: { checked: true } }); });
+      await act(async () => { await BibTransformationOptionsForm.mock.calls[4][0].onSubmit(record); });
+      expect(newMutator.marcTransformationOptions.POST).toHaveBeenCalledWith(finalRecord);
     });
 
     it('should make a PUT request', async () => {

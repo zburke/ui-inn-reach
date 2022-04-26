@@ -1,6 +1,7 @@
 export const BIB_TRANSFORMATION_ROUTE = 'bib-transformation';
 
 export const BIB_TRANSFORMATION_FIELDS = {
+  ID: 'id',
   CONFIG_IS_ACTIVE: 'configIsActive',
   TABULAR_LIST: 'tabularList',
   MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS: 'modifiedFieldsForContributedRecords',
