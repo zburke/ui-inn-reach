@@ -98,6 +98,9 @@ const mutatorMock = {
   receiveItem: {
     POST: jest.fn(() => Promise.resolve(receiveItemMock)),
   },
+  recallItem: {
+    POST: jest.fn(() => Promise.resolve()),
+  },
   checkoutBorroingSiteItem: {
     POST: jest.fn(() => Promise.resolve()),
   },
@@ -175,6 +178,7 @@ describe('TransactionDetailContainer', () => {
     stripes = cloneDeep(useStripes());
     stripes.user.user.curServicePoint = { id: servicePointId };
     TransactionDetail.mockClear();
+    mutatorMock.recallItem.POST.mockClear();
     mutatorMock.returnPatronHoldItem.POST.mockClear();
     mutatorMock.cancellationReasons.GET.mockClear();
     mutatorMock.cancelPatronHold.POST.mockClear();
@@ -280,6 +284,21 @@ describe('TransactionDetailContainer', () => {
 
     it('should process the response for modals', () => {
       expect(onProcessModals).toHaveBeenLastCalledWith(receiveItemMock);
+    });
+  });
+
+  describe('recall item', () => {
+    beforeEach(() => {
+      renderTransactionDetailContainer(commonProps);
+      TransactionDetail.mock.calls[0][0].onFetchRecallItem();
+    });
+
+    it('should update the transaction state', () => {
+      expect(mutatorMock.recallItem.POST).toHaveBeenCalled();
+    });
+
+    it('should update the transaction list', () => {
+      expect(onUpdateTransactionList).toHaveBeenCalled();
     });
   });
 

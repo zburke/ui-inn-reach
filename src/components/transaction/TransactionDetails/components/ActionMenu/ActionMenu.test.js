@@ -16,6 +16,7 @@ const renderActionMenu = ({
     <ActionMenu
       transaction={transaction}
       onToggle={jest.fn()}
+      onRecallItem={jest.fn()}
       onReceiveUnshippedItem={jest.fn()}
       onReceiveItem={jest.fn()}
       onReturnItem={jest.fn()}

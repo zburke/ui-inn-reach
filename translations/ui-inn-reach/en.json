@@ -460,6 +460,9 @@
   "receive-item.callout.connection-problem.post.receive-item": "There was a problem receiving the item",
   "receive-item.callout.success.post.receive-item": "Item has been successfully received",
 
+  "recall-item.callout.connection-problem.post.recall-item": "There was a problem recalling the item",
+  "recall-item.callout.success.post.recall-item": "Item has been successfully recalled",
+
   "reports.owning-site-overdue.label": "Owning site overdue report (CSV)",
   "reports.requested-too-long.label": "Requested too long report (CSV)",
   "reports.returned-too-long.label": "Returned too long report (CSV)",

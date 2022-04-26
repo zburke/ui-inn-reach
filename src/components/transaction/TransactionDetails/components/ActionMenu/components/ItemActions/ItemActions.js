@@ -16,6 +16,9 @@ const {
 const {
   ITEM_HOLD,
   TRANSFER,
+  ITEM_SHIPPED,
+  ITEM_RECEIVED,
+  RECEIVE_UNANNOUNCED,
 } = TRANSACTION_STATUSES;
 
 const ItemActions = ({
@@ -44,7 +47,11 @@ const ItemActions = ({
         onClickHandler={onTransferHold}
       />
       <ActionItem
-        disabled
+        disabled={
+          ![ITEM_SHIPPED, ITEM_RECEIVED, RECEIVE_UNANNOUNCED].includes(
+            transaction[STATUS]
+          )
+        }
         icon={ICONS.CHECK_IN}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.item-type.action.recall-item"
         onToggle={onToggle}
