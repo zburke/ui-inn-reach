@@ -54,7 +54,7 @@ const columnWidths = {
   [BARCODE]: { max: 200 },
   [TITLE]: { max: 350 },
   [PICK_UP_LOCATION]: { max: 500 },
-  [ACTIONS]: { max: 50 },
+  [ACTIONS]: { max: 100 },
 };
 
 const ListCheckInItems = ({

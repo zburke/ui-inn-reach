@@ -78,8 +78,8 @@ const ListCheckOutItems = ({
     [BARCODE]: loan => loan[ITEM]?.[BARCODE],
     [TITLE]: loan => loan[ITEM]?.[TITLE],
     [LOAN_POLICY]: loan => loan[LOAN_POLICY]?.[LOAN_POLICY_NAME],
-    [DUE_DATE]: loan => <FormattedDate value={loan[ITEM]?.[DUE_DATE]} />,
-    [TIME]: loan => <FormattedTime value={loan[ITEM]?.[TIME]} />,
+    [DUE_DATE]: loan => <FormattedDate value={loan[DUE_DATE]} />,
+    [TIME]: loan => <FormattedTime value={loan[TIME]} />,
     [LOCATION]: loan => loan[ITEM]?.[LOCATION]?.[LOCATION_NAME],
     [ACTIONS]: (loan) => (
       <ItemActions
