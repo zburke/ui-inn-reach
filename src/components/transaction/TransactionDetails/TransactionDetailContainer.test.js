@@ -104,6 +104,9 @@ const mutatorMock = {
   checkoutBorroingSiteItem: {
     POST: jest.fn(() => Promise.resolve()),
   },
+  finalCheckInItem: {
+    POST: jest.fn(() => Promise.resolve()),
+  },
   checkOutToPatron: {
     POST: jest.fn(() => Promise.resolve()),
   },
@@ -310,6 +313,21 @@ describe('TransactionDetailContainer', () => {
 
     it('should update the transaction state', () => {
       expect(mutatorMock.checkoutBorroingSiteItem.POST).toHaveBeenCalled();
+    });
+
+    it('should update the transaction list', () => {
+      expect(onUpdateTransactionList).toHaveBeenCalled();
+    });
+  });
+
+  describe('final check in item', () => {
+    beforeEach(() => {
+      renderTransactionDetailContainer(commonProps);
+      TransactionDetail.mock.calls[0][0].onFinalCheckInItem();
+    });
+
+    it('should update the transaction state', () => {
+      expect(mutatorMock.finalCheckInItem.POST).toHaveBeenCalled();
     });
 
     it('should update the transaction list', () => {

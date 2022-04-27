@@ -11,6 +11,7 @@ const renderItemActions = ({
   transaction = transactionMock,
   onToggle = jest.fn(),
   onCheckoutBorrowingSite = jest.fn(),
+  onFinalCheckInItem = jest.fn(),
   onCancelItemHold = jest.fn(),
 } = {}) => {
   return renderWithIntl(
@@ -18,6 +19,7 @@ const renderItemActions = ({
       transaction={transaction}
       onToggle={onToggle}
       onCheckoutBorrowingSite={onCheckoutBorrowingSite}
+      onFinalCheckInItem={onFinalCheckInItem}
       onCancelItemHold={onCancelItemHold}
     />,
     translationsProperties,

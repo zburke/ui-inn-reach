@@ -512,6 +512,9 @@
   "cancel-item-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
   "cancel-item-hold.callout.success.post.cancel-item-hold": "Item has been successfully canceled",
   "cancel-item-hold.callout.connection-problem.post.cancel-item-hold": "There was a problem canceling the item",
+  
+  "final-check-in-item-hold.callout.success.post.final-check-in-item-hold":"Item has been successfully checked in",
+  "final-check-in-item-hold.callout.connection-problem.post.final-check-in-item-hold":"There was a problem checking in the item",
 
   "cancel-local-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
   "cancel-local-hold.callout.success.post.cancel-local-hold": "Item has been successfully canceled",

@@ -49,6 +49,7 @@ const TransactionDetail = ({
   onReturnItem,
   onCancelPatronHold,
   onCancelItemHold,
+  onFinalCheckInItem,
   onCancelLocalHold,
   onTriggerUnshippedItemModal,
   onFetchRecallItem,
@@ -67,6 +68,7 @@ const TransactionDetail = ({
       onReceiveItem={onFetchReceiveItem}
       onCheckoutBorrowingSite={onCheckoutBorrowingSite}
       onCheckOutToPatron={onCheckOutToPatron}
+      onFinalCheckInItem={onFinalCheckInItem}
       onReturnItem={onReturnItem}
       onCancelPatronHold={onCancelPatronHold}
       onCancelItemHold={onCancelItemHold}
@@ -130,6 +132,7 @@ TransactionDetail.propTypes = {
   onFetchRecallItem: PropTypes.func.isRequired,
   onFetchReceiveItem: PropTypes.func.isRequired,
   onFetchReceiveUnshippedItem: PropTypes.func.isRequired,
+  onFinalCheckInItem: PropTypes.func.isRequired,
   onRenderAugmentedBarcodeModal: PropTypes.func.isRequired,
   onRenderHoldModal: PropTypes.func.isRequired,
   onRenderTransitModal: PropTypes.func.isRequired,
