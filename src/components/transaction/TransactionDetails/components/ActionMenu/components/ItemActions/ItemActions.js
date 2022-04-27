@@ -4,6 +4,7 @@ import {
   ActionItem,
 } from '../../../../../../common';
 import {
+  HOLD_FIELDS,
   ICONS,
   TRANSACTION_FIELDS,
   TRANSACTION_STATUSES,
@@ -11,6 +12,7 @@ import {
 
 const {
   STATUS,
+  HOLD,
 } = TRANSACTION_FIELDS;
 
 const {
@@ -20,6 +22,11 @@ const {
   ITEM_RECEIVED,
   RECEIVE_UNANNOUNCED,
 } = TRANSACTION_STATUSES;
+
+const {
+  FOLIO_ITEM_ID,
+  FOLIO_REQUEST_ID,
+} = HOLD_FIELDS;
 
 const ItemActions = ({
   transaction,
@@ -40,7 +47,11 @@ const ItemActions = ({
         onClickHandler={onCheckoutBorrowingSite}
       />
       <ActionItem
-        disabled
+        disabled={!(
+          [ITEM_HOLD, TRANSFER].includes(transaction[STATUS]) &&
+          transaction?.[HOLD]?.[FOLIO_ITEM_ID] &&
+          transaction?.[HOLD]?.[FOLIO_REQUEST_ID]
+        )}
         icon={ICONS.TRANSFER}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.item-type.action.transfer-hold"
         onToggle={onToggle}

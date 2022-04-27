@@ -19,7 +19,6 @@ import {
   TransactionSummary,
   ItemInformation,
   ActionMenu,
-  ReceiveUnshippedItemModal,
 } from './components';
 import {
   TRANSACTION_DETAIL_ACCORDION_STATE,
@@ -38,11 +37,6 @@ const {
 
 const TransactionDetail = ({
   transaction,
-  isOpenItemHoldModal,
-  isOpenInTransitModal,
-  isOpenAugmentedBarcodeModal,
-  intl,
-  isOpenUnshippedItemModal,
   onClose,
   onCheckoutBorrowingSite,
   onCheckOutToPatron,
@@ -51,21 +45,18 @@ const TransactionDetail = ({
   onCancelItemHold,
   onFinalCheckInItem,
   onCancelLocalHold,
-  onTriggerUnshippedItemModal,
-  onFetchRecallItem,
-  onFetchReceiveUnshippedItem,
-  onFetchReceiveItem,
-  onRenderAugmentedBarcodeModal,
-  onRenderHoldModal,
-  onRenderTransitModal,
+  onReceiveUnshippedItem,
+  onRecallItem,
+  onReceiveItem,
+  onTransferHold,
 }) => {
   const renderActionMenu = useCallback(({ onToggle }) => (
     <ActionMenu
       transaction={transaction}
       onToggle={onToggle}
-      onRecallItem={onFetchRecallItem}
-      onReceiveUnshippedItem={onTriggerUnshippedItemModal}
-      onReceiveItem={onFetchReceiveItem}
+      onRecallItem={onRecallItem}
+      onReceiveUnshippedItem={onReceiveUnshippedItem}
+      onReceiveItem={onReceiveItem}
       onCheckoutBorrowingSite={onCheckoutBorrowingSite}
       onCheckOutToPatron={onCheckOutToPatron}
       onFinalCheckInItem={onFinalCheckInItem}
@@ -73,16 +64,9 @@ const TransactionDetail = ({
       onCancelPatronHold={onCancelPatronHold}
       onCancelItemHold={onCancelItemHold}
       onCancelLocalHold={onCancelLocalHold}
+      onTransferHold={onTransferHold}
     />
   ), [transaction]);
-
-  const renderReceiveUnshippedItemModal = () => (
-    <ReceiveUnshippedItemModal
-      intl={intl}
-      onSubmit={onFetchReceiveUnshippedItem}
-      onTriggerModal={onTriggerUnshippedItemModal}
-    />
-  );
 
   return (
     <Pane
@@ -108,20 +92,11 @@ const TransactionDetail = ({
         <PatronInformation transaction={transaction} />
         <ItemInformation transaction={transaction} />
       </AccordionSet>
-      {isOpenUnshippedItemModal && renderReceiveUnshippedItemModal()}
-      {isOpenAugmentedBarcodeModal && onRenderAugmentedBarcodeModal()}
-      {isOpenItemHoldModal && onRenderHoldModal()}
-      {isOpenInTransitModal && onRenderTransitModal()}
     </Pane>
   );
 };
 
 TransactionDetail.propTypes = {
-  intl: PropTypes.object.isRequired,
-  isOpenAugmentedBarcodeModal: PropTypes.bool.isRequired,
-  isOpenInTransitModal: PropTypes.bool.isRequired,
-  isOpenItemHoldModal: PropTypes.bool.isRequired,
-  isOpenUnshippedItemModal: PropTypes.bool.isRequired,
   transaction: PropTypes.object.isRequired,
   onCancelItemHold: PropTypes.func.isRequired,
   onCancelLocalHold: PropTypes.func.isRequired,
@@ -129,15 +104,12 @@ TransactionDetail.propTypes = {
   onCheckOutToPatron: PropTypes.func.isRequired,
   onCheckoutBorrowingSite: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  onFetchRecallItem: PropTypes.func.isRequired,
-  onFetchReceiveItem: PropTypes.func.isRequired,
-  onFetchReceiveUnshippedItem: PropTypes.func.isRequired,
   onFinalCheckInItem: PropTypes.func.isRequired,
-  onRenderAugmentedBarcodeModal: PropTypes.func.isRequired,
-  onRenderHoldModal: PropTypes.func.isRequired,
-  onRenderTransitModal: PropTypes.func.isRequired,
+  onRecallItem: PropTypes.func.isRequired,
+  onReceiveItem: PropTypes.func.isRequired,
+  onReceiveUnshippedItem: PropTypes.func.isRequired,
   onReturnItem: PropTypes.func.isRequired,
-  onTriggerUnshippedItemModal: PropTypes.func.isRequired,
+  onTransferHold: PropTypes.func.isRequired,
 };
 
 export default TransactionDetail;

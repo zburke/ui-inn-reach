@@ -21,40 +21,26 @@ const transactionMock = {
 
 const renderTransactionDetail = ({
   transaction = transactionMock,
-  isOpenItemHoldModal = false,
-  isOpenInTransitModal = false,
-  isOpenAugmentedBarcodeModal = false,
-  isOpenUnshippedItemModal = false,
+  onClose,
   onCheckoutBorrowingSite,
   onCheckOutToPatron,
   onFinalCheckInItem,
   onReturnItem,
   onCancelPatronHold,
   onCancelItemHold,
+  onTransferHold,
+  onReceiveUnshippedItem,
+  onReceiveItem,
   onCancelLocalHold,
-  onTriggerUnshippedItemModal,
-  onFetchRecallItem,
-  onFetchReceiveUnshippedItem,
-  onFetchReceiveItem,
-  onClose,
-  onReset,
-  onRenderAugmentedBarcodeModal,
-  onRenderHoldModal,
-  onRenderTransitModal,
+  onRecallItem,
 } = {}) => {
   return renderWithIntl(
     <TransactionDetail
       transaction={transaction}
-      isOpenItemHoldModal={isOpenItemHoldModal}
-      isOpenInTransitModal={isOpenInTransitModal}
-      isOpenAugmentedBarcodeModal={isOpenAugmentedBarcodeModal}
-      isOpenUnshippedItemModal={isOpenUnshippedItemModal}
-      intl={{}}
       onClose={onClose}
-      onTriggerUnshippedItemModal={onTriggerUnshippedItemModal}
-      onFetchRecallItem={onFetchRecallItem}
-      onFetchReceiveUnshippedItem={onFetchReceiveUnshippedItem}
-      onFetchReceiveItem={onFetchReceiveItem}
+      onRecallItem={onRecallItem}
+      onReceiveUnshippedItem={onReceiveUnshippedItem}
+      onReceiveItem={onReceiveItem}
       onCheckoutBorrowingSite={onCheckoutBorrowingSite}
       onCheckOutToPatron={onCheckOutToPatron}
       onFinalCheckInItem={onFinalCheckInItem}
@@ -62,10 +48,7 @@ const renderTransactionDetail = ({
       onCancelPatronHold={onCancelPatronHold}
       onCancelItemHold={onCancelItemHold}
       onCancelLocalHold={onCancelLocalHold}
-      onReset={onReset}
-      onRenderAugmentedBarcodeModal={onRenderAugmentedBarcodeModal}
-      onRenderHoldModal={onRenderHoldModal}
-      onRenderTransitModal={onRenderTransitModal}
+      onTransferHold={onTransferHold}
     />,
     translationsProperties,
   );
@@ -73,39 +56,31 @@ const renderTransactionDetail = ({
 
 describe('TransactionDetail', () => {
   const onClose = jest.fn();
-  const onTriggerUnshippedItemModal = jest.fn();
-  const onFetchRecallItem = jest.fn();
-  const onFetchReceiveUnshippedItem = jest.fn();
-  const onFetchReceiveItem = jest.fn();
+  const onTransferHold = jest.fn();
+  const onReceiveUnshippedItem = jest.fn();
+  const onReceiveItem = jest.fn();
   const onCheckoutBorrowingSite = jest.fn();
+  const onRecallItem = jest.fn();
   const onReturnItem = jest.fn();
   const onCheckOutToPatron = jest.fn();
   const onCancelPatronHold = jest.fn();
   const onCancelItemHold = jest.fn();
   const onFinalCheckInItem = jest.fn();
   const onCancelLocalHold = jest.fn();
-  const onReset = jest.fn();
-  const onRenderAugmentedBarcodeModal = jest.fn(() => <div>AugmentedBarcodeModal</div>);
-  const onRenderHoldModal = jest.fn(() => <div>HoldModal</div>);
-  const onRenderTransitModal = jest.fn(() => <div>TransitModal</div>);
 
   const commonProps = {
     onClose,
-    onTriggerUnshippedItemModal,
-    onFetchRecallItem,
-    onFetchReceiveUnshippedItem,
-    onFetchReceiveItem,
+    onReceiveUnshippedItem,
+    onReceiveItem,
+    onRecallItem,
     onCheckoutBorrowingSite,
     onCheckOutToPatron,
     onCancelPatronHold,
     onCancelItemHold,
     onFinalCheckInItem,
     onCancelLocalHold,
-    onReset,
     onReturnItem,
-    onRenderAugmentedBarcodeModal,
-    onRenderHoldModal,
-    onRenderTransitModal,
+    onTransferHold,
   };
 
   it('should be rendered', () => {
@@ -135,38 +110,5 @@ describe('TransactionDetail', () => {
     it('should have ItemInformation', () => {
       expect(screen.getByText('ItemInformation')).toBeVisible();
     });
-  });
-
-  it('should display a modal for "receive unshipped item"', () => {
-    renderTransactionDetail({
-      ...commonProps,
-      isOpenUnshippedItemModal: true,
-    });
-
-    expect(screen.getByText('ReceiveUnshippedItemModal')).toBeVisible();
-  });
-
-  it('should display the "Augmented Barcode" modal', () => {
-    renderTransactionDetail({
-      ...commonProps,
-      isOpenAugmentedBarcodeModal: true,
-    });
-    expect(screen.getByText('AugmentedBarcodeModal')).toBeVisible();
-  });
-
-  it('should display the "Hold" modal', () => {
-    renderTransactionDetail({
-      ...commonProps,
-      isOpenItemHoldModal: true,
-    });
-    expect(screen.getByText('HoldModal')).toBeVisible();
-  });
-
-  it('should display the "Transit" modal', () => {
-    renderTransactionDetail({
-      ...commonProps,
-      isOpenInTransitModal: true,
-    });
-    expect(screen.getByText('TransitModal')).toBeVisible();
   });
 });

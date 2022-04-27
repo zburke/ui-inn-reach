@@ -27,6 +27,10 @@ const {
   FOLIO_LOAN_ID,
 } = HOLD_FIELDS;
 
+const {
+  FOLIO_REQUEST_ID,
+} = HOLD_FIELDS;
+
 const PatronActions = ({
   transaction,
   onToggle,
@@ -70,7 +74,10 @@ const PatronActions = ({
         onClickHandler={onReturnItem}
       />
       <ActionItem
-        disabled={![PATRON_HOLD, ITEM_RECEIVED, RECEIVE_UNANNOUNCED].includes(transaction[STATUS])}
+        disabled={!(
+          [PATRON_HOLD, ITEM_RECEIVED, RECEIVE_UNANNOUNCED].includes(transaction[STATUS]) &&
+          transaction?.[HOLD]?.[FOLIO_REQUEST_ID]
+        )}
         icon={ICONS.TIMES_CIRCLE}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.patron-type.action.cancel-hold"
         onToggle={onToggle}

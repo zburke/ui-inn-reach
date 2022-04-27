@@ -4,10 +4,19 @@ import { act, screen } from '@testing-library/react';
 import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jest/helpers';
 import { cloneDeep } from 'lodash';
 import { useStripes } from '@folio/stripes/core';
-import useReceiveItemModals from '../../../hooks/useReceiveItemModals';
+import * as hooks from '../../../hooks';
 import { translationsProperties } from '../../../../test/jest/helpers';
 import TransactionDetailContainer from './TransactionDetailContainer';
 import TransactionDetail from './TransactionDetail';
+import {
+  ReceiveUnshippedItemModal,
+  TransferHoldModal,
+} from './components';
+import {
+  AugmentedBarcodeModal,
+  HoldModal,
+  InTransitModal,
+} from '../../common';
 
 jest.mock('./TransactionDetail', () => {
   return jest.fn(() => <div>TransactionDetail</div>);
@@ -17,9 +26,38 @@ jest.mock('@folio/stripes-components', () => ({
   LoadingPane: jest.fn(() => <div>LoadingPane</div>),
 }));
 
-jest.mock('../../../hooks/useReceiveItemModals', () => jest.fn(() => {
-  return jest.fn().mockReturnValue({});
+const onSetAugmentedBarcodeModalAfterClose = jest.fn();
+const onCloseModal = jest.fn();
+const onSetCheckinData = jest.fn();
+const onGetSlipTmpl = jest.fn();
+const onProcessModals = jest.fn();
+
+const useReceiveItemModalMockData = {
+  isOpenAugmentedBarcodeModal: false,
+  isOpenItemHoldModal: false,
+  isOpenInTransitModal: false,
+  checkinData: {},
+  onSetCheckinData,
+  onGetSlipTmpl,
+  onProcessModals,
+  onSetAugmentedBarcodeModalAfterClose,
+  onCloseModal,
+};
+
+jest.mock('../../../hooks', () => ({
+  ...jest.requireActual('../../../hooks'),
+  useReceiveItemModals: jest.fn().mockReturnValue({}),
 }));
+
+jest.mock('./components', () => ({
+  ...jest.requireActual('./components'),
+  ReceiveUnshippedItemModal: jest.fn(() => <div>ReceiveUnshippedItemModal</div>),
+  TransferHoldModal: jest.fn(() => <div>TransferHoldModal</div>),
+}));
+
+jest.mock('../../common/AugmentedBarcodeModal', () => jest.fn(() => <div>AugmentedBarcodeModal</div>));
+jest.mock('../../common/HoldModal', () => jest.fn(() => <div>HoldModal</div>));
+jest.mock('../../common/InTransitModal', () => jest.fn(() => <div>InTransitModal</div>));
 
 const transactionMock = {
   id: 'b6f66467-b9b0-4165-8cde-ec6fe4cfb79c',
@@ -92,6 +130,9 @@ const mutatorMock = {
   itemBarcode: {
     replace: jest.fn(),
   },
+  folioItemId: {
+    replace: jest.fn(),
+  },
   receiveUnshippedItem: {
     POST: jest.fn(() => Promise.resolve(receiveUnshippedItemMock)),
   },
@@ -117,6 +158,9 @@ const mutatorMock = {
     GET: jest.fn(() => Promise.resolve([{ id: 'b548b182-55c2-4741-b169-616d9cd995a8' }])),
   },
   cancelPatronHold: {
+    POST: jest.fn(() => Promise.resolve()),
+  },
+  transferItem: {
     POST: jest.fn(() => Promise.resolve()),
   },
   cancelItemHold: {
@@ -153,12 +197,6 @@ const renderTransactionDetailContainer = ({
 
 describe('TransactionDetailContainer', () => {
   const onUpdateTransactionList = jest.fn();
-  const onRenderAugmentedBarcodeModal = jest.fn();
-  const onRenderHoldModal = jest.fn();
-  const onRenderTransitModal = jest.fn();
-  const onSetCheckinData = jest.fn();
-  const onGetSlipTmpl = jest.fn();
-  const onProcessModals = jest.fn();
   let stripes;
 
   const commonProps = {
@@ -167,17 +205,7 @@ describe('TransactionDetailContainer', () => {
   };
 
   beforeEach(() => {
-    useReceiveItemModals.mockClear().mockReturnValue({
-      isOpenAugmentedBarcodeModal: false,
-      isOpenItemHoldModal: false,
-      isOpenInTransitModal: false,
-      onRenderAugmentedBarcodeModal,
-      onRenderHoldModal,
-      onRenderTransitModal,
-      onSetCheckinData,
-      onGetSlipTmpl,
-      onProcessModals,
-    });
+    hooks.useReceiveItemModals.mockClear().mockReturnValue(useReceiveItemModalMockData);
     stripes = cloneDeep(useStripes());
     stripes.user.user.curServicePoint = { id: servicePointId };
     TransactionDetail.mockClear();
@@ -229,40 +257,74 @@ describe('TransactionDetailContainer', () => {
     });
   });
 
-  it('should open "unshipped item" modal', () => {
-    renderTransactionDetailContainer(commonProps);
-    act(() => { TransactionDetail.mock.calls[0][0].onTriggerUnshippedItemModal(); });
-    expect(TransactionDetail.mock.calls[1][0].isOpenUnshippedItemModal).toBeTruthy();
-  });
-
   describe('receive unshipped item', () => {
     beforeEach(async () => {
-      renderTransactionDetailContainer(commonProps);
-      await act(async () => { TransactionDetail.mock.calls[0][0].onTriggerUnshippedItemModal(); });
-      await act(async () => { TransactionDetail.mock.calls[1][0].onFetchReceiveUnshippedItem({ itemBarcode }); });
+      ReceiveUnshippedItemModal.mockClear();
+      InTransitModal.mockClear();
+      HoldModal.mockClear();
+      AugmentedBarcodeModal.mockClear();
     });
 
-    it('should write item barcode to the redux', () => {
+    const renderForReceiveUnshippedItem = async () => {
+      renderTransactionDetailContainer(commonProps);
+      await act(async () => { TransactionDetail.mock.calls[0][0].onReceiveUnshippedItem(); });
+      await act(async () => { ReceiveUnshippedItemModal.mock.calls[0][0].onSubmit({ itemBarcode }); });
+    };
+
+    it('should display "In Transit" modal', async () => {
+      jest.spyOn(hooks, 'useReceiveItemModals').mockReturnValue({
+        ...useReceiveItemModalMockData,
+        isOpenInTransitModal: true,
+      });
+      await renderForReceiveUnshippedItem();
+      expect(screen.getByText('InTransitModal')).toBeVisible();
+    });
+
+    it('should display "Augmented Barcode" modal', async () => {
+      jest.spyOn(hooks, 'useReceiveItemModals').mockReturnValue({
+        ...useReceiveItemModalMockData,
+        isOpenAugmentedBarcodeModal: true,
+      });
+      await renderForReceiveUnshippedItem();
+      expect(screen.getByText('AugmentedBarcodeModal')).toBeVisible();
+    });
+
+    it('should display "Hold" modal', async () => {
+      jest.spyOn(hooks, 'useReceiveItemModals').mockReturnValue({
+        ...useReceiveItemModalMockData,
+        isOpenItemHoldModal: true,
+      });
+      await renderForReceiveUnshippedItem();
+      expect(screen.getByText('HoldModal')).toBeVisible();
+    });
+
+    it('should write item barcode to the redux', async () => {
+      await renderForReceiveUnshippedItem();
       expect(mutatorMock.itemBarcode.replace).toHaveBeenCalledWith(itemBarcode);
     });
 
-    it('should update the transaction state', () => {
+    it('should update the transaction state', async () => {
+      await renderForReceiveUnshippedItem();
       expect(mutatorMock.receiveUnshippedItem.POST).toHaveBeenCalled();
     });
 
-    it('should close the "unshipped item" modal', () => {
-      expect(TransactionDetail.mock.calls[2][0].isOpenUnshippedItemModal).toBeFalsy();
+    it('should close the "unshipped item" modal', async () => {
+      await renderForReceiveUnshippedItem();
+      expect(screen.queryByText('ReceiveUnshippedItemModal')).toBeNull();
     });
 
-    it('should pass the unshipped item data', () => {
+    it('should pass the unshipped item data', async () => {
+      await renderForReceiveUnshippedItem();
       expect(onSetCheckinData).toHaveBeenLastCalledWith(receiveUnshippedItemMock);
     });
 
-    it('should update the transaction list', () => {
+    it('should update the transaction list', async () => {
+      await renderForReceiveUnshippedItem();
       expect(onUpdateTransactionList).toHaveBeenCalled();
     });
 
-    it('should process the response for modals', () => {
+    it('should process the response for modals', async () => {
+      await renderForReceiveUnshippedItem();
       expect(onProcessModals).toHaveBeenLastCalledWith(receiveUnshippedItemMock);
     });
   });
@@ -270,7 +332,7 @@ describe('TransactionDetailContainer', () => {
   describe('receive item', () => {
     beforeEach(() => {
       renderTransactionDetailContainer(commonProps);
-      TransactionDetail.mock.calls[0][0].onFetchReceiveItem();
+      TransactionDetail.mock.calls[0][0].onReceiveItem();
     });
 
     it('should update the transaction state', () => {
@@ -293,7 +355,7 @@ describe('TransactionDetailContainer', () => {
   describe('recall item', () => {
     beforeEach(() => {
       renderTransactionDetailContainer(commonProps);
-      TransactionDetail.mock.calls[0][0].onFetchRecallItem();
+      TransactionDetail.mock.calls[0][0].onRecallItem();
     });
 
     it('should update the transaction state', () => {
@@ -488,6 +550,34 @@ describe('TransactionDetailContainer', () => {
       renderTransactionDetailContainer(commonProps);
       TransactionDetail.mock.calls[0][0].onCancelItemHold();
       expect(onUpdateTransactionList).toHaveBeenCalled();
+    });
+  });
+
+  describe('transfer item', () => {
+    it('should write folioItemId to the redux', () => {
+      renderTransactionDetailContainer(commonProps);
+      expect(mutatorMock.folioItemId.replace).toHaveBeenCalledWith(transactionMock.hold.folioItemId);
+    });
+
+    describe('list item selection', () => {
+      beforeEach(async () => {
+        TransferHoldModal.mockClear();
+        renderTransactionDetailContainer(commonProps);
+        await act(async () => { TransactionDetail.mock.calls[0][0].onTransferHold(); });
+        await act(async () => { TransferHoldModal.mock.calls[0][0].onRowClick(); });
+      });
+
+      it('should close the "Transfer hold" modal', () => {
+        expect(screen.queryByText('TransferHoldModal')).toBeNull();
+      });
+
+      it('should update the transaction', () => {
+        expect(mutatorMock.transferItem.POST).toHaveBeenCalled();
+      });
+
+      it('should update the transaction list', () => {
+        expect(onUpdateTransactionList).toHaveBeenCalled();
+      });
     });
   });
 });

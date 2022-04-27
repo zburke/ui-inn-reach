@@ -124,6 +124,9 @@ describe('PatronActions component', () => {
         transaction: {
           ...transactionMock,
           state: 'PATRON_HOLD',
+          hold: {
+            folioRequestId: '123',
+          },
         },
       });
       expect(screen.getByRole('button', { name: 'Icon Cancel hold' })).toBeEnabled();
@@ -134,6 +137,9 @@ describe('PatronActions component', () => {
         transaction: {
           ...transactionMock,
           state: 'ITEM_RECEIVED',
+          hold: {
+            folioRequestId: '123',
+          },
         },
       });
       expect(screen.getByRole('button', { name: 'Icon Cancel hold' })).toBeEnabled();
@@ -144,6 +150,9 @@ describe('PatronActions component', () => {
         transaction: {
           ...transactionMock,
           state: 'RECEIVE_UNANNOUNCED',
+          hold: {
+            folioRequestId: '123',
+          },
         },
       });
       expect(screen.getByRole('button', { name: 'Icon Cancel hold' })).toBeEnabled();

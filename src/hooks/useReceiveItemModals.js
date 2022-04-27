@@ -30,6 +30,7 @@ const useReceiveItemModals = (staffSlips) => {
   };
 
   const onSetAugmentedBarcodeModalAfterClose = () => {
+    setIsOpenAugmentedBarcodeModal(false);
     setIsAugmentedBarcodeModalAfterClose(true);
   };
 

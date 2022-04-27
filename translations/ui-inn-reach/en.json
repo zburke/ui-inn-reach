@@ -518,5 +518,18 @@
 
   "cancel-local-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
   "cancel-local-hold.callout.success.post.cancel-local-hold": "Item has been successfully canceled",
-  "cancel-local-hold.callout.connection-problem.post.cancel-local-hold": "There was a problem canceling the item"
+  "cancel-local-hold.callout.connection-problem.post.cancel-local-hold": "There was a problem canceling the item",
+
+  "transfer-hold.modal.label": "Select item",
+  "transfer-hold.modal.title": "Other items in {title}",
+  "transfer-hold.modal.result-count": "{count, number} {count, plural, one {Record found} other {Records found}}",
+  "transfer-hold.modal.column.barcode": "Barcode",
+  "transfer-hold.modal.column.item-status": "Item status",
+  "transfer-hold.modal.column.request-queue": "Request queue",
+  "transfer-hold.modal.column.location": "Location",
+  "transfer-hold.modal.column.material-type": "Material type",
+  "transfer-hold.modal.column.loan-type": "Loan type",
+  "transfer-hold.modal.list-of-items.notFound": "No items found",
+  "transfer-hold.callout.success.post.transfer-hold": "Item has been successfully transferred",
+  "transfer-hold.callout.connection-problem.post.transfer-hold": "There was a problem transferring the item"
 }
