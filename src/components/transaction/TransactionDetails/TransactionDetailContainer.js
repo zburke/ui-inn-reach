@@ -173,6 +173,22 @@ const TransactionDetailContainer = ({
       });
   };
 
+  const fetchCheckoutToLocalPatron = () => {
+    mutator.checkOutToLocalPatron.POST({})
+      .then(() => {
+        onUpdateTransactionList();
+        showCallout({
+          message: <FormattedMessage id="ui-inn-reach.check-out-to-local-patron.callout.success.post.check-out-to-local-patron" />,
+        });
+      })
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id="ui-inn-reach.check-out-to-local-patron.callout.connection-problem.post.check-out-to-local-patron" />,
+        });
+      });
+  };
+
   const fetchRecallItem = () => {
     mutator.recallItem.POST({})
       .then(() => {
@@ -287,7 +303,6 @@ const TransactionDetailContainer = ({
         if (response?.length === 1) {
           return response[0];
         }
-
         throw new Error();
       })
       .then(fetchCancelPatronHold)
@@ -305,7 +320,6 @@ const TransactionDetailContainer = ({
         if (response?.length === 1) {
           return response[0];
         }
-
         throw new Error();
       })
       .then(fetchCancelItemHold)
@@ -418,7 +432,8 @@ const TransactionDetailContainer = ({
       <TransactionDetail
         transaction={transaction}
         onClose={backToList}
-        onCheckoutBorrowingSite={onCheckoutBorroingSite}
+        onCheckOutBorrowingSite={onCheckoutBorroingSite}
+        onCheckOutToLocalPatron={fetchCheckoutToLocalPatron}
         onCheckOutToPatron={fetchCheckOutToPatron}
         onReturnItem={onReturnPatronHoldItem}
         onCancelPatronHold={handleCancelPatronHold}
@@ -504,6 +519,14 @@ TransactionDetailContainer.manifest = Object.freeze({
   checkOutToPatron: {
     type: 'okapi',
     path: 'inn-reach/transactions/%{transactionId}/patronhold/check-out-item/%{servicePointId}',
+    pk: '',
+    clientGeneratePk: false,
+    fetch: false,
+    accumulate: true,
+  },
+  checkOutToLocalPatron: {
+    type: 'okapi',
+    path: 'inn-reach/transactions/%{transactionId}/localhold/check-out-item/%{servicePointId}',
     pk: '',
     clientGeneratePk: false,
     fetch: false,
@@ -603,6 +626,9 @@ TransactionDetailContainer.propTypes = {
       POST: PropTypes.func.isRequired,
     }),
     checkOutToPatron: PropTypes.shape({
+      POST: PropTypes.func.isRequired,
+    }),
+    checkOutToLocalPatron: PropTypes.shape({
       POST: PropTypes.func.isRequired,
     }),
     cancelPatronHold: PropTypes.shape({

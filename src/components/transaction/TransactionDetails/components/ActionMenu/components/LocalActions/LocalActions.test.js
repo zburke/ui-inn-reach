@@ -1,4 +1,5 @@
 import React from 'react';
+import { screen } from '@testing-library/react';
 import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jest/helpers';
 import { translationsProperties } from '../../../../../../../../test/jest/helpers';
 import LocalActions from './LocalActions';
@@ -11,12 +12,14 @@ const renderLocalActions = ({
   transaction = transactionMock,
   onToggle = jest.fn(),
   onCancelLocalHold = jest.fn(),
+  onCheckOutToLocalPatron = jest.fn(),
 } = {}) => {
   return renderWithIntl(
     <LocalActions
       transaction={transaction}
       onToggle={onToggle}
       onCancelLocalHold={onCancelLocalHold}
+      onCheckOutToLocalPatron={onCheckOutToLocalPatron}
     />,
     translationsProperties,
   );
@@ -39,5 +42,25 @@ describe('LocalActions component', () => {
     const { getByText } = renderLocalActions();
 
     expect(getByText('Cancel hold')).toBeVisible();
+  });
+
+  describe('check out to local patron action', () => {
+    it('should rbe enabled with LOCAL_HOLD', () => {
+      renderLocalActions({
+        transaction: {
+          ...transactionMock,
+        },
+      });
+      expect(screen.getByRole('button', { name: 'Icon Check out to local patron' })).toBeEnabled();
+    });
+    it('should rbe enabled with LOCAL_HOLD', () => {
+      renderLocalActions({
+        transaction: {
+          ...transactionMock,
+          state: 'TRANSFER',
+        },
+      });
+      expect(screen.getByRole('button', { name: 'Icon Check out to local patron' })).toBeEnabled();
+    });
   });
 });

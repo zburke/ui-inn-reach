@@ -31,7 +31,7 @@ const {
 const ItemActions = ({
   transaction,
   onToggle,
-  onCheckoutBorrowingSite,
+  onCheckOutBorrowingSite,
   onTransferHold,
   onRecallItem,
   onCancelItemHold,
@@ -44,7 +44,7 @@ const ItemActions = ({
         icon={ICONS.CHECK_OUT}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.item-type.action.check-out"
         onToggle={onToggle}
-        onClickHandler={onCheckoutBorrowingSite}
+        onClickHandler={onCheckOutBorrowingSite}
       />
       <ActionItem
         disabled={!(
@@ -89,7 +89,7 @@ const ItemActions = ({
 ItemActions.propTypes = {
   transaction: PropTypes.object.isRequired,
   onCancelItemHold: PropTypes.func.isRequired,
-  onCheckoutBorrowingSite: PropTypes.func.isRequired,
+  onCheckOutBorrowingSite: PropTypes.func.isRequired,
   onFinalCheckInItem: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
   onRecallItem: PropTypes.func,

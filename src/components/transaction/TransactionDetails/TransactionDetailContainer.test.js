@@ -151,6 +151,9 @@ const mutatorMock = {
   checkOutToPatron: {
     POST: jest.fn(() => Promise.resolve()),
   },
+  checkOutToLocalPatron: {
+    POST: jest.fn(() => Promise.resolve()),
+  },
   returnPatronHoldItem: {
     POST: jest.fn(() => Promise.resolve()),
   },
@@ -370,7 +373,7 @@ describe('TransactionDetailContainer', () => {
   describe('checkout to borrowing site item', () => {
     beforeEach(() => {
       renderTransactionDetailContainer(commonProps);
-      TransactionDetail.mock.calls[0][0].onCheckoutBorrowingSite();
+      TransactionDetail.mock.calls[0][0].onCheckOutBorrowingSite();
     });
 
     it('should update the transaction state', () => {
@@ -420,6 +423,21 @@ describe('TransactionDetailContainer', () => {
 
     it('should update the transaction state', () => {
       expect(mutatorMock.checkOutToPatron.POST).toHaveBeenCalled();
+    });
+
+    it('should update the transaction list', () => {
+      expect(onUpdateTransactionList).toHaveBeenCalled();
+    });
+  });
+
+  describe('checkout to local patron', () => {
+    beforeEach(() => {
+      renderTransactionDetailContainer(commonProps);
+      TransactionDetail.mock.calls[0][0].onCheckOutToLocalPatron();
+    });
+
+    it('should update the transaction state', () => {
+      expect(mutatorMock.checkOutToLocalPatron.POST).toHaveBeenCalled();
     });
 
     it('should update the transaction list', () => {
