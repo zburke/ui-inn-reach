@@ -28,7 +28,7 @@ export const formatMARCTransformations = (response) => {
     ...response,
     [CONFIG_IS_ACTIVE]: false,
     [MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS]: [NEW_ROW_VALUES],
-    [EXCLUDED_MARC_FIELDS]: [],
+    [EXCLUDED_MARC_FIELDS]: '',
   };
 
   if (!isEmpty(response[EXCLUDED_MARC_FIELDS])) {
@@ -80,9 +80,7 @@ export const formatPayload = (record, configIsActive) => {
   }
 
   if (isSomeIdentifierTypeSelected) {
-    const withoutEmptyRow = record[MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS].filter(row => row[RESOURCE_IDENTIFIER_TYPE_ID]);
-
-    payload[MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS] = getFinalTabularListValues(withoutEmptyRow);
+    payload[MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS] = getFinalTabularListValues(record[MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS]);
   }
 
   if (record[EXCLUDED_MARC_FIELDS]) {

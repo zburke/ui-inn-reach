@@ -1,13 +1,9 @@
 import {
-  FormattedMessage,
-} from 'react-intl';
-import {
   BIB_TRANSFORMATION_FIELDS,
 } from '../../../../constants';
 
 const {
   RESOURCE_IDENTIFIER_TYPE_ID,
-  MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS,
 } = BIB_TRANSFORMATION_FIELDS;
 
 const getSelectedOptions = (tabularListValues) => {
@@ -28,14 +24,4 @@ export const getIdentifierTypeOptions = (identifierTypes, tabularListValues = []
     value: id,
     disabled: selectedOptions.has(id),
   }));
-};
-
-export const validateIdentifierTypeFields = (_, allValues) => {
-  const hasAtLeastOneIdentifierType = allValues[MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS].some(row => row[RESOURCE_IDENTIFIER_TYPE_ID]);
-
-  if (!hasAtLeastOneIdentifierType) {
-    return <FormattedMessage id="ui-inn-reach.validate.required" />;
-  }
-
-  return undefined;
 };

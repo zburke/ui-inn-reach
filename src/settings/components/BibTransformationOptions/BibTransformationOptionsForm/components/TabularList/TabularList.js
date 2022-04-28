@@ -26,8 +26,8 @@ import {
 import TabularListTitles from './components/TabularListTitles';
 import SwapButtons from './components/SwapButtons';
 import {
-  validateIdentifierTypeFields,
-} from '../../utils';
+  required,
+} from '../../../../../../utils';
 import css from './TabularList.css';
 
 const {
@@ -99,7 +99,7 @@ const TabularList = ({
                   dataOptions={identifierTypeOptions}
                   placeholder={formatMessage({ id: 'ui-inn-reach.settings.bib-transformation.placeholder.identifier-type' })}
                   selectClass={css.selectControl}
-                  validate={validateIdentifierTypeFields}
+                  validate={required}
                 />
               </Col>
               <Col className={classNames(css.tabularCol, css.customColSmWidth)}>
