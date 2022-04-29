@@ -69,7 +69,7 @@ const ItemActions = ({
         onClickHandler={onRecallItem}
       />
       <ActionItem
-        disabled={![ITEM_HOLD].includes(transaction[STATUS])}
+        disabled={![ITEM_HOLD, TRANSFER].includes(transaction[STATUS])}
         icon={ICONS.TIMES_CIRCLE}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.item-type.action.cancel-hold"
         onToggle={onToggle}
