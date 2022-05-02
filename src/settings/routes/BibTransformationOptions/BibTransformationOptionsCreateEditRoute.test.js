@@ -186,23 +186,38 @@ describe('BibTransformationOptionsCreateEditRoute component', () => {
   describe('handleChangeConfigState', () => {
     const form = { change: jest.fn() };
 
-    it('should display the tabular list', () => {
+    beforeEach(async () => {
       renderBibTransformationOptionsCreateEditRoute();
-      act(() => { BibTransformationOptionsForm.mock.calls[0][0].onChangeConfigState(form)({ target: { checked: true } }); });
-      expect(BibTransformationOptionsForm.mock.calls[1][0].isConfigActive).toBeTruthy();
+      await act(async () => { BibTransformationOptionsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
     });
 
-    it('should make initial state for tabular list', () => {
-      renderBibTransformationOptionsCreateEditRoute();
-      act(() => { BibTransformationOptionsForm.mock.calls[0][0].onChangeConfigState(form)({ target: { checked: false } }); });
+    it('should display the tabular list', async () => {
+      await act(async () => { BibTransformationOptionsForm.mock.calls[4][0].onChangeConfigState(form)({ target: { checked: true } }); });
+      expect(BibTransformationOptionsForm.mock.calls[4][0].isConfigActive).toBeTruthy();
+    });
+
+    it('should make initial state for tabular list', async () => {
+      await act(async () => { BibTransformationOptionsForm.mock.calls[4][0].onChangeConfigState(form)({ target: { checked: true } }); });
       expect(form.change).toHaveBeenLastCalledWith(
         'modifiedFieldsForContributedRecords',
-        [{
-          resourceIdentifierTypeId: undefined,
-          stripPrefix: false,
-          ignorePrefixes: '',
-        }],
+        [
+          {
+            resourceIdentifierTypeId: 'd09901a7-1407-42d5-a680-e4d83fe93c5d',
+            stripPrefix: true,
+            ignorePrefixes: 'FOO, fod, LC, is'
+          },
+          {
+            resourceIdentifierTypeId: 'e7bb3f98-5229-44dc-9da2-08bcfc67020a',
+            stripPrefix: false,
+            ignorePrefixes: 'LC, is'
+          }
+        ],
       );
+    });
+
+    it('should make an empty state for tabular list', async () => {
+      await act(async () => { BibTransformationOptionsForm.mock.calls[4][0].onChangeConfigState(form)({ target: { checked: false } }); });
+      expect(form.change).toHaveBeenLastCalledWith('modifiedFieldsForContributedRecords', []);
     });
   });
 });

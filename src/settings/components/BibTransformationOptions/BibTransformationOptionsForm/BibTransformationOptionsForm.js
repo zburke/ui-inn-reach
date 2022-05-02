@@ -75,7 +75,13 @@ const BibTransformationOptionsForm = ({
 
       setCanSave(isSomeIdentifierTypeFilledIn || hasStripFieldChanged);
     } else {
-      setCanSave(!pristine);
+      const hasTabularListValues = initialValues[MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS][0][RESOURCE_IDENTIFIER_TYPE_ID];
+
+      if (!isConfigActive && hasTabularListValues) {
+        setCanSave(true);
+      } else {
+        setCanSave(!pristine);
+      }
     }
   }, [values, pristine, isConfigActive]);
 

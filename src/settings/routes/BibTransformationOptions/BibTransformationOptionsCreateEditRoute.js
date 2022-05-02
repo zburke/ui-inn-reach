@@ -112,11 +112,11 @@ const BibTransformationOptionsCreateEditRoute = ({
 
   const handleChangeConfigState = (form) => (event) => {
     const isChecked = event.target.checked;
+    const value = isChecked
+      ? initialValues[MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS]
+      : [];
 
-    if (!isChecked) {
-      form.change(MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS, initialValues[MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS]);
-    }
-
+    form.change(MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS, value);
     setIsConfigActive(isChecked);
   };
 

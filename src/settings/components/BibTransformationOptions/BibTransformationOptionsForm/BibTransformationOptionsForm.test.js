@@ -156,7 +156,6 @@ describe('BibTransformationOptionsForm', () => {
         },
       });
 
-      userEvent.type(getByRole('textbox', { name: 'Strip fields and subfields' }), '123');
       expect(getByRole('button', { name: 'Save' })).toBeEnabled();
     });
 
@@ -180,10 +179,10 @@ describe('BibTransformationOptionsForm', () => {
       expect(getByRole('button', { name: 'Save' })).toBeDisabled();
     });
 
-    it('should be disabled when there is no change', () => {
+    it('should be disabled when we toggle the "Modify MARC" checkbox twice', () => {
       const { getByRole } = renderBibTransformationOptionsForm({
         ...commonProps,
-        isConfigActive: false,
+        isConfigActive: true,
         initialValues: {
           [CONFIG_IS_ACTIVE]: true,
           [MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS]: [
@@ -194,6 +193,8 @@ describe('BibTransformationOptionsForm', () => {
         },
       });
 
+      userEvent.click(getByRole('checkbox', { name: 'Modify MARC 001 field for contributed records' }));
+      userEvent.click(getByRole('checkbox', { name: 'Modify MARC 001 field for contributed records' }));
       expect(getByRole('button', { name: 'Save' })).toBeDisabled();
     });
 
