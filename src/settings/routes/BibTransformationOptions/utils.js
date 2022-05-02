@@ -25,11 +25,13 @@ const formatTabularList = (tabularListValues) => {
 
 export const formatMARCTransformations = (response) => {
   const formattedData = {
-    ...response,
     [CONFIG_IS_ACTIVE]: false,
     [MODIFIED_FIELDS_FOR_CONTRIBUTED_RECORDS]: [NEW_ROW_VALUES],
-    [EXCLUDED_MARC_FIELDS]: '',
   };
+
+  if (response[ID]) {
+    formattedData[ID] = response[ID];
+  }
 
   if (!isEmpty(response[EXCLUDED_MARC_FIELDS])) {
     formattedData[EXCLUDED_MARC_FIELDS] = response[EXCLUDED_MARC_FIELDS].join(', ');

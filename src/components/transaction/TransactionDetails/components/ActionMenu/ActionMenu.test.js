@@ -27,6 +27,7 @@ const renderActionMenu = ({
       onCancelItemHold={jest.fn()}
       onCancelLocalHold={jest.fn()}
       onTransferHold={jest.fn()}
+      onCheckOutToLocalPatron={jest.fn()}
     />,
     translationsProperties,
   );
