@@ -1,8 +1,50 @@
 # Change history for ui-inn-reach
+## [1.4.0] (IN PROGRESS)
 
-## [1.3.0] (IN PROGRESS)
+## [1.3.0] (https://github.com/folio-org/ui-inn-reach/tree/v1.3.0) (2022-05-03)
 
+* Added transfer status for item cancel hold action. Refs UIINREACH-169.
+* Check out to local patron action. Refs UIINREACH-90.
+* Check out to borrowing sites result list loan due date information displays the loan date, not the due date. Refs UIINREACH-171.
+* INN-Reach Staff Interface: INN-Reach Transaction Detail View Action Menu (Item hold) - Transfer hold to another item. Refs UIINREACH-86.
+* INN-Reach Staff Interface: INN-Reach Transaction Detail View Action Menu (Item hold) - Final check-in. Refs UIINREACH-89.
+* Cancel local hold action. Refs UIINREACH-93.
+* Error saving configuration for MARC transformation options. Refs UIINREACH-166.
+* INN-Reach Staff Interface: INN-Reach Transaction Detail View Action Menu (Item hold) - Recall item. Refs UIINREACH-87.
+* Cancel item hold. Refs UIINREACH-88.
+* Unable to save "Bib Transformation" configuration without modifying MARC 001 field. Refs UIINREACH-158.
+* INN-Reach Staff Interface: INN-Reach Transaction Detail View Action Menu (Local hold). Refs UIINREACH-70.
+* Return patron hold item action. Refs UIINREACH-83.
+* Replace react-hot-loader - unmaintained, security (CVE-2021-44906). Refs UIINREACH-160.
+* INN-Reach Staff Interface: INN-Reach Transaction Detail View Action Menu (Patron hold) - Cancel hold. Refs UIINREACH-81.
+* INN-Reach Staff Interface: INN-Reach Transaction Detail View Action Menu (Patron hold) - Check Out to Patron. Refs UIINREACH-82.
+* In-transit too long report. Refs UIINREACH-136.
+* Update INN-Reach Transaction Results List to Sort by Request Date Descending (newest requests first). UIINREACH-156.
+* Configure Visible Patron ID Field. Refs UIINREACH-142.
+* INN-Reach In-app Report: Returned too Long Report. Refs UIINREACH-135.
+* Owning site paged too long report. Refs UIINREACH-133.
+* Manage contribution (cancellation): BE integration. Refs UIINREACH-96.
+* INN-Reach In-app Report: Borrowing Site Stale Requests Report (Requested too Long). Refs UIINREACH-134.
+* INN-Reach In-app Report: Owning Site Overdue (Institutional Overdue Report). Refs UIINREACH-132.
+* Unable to specify strip fields and subfields if 'Modify MARC 001 field for contributed records' is not selected. Refs UIINREACH-138.
+* INN-Reach Staff Interface: Receive Shipped Item Action: Barcode Augmented Message. Refs UIINREACH-147.
+* Checkout to borrowing site item detail view action. Refs UIINREACH-85.
+* INN-Reach Staff Interface: Receive Unshipped Item Action: Print Staff Slips. Refs UIINREACH-144.
+* FOLIO to INN-Reach Locations Settings Should Group Mappings by INN-Reach Agency. Refs UIINREACH-100.
+* INN-Reach Staff Interface: Receive Unshipped Item Action: Barcode Augmented Message. Refs UIINREACH-143.
+* INN-Reach Staff Interface: INN-Reach Transaction Detail View Action Menu (Patron hold) - Receive item. Refs UIINREACH-79.
+* INN-Reach Staff Interface: Receive Shipped Item - modal window behavior. Refs UIINREACH-145.
+* INN-Reach Staff Interface: INN-Reach Transaction Detail View Action Menu (Patron hold) - Update list of transactions. Refs UIINREACH-141.
+* Update the @folio/stripes-cli version. Refs UIINREACH-140.
+* INN-Reach Staff Interface: change Modal content on 'Receive Shipped Item' page". Refs UIINREACH-137.
+* INN-Reach Staff Interface: Print Slips and Transaction List Action Menus on Receive Shipped Item. Refs UIINREACH-109.
+* Checkout to borrowing site. Refs UIINREACH-107.
 * Use supported `uuid`. Refs UIINREACH-127.
+* UIINREACH-80: INN-Reach Staff Interface: INN-Reach Transaction Detail View Action Menu (Patron hold) - Receive Unshipped Item 
+* UIINREACH-78: INN-Reach Staff Interface: Receive Shipped Item (replace query with parameter)
+* UIINREACH-78: INN-Reach Staff Interface: Receive Shipped Item
+* BE integration for 'INN-Reach Recall User' setting. Refs UIINREACH-125.
+* INN-Reach Record Contribution Settings: Exclude Locations Not Associated with a local Agency Code from the "FOLIO locations to exclude from contribution". Refs UIINREACH-114.
 
 ## [1.2.0] (https://github.com/folio-org/ui-inn-reach/tree/v1.2.0) (2021-11-12)
 
