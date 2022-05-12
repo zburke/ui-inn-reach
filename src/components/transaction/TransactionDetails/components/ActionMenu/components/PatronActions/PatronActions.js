@@ -38,7 +38,7 @@ const PatronActions = ({
   onReceiveItem,
   onReceiveUnshippedItem,
   onReturnItem,
-  onCancelPatronHold,
+  onCancelHold,
 }) => {
   return (
     <>
@@ -81,7 +81,7 @@ const PatronActions = ({
         icon={ICONS.TIMES_CIRCLE}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.patron-type.action.cancel-hold"
         onToggle={onToggle}
-        onClickHandler={onCancelPatronHold}
+        onClickHandler={onCancelHold}
       />
     </>
   );
@@ -89,12 +89,12 @@ const PatronActions = ({
 
 PatronActions.propTypes = {
   transaction: PropTypes.object.isRequired,
-  onCancelPatronHold: PropTypes.func.isRequired,
+  onCancelHold: PropTypes.func.isRequired,
   onCheckOutToPatron: PropTypes.func.isRequired,
   onReceiveItem: PropTypes.func.isRequired,
   onReceiveUnshippedItem: PropTypes.func.isRequired,
+  onReturnItem: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
-  onReturnItem: PropTypes.func,
 };
 
 export default PatronActions;

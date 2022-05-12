@@ -505,23 +505,15 @@
   "check-out-to-local-patron.callout.connection-problem.post.check-out-to-local-patron": "There was a problem checking out the item",
   "check-out-to-local-patron.callout.success.post.check-out-to-local-patron": "Item has been successfully checked out",
 
+  "cancel-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
+  "cancel-hold.callout.connection-problem.post.cancel-hold": "There was a problem canceling the item",
+  "cancel-hold.callout.success.post.cancel-hold": "Item has been successfully canceled",
+
   "return-patron-hold-item.callout.success.post.return-patron-hold-item": "Item has been successfully returned",
   "return-patron-hold-item.callout.connection-problem.post.return-patron-hold-item": "There was a problem returning the item",
 
-  "cancel-patron-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
-  "cancel-patron-hold.callout.connection-problem.post.cancel-hold": "There was a problem canceling the item",
-  "cancel-patron-hold.callout.success.post.cancel-hold": "Item has been successfully canceled",
-
-  "cancel-item-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
-  "cancel-item-hold.callout.success.post.cancel-item-hold": "Item has been successfully canceled",
-  "cancel-item-hold.callout.connection-problem.post.cancel-item-hold": "There was a problem canceling the item",
-  
   "final-check-in-item-hold.callout.success.post.final-check-in-item-hold":"Item has been successfully checked in",
   "final-check-in-item-hold.callout.connection-problem.post.final-check-in-item-hold":"There was a problem checking in the item",
-
-  "cancel-local-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
-  "cancel-local-hold.callout.success.post.cancel-local-hold": "Item has been successfully canceled",
-  "cancel-local-hold.callout.connection-problem.post.cancel-local-hold": "There was a problem canceling the item",
 
   "transfer-hold.modal.label": "Select item",
   "transfer-hold.modal.title": "Other items in {title}",

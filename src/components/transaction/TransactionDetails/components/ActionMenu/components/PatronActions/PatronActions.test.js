@@ -18,7 +18,7 @@ const renderPatronActions = ({
   onReceiveItem = jest.fn(),
   onReturnItem = jest.fn(),
   onCheckOutToPatron = jest.fn(),
-  onCancelPatronHold = jest.fn(),
+  onCancelHold = jest.fn(),
 } = {}) => {
   return renderWithIntl(
     <PatronActions
@@ -28,7 +28,7 @@ const renderPatronActions = ({
       onReceiveItem={onReceiveItem}
       onReturnItem={onReturnItem}
       onCheckOutToPatron={onCheckOutToPatron}
-      onCancelPatronHold={onCancelPatronHold}
+      onCancelHold={onCancelHold}
     />,
     translationsProperties,
   );

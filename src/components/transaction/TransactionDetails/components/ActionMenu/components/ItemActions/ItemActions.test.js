@@ -13,7 +13,9 @@ const renderItemActions = ({
   onToggle = jest.fn(),
   onCheckOutBorrowingSite = jest.fn(),
   onFinalCheckInItem = jest.fn(),
-  onCancelItemHold = jest.fn(),
+  onRecallItem = jest.fn(),
+  onTransferHold = jest.fn(),
+  onCancelHold = jest.fn(),
 } = {}) => {
   return renderWithIntl(
     <ItemActions
@@ -21,7 +23,9 @@ const renderItemActions = ({
       onToggle={onToggle}
       onCheckOutBorrowingSite={onCheckOutBorrowingSite}
       onFinalCheckInItem={onFinalCheckInItem}
-      onCancelItemHold={onCancelItemHold}
+      onRecallItem={onRecallItem}
+      onTransferHold={onTransferHold}
+      onCancelHold={onCancelHold}
     />,
     translationsProperties,
   );

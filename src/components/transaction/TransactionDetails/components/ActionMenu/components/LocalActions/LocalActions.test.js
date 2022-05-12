@@ -11,15 +11,17 @@ const transactionMock = {
 const renderLocalActions = ({
   transaction = transactionMock,
   onToggle = jest.fn(),
-  onCancelLocalHold = jest.fn(),
+  onCancelHold = jest.fn(),
   onCheckOutToLocalPatron = jest.fn(),
+  onTransferHold = jest.fn(),
 } = {}) => {
   return renderWithIntl(
     <LocalActions
       transaction={transaction}
       onToggle={onToggle}
-      onCancelLocalHold={onCancelLocalHold}
+      onCancelHold={onCancelHold}
       onCheckOutToLocalPatron={onCheckOutToLocalPatron}
+      onTransferHold={onTransferHold}
     />,
     translationsProperties,
   );

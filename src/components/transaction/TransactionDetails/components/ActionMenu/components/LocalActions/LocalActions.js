@@ -1,5 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import {
+  IfPermission,
+} from '@folio/stripes/core';
+
 import {
   ActionItem,
 } from '../../../../../../common';
@@ -23,7 +28,7 @@ const LocalActions = ({
   onToggle,
   onCheckOutToLocalPatron,
   onTransferHold,
-  onCancelLocalHold,
+  onCancelHold,
 }) => {
   return (
     <>
@@ -34,19 +39,21 @@ const LocalActions = ({
         onToggle={onToggle}
         onClickHandler={onCheckOutToLocalPatron}
       />
-      <ActionItem
-        disabled
-        icon={ICONS.TRANSFER}
-        buttonTextTranslationKey="ui-inn-reach.transaction-detail.local-type.action.transfer-hold"
-        onToggle={onToggle}
-        onClickHandler={onTransferHold}
-      />
+      <IfPermission perm="ui-requests.moveRequest">
+        <ActionItem
+          disabled={transaction[STATUS] !== LOCAL_HOLD}
+          icon={ICONS.TRANSFER}
+          buttonTextTranslationKey="ui-inn-reach.transaction-detail.local-type.action.transfer-hold"
+          onToggle={onToggle}
+          onClickHandler={onTransferHold}
+        />
+      </IfPermission>
       <ActionItem
         disabled={transaction[STATUS] !== LOCAL_HOLD}
         icon={ICONS.TIMES_CIRCLE}
         buttonTextTranslationKey="ui-inn-reach.transaction-detail.local-type.action.cancel-hold"
         onToggle={onToggle}
-        onClickHandler={onCancelLocalHold}
+        onClickHandler={onCancelHold}
       />
     </>
   );
@@ -54,10 +61,10 @@ const LocalActions = ({
 
 LocalActions.propTypes = {
   transaction: PropTypes.object.isRequired,
-  onCancelLocalHold: PropTypes.func.isRequired,
+  onCancelHold: PropTypes.func.isRequired,
   onCheckOutToLocalPatron: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
-  onTransferHold: PropTypes.func,
+  onTransferHold: PropTypes.func.isRequired,
 };
 
 export default LocalActions;

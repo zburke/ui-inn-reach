@@ -6,6 +6,7 @@ import TransactionDetail from './TransactionDetail';
 
 jest.mock('./components', () => ({
   ...jest.requireActual('./components'),
+  ActionMenu: jest.fn(() => <div>ActionMenu</div>),
   TransactionSummary: jest.fn(() => <div>TransactionSummary</div>),
   PatronInformation: jest.fn(() => <div>PatronInformation</div>),
   ItemInformation: jest.fn(() => <div>ItemInformation</div>),
@@ -27,12 +28,10 @@ const renderTransactionDetail = ({
   onCheckOutToLocalPatron,
   onFinalCheckInItem,
   onReturnItem,
-  onCancelPatronHold,
-  onCancelItemHold,
+  onCancelHold,
   onTransferHold,
   onReceiveUnshippedItem,
   onReceiveItem,
-  onCancelLocalHold,
   onRecallItem,
 } = {}) => {
   return renderWithIntl(
@@ -47,9 +46,7 @@ const renderTransactionDetail = ({
       onCheckOutToPatron={onCheckOutToPatron}
       onFinalCheckInItem={onFinalCheckInItem}
       onReturnItem={onReturnItem}
-      onCancelPatronHold={onCancelPatronHold}
-      onCancelItemHold={onCancelItemHold}
-      onCancelLocalHold={onCancelLocalHold}
+      onCancelHold={onCancelHold}
       onTransferHold={onTransferHold}
     />,
     translationsProperties,
@@ -66,10 +63,8 @@ describe('TransactionDetail', () => {
   const onReturnItem = jest.fn();
   const onCheckOutToPatron = jest.fn();
   const onCheckOutToLocalPatron = jest.fn();
-  const onCancelPatronHold = jest.fn();
-  const onCancelItemHold = jest.fn();
+  const onCancelHold = jest.fn();
   const onFinalCheckInItem = jest.fn();
-  const onCancelLocalHold = jest.fn();
 
   const commonProps = {
     onClose,
@@ -79,10 +74,8 @@ describe('TransactionDetail', () => {
     onCheckOutBorrowingSite,
     onCheckOutToPatron,
     onCheckOutToLocalPatron,
-    onCancelPatronHold,
-    onCancelItemHold,
+    onCancelHold,
     onFinalCheckInItem,
-    onCancelLocalHold,
     onReturnItem,
     onTransferHold,
   };

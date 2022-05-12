@@ -42,14 +42,12 @@ const TransactionDetail = ({
   onCheckOutToLocalPatron,
   onCheckOutToPatron,
   onReturnItem,
-  onCancelPatronHold,
-  onCancelItemHold,
   onFinalCheckInItem,
-  onCancelLocalHold,
   onReceiveUnshippedItem,
   onRecallItem,
   onReceiveItem,
   onTransferHold,
+  onCancelHold,
 }) => {
   const renderActionMenu = useCallback(({ onToggle }) => (
     <ActionMenu
@@ -63,10 +61,8 @@ const TransactionDetail = ({
       onCheckOutToLocalPatron={onCheckOutToLocalPatron}
       onFinalCheckInItem={onFinalCheckInItem}
       onReturnItem={onReturnItem}
-      onCancelPatronHold={onCancelPatronHold}
-      onCancelItemHold={onCancelItemHold}
-      onCancelLocalHold={onCancelLocalHold}
       onTransferHold={onTransferHold}
+      onCancelHold={onCancelHold}
     />
   ), [transaction]);
 
@@ -100,9 +96,7 @@ const TransactionDetail = ({
 
 TransactionDetail.propTypes = {
   transaction: PropTypes.object.isRequired,
-  onCancelItemHold: PropTypes.func.isRequired,
-  onCancelLocalHold: PropTypes.func.isRequired,
-  onCancelPatronHold: PropTypes.func.isRequired,
+  onCancelHold: PropTypes.func.isRequired,
   onCheckOutBorrowingSite: PropTypes.func.isRequired,
   onCheckOutToLocalPatron: PropTypes.func.isRequired,
   onCheckOutToPatron: PropTypes.func.isRequired,
