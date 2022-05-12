@@ -28,19 +28,21 @@ export const getFolioLocationOptions = (folioLocationsMap, libraryId) => {
   }, [NO_VALUE_LOCATION_OPTION]);
 };
 
-export const getLocalServerOptions = ({ localServerList }) => {
+export const getLocalServerOptions = ({ localServerList }, selectedServer) => {
   if (!localServerList) return [];
 
-  return localServerList.reduce((accum, { localCode, description }) => {
-    const option = {
-      label: `${localCode} (${description})`,
-      value: localCode,
-    };
+  return localServerList
+    .filter(({ localCode }) => localCode !== selectedServer.localServerCode)
+    .reduce((accum, { localCode, description }) => {
+      const option = {
+        label: `${localCode} (${description})`,
+        value: localCode,
+      };
 
-    accum.push(option);
+      accum.push(option);
 
-    return accum;
-  }, [NO_VALUE_LOCAL_SERVER_OPTION]);
+      return accum;
+    }, [NO_VALUE_LOCAL_SERVER_OPTION]);
 };
 
 export const getSelectedOptionInfo = (selectedOptionValue) => {

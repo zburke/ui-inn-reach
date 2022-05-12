@@ -97,7 +97,7 @@ const AgencyToFolioLocationsForm = ({
     isAgencyCodeMappingsChanged
   );
 
-  const localServerOptions = useMemo(() => getLocalServerOptions(localServers), [localServers]);
+  const localServerOptions = useMemo(() => getLocalServerOptions(localServers, selectedServer), [localServers, selectedServer]);
 
   const handleChangeServerLibrary = (libraryId) => {
     if (values[LIBRARY_ID] === libraryId) return;

@@ -27,6 +27,7 @@ const serverOptions = [
 const selectedServerMock = {
   id: serverOptions[1].id,
   name: serverOptions[1].label,
+  localServerCode: 'fli01',
 };
 
 const loclibs = [
@@ -105,6 +106,14 @@ const localServers = {
       agencyList: [{ agencyCode: 'alng1', description: 'Alma2 ExLibris Group Agency 1' }],
       description: 'Alma2 ExLibris Group',
       localCode: 'alma2'
+    },
+    {
+      agencyList: [
+        { agencyCode: 'fl1g1', description: 'FOLIO 1 Agency 1' },
+        { agencyCode: 'fl1g2', description: 'FOLIO 1 Agency 2' },
+      ],
+      description: 'FOLIO 1',
+      localCode: 'fli01',
     },
   ],
   reason: 'success',
@@ -250,6 +259,10 @@ describe('AgencyToFolioLocationsForm', () => {
 
     it('should enable Save button', () => {
       expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled();
+    });
+
+    it('should exclude the local server option with a local code equal to the local code of the selected server', () => {
+      expect(screen.queryByText('fli01 (FOLIO 1)')).toBeNull();
     });
 
     describe('handleChangeLocalServer', () => {
