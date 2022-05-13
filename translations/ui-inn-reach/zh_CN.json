@@ -460,18 +460,9 @@
     "settings.visible-patron-id.label.select-user-fields": "为“可见的读者ID”选择要匹配的用户字段",
     "return-patron-hold-item.callout.success.post.return-patron-hold-item": "单件已成功返还",
     "return-patron-hold-item.callout.connection-problem.post.return-patron-hold-item": "返还单件时出现问题",
-    "cancel-patron-hold.callout.connection-problem.get.cancellation-reasons": "无法检索取消的原因",
-    "cancel-patron-hold.callout.connection-problem.post.cancel-hold": "取消单件时出现问题",
-    "cancel-patron-hold.callout.success.post.cancel-hold": "单件已成功取消",
     "transaction-detail.local-type.action.check-out": "借出给本地读者",
     "transaction-detail.local-type.action.cancel-hold": "取消预约",
     "transaction-detail.local-type.action.transfer-hold": "转移预约到另一单件",
-    "cancel-item-hold.callout.connection-problem.get.cancellation-reasons": "无法检索取消的原因",
-    "cancel-item-hold.callout.success.post.cancel-item-hold": "单件已成功取消",
-    "cancel-item-hold.callout.connection-problem.post.cancel-item-hold": "取消单件时出现问题",
-    "cancel-local-hold.callout.connection-problem.get.cancellation-reasons": "无法检索取消的原因",
-    "cancel-local-hold.callout.success.post.cancel-local-hold": "单件已成功取消",
-    "cancel-local-hold.callout.connection-problem.post.cancel-local-hold": "取消单件时出现问题",
     "recall-item.callout.connection-problem.post.recall-item": "召回单件时出现问题",
     "recall-item.callout.success.post.recall-item": "单件已成功召回",
     "final-check-in-item-hold.callout.success.post.final-check-in-item-hold": "单件已成功归还",
@@ -489,5 +480,8 @@
     "transfer-hold.callout.success.post.transfer-hold": "单件已成功转运",
     "transfer-hold.callout.connection-problem.post.transfer-hold": "转运单件时出现问题",
     "check-out-to-local-patron.callout.connection-problem.post.check-out-to-local-patron": "借出此单件时出现问题",
-    "check-out-to-local-patron.callout.success.post.check-out-to-local-patron": "单件已成功借出"
+    "check-out-to-local-patron.callout.success.post.check-out-to-local-patron": "单件已成功借出",
+    "cancel-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
+    "cancel-hold.callout.connection-problem.post.cancel-hold": "There was a problem canceling the item",
+    "cancel-hold.callout.success.post.cancel-hold": "Item has been successfully canceled"
 }
