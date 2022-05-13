@@ -76,14 +76,8 @@ const TransferHoldModal = ({
   const [items, setItems] = useState([]);
 
   const contentData = useMemo(() => {
-    let resultItems = items;
-
-    if (skippedItemId) {
-      resultItems = resultItems.filter(item => skippedItemId !== item.id);
-    }
-
-    // items with status available must go first
-    return resultItems.sort(a => (a.status.name === 'Available' ? -1 : 1));
+    return items.filter(item => skippedItemId !== item.id &&
+      item.status.name === 'Available');
   }, [items, skippedItemId]);
   const itemsAmount = contentData.length;
 

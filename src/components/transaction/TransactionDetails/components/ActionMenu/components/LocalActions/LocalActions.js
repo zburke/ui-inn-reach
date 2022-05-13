@@ -41,7 +41,7 @@ const LocalActions = ({
       />
       <IfPermission perm="ui-requests.moveRequest">
         <ActionItem
-          disabled={transaction[STATUS] !== LOCAL_HOLD}
+          disabled={![LOCAL_HOLD, TRANSFER].includes(transaction[STATUS])}
           icon={ICONS.TRANSFER}
           buttonTextTranslationKey="ui-inn-reach.transaction-detail.local-type.action.transfer-hold"
           onToggle={onToggle}

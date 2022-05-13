@@ -107,10 +107,9 @@ describe('TransferHoldModal', () => {
     });
   });
 
-  it('should have a list with the corresponding data', () => {
+  it('should have a list of items with Available state', () => {
     expect(MultiColumnList.mock.calls[2][0].contentData).toEqual([
       { id: '444', status: { name: 'Available' }, requestQueue: 1 },
-      { id: '333', status: { name: 'any status' }, requestQueue: 0 },
     ]);
   });
 });

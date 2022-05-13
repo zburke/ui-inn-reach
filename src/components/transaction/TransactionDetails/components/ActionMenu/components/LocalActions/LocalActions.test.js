@@ -34,10 +34,20 @@ describe('LocalActions component', () => {
     expect(getByText('Check out to local patron')).toBeVisible();
   });
 
-  it('should render "Transfer hold to another item" action', () => {
-    const { getByText } = renderLocalActions();
+  describe('"Transfer hold to another item" action', () => {
+    it('should be enabled with LOCAL_HOLD state', () => {
+      renderLocalActions();
+      expect(screen.getByRole('button', { name: 'Icon Transfer hold to another item' })).toBeEnabled();
+    });
 
-    expect(getByText('Transfer hold to another item')).toBeVisible();
+    it('should be enabled with TRANSFER state', () => {
+      renderLocalActions({
+        transaction: {
+          state: 'TRANSFER',
+        },
+      });
+      expect(screen.getByRole('button', { name: 'Icon Transfer hold to another item' })).toBeEnabled();
+    });
   });
 
   it('should render "Cancel hold" action', () => {
