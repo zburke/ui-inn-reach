@@ -460,18 +460,9 @@
     "settings.visible-patron-id.label.select-user-fields": "حدد حقول المستخدم لمطابقتها مع \"معرف المستفيد المرئي\"",
     "return-patron-hold-item.callout.success.post.return-patron-hold-item": "تمت إعادة المادة بنجاح",
     "return-patron-hold-item.callout.connection-problem.post.return-patron-hold-item": "حدثت مشكلة أثناء إعادة المادة",
-    "cancel-patron-hold.callout.connection-problem.get.cancellation-reasons": "لا يمكن استعادة أسباب الإلغاء!",
-    "cancel-patron-hold.callout.connection-problem.post.cancel-hold": "حدثت مشكلة أثناء إلغاء المادة",
-    "cancel-patron-hold.callout.success.post.cancel-hold": "تم إلغاء المادة بنجاح",
     "transaction-detail.local-type.action.check-out": "إعارة إلى مستفيد محلي",
     "transaction-detail.local-type.action.cancel-hold": "إلغاء الحجز",
     "transaction-detail.local-type.action.transfer-hold": "نقل الحجز إلى مادة أخرى",
-    "cancel-item-hold.callout.connection-problem.get.cancellation-reasons": "لا يمكن استعادة أسباب الإلغاء!",
-    "cancel-item-hold.callout.success.post.cancel-item-hold": "تم إلغاء المادة بنجاح",
-    "cancel-item-hold.callout.connection-problem.post.cancel-item-hold": "حدثت مشكلة أثناء إلغاء المادة",
-    "cancel-local-hold.callout.connection-problem.get.cancellation-reasons": "لا يمكن استعادة أسباب الإلغاء!",
-    "cancel-local-hold.callout.success.post.cancel-local-hold": "تم إلغاء المادة بنجاح",
-    "cancel-local-hold.callout.connection-problem.post.cancel-local-hold": "حدثت مشكلة أثناء إلغاء المادة",
     "recall-item.callout.connection-problem.post.recall-item": "حدثت مشكلة أثناء طلب استرجاع المادة",
     "recall-item.callout.success.post.recall-item": "تم طلب استرجاع المادة بنجاح",
     "final-check-in-item-hold.callout.success.post.final-check-in-item-hold": "تم رد المادة بنجاح",
@@ -489,5 +480,8 @@
     "transfer-hold.callout.success.post.transfer-hold": "تم نقل المادة بنجاح",
     "transfer-hold.callout.connection-problem.post.transfer-hold": "حدثت مشكلة أثناء نقل المادة",
     "check-out-to-local-patron.callout.connection-problem.post.check-out-to-local-patron": "حدثت مشكلة أثناء إعارة المادة",
-    "check-out-to-local-patron.callout.success.post.check-out-to-local-patron": "تمت إعارة المادة بنجاح"
+    "check-out-to-local-patron.callout.success.post.check-out-to-local-patron": "تمت إعارة المادة بنجاح",
+    "cancel-hold.callout.connection-problem.get.cancellation-reasons": "لا يمكن استعادة أسباب الإلغاء!",
+    "cancel-hold.callout.connection-problem.post.cancel-hold": "حدثت مشكلة أثناء إلغاء المادة",
+    "cancel-hold.callout.success.post.cancel-hold": "تم إلغاء المادة بنجاح"
 }

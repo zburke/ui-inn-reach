@@ -460,18 +460,9 @@
     "settings.visible-patron-id.label.select-user-fields": "Select user fields to match on for \"Visible Patron ID\"",
     "return-patron-hold-item.callout.success.post.return-patron-hold-item": "Item has been successfully returned",
     "return-patron-hold-item.callout.connection-problem.post.return-patron-hold-item": "There was a problem returning the item",
-    "cancel-patron-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
-    "cancel-patron-hold.callout.connection-problem.post.cancel-hold": "There was a problem canceling the item",
-    "cancel-patron-hold.callout.success.post.cancel-hold": "Item has been successfully canceled",
     "transaction-detail.local-type.action.check-out": "Prestar a usuario local",
     "transaction-detail.local-type.action.cancel-hold": "Cancel hold",
     "transaction-detail.local-type.action.transfer-hold": "Transfer hold to another item",
-    "cancel-item-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
-    "cancel-item-hold.callout.success.post.cancel-item-hold": "Item has been successfully canceled",
-    "cancel-item-hold.callout.connection-problem.post.cancel-item-hold": "There was a problem canceling the item",
-    "cancel-local-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
-    "cancel-local-hold.callout.success.post.cancel-local-hold": "Item has been successfully canceled",
-    "cancel-local-hold.callout.connection-problem.post.cancel-local-hold": "There was a problem canceling the item",
     "recall-item.callout.connection-problem.post.recall-item": "There was a problem recalling the item",
     "recall-item.callout.success.post.recall-item": "Item has been successfully recalled",
     "final-check-in-item-hold.callout.success.post.final-check-in-item-hold": "Item has been successfully checked in",
@@ -489,5 +480,8 @@
     "transfer-hold.callout.success.post.transfer-hold": "El ejemplar ha sido transferido con éxito",
     "transfer-hold.callout.connection-problem.post.transfer-hold": "There was a problem transferring the item",
     "check-out-to-local-patron.callout.connection-problem.post.check-out-to-local-patron": "Hubo un problema al prestar el ejemplar.",
-    "check-out-to-local-patron.callout.success.post.check-out-to-local-patron": "Item has been successfully checked out"
+    "check-out-to-local-patron.callout.success.post.check-out-to-local-patron": "Item has been successfully checked out",
+    "cancel-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
+    "cancel-hold.callout.connection-problem.post.cancel-hold": "There was a problem canceling the item",
+    "cancel-hold.callout.success.post.cancel-hold": "Item has been successfully canceled"
 }
