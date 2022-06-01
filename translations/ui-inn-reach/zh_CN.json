@@ -99,7 +99,7 @@
     "settings.contribution-options.status.missing": "遗失",
     "settings.contribution-options.status.in-process": "处理中",
     "settings.contribution-options.status.in-process-non-requestable": "处理中（不可请求）",
-    "settings.contribution-options.status.intellectual-item": "智力单件",
+    "settings.contribution-options.status.intellectual-item": "虚拟单件",
     "settings.contribution-options.status.on-order": "订购中",
     "settings.contribution-options.status.order-closed": "订单已关闭",
     "settings.contribution-options.status.restricted": "使用受限",
@@ -481,7 +481,7 @@
     "transfer-hold.callout.connection-problem.post.transfer-hold": "转运单件时出现问题",
     "check-out-to-local-patron.callout.connection-problem.post.check-out-to-local-patron": "借出此单件时出现问题",
     "check-out-to-local-patron.callout.success.post.check-out-to-local-patron": "单件已成功借出",
-    "cancel-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
-    "cancel-hold.callout.connection-problem.post.cancel-hold": "There was a problem canceling the item",
-    "cancel-hold.callout.success.post.cancel-hold": "Item has been successfully canceled"
+    "cancel-hold.callout.connection-problem.get.cancellation-reasons": "无法检索取消的原因",
+    "cancel-hold.callout.connection-problem.post.cancel-hold": "取消单件时出现问题",
+    "cancel-hold.callout.success.post.cancel-hold": "单件已成功取消"
 }

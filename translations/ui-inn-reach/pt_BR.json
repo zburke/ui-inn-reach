@@ -481,7 +481,7 @@
     "transfer-hold.callout.connection-problem.post.transfer-hold": "Ocorreu um problema ao transferir o exemplar",
     "check-out-to-local-patron.callout.connection-problem.post.check-out-to-local-patron": "Ocorreu um problema ao emprestar o exemplar",
     "check-out-to-local-patron.callout.success.post.check-out-to-local-patron": "O exemplar foi emprestado com sucesso",
-    "cancel-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
-    "cancel-hold.callout.connection-problem.post.cancel-hold": "There was a problem canceling the item",
-    "cancel-hold.callout.success.post.cancel-hold": "Item has been successfully canceled"
+    "cancel-hold.callout.connection-problem.get.cancellation-reasons": "Não foi possível recuperar os motivos de cancelamento!",
+    "cancel-hold.callout.connection-problem.post.cancel-hold": "Ocorreu um problema ao cancelar o item",
+    "cancel-hold.callout.success.post.cancel-hold": "O item foi cancelado com sucesso"
 }
