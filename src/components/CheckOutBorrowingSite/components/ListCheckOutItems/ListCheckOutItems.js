@@ -67,11 +67,24 @@ const columnMapping = {
 const ListCheckOutItems = ({
   scannedItems,
   intl,
+  setShowChangeDueDateDialog,
+  setLoanToChangeDueDate,
 }) => {
   const items = scannedItems.map((item, index) => ({
     ...item,
     [NO]: index + 1,
   }));
+
+  const renderActions = (loan) => {
+    return (
+      <ItemActions
+        loan={loan}
+        intl={intl}
+        setShowChangeDueDateDialog={setShowChangeDueDateDialog}
+        setLoanToChangeDueDate={setLoanToChangeDueDate}
+      />
+    );
+  };
 
   const getItemFormatter = () => ({
     [NO]: loan => intl.formatNumber(loan[NO]),
@@ -81,12 +94,7 @@ const ListCheckOutItems = ({
     [DUE_DATE]: loan => <FormattedDate value={loan[DUE_DATE]} />,
     [TIME]: loan => <FormattedTime value={loan[TIME]} />,
     [LOCATION]: loan => loan[ITEM]?.[LOCATION]?.[LOCATION_NAME],
-    [ACTIONS]: (loan) => (
-      <ItemActions
-        loan={loan}
-        intl={intl}
-      />
-    ),
+    [ACTIONS]: loan => renderActions(loan),
   });
 
   return (
@@ -103,6 +111,8 @@ const ListCheckOutItems = ({
 ListCheckOutItems.propTypes = {
   intl: PropTypes.object.isRequired,
   scannedItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setLoanToChangeDueDate: PropTypes.func.isRequired,
+  setShowChangeDueDateDialog: PropTypes.func.isRequired,
 };
 
 export default ListCheckOutItems;

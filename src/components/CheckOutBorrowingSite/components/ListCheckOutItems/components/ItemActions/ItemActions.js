@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import {
   FormattedMessage,
 } from 'react-intl';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {
   Button,
@@ -17,7 +18,14 @@ import {
 const ItemActions = ({
   loan,
   intl,
+  setShowChangeDueDateDialog,
+  setLoanToChangeDueDate,
 }) => {
+  const openChangeDueDateDialog = () => {
+    setLoanToChangeDueDate(cloneDeep(loan));
+    setShowChangeDueDateDialog(true);
+  };
+
   const trigger = ({ getTriggerProps, triggerRef }) => {
     const {
       'aria-expanded': ariaExpanded,
@@ -45,22 +53,23 @@ const ItemActions = ({
       onToggle={onToggle}
     >
       <Button
+        data-testid="show-loan-details"
         buttonStyle="dropdownItem"
+        to={`/users/${loan.userId}/loans/view/${loan.id}`}
       >
         <FormattedMessage id="ui-inn-reach.check-out-borrowing-site.action.loan-detail" />
       </Button>
       <Button
+        data-testid="change-due-date"
         buttonStyle="dropdownItem"
-      >
-        <FormattedMessage id="ui-inn-reach.check-out-borrowing-site.action.request-detail" />
-      </Button>
-      <Button
-        buttonStyle="dropdownItem"
+        onClick={openChangeDueDateDialog}
       >
         <FormattedMessage id="ui-inn-reach.check-out-borrowing-site.action.change-due-date" />
       </Button>
       <Button
+        data-testid="transaction-detail"
         buttonStyle="dropdownItem"
+        to={`/innreach/transactions/${loan.transactionId}/view`}
       >
         <FormattedMessage id="ui-inn-reach.check-out-borrowing-site.action.transaction-detail" />
       </Button>
@@ -78,6 +87,8 @@ const ItemActions = ({
 ItemActions.propTypes = {
   intl: PropTypes.object.isRequired,
   loan: PropTypes.object.isRequired,
+  setLoanToChangeDueDate: PropTypes.func.isRequired,
+  setShowChangeDueDateDialog: PropTypes.func.isRequired,
 };
 
 export default ItemActions;

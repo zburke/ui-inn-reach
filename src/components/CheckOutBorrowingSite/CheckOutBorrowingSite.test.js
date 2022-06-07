@@ -52,6 +52,17 @@ const transactionsMock = {
   ],
 };
 
+const loanMock = {
+  dueDate: '2022-08-30T23:59:59.000+00:00',
+  id: 'testId',
+  item: {
+    id: 'da21c639-3090-478d-8e89-075215946359',
+  },
+
+  transactionId: 'c6f66467-b9b0-4165-8cde-ec6fe4cfb79d',
+  userId: '7b1f2b66-b55d-4acc-ac15-be706382f0ef',
+};
+
 const checkoutBorroingSiteItemMock = {
   folioCheckOut: {
     item: {
@@ -81,6 +92,9 @@ const resourcesMock = {
     isPending: false,
     hasLoaded: true,
   },
+  loans: {
+    records: [loanMock]
+  },
   checkoutBorroingSiteItem: {
     isPending: false,
   },
@@ -100,6 +114,10 @@ const mutatorMock = {
   },
   checkoutBorroingSiteItem: {
     POST: jest.fn(() => Promise.resolve(checkoutBorroingSiteItemMock)),
+  },
+  loans: {
+    GET: jest.fn(() => Promise.resolve(transactionsMock)),
+    reset: jest.fn(),
   },
 };
 
@@ -171,7 +189,7 @@ describe('CheckOutBorrowingSite', () => {
       await act(async () => { ItemForm.mock.calls[0][0].onSubmit({ itemBarcode }); });
     };
 
-    it('should reset the loanss data', () => {
+    it('should reset the loans data', () => {
       renderReceiveItem();
       expect(mutatorMock.transactionRecords.reset).toHaveBeenCalled();
     });

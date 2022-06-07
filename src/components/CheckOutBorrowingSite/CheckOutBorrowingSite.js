@@ -1,6 +1,7 @@
 import {
   useState,
   useRef,
+  useCallback,
 } from 'react';
 import {
   FormattedMessage,
@@ -11,6 +12,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   isEmpty,
 } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {
   Button,
@@ -23,6 +25,7 @@ import {
   stripesConnect,
   stripesShape,
 } from '@folio/stripes/core';
+import { ChangeDueDateDialog } from '@folio/stripes/smart-components';
 
 import {
   DESC_ORDER,
@@ -37,7 +40,6 @@ import {
   TRANSACTION_FIELDS,
   TRANSACTION_STATUSES,
   TRANSACTION_TYPES,
-  CHECK_OUT_ITEM_FIELDS,
 } from '../../constants';
 
 import {
@@ -71,10 +73,6 @@ const {
   TRANSFER,
 } = TRANSACTION_STATUSES;
 
-const {
-  FOLIO_CHECK_OUT,
-} = CHECK_OUT_ITEM_FIELDS;
-
 const CheckOutBorrowingSite = ({
   history,
   location,
@@ -98,19 +96,63 @@ const CheckOutBorrowingSite = ({
   const [scannedItems, setScannedItems] = useState([]);
   const [isTransactionsLoaded, setIsTransactionsLoaded] = useState(false);
 
-  const addScannedItem = (checkoutResp) => {
-    const {
-      [FOLIO_CHECK_OUT]: folioCheckOut,
-    } = checkoutResp;
+  const ConnectedDialog = stripes.connect(ChangeDueDateDialog);
 
+  const [loanToChangeDueDate, setLoanToChangeDueDate] = useState(null);
+  const [showChangeDueDateDialog, setShowChangeDueDateDialog] = useState(false);
+
+  const fetchLoan = () => {
+    mutator.loans.reset();
+
+    return mutator.loans.GET({
+      params: {
+        query: `id=${loanToChangeDueDate.id}`
+      },
+    });
+  };
+
+  const hideChangeDueDateDialog = useCallback(() => {
+    fetchLoan()
+      .then((loansResponse) => {
+        const scannedItemsToChange = cloneDeep(scannedItems);
+
+        const loanToChandeIndex = scannedItemsToChange.findIndex((loan => loan.id === loansResponse.loans[0].id));
+
+        scannedItemsToChange[loanToChandeIndex].dueDate = loansResponse.loans[0].dueDate;
+
+        setShowChangeDueDateDialog(false);
+        setScannedItems(scannedItemsToChange);
+      })
+      .catch(() => {
+        showCallout({
+          type: CALLOUT_ERROR_TYPE,
+          message: <FormattedMessage id="ui-inn-reach.loan.callout.connection-problem.get.loan" />,
+        });
+      });
+  }, [showChangeDueDateDialog, setScannedItems, scannedItems, setShowChangeDueDateDialog]);
+
+  const renderDialog = useCallback(() => {
+    return (
+      <ConnectedDialog
+        user={{ id: loanToChangeDueDate.userId }}
+        stripes={stripes}
+        loanIds={[{ id: loanToChangeDueDate.id }]}
+        open={showChangeDueDateDialog}
+        onClose={hideChangeDueDateDialog}
+      />
+    );
+  }, [hideChangeDueDateDialog, showChangeDueDateDialog, loanToChangeDueDate]);
+
+  const addScannedItem = ({ folioCheckOut, transaction }) => {
     const scannedItem = {
+      transactionId: transaction.id,
       ...folioCheckOut,
     };
 
     setScannedItems(prev => [scannedItem, ...prev]);
   };
 
-  const fetchReceiveShippedItem = () => {
+  const fetchReceiveShippedItem = useCallback(() => {
     mutator.checkoutBorroingSiteItem.POST({})
       .then(addScannedItem)
       .catch(() => {
@@ -119,7 +161,7 @@ const CheckOutBorrowingSite = ({
           message: <FormattedMessage id="ui-inn-reach.check-out-borrowing-site.callout.connection-problem.post.check-out-borrowing-site" />,
         });
       });
-  };
+  }, [isTransactionsLoaded]);
 
   const fetchTransactions = (itemBarcode) => {
     setIsTransactionsLoaded(false);
@@ -163,6 +205,17 @@ const CheckOutBorrowingSite = ({
     setScannedItems([]);
   };
 
+  const renderChackedOutList = useCallback(() => {
+    return (
+      <ListCheckOutItems
+        scannedItems={scannedItems}
+        intl={intl}
+        setShowChangeDueDateDialog={setShowChangeDueDateDialog}
+        setLoanToChangeDueDate={setLoanToChangeDueDate}
+      />
+    );
+  }, [setLoanToChangeDueDate, setShowChangeDueDateDialog, scannedItems]);
+
   return (
     <div className={css.container}>
       <Paneset static>
@@ -190,10 +243,7 @@ const CheckOutBorrowingSite = ({
           {isLoading &&
             <Icon icon={ICONS.SPINNER_ELLIPSIS} />
           }
-          <ListCheckOutItems
-            scannedItems={scannedItems}
-            intl={intl}
-          />
+          {renderChackedOutList()}
         </Pane>
       </Paneset>
       <PaneFooter
@@ -209,6 +259,9 @@ const CheckOutBorrowingSite = ({
           </Button>
         }
       />
+      {
+        loanToChangeDueDate && renderDialog()
+      }
     </div>
   );
 };
@@ -232,6 +285,13 @@ CheckOutBorrowingSite.manifest = Object.freeze({
     accumulate: true,
     throwErrors: false,
   },
+  loans: {
+    type: 'okapi',
+    path: 'circulation/loans',
+    fetch: false,
+    throwErrors: false,
+    accumulate: true,
+  },
 });
 
 CheckOutBorrowingSite.propTypes = {
@@ -242,6 +302,10 @@ CheckOutBorrowingSite.propTypes = {
     itemBarcode: PropTypes.shape({
       replace: PropTypes.func.isRequired,
     }).isRequired,
+    loans: PropTypes.shape({
+      GET: PropTypes.func.isRequired,
+      reset: PropTypes.func.isRequired,
+    }),
     servicePointId: PropTypes.shape({
       replace: PropTypes.func.isRequired,
     }).isRequired,
@@ -254,6 +318,9 @@ CheckOutBorrowingSite.propTypes = {
     }),
   }),
   resources: PropTypes.shape({
+    loans: PropTypes.shape({
+      isPending: PropTypes.bool.isRequired,
+    }).isRequired,
     transactionRecords: PropTypes.shape({
       records: PropTypes.arrayOf(PropTypes.object).isRequired,
       isPending: PropTypes.bool.isRequired,

@@ -20,6 +20,7 @@ const scannedItemsMock = [
     loanDate: '2019-08-24T14:15:22Z',
     dueDate: '2019-08-24T14:15:22Z',
     loanPolicy: { name: 'loan policy name' },
+    transactionId: 'testId',
   },
 ];
 
@@ -28,6 +29,9 @@ const intlMock = {
   formatMessage: jest.fn(),
 };
 
+const setShowChangeDueDateDialogMock = jest.fn();
+const setLoanToChangeDueDateMock = jest.fn();
+
 const renderListCheckOutItems = ({
   scannedItems = scannedItemsMock,
 } = {}) => {
@@ -35,6 +39,8 @@ const renderListCheckOutItems = ({
     <ListCheckOutItems
       scannedItems={scannedItems}
       intl={intlMock}
+      setShowChangeDueDateDialog={setShowChangeDueDateDialogMock}
+      setLoanToChangeDueDate={setLoanToChangeDueDateMock}
     />,
     translationsProperties,
   );
