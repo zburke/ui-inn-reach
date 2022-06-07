@@ -372,7 +372,6 @@
     "check-out-borrowing-site.button.enter": "إدخال",
     "check-out-borrowing-site.placeholder.scan-or-enter-item-barcode": "قم بمسح باركود المادة ضوئيًا أو إدخاله يدويًا",
     "check-out-borrowing-site.action.loan-detail": "تفاصيل الإعارة",
-    "check-out-borrowing-site.action.request-detail": "تفاصيل الطلب",
     "check-out-borrowing-site.action.change-due-date": "تغيير تاريخ الاستحقاق",
     "check-out-borrowing-site.action.transaction-detail": "تفاصيل معاملات INN-Reach",
     "check-out-borrowing-site.column.no": "رقم",
@@ -483,5 +482,6 @@
     "check-out-to-local-patron.callout.success.post.check-out-to-local-patron": "تمت إعارة المادة بنجاح",
     "cancel-hold.callout.connection-problem.get.cancellation-reasons": "لا يمكن استعادة أسباب الإلغاء!",
     "cancel-hold.callout.connection-problem.post.cancel-hold": "حدثت مشكلة أثناء إلغاء المادة",
-    "cancel-hold.callout.success.post.cancel-hold": "تم إلغاء المادة بنجاح"
+    "cancel-hold.callout.success.post.cancel-hold": "تم إلغاء المادة بنجاح",
+    "loan.callout.connection-problem.get.loan": "There was a problem loading the loan"
 }

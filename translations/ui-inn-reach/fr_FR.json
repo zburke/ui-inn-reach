@@ -372,7 +372,6 @@
     "check-out-borrowing-site.button.enter": "Valider",
     "check-out-borrowing-site.placeholder.scan-or-enter-item-barcode": "Scanner ou saisir le code-barres de l'exemplaire",
     "check-out-borrowing-site.action.loan-detail": "Détails du prêt",
-    "check-out-borrowing-site.action.request-detail": "Détails de la demande",
     "check-out-borrowing-site.action.change-due-date": "Modifier la date de retour",
     "check-out-borrowing-site.action.transaction-detail": "Inn-Reach transaction detail",
     "check-out-borrowing-site.column.no": "N°",
@@ -483,5 +482,6 @@
     "check-out-to-local-patron.callout.success.post.check-out-to-local-patron": "Item has been successfully checked out",
     "cancel-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
     "cancel-hold.callout.connection-problem.post.cancel-hold": "There was a problem canceling the item",
-    "cancel-hold.callout.success.post.cancel-hold": "Item has been successfully canceled"
+    "cancel-hold.callout.success.post.cancel-hold": "Item has been successfully canceled",
+    "loan.callout.connection-problem.get.loan": "There was a problem loading the loan"
 }

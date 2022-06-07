@@ -372,7 +372,6 @@
     "check-out-borrowing-site.button.enter": "Enter",
     "check-out-borrowing-site.placeholder.scan-or-enter-item-barcode": "Escaneie ou insira o código de barras do item",
     "check-out-borrowing-site.action.loan-detail": "Detalhe do empréstimo",
-    "check-out-borrowing-site.action.request-detail": "Detalhes da requisição",
     "check-out-borrowing-site.action.change-due-date": "Alterar data de vencimento",
     "check-out-borrowing-site.action.transaction-detail": "Detalhes da transação INN-Reach",
     "check-out-borrowing-site.column.no": "Num.",
@@ -483,5 +482,6 @@
     "check-out-to-local-patron.callout.success.post.check-out-to-local-patron": "O exemplar foi emprestado com sucesso",
     "cancel-hold.callout.connection-problem.get.cancellation-reasons": "Não foi possível recuperar os motivos de cancelamento!",
     "cancel-hold.callout.connection-problem.post.cancel-hold": "Ocorreu um problema ao cancelar o item",
-    "cancel-hold.callout.success.post.cancel-hold": "O item foi cancelado com sucesso"
+    "cancel-hold.callout.success.post.cancel-hold": "O item foi cancelado com sucesso",
+    "loan.callout.connection-problem.get.loan": "There was a problem loading the loan"
 }

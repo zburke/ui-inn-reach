@@ -371,9 +371,8 @@
     "check-out-borrowing-site.modal.button": "Close",
     "check-out-borrowing-site.button.enter": "Enter",
     "check-out-borrowing-site.placeholder.scan-or-enter-item-barcode": "Scan or enter item barcode",
-    "check-out-borrowing-site.action.loan-detail": "Loan Detal",
-    "check-out-borrowing-site.action.request-detail": "Request Detail",
-    "check-out-borrowing-site.action.change-due-date": "Change Due Date",
+    "check-out-borrowing-site.action.loan-detail": "Loan detail",
+    "check-out-borrowing-site.action.change-due-date": "Change due date",
     "check-out-borrowing-site.action.transaction-detail": "Inn-Reach transaction detail",
     "check-out-borrowing-site.column.no": "No.",
     "check-out-borrowing-site.column.barcode": "條碼",
@@ -483,5 +482,6 @@
     "check-out-to-local-patron.callout.success.post.check-out-to-local-patron": "Item has been successfully checked out",
     "cancel-hold.callout.connection-problem.get.cancellation-reasons": "Could not retrieve cancellation reasons!",
     "cancel-hold.callout.connection-problem.post.cancel-hold": "There was a problem canceling the item",
-    "cancel-hold.callout.success.post.cancel-hold": "Item has been successfully canceled"
+    "cancel-hold.callout.success.post.cancel-hold": "Item has been successfully canceled",
+    "loan.callout.connection-problem.get.loan": "There was a problem loading the loan"
 }
