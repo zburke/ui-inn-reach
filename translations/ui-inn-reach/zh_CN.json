@@ -372,7 +372,6 @@
     "check-out-borrowing-site.button.enter": "输入",
     "check-out-borrowing-site.placeholder.scan-or-enter-item-barcode": "扫描或输入单件条码",
     "check-out-borrowing-site.action.loan-detail": "借阅详情",
-    "check-out-borrowing-site.action.request-detail": "请求详情",
     "check-out-borrowing-site.action.change-due-date": "更改到期日",
     "check-out-borrowing-site.action.transaction-detail": "Inn-Reach交易详情",
     "check-out-borrowing-site.column.no": "编号",
@@ -483,5 +482,6 @@
     "check-out-to-local-patron.callout.success.post.check-out-to-local-patron": "单件已成功借出",
     "cancel-hold.callout.connection-problem.get.cancellation-reasons": "无法检索取消的原因",
     "cancel-hold.callout.connection-problem.post.cancel-hold": "取消单件时出现问题",
-    "cancel-hold.callout.success.post.cancel-hold": "单件已成功取消"
+    "cancel-hold.callout.success.post.cancel-hold": "单件已成功取消",
+    "loan.callout.connection-problem.get.loan": "There was a problem loading the loan"
 }
