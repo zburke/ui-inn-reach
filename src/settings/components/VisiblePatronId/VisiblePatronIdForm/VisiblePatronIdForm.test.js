@@ -88,14 +88,6 @@ describe('VisiblePatronIdForm', () => {
     expect(onChangeServer).toHaveBeenCalled();
   });
 
-  describe('handleChangeServer', () => {
-    it('should cause onChangeServer callback', () => {
-      renderVisiblePatronIdForm(commonProps);
-      document.getElementById('option-centralServerId-0-f8723a94-25d5-4f19-9043-cc3c306d54a1').click();
-      expect(onChangeServer).toHaveBeenCalled();
-    });
-  });
-
   describe('banner', () => {
     beforeEach(() => {
       renderVisiblePatronIdForm({

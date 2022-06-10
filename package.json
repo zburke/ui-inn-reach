@@ -60,6 +60,7 @@
   },
   "dependencies": {
     "@folio/stripes-data-transfer-components": "^4.1.0",
+    "@folio/stripes-template-editor": "^3.0.0",
     "classnames": "^2.2.5",
     "html-to-react": "^1.3.3",
     "prop-types": "^15.6.0",
@@ -92,6 +93,9 @@
         "alt": "Inn-reach management app",
         "title": "Inn-reach"
       }
+    ],
+    "stripesDeps": [
+      "@folio/stripes-template-editor"
     ],
     "displayName": "ui-inn-reach.meta.title",
     "route": "/innreach",

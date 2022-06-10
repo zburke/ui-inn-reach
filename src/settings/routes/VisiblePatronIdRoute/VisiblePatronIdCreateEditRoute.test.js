@@ -8,7 +8,6 @@ import { createMemoryHistory } from 'history';
 import { translationsProperties } from '../../../../test/jest/helpers';
 import VisiblePatronIdCreateEditRoute from './VisiblePatronIdCreateEditRoute';
 import VisiblePatronIdForm from '../../components/VisiblePatronId/VisiblePatronIdForm';
-import { useCentralServers } from '../../../hooks';
 
 jest.mock('../../components/VisiblePatronId/VisiblePatronIdForm', () => {
   return jest.fn(() => <div>VisiblePatronIdForm</div>);
@@ -16,11 +15,6 @@ jest.mock('../../components/VisiblePatronId/VisiblePatronIdForm', () => {
 
 jest.mock('@folio/stripes-components', () => ({
   LoadingPane: jest.fn(() => <div>LoadingPane</div>),
-}));
-
-jest.mock('../../../hooks', () => ({
-  ...jest.requireActual('../../../hooks'),
-  useCentralServers: jest.fn().mockReturnValue({}),
 }));
 
 const customFields = [
@@ -59,19 +53,6 @@ const servers = [
       { code: '2qwer' },
       { code: 'qwer2' },
     ],
-  },
-];
-
-const serverOptions = [
-  {
-    id: '1',
-    value: 'testServerName1',
-    label: 'testServerName1',
-  },
-  {
-    id: '2',
-    value: 'testServerName2',
-    label: 'testServerName2',
   },
 ];
 
@@ -127,11 +108,6 @@ const renderVisiblePatronIdCreateEditRoute = ({
 describe('renderVisiblePatronIdCreateEditRoute component', () => {
   beforeEach(() => {
     VisiblePatronIdForm.mockClear();
-    useCentralServers.mockClear().mockReturnValue({
-      selectedServer: servers[1],
-      serverOptions,
-      handleServerChange: jest.fn(),
-    });
   });
 
   it('should be rendered', () => {

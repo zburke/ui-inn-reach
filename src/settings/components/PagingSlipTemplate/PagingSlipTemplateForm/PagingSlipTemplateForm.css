@@ -1,0 +1,5 @@
+.form {
+  & label[for="editor"] {
+    font-weight: bold;
+  }
+}

@@ -19,3 +19,4 @@ export * from './receive-shipped-item';
 export * from './checkout-shipped-items';
 export * from './reports';
 export * from './visible-patron-id';
+export * from './paging-slip-template';

@@ -93,7 +93,8 @@ const resourcesMock = {
     hasLoaded: true,
   },
   loans: {
-    records: [loanMock]
+    records: [loanMock],
+    isPending: false,
   },
   checkoutBorroingSiteItem: {
     isPending: false,
