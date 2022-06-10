@@ -66,7 +66,7 @@ const MaterialTypeCreateEditRoute = ({
     handleServerChange,
     handleModalConfirm,
     handleModalCancel,
-  } = useCentralServers(history, servers);
+  } = useCentralServers(history, servers, true);
 
   const showCallout = useCallout();
   const [materialTypeMappings, setMaterialTypeMappings] = useState([]);

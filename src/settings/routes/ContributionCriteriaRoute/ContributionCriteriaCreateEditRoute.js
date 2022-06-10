@@ -65,7 +65,7 @@ const ContributionCriteriaCreateEditRoute = ({
     handleServerChange,
     handleModalConfirm,
     handleModalCancel,
-  } = useCentralServers(history, servers);
+  } = useCentralServers(history, servers, true);
   const showCallout = useCallout();
   const [contributionCriteria, setContributionCriteria] = useState(null);
   const [initialValues, setInitialValues] = useState(DEFAULT_VALUES);

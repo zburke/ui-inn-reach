@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jest/helpers';
@@ -89,9 +89,9 @@ describe('GeneralInformation component', () => {
     it('should be collapsed after click', () => {
       const generalInformationBtn = document.querySelector('#accordion-toggle-button-centralServerGeneralAccordion');
 
-      userEvent.click(generalInformationBtn);
+      act(() => { userEvent.click(generalInformationBtn); });
       expect(generalInformationBtn.getAttribute('aria-expanded')).toBe('false');
-      userEvent.click(generalInformationBtn);
+      act(() => { userEvent.click(generalInformationBtn); });
       expect(generalInformationBtn.getAttribute('aria-expanded')).toBe('true');
     });
   });

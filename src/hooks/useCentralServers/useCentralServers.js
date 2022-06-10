@@ -8,7 +8,7 @@ import {
   getCentralServerOptions,
 } from '../../utils';
 
-const useCentralServers = (history, servers) => {
+const useCentralServers = (history, servers, showModal) => {
   const [selectedServer, setSelectedServer] = useState({});
   const [isPristine, setIsPristine] = useState(true);
   const [openModal, setOpenModal] = useState(false);
@@ -50,18 +50,22 @@ const useCentralServers = (history, servers) => {
   };
 
   useEffect(() => {
-    unblockRef.current = history.block(nextLocat => {
-      if (isPristine) {
-        setSelectedServer({});
-      } else {
-        setOpenModal(true);
-        setNextLocation(nextLocat);
-      }
+    if (showModal) {
+      unblockRef.current = history.block(nextLocat => {
+        if (isPristine) {
+          setSelectedServer({});
+        } else {
+          setOpenModal(true);
+          setNextLocation(nextLocat);
+        }
 
-      return isPristine;
-    });
+        return isPristine;
+      });
 
-    return () => unblockRef.current();
+      return () => unblockRef.current();
+    }
+
+    return undefined;
   }, [isPristine, history]);
 
   return {

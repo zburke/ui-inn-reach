@@ -25,7 +25,7 @@ describe('useCentralServers hook', () => {
   beforeEach(() => {
     history = createBrowserHistory();
 
-    result = renderHook(() => useCentralServers(history, servers)).result;
+    result = renderHook(() => useCentralServers(history, servers, true)).result;
   });
 
   it('should return isPristine state as false', () => {

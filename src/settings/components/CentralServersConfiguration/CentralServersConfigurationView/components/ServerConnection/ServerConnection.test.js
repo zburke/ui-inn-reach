@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, screen } from '@testing-library/react';
+import { act, cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jest/helpers';
@@ -77,9 +77,9 @@ describe('ServerConnection component', () => {
     it('should be collapsed after click', () => {
       const serverConnectionBtn = document.querySelector('#accordion-toggle-button-serverConnection');
 
-      userEvent.click(serverConnectionBtn);
+      act(() => { userEvent.click(serverConnectionBtn); });
       expect(serverConnectionBtn.getAttribute('aria-expanded')).toBe('false');
-      userEvent.click(serverConnectionBtn);
+      act(() => { userEvent.click(serverConnectionBtn); });
       expect(serverConnectionBtn.getAttribute('aria-expanded')).toBe('true');
     });
   });

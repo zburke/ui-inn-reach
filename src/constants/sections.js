@@ -17,6 +17,7 @@ import {
   PatronAgencyRoute,
   InnReachRecallUserRoute,
   VisiblePatronIdRoute,
+  PickupLocationsRoute,
 } from '../settings/routes';
 import {
   MATERIAL_TYPE_ROUTE,
@@ -62,6 +63,9 @@ import {
 import {
   PAGING_SLIP_TEMPLATE_ROUTE,
 } from './paging-slip-template';
+import {
+  PICKUP_LOCATIONS_ROUTE,
+} from './pickup-locations';
 
 export const sections = [
   {
@@ -148,6 +152,11 @@ export const sections = [
         route: PATRON_AGENCY_ROUTE,
         label: <FormattedMessage id="ui-inn-reach.settings.patron-agency" />,
         component: PatronAgencyRoute,
+      },
+      {
+        route: PICKUP_LOCATIONS_ROUTE,
+        label: <FormattedMessage id="ui-inn-reach.settings.pickup-locations" />,
+        component: PickupLocationsRoute,
       },
       {
         route: INN_REACH_RECALL_USER_ROUTE,

@@ -83,7 +83,7 @@ const ContributionOptionsCreateEditRoute = ({
     handleServerChange,
     handleModalConfirm,
     handleModalCancel,
-  } = useCentralServers(history, servers);
+  } = useCentralServers(history, servers, true);
   const showCallout = useCallout();
   const [contributionOptions, setContributionOptions] = useState({});
   const [isNewRecord, setIsNewRecord] = useState(false);

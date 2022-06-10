@@ -27,17 +27,9 @@ const ItemActions = ({
   };
 
   const trigger = ({ getTriggerProps, triggerRef }) => {
-    const {
-      'aria-expanded': ariaExpanded,
-      'aria-haspopup': ariaHaspopup,
-      ...rest
-    } = getTriggerProps();
-
     return (
       <IconButton
-        {...rest}
-        aria-expanded={ariaExpanded.toString()}
-        aria-haspopup={ariaHaspopup.toString()}
+        {...getTriggerProps()}
         icon={ICONS.ELLIPSIS}
         aria-label={intl.formatMessage({ id: 'ui-inn-reach.check-out-borrowing-site.actions-menu' })}
         id={`available-actions-button-${loan.rowIndex}`}

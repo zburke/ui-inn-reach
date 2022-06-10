@@ -1,6 +1,6 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { renderWithIntl } from '@folio/stripes-data-transfer-components/test/jest/helpers';
@@ -105,14 +105,29 @@ describe('CentralServerConfigurationForm component', () => {
     expect(screen.getByText('Collapse all')).toBeDefined();
   });
 
-  it('should have sections collapsed after clicking "Collapse all" button', () => {
-    renderForm(commonProps);
-    userEvent.click(document.querySelector('[data-tast-expand-button]'));
-    expect(document.querySelector('#accordion-toggle-button-section1').getAttribute('aria-expanded')).toBe('false');
-    expect(document.querySelector('#accordion-toggle-button-section2').getAttribute('aria-expanded')).toBe('false');
-    userEvent.click(document.querySelector('[data-tast-expand-button]'));
-    expect(document.querySelector('#accordion-toggle-button-section1').getAttribute('aria-expanded')).toBe('true');
-    expect(document.querySelector('#accordion-toggle-button-section2').getAttribute('aria-expanded')).toBe('true');
+  describe('the state of sections after clicking the "Collapse all" button', () => {
+    let section1;
+    let section2;
+    let toggleButton;
+
+    beforeEach(() => {
+      renderForm(commonProps);
+      section1 = document.querySelector('#accordion-toggle-button-section1');
+      section2 = document.querySelector('#accordion-toggle-button-section2');
+      toggleButton = document.querySelector('[data-tast-expand-button]');
+      act(() => { userEvent.click(toggleButton); });
+    });
+
+    it('should be opened', () => {
+      expect(section1.getAttribute('aria-expanded')).toBe('false');
+      expect(section2.getAttribute('aria-expanded')).toBe('false');
+    });
+
+    it('should be closed', () => {
+      act(() => { userEvent.click(toggleButton); });
+      expect(section1.getAttribute('aria-expanded')).toBe('true');
+      expect(section2.getAttribute('aria-expanded')).toBe('true');
+    });
   });
 
   it('should display form', () => {
@@ -152,21 +167,6 @@ describe('CentralServerConfigurationForm component', () => {
     expect(getByTestId('save-button')).toBeDisabled();
   });
 
-  describe('accordion', () => {
-    it('should be collapsed after click', () => {
-      renderForm(commonProps);
-      const accordion1 = document.querySelector('#accordion-toggle-button-section1');
-      const accordion2 = document.querySelector('#accordion-toggle-button-section2');
-
-      expect(accordion1.getAttribute('aria-expanded')).toBe('true');
-      expect(accordion2.getAttribute('aria-expanded')).toBe('true');
-      userEvent.click(accordion1);
-      userEvent.click(accordion2);
-      expect(accordion1.getAttribute('aria-expanded')).toBe('false');
-      expect(accordion2.getAttribute('aria-expanded')).toBe('false');
-    });
-  });
-
   describe('local server code field', () => {
     it('should be empty', () => {
       renderForm(commonProps);
@@ -187,7 +187,7 @@ describe('CentralServerConfigurationForm component', () => {
       renderForm(commonProps);
       const field = screen.getByRole('textbox', { name: 'Local server code' });
 
-      userEvent.type(field, 'abc');
+      act(() => { userEvent.type(field, 'abc'); });
       field.blur();
       expect(screen.getByText('Please enter a 5 character string in lower case')).toBeDefined();
     });
@@ -215,7 +215,7 @@ describe('CentralServerConfigurationForm component', () => {
       });
 
       it('should have an uuid after clicking on the "Generate keypair" button', () => {
-        userEvent.click(screen.getByTestId('generate-keypair'));
+        act(() => { userEvent.click(screen.getByTestId('generate-keypair')); });
         expect(localServerKey.value.length).toBe(36);
         expect(localServerSecret.value.length).toBe(36);
       });
@@ -239,7 +239,7 @@ describe('CentralServerConfigurationForm component', () => {
       it('should have "text" type', () => {
         const showSecretButton = screen.getByTestId('toggle-secret-mask');
 
-        userEvent.click(showSecretButton);
+        act(() => { userEvent.click(showSecretButton); });
         expect(localServerSecret.type).toBe('text');
       });
     });
@@ -279,7 +279,7 @@ describe('CentralServerConfigurationForm component', () => {
       });
       const showSecretButton = getByTestId('toggle-secret-mask');
 
-      userEvent.click(showSecretButton);
+      act(() => { userEvent.click(showSecretButton); });
       expect(getByText('Hide secrets')).toBeDefined();
     });
   });
