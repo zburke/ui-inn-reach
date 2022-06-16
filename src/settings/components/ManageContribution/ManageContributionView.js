@@ -24,6 +24,7 @@ const ManageContributionView = ({
   currentContributionHistoryCount,
   isCurrentContributionPending,
   isCurrentContributionHistoryPending,
+  refreshCurrentContribution,
   showContributionHistory,
   serverOptions,
   selectContributionHistory,
@@ -60,7 +61,7 @@ const ManageContributionView = ({
           value={selectedServer.name}
           onChange={onChangeServer}
         />
-        { selectedServer.id &&
+        {selectedServer.id &&
           <ButtonGroup
             fullWidth
           >
@@ -82,8 +83,11 @@ const ManageContributionView = ({
         {selectedServer.id && !showContributionHistory && !isCurrentContributionPending && currentContribution &&
           <CurrentContribution
             currentContribution={currentContribution}
+            refreshCurrentContribution={refreshCurrentContribution}
+            isCurrentContributionHistoryPending={isCurrentContributionHistoryPending}
           />
         }
+
         {selectedServer.id && showContributionHistory && !isCurrentContributionHistoryPending && currentContributionHistory &&
           <ContributionHistory
             currentContributionHistory={currentContributionHistory}
@@ -103,6 +107,7 @@ ManageContributionView.propTypes = {
   currentContributionHistoryCount: PropTypes.number.isRequired,
   isCurrentContributionHistoryPending: PropTypes.bool.isRequired,
   isCurrentContributionPending: PropTypes.bool.isRequired,
+  refreshCurrentContribution: PropTypes.func.isRequired,
   selectContributionHistory: PropTypes.func.isRequired,
   selectCurrentContribution: PropTypes.func.isRequired,
   selectedServer: PropTypes.object.isRequired,

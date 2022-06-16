@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import {
   Button,
   PaneFooter,
@@ -11,7 +11,6 @@ import {
   LOCATIONS_MAPPING_STATUSES,
   MANAGE_CONTRIBUTION_FIELDS,
 } from '../../../../../constants';
-import css from '../../ManageContributionView.css';
 
 const {
   STATUS,
@@ -30,43 +29,43 @@ const Footer = ({
   onInitiateContribution,
   onCancelContribution,
 }) => {
-  const initiateContributionRef = useRef(null);
-
   const canInitiateContribution = (
     (currentContribution[STATUS] === NOT_STARTED || currentContribution[STATUS] === CANCELLED) &&
     currentContribution[ITEM_TYPE_MAPPING_STATUS] === ITEM_TYPE_MAPPING_STATUSES.VALID &&
     currentContribution[LOCATIONS_MAPPING_STATUS] === LOCATIONS_MAPPING_STATUSES.VALID
   );
-  const ariaLabelledby = !canInitiateContribution ? { 'aria-labelledby': 'tooltip-text' } : {};
 
   const initiateContributionBtn = () => (
-    <>
-      <div
-        ref={initiateContributionRef}
-        className={css.tooltipWrapper}
-        {...ariaLabelledby}
-      >
-        <Button
-          marginBottom0
-          data-testid="initiate-contribution"
-          id="clickable-initiate-contribution"
-          buttonStyle="primary mega"
-          disabled={!canInitiateContribution}
-          onClick={onInitiateContribution}
-        >
-          <FormattedMessage id="ui-inn-reach.settings.manage-contribution.button.initiate-contribution" />
-        </Button>
-      </div>
-      {!canInitiateContribution &&
+    <Button
+      marginBottom0
+      id="clickable-initiate-contribution"
+      buttonStyle="primary mega"
+      disabled={!canInitiateContribution}
+      onClick={onInitiateContribution}
+    >
+      <FormattedMessage id="ui-inn-reach.settings.manage-contribution.button.initiate-contribution" />
+    </Button>
+  );
+  const tooltipedInitiateContributionBtn = () => (
+    !canInitiateContribution ? (
       <Tooltip
         id="save-button-tooltip"
         name="tooltip-text"
         text={<FormattedMessage id="ui-inn-reach.settings.manage-contribution.tooltip.check-mappings" />}
-        triggerRef={initiateContributionRef}
-      />
-      }
-
-    </>
+        placement="bottom-start"
+      >
+        {({ ref, ariaIds }) => (
+          <div
+            ref={ref}
+            aria-labelledby={ariaIds.text}
+          >
+            {initiateContributionBtn()}
+          </div>
+        )}
+      </Tooltip>
+    ) : (
+      initiateContributionBtn()
+    )
   );
 
   const cancelContributionBtn = () => (
@@ -90,7 +89,7 @@ const Footer = ({
 
   switch (currentContribution[STATUS]) {
     case NOT_STARTED:
-      return <PaneFooter renderEnd={initiateContributionBtn()} />;
+      return <PaneFooter renderEnd={tooltipedInitiateContributionBtn()} />;
     case IN_PROGRESS:
       return (
         <PaneFooter
@@ -99,7 +98,7 @@ const Footer = ({
         />
       );
     case CANCELLED:
-      return <PaneFooter renderEnd={initiateContributionBtn()} />;
+      return <PaneFooter renderEnd={tooltipedInitiateContributionBtn()} />;
     default:
       return null;
   }

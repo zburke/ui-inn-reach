@@ -157,6 +157,13 @@ const ManageContribution = ({
     }
   }, [selectedServer]);
 
+  const refreshCurrentContribution = () => {
+    setIsCurrentContributionPending(true);
+    setCurrentContribution({});
+    setCurrentContributionHistory([]);
+    fetchCurrentContribution();
+  };
+
   if (isServersPending && !hasLoadedServers) return <LoadingPane />;
 
   return (
@@ -166,6 +173,7 @@ const ManageContribution = ({
       currentContributionHistoryCount={contributionHistoryCount}
       isCurrentContributionPending={isCurrentContributionPending}
       isCurrentContributionHistoryPending={isCurrentContributionHistoryPending}
+      refreshCurrentContribution={refreshCurrentContribution}
       showContributionHistory={showContributionHistory}
       serverOptions={serverOptions}
       selectContributionHistory={refreshList}

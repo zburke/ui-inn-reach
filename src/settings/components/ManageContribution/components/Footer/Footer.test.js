@@ -54,20 +54,7 @@ describe('Footer', () => {
           },
         });
 
-        expect(getByText('Initiate contribution')).toBeVisible();
-      });
-
-      it('should be disabled', () => {
-        const { getByRole } = renderFooter({
-          ...commonProps,
-          currentContribution: {
-            itemTypeMappingStatus: 'Valid',
-            locationsMappingStatus: 'Invalid',
-            status: 'Not started',
-          },
-        });
-
-        expect(getByRole('button', { name: 'Initiate contribution' })).toBeDisabled();
+        expect(getByText('Tooltip')).toBeInTheDocument();
       });
 
       it('should be enabled', () => {

@@ -255,6 +255,8 @@
   "settings.manage-contribution.navigation.current": "Current contribution",
   "settings.manage-contribution.navigation.history": "Contribution history",
 
+  "settings.manage-contribution.current.refresh": "Refresh",
+
   "settings.manage-contribution.history.list.no.history": "No contribution history records",
 
   "settings.manage-contribution.history.field.date": "Date",
