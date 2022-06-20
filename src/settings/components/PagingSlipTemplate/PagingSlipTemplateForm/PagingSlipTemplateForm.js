@@ -21,13 +21,17 @@ import {
 } from '@folio/stripes-components';
 import stripesFinalForm from '@folio/stripes/final-form';
 
-import css from './PagingSlipTemplateForm.css';
-
+import {
+  TokensList,
+} from './components';
 import {
   CENTRAL_SERVER_ID,
   DEFAULT_PANE_WIDTH,
   PAGING_SLIP_TEMPLATE_FIELDS,
 } from '../../../../constants';
+import getTokens from './getTokens';
+
+import css from './PagingSlipTemplateForm.css';
 
 const {
   DESCRIPTION,
@@ -44,6 +48,7 @@ const PagingSlipTemplateForm = ({
   handleSubmit,
   onChangeServer,
 }) => {
+  const tokens = getTokens();
   const { formatMessage } = useIntl();
 
   const getFooter = () => {
@@ -91,10 +96,10 @@ const PagingSlipTemplateForm = ({
               printable
               label={formatMessage({ id: 'ui-inn-reach.settings.paging-slip-template.field.display' })}
               component={TemplateEditor}
-              tokens={{}}
+              tokens={tokens}
               name={TEMPLATE}
-              previewModalHeader={formatMessage({ id: 'ui-inn-reach.settings.paging-slip-template.button.preview' })}
-              tokensList={() => <div />}
+              previewModalHeader={formatMessage({ id: 'ui-inn-reach.settings.paging-slip-template.preview-modal-header' })}
+              tokensList={TokensList}
             />
           </>
         }

@@ -7,9 +7,18 @@ import { TemplateEditor } from '@folio/stripes-template-editor';
 import userEvent from '@testing-library/user-event';
 import { translationsProperties } from '../../../../../test/jest/helpers';
 import PagingSlipTemplateForm from './PagingSlipTemplateForm';
+import { TokensList } from './components';
+import getTokens from './getTokens';
+
+jest.mock('./getTokens');
 
 jest.mock('@folio/stripes-template-editor', () => ({
+  ...jest.requireActual('@folio/stripes-template-editor'),
   TemplateEditor: jest.fn(() => <div>TemplateEditor</div>),
+}));
+
+jest.mock('./components', () => ({
+  TokensList: jest.fn(() => <div>TokensList</div>),
 }));
 
 const serverOptions = [
@@ -63,6 +72,7 @@ describe('PagingSlipTemplateForm', () => {
 
   beforeEach(() => {
     TemplateEditor.mockClear();
+    TokensList.mockClear();
   });
 
   it('should be rendered', () => {
@@ -75,6 +85,24 @@ describe('PagingSlipTemplateForm', () => {
     renderVisiblePatronIdForm(commonProps);
     screen.getByText('centralServer1').click();
     expect(onChangeServer).toHaveBeenCalled();
+  });
+
+  it('should render hand the correct props to TemplateEditor', () => {
+    const getTokensMock = getTokens.mockImplementation(() => ({
+      item: [
+        { 'previewValue': 'Fool moon / Jim Butcher.', 'token': 'item.title' },
+      ],
+    }));
+    const expectedProps = {
+      printable: true,
+      label: 'Display',
+      tokens: getTokensMock(),
+      previewModalHeader: 'Preview of INN-Reach Paging Slip',
+      tokensList: TokensList,
+    };
+
+    renderVisiblePatronIdForm(commonProps);
+    expect(TemplateEditor).toHaveBeenNthCalledWith(1, expect.objectContaining(expectedProps), {});
   });
 
   describe('"Save" button conditions', () => {

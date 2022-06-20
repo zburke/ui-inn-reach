@@ -40,6 +40,7 @@ const renderCentralPatronTypeForm = ({
   currentContributionHistoryCount = 0,
   isCurrentContributionPending = false,
   isCurrentContributionHistoryPending = false,
+  refreshCurrentContribution,
   showContributionHistory = false,
   selectContributionHistory,
   selectCurrentContribution,
@@ -55,6 +56,7 @@ const renderCentralPatronTypeForm = ({
         currentContributionHistory={currentContributionHistory}
         currentContributionHistoryCount={currentContributionHistoryCount}
         isCurrentContributionPending={isCurrentContributionPending}
+        refreshCurrentContribution={refreshCurrentContribution}
         isCurrentContributionHistoryPending={isCurrentContributionHistoryPending}
         showContributionHistory={showContributionHistory}
         selectedServer={selectedServer}
@@ -78,6 +80,7 @@ describe('ManageContributionView', () => {
   const onInitiateContribution = jest.fn();
   const onCancelContribution = jest.fn();
   const onNeedMoreContributionHistoryData = jest.fn();
+  const refreshCurrentContribution = jest.fn();
 
   const commonProps = {
     onChangeServer,
@@ -86,6 +89,7 @@ describe('ManageContributionView', () => {
     onInitiateContribution,
     onCancelContribution,
     onNeedMoreContributionHistoryData,
+    refreshCurrentContribution,
   };
 
   it('should be rendered', () => {
