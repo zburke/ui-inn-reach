@@ -1,6 +1,6 @@
 # Change history for ui-inn-reach
 ## [1.4.0] (IN PROGRESS)
-
+* After entering an invalid server name in the server selection field, the "INN-Reach paging slip templates" panel closes and an error message appears. Refs UIINREACH-179
 ## [1.3.0] (https://github.com/folio-org/ui-inn-reach/tree/v1.3.0) (2022-05-03)
 
 * Added transfer status for item cancel hold action. Refs UIINREACH-169.
