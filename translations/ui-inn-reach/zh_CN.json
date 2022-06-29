@@ -505,7 +505,7 @@
     "settings.paging-slip-template.token-header.inn-reach-server": "INN-Reach server",
     "settings.paging-slip-template.token-header.inn-reach-agency": "INN-Reach agency",
     "settings.paging-slip-template.token-header.inn-reach-pickup-location": "INN-Reach pickup location",
-    "settings.paging-slip-template.token-header.item": "Item",
+    "settings.paging-slip-template.token-header.item": "单件",
     "settings.paging-slip-template.token-header.effective-location": "Effective location",
     "settings.paging-slip-template.token-header.staff-slip": "Staff slip"
 }
