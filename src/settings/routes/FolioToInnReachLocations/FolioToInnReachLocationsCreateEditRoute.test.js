@@ -219,6 +219,9 @@ const mutatorMock = {
     GET: jest.fn(() => Promise.resolve(locationMappingsResponseMock)),
     PUT: jest.fn(() => Promise.resolve()),
   },
+  locationMappingsForAllLibraries: {
+    GET: jest.fn(() => Promise.resolve([])),
+  },
 };
 
 const renderFolioToInnReachLocationsCreateEditRoute = ({
@@ -441,7 +444,7 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
       expect(mutatorMock.locationMappings.GET).toHaveBeenCalled();
     });
 
-    it('should make GET request for location mappings the multiple times', async () => {
+    it('should make GET request of location mappings for all libraries', async () => {
       renderFolioToInnReachLocationsCreateEditRoute({
         history,
         resources: {
@@ -452,7 +455,7 @@ describe('FolioToInnReachLocationsCreateEditRoute component', () => {
       act(() => { FolioToInnReachLocationsForm.mock.calls[0][0].onChangeServer(servers[0].name); });
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[1][0].onChangeMappingType('Locations'); });
       await act(async () => { await FolioToInnReachLocationsForm.mock.calls[2][0].onChangeLibrary(loclibs[3].name); });
-      expect(mutatorMock.locationMappings.GET).toHaveBeenCalledTimes(4);
+      expect(mutatorMock.locationMappingsForAllLibraries.GET).toHaveBeenCalled();
     });
   });
 

@@ -1,0 +1,29 @@
+.tabularList {
+  margin-bottom: 1rem;
+}
+
+.tabularListTitle {
+  font-size: 1.15rem;
+}
+
+.tabularRowOdd {
+  composes: tabularRowOdd from '../../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
+}
+
+.tabularRowEven {
+  composes: tabularRowEven from '../../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
+}
+
+.tabularRow div[class^="feedbackError"] {
+  margin-bottom: 5px;
+}
+
+.tabularCol {
+  composes: tabularCol from '../../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
+  display: initial;
+  padding: 10px 15px 5px;
+}
+
+.tabularColFirst {
+  composes: tabularColFirst from '../../../../../components/common/TableStyleList/TableStyleList.css'; /* stylelint-disable-line value-keyword-case */
+}

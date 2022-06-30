@@ -12,20 +12,26 @@ const {
   CODE,
 } = FOLIO_TO_INN_REACH_LOCATION_FIELDS;
 
-export const getServerLibraries = (localAgencies, folioLibraries) => {
-  const librariesIdsOfSelectedServer = new Set();
-  const formattedLibraries = [];
+export const getLibraryIdsSetOfSelectedServer = (localAgencies) => {
+  const libraryIdsSetOfSelectedServer = new Set();
 
   localAgencies.forEach(({ folioLibraryIds }) => {
     folioLibraryIds.forEach(libraryId => {
-      librariesIdsOfSelectedServer.add(libraryId);
+      libraryIdsSetOfSelectedServer.add(libraryId);
     });
   });
 
-  for (const { id, name, code } of folioLibraries) {
-    if (formattedLibraries.length === librariesIdsOfSelectedServer.size) break;
+  return libraryIdsSetOfSelectedServer;
+};
 
-    if (librariesIdsOfSelectedServer.has(id)) {
+export const getServerLibraries = (localAgencies, folioLibraries) => {
+  const libraryIdsSetOfSelectedServer = getLibraryIdsSetOfSelectedServer(localAgencies);
+  const formattedLibraries = [];
+
+  for (const { id, name, code } of folioLibraries) {
+    if (formattedLibraries.length === libraryIdsSetOfSelectedServer.size) break;
+
+    if (libraryIdsSetOfSelectedServer.has(id)) {
       const option = {
         id,
         label: `${name} (${code})`,
@@ -243,4 +249,30 @@ export const getTabularListMap = (record) => {
   });
 
   return tabularListMap;
+};
+
+export const getAgencyCodeToLibraryMap = (localAgencies) => {
+  const agencyCodeToLibraryMap = new Map();
+
+  localAgencies.forEach(({ code, folioLibraryIds }) => {
+    folioLibraryIds.forEach(libId => {
+      agencyCodeToLibraryMap.set(libId, code);
+    });
+  });
+
+  return agencyCodeToLibraryMap;
+};
+
+export const getSelectedLocationsByAgencyCode = (allMappings, agencyCodeToLibraryMap) => {
+  return allMappings.reduce((accum, { libraryId, innReachLocationId }) => {
+    const code = agencyCodeToLibraryMap.get(libraryId);
+
+    if (accum[code]) {
+      accum[code].push(innReachLocationId);
+    } else {
+      accum[code] = [innReachLocationId];
+    }
+
+    return accum;
+  }, {});
 };

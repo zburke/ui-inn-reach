@@ -108,10 +108,15 @@ const opts = {
   },
 };
 
+const pickedLocationsByAgencyCodeMock = {
+  fl1g1: [],
+  fl1g2: [],
+};
+
 const renderFolioToInnReachLocationsForm = ({
   selectedServer = {},
   selectedLibraryId = '',
-  pickedLocationsByAgencyCodeMap = new Map(),
+  pickedLocationsByAgencyCode = pickedLocationsByAgencyCodeMock,
   mappingType = '',
   initialValues = {},
   isResetForm = false,
@@ -125,6 +130,7 @@ const renderFolioToInnReachLocationsForm = ({
   onChangeFormResetState,
   onChangeMappingType,
   onChangeLibrary,
+  onSetPickedLocations,
 } = {}) => {
   return renderWithIntl(
     <Router history={history}>
@@ -134,7 +140,7 @@ const renderFolioToInnReachLocationsForm = ({
         initialValues={initialValues}
         selectedServer={selectedServer}
         selectedLibraryId={selectedLibraryId}
-        pickedLocationsByAgencyCodeMap={pickedLocationsByAgencyCodeMap}
+        pickedLocationsByAgencyCode={pickedLocationsByAgencyCode}
         mappingType={mappingType}
         serverLibraryOptions={serverLibraryOptions}
         innReachLocations={innReachLocations}
@@ -153,6 +159,7 @@ const renderFolioToInnReachLocationsForm = ({
         onChangeServer={onChangeServer}
         onChangeMappingType={onChangeMappingType}
         onChangeLibrary={onChangeLibrary}
+        onSetPickedLocations={onSetPickedLocations}
       />
     </Router>,
     translationsProperties,
@@ -165,6 +172,7 @@ describe('FolioToInnReachLocationsForm', () => {
   const onChangeServer = jest.fn();
   const onChangeLibrary = jest.fn();
   const onChangeMappingType = jest.fn();
+  const onSetPickedLocations = jest.fn();
 
   const commonProps = {
     onChangeFormResetState,
@@ -172,6 +180,7 @@ describe('FolioToInnReachLocationsForm', () => {
     onChangeServer,
     onChangeLibrary,
     onChangeMappingType,
+    onSetPickedLocations,
   };
 
   it('should be rendered', () => {

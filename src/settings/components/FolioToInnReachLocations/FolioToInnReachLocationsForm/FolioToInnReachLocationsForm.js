@@ -12,7 +12,6 @@ import {
   PaneFooter,
   Select,
   Selection,
-  Headline,
 } from '@folio/stripes-components';
 import {
   CENTRAL_SERVER_CONFIGURATION_FIELDS,
@@ -23,24 +22,18 @@ import {
 } from '../../../../constants';
 import {
   getInnReachLocationOptions,
-  getInnReachLocationsForLocationsMappingType,
-  getUniqueLocationsForEachTable,
+  getUniqueLocations,
 } from './utils';
-import {
-  required,
-} from '../../../../utils';
 import {
   TableStyleList,
 } from '../../common';
-import css from './FolioToInnReachLocationsForm.css';
+import LibraryTabularLists from './components/LibraryTabularLists';
 
 const {
   MAPPING_TYPE,
   LIBRARY,
   INN_REACH_LOCATIONS,
-  FOLIO_LIBRARY,
   FOLIO_LOCATION,
-  LIBRARIES_TABULAR_LIST,
   LOCATIONS_TABULAR_LIST,
 } = FOLIO_TO_INN_REACH_LOCATION_FIELDS;
 
@@ -58,7 +51,7 @@ const FolioToInnReachLocationsForm = ({
   mappingType,
   innReachLocations,
   serverOptions,
-  pickedLocationsByAgencyCodeMap,
+  pickedLocationsByAgencyCode,
   serverLibraryOptions,
   mappingTypesOptions,
   formatMessage,
@@ -68,7 +61,6 @@ const FolioToInnReachLocationsForm = ({
   isShowTabularList,
   isResetForm,
   handleSubmit,
-  values,
   pristine,
   invalid,
   form,
@@ -76,6 +68,7 @@ const FolioToInnReachLocationsForm = ({
   onChangeServer,
   onChangeMappingType,
   onChangeLibrary,
+  onSetPickedLocations,
 }) => {
   const innReachLocationOptions = useMemo(() => getInnReachLocationOptions(innReachLocations), [innReachLocations]);
 
@@ -109,50 +102,25 @@ const FolioToInnReachLocationsForm = ({
   };
 
   const getLibraryTabularLists = () => {
-    return selectedServer[LOCAL_AGENCIES].map((localAgency, index) => {
-      const filteredInnReachLocationOptions = getUniqueLocationsForEachTable({
-        innReachLocationOptions,
-        values,
-        currentTableIndex: index,
-        pickedLocationsByAgencyCodeMap,
-        curAgencyCode: localAgency[CODE],
-      });
-
-      return (
-        <section key={index}>
-          <Headline
-            tag="h2"
-            margin="none"
-            className={css.tabularListTitle}
-          >
-            {`${formatMessage({ id: 'ui-inn-reach.settings.folio-to-inn-reach-locations.list-title.local-agency-code' })}:
-             ${localAgency[CODE]}`}
-          </Headline>
-          <TableStyleList
-            requiredRightCol
-            fieldArrayName={`${LIBRARIES_TABULAR_LIST}${index}`}
-            rootClassName={css.tabularList}
-            leftTitle={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.libraries" />}
-            rightTitle={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
-            leftFieldName={FOLIO_LIBRARY}
-            rightFieldName={INN_REACH_LOCATIONS}
-            dataOptions={filteredInnReachLocationOptions}
-            ariaLabel={<FormattedMessage id="ui-inn-reach.settings.folio-to-inn-reach-locations.field.inn-reach-locations" />}
-            validate={required}
-          />
-        </section>
-      );
-    });
+    return (
+      <LibraryTabularLists
+        localAgencies={selectedServer[LOCAL_AGENCIES]}
+        pickedLocationsByAgencyCode={pickedLocationsByAgencyCode}
+        innReachLocationOptions={innReachLocationOptions}
+        formatMessage={formatMessage}
+        onSetPickedLocations={onSetPickedLocations}
+      />
+    );
   };
 
   const getLocationTabularList = () => {
     const localAgency = selectedServer[LOCAL_AGENCIES].find(({ folioLibraryIds }) => {
       return folioLibraryIds.includes(selectedLibraryId);
     });
-    const filteredInnReachLocationOptions = getInnReachLocationsForLocationsMappingType({
+    const filteredInnReachLocationOptions = getUniqueLocations({
       innReachLocationOptions,
-      pickedLocationsByAgencyCodeMap,
-      curAgencyCode: localAgency[CODE],
+      pickedLocationsByAgencyCode,
+      curLocalAgencyCode: localAgency[CODE],
     });
 
     return (
@@ -230,18 +198,17 @@ FolioToInnReachLocationsForm.propTypes = {
   selectedServer: PropTypes.object.isRequired,
   serverLibraryOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   serverOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  values: PropTypes.object.isRequired,
   onChangeFormResetState: PropTypes.func.isRequired,
   onChangeLibrary: PropTypes.func.isRequired,
   onChangeMappingType: PropTypes.func.isRequired,
   onChangeServer: PropTypes.func.isRequired,
-  pickedLocationsByAgencyCodeMap: PropTypes.object,
+  onSetPickedLocations: PropTypes.func.isRequired,
+  pickedLocationsByAgencyCode: PropTypes.object,
 };
 
 export default stripesFinalForm({
   navigationCheck: true,
   subscription: {
-    values: true,
     pristine: true,
     invalid: true,
   },
