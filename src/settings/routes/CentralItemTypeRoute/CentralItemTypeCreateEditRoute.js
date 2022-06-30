@@ -95,7 +95,7 @@ const CentralItemTypeCreateEditRoute = ({
   };
 
   const handleServerChange = (selectedServerName) => {
-    if (selectedServerName === selectedServer.name) return;
+    if (!selectedServerName || selectedServerName === selectedServer.name) return;
 
     const optedServer = servers.find(server => server.name === selectedServerName);
 

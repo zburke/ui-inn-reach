@@ -150,7 +150,7 @@ const AgencyToFolioLocationsCreateEditRoute = ({
   };
 
   const changeServer = (selectedServerName) => {
-    if (selectedServerName === selectedServer.name) return;
+    if (!selectedServerName || selectedServerName === selectedServer.name) return;
 
     const optedServer = servers.find(server => server.name === selectedServerName);
     const libOptions = getFolioLibraryOptions(folioLibraries, campuses, institutions);
