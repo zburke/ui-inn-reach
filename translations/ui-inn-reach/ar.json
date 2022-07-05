@@ -504,7 +504,7 @@
     "settings.paging-slip-template.token-header.inn-reach-patron": "مستفيد INN-Reach",
     "settings.paging-slip-template.token-header.inn-reach-server": "خادم INN-Reach",
     "settings.paging-slip-template.token-header.inn-reach-agency": "وكالة INN-Reach",
-    "settings.paging-slip-template.token-header.inn-reach-pickup-location": "INN-Reach pickup location",
+    "settings.paging-slip-template.token-header.inn-reach-pickup-location": "موقع التقاط INN-Reach",
     "settings.paging-slip-template.token-header.item": "المادة",
     "settings.paging-slip-template.token-header.effective-location": "الموقع النشط",
     "settings.paging-slip-template.token-header.staff-slip": "كشف الموظفين"
