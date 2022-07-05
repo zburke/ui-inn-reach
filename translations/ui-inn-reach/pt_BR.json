@@ -499,13 +499,13 @@
     "settings.pickup-locations.field.enable-local-pickup-locations": "Ativar locais de retirada local para reservas de exemplares",
     "settings.pickup-locations.update.success": "Localizações de retirada local atualizados com sucesso",
     "settings.pickup-locations.callout.connectionProblem.update": "Não foi possível atualizar os dados devido a um erro do módulo. Por favor, tente novamente. Se o problema persistir, entre em contato com o administrador do sistema",
-    "settings.manage-contribution.current.refresh": "Refresh",
-    "settings.paging-slip-template.preview-modal-header": "Preview of INN-Reach Paging Slip",
-    "settings.paging-slip-template.token-header.inn-reach-patron": "INN-Reach patron",
-    "settings.paging-slip-template.token-header.inn-reach-server": "INN-Reach server",
-    "settings.paging-slip-template.token-header.inn-reach-agency": "INN-Reach agency",
-    "settings.paging-slip-template.token-header.inn-reach-pickup-location": "INN-Reach pickup location",
+    "settings.manage-contribution.current.refresh": "Atualizar",
+    "settings.paging-slip-template.preview-modal-header": "Pré-visualização do Slip de Paging INN-Reach",
+    "settings.paging-slip-template.token-header.inn-reach-patron": "Usuário INN-Reach",
+    "settings.paging-slip-template.token-header.inn-reach-server": "Servidor INN-Reach",
+    "settings.paging-slip-template.token-header.inn-reach-agency": "Agência INN-Reach",
+    "settings.paging-slip-template.token-header.inn-reach-pickup-location": "Local de retirada da INN-Reach",
     "settings.paging-slip-template.token-header.item": "Item",
-    "settings.paging-slip-template.token-header.effective-location": "Effective location",
-    "settings.paging-slip-template.token-header.staff-slip": "Staff slip"
+    "settings.paging-slip-template.token-header.effective-location": "Localização efetiva",
+    "settings.paging-slip-template.token-header.staff-slip": "Ficha para equipe"
 }
