@@ -17,6 +17,7 @@
     "lint": "eslint ./ && stylelint \"src/**/*.css\"",
     "eslint": "eslint ./",
     "stylelint": "stylelint \"src/**/*.css\"",
+    "build-mod-descriptor": "stripes mod descriptor --full --strict | jq '.[]' > module-descriptor.json ",
     "formatjs-compile": "formatjs compile-folder --ast --format simple ./translations/ui-inn-reach ./translations/ui-inn-reach/compiled"
   },
   "devDependencies": {
