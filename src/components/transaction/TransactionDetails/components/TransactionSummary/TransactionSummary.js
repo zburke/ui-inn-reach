@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import {
   ViewMetaData,
-} from '@folio/stripes-smart-components';
+} from '@folio/stripes/smart-components';
 import {
   Accordion,
   Row,
@@ -11,7 +11,7 @@ import {
   KeyValue,
   FormattedDate,
   FormattedTime,
-} from '@folio/stripes-components';
+} from '@folio/stripes/components';
 import {
   Link,
 } from 'react-router-dom';
